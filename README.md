@@ -12,7 +12,7 @@
 
 Die meisten Python-Kurse lassen dich Übungsaufgaben lösen, die du nach zwei Wochen vergessen hast. Dieses Tutorial macht etwas anderes: **Jede gelernte Fähigkeit landet noch am selben Tag in einem Spiel, das dir gehört und das jeden Tag ein Stück größer wird.**
 
-Du lernst Listen — und baust ein Inventar. Du lernst Dictionaries — und baust eine Landkarte. Du lernst Klassen — und deine Dorfbewohner bekommen ein Eigenleben. Nach vier Monaten läuft etwas auf deinem Rechner, das du selbst geschrieben hast.
+Du lernst Listen – und baust ein Inventar. Du lernst Dictionaries – und baust eine Landkarte. Du lernst Klassen – und deine Dorfbewohner bekommen ein Eigenleben. Schon früh kannst du mit deinem eigenen Spiel etwas ausprobieren und sehen, was dein neuer Code bewirkt – und über die Monate wächst daraus Schritt für Schritt eine echte Spielwelt.
 
 Und das Besondere: **Du arbeitest nicht allein, sondern mit einer KI als Mentor.** Aber nicht so, wie du es vielleicht kennst. Die KI bekommt eine Anweisungsdatei, die ihr ausdrücklich verbietet, dir den Code zu schreiben. Sie stellt Rückfragen, gibt Hinweise, prüft dein Verständnis — und lässt dich jede Zeile selbst tippen.
 

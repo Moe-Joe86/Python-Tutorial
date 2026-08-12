@@ -1,6 +1,6 @@
 # Python lernen, indem ein Spiel wächst
 
-**Ein Tutorial in 29 Etappen. Du baust ein textbasiertes Rollenspiel — und eine KI begleitet dich dabei als Mentor, der dir absichtlich nicht die Lösung verrät.**
+**Ein Tutorial in 29 Etappen. Du baust ein textbasiertes Rollenspiel — und eine KI begleitet dich dabei als Mentor, der dir nicht die Lösung verrät.**
 
 > 🇬🇧 **English:** This is a German-language Python curriculum. You learn Python by building a text-based RPG over 29 stages, guided by an AI mentor that is explicitly instructed never to write the code for you. All materials are in German — an English version does not exist yet.
 

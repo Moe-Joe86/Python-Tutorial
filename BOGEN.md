@@ -84,6 +84,17 @@ Chronologisch nach Etappe. Spalte „Status": `offen` = noch nicht eingelöst, `
 | `inventar` als Liste von Strings | **11** — wird zur Liste von `Item`-Objekten | offen |
 | Der Schlüssel, der zu keiner Tür passt | **14** — Zugang zur Mine | offen |
 | Obergrenze 10 Gegenstände | **20** — „Inventar voll" als abgefangener Fall | offen |
+| Index ab 0 | **14** — `karte[y][x]` im Minenraster | offen |
+| `len()` | **14** — `range(len(karte))` | offen |
+| `in` bei einer Liste | **6** — Gegenüberstellung Liste / Set / Dictionary | offen |
+| `remove()` scheitert an fehlendem Element | **20** — wird zu `try` / `except` | offen |
+| `.split()` für Zwei-Wort-Befehle | **5** — `gehe norden`; **7** — `verarbeite_befehl()` | offen |
+| Kennung ↔ Anzeigename eines Gegenstands | **11** — `item.id` / `item.name`; **25** — JSON-Schlüssel | offen |
+| Liste nie verändern, während man darüber läuft | **12** — NPC beim Iterieren entfernen | offen |
+| `.copy()` als bewusste Kopie | **10** — die Alternative zum geteilten Objekt | offen |
+| Mengen lassen sich mit Listen schlecht führen | **5** — Dictionary löst das | offen |
+| Optional: `untersuche <ding>` | **15** — Funde in der Mine sind Wissen, nicht Ausrüstung | offen |
+| Erkenntnis: Code beruht auf unausgesprochenen Annahmen über Eingaben | **7** — Aufräumen macht sie sichtbar; **20** — Validierung löst sie auf | offen |
 
 ### Etappe 5 — Die Karte
 
@@ -216,8 +227,11 @@ Umgekehrte Richtung. Vor jeder dieser Etappen prüfen, ob die Voraussetzung wirk
 
 | Etappe | Erwartet aus | Was da sein muss |
 |---|---|---|
-| **4** (Inventar) | 3 | `range()`-Zählung ab 0, laufende Schleife für neue Befehle |
-| **12** (Tick) | 1, 2, 3, 6, 9, 11 | Weltzustand in Variablen, **die Hauptschleife**, drei NPCs als `Villager`-Objekte |
+| **4** (Inventar) | 1, 2, 3 | „Name zeigt auf Wert", Truthy-Liste, `range()`-Zählung ab 0, Befehlsschleife |
+| **5** (Karte) | 3, 4 | `.split()` für `gehe norden`, Gegenstände pro Ort |
+| **10** (Komposition) | **4** | Mutable vs. immutable — sonst ist das geteilte Inventory unerklärlich |
+| **11** (Vererbung) | 4 | Kennung ↔ Anzeigename wird zu `item.id` / `item.name` |
+| **12** (Tick) | 1, 2, 3, 4, 6, 9, 11 | Weltzustand in Variablen, **die Hauptschleife**, „nicht iterierend entfernen", drei NPCs als `Villager`-Objekte |
 | **13** (Samen) | 5, 11, 12 | `orte`-Dictionary veränderbar, `Seed`-Klasse, laufender Tick |
 | **14** (Mine) | 3, 4, 6, 10 | `range()`, verschachtelte Listen, Set, Tuple-Position |
 | **17** (Verschwinden) | **1**, 2, 12, 15 | **`geruch` und die Sinnesvariablen vom ersten Morgen**, `vertrauen`, NPC-Gedächtnis, Minenfunde |

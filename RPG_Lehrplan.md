@@ -204,7 +204,7 @@ if vertrauen and hat_hinweis and not misstrauisch:
 - Was ist „truthy"? Welche Werte sind falsch, ohne `False` zu sein?
 - Was ergibt `not (a and b)` im Vergleich zu `not a and not b`?
 
-**Transferaufgabe (10 Min):** Funktion, die anhand von Alter und Mitgliedsstatus entscheidet, ob jemand eingelassen wird — mit einer verknüpften Bedingung, nicht mit verschachtelten `if`.
+**Transferaufgabe (10 Min):** Türsteher. Frag nach Alter und Gästelisten-Status, entscheide mit **einer** verknüpften Bedingung über den Einlass — nicht mit verschachtelten `if`. (Noch ohne Funktion; die kommt in Etappe 7.)
 
 **Kaputtmachen:** Schreib `if vertrauen = True:`. Der Klassiker, der jeden einmal eine halbe Stunde kostet.
 
@@ -267,7 +267,7 @@ print(x)      # Und hier? Warum anders?
 
 Wenn du diese beiden Blöcke wirklich verstehst, hast du dir Wochen Fehlersuche gespart.
 
-**Transferaufgabe (10 Min):** Liste mit drei Dorfbewohnern. Funktion, die den zweiten ausgibt. Dann eine, die den ersten entfernt. Dann: Was passiert, wenn du die Liste vorher einer zweiten Variable zuweist?
+**Transferaufgabe (10 Min):** Liste mit drei Dorfbewohnern. Gib den zweiten aus, dann den letzten ohne `len()`. Häng einen an, entferne den ersten. Dann der eigentliche Punkt: Weis die Liste einer zweiten Variable zu, entferne über die zweite jemanden und gib die erste aus. (Noch ohne Funktion; die kommt in Etappe 7.)
 
 **Kaputtmachen:** `remove()` mit etwas, das nicht drin ist.
 
@@ -303,7 +303,7 @@ Fünf bis sechs Orte, plus **Wiese** und **Minenpfad**. Der Mineneingang ist ver
 - **Was prüft `"dorfplatz" in orte` — Schlüssel oder Wert?** (Das ist ein Stolperstein, über den fast jeder einmal fällt.)
 - Was bekommst du beim Iterieren über ein Dictionary?
 
-**Transferaufgabe (15 Min):** Dictionary mit drei NPCs und Alter. Funktion, die einen Namen bekommt und das Alter zurückgibt — und sauber reagiert, wenn der Name nicht existiert.
+**Transferaufgabe (15 Min):** Dictionary mit drei NPCs und Alter. Frag einen Namen per `input()` ab und gib das Alter aus — und reagier sauber, wenn der Name nicht existiert. Probier beide Wege: eckige Klammern und `.get()`. (Noch ohne Funktion; die kommt in Etappe 7.)
 
 **Kaputtmachen:** Mach aus `ausgaenge` eine Liste. Lösch einen Ort, auf den ein Ausgang zeigt.
 

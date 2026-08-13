@@ -63,9 +63,18 @@ Chronologisch nach Etappe. Spalte „Status": `offen` = noch nicht eingelöst, `
 | Was angelegt wird | Wo es eingelöst wird | Status |
 |---|---|---|
 | `range()` | **14** — Schleifen über das Minenraster | offen |
+| `range()` zählt ab 0 | **4** — derselbe Grund, warum der erste Listenindex 0 ist | offen |
 | Befehlsverarbeitung (`umsehen`, `reden`) | **7** — wandert in `verarbeite_befehl()` | offen |
 | Die Hauptschleife selbst | **12** — jeder Durchlauf löst einen Tick aus | offen |
 | Die Loop-Struktur | **27** — wird zur Pygame-Loop mit 60 fps | offen |
+| Zähler mit `+=` | **12** — wird zu `self.zeit += 1`, der Weltzeit | offen |
+| Eingabe-Wiederholung bei ungültiger Antwort | **20** — wird zu `try`/`except`-Validierung | offen |
+| Befehl `beenden` | **19** — dort wird vor dem Beenden gespeichert | offen |
+| `else`-Zweig für unbekannte Befehle | **5** — wächst mit jedem neuen Befehl mit | offen |
+| Lange `elif`-Kette (bewusst ertragen) | **5** — Dictionary löst sie ab | offen |
+| Design-Entscheidung Befehlssprache | **4** `nimm brot`; **5** `gehe norden`; **25** Befehle als Content | offen |
+| `_` als Schleifenvariable (nur zum Erkennen) | **23** — pythonische Schreibweisen | offen |
+| Optional: Zähler verändert die Erzählung | **12** — Reaktion auf verstrichene Zeit statt auf Eingabe | offen |
 
 ### Etappe 4 — Das Inventar
 
@@ -207,12 +216,14 @@ Umgekehrte Richtung. Vor jeder dieser Etappen prüfen, ob die Voraussetzung wirk
 
 | Etappe | Erwartet aus | Was da sein muss |
 |---|---|---|
-| **12** (Tick) | 1, 2, 6, 9, 11 | Weltzustand in Variablen, drei NPCs als `Villager`-Objekte |
+| **4** (Inventar) | 3 | `range()`-Zählung ab 0, laufende Schleife für neue Befehle |
+| **12** (Tick) | 1, 2, 3, 6, 9, 11 | Weltzustand in Variablen, **die Hauptschleife**, drei NPCs als `Villager`-Objekte |
 | **13** (Samen) | 5, 11, 12 | `orte`-Dictionary veränderbar, `Seed`-Klasse, laufender Tick |
 | **14** (Mine) | 3, 4, 6, 10 | `range()`, verschachtelte Listen, Set, Tuple-Position |
 | **17** (Verschwinden) | **1**, 2, 12, 15 | **`geruch` und die Sinnesvariablen vom ersten Morgen**, `vertrauen`, NPC-Gedächtnis, Minenfunde |
 | **18** (Vertrauen) | 2, 6, 15 | `vertrauen`, Set-Verständnis, Flags aus Funden |
 | **19** (Speichern) | 6, 10, 12, 13 | Sets, `None`, `self.zeit`, halb gewachsene Pflanzen |
+| **20** (Fehlerbehandlung) | 2, 3, 4 | `else`-Zweige, Eingabe-Wiederholung, Inventar-Obergrenze |
 | **21** (Kampf) | 7, 10, 11, 14 | `berechne_schaden()`, Slots, `Weapon`/`Monster`, die Mine |
 | **25** (Content) | 5, 11, 17, 18, 22 | Alle Inhalte müssen sauber von der Logik getrennt sein |
 | **26** (Tests) | 7, 15, 19, 22 | Die „was muss immer gelten"-Fragen von Etappe 7 |

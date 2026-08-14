@@ -381,11 +381,32 @@ Nichts Neues. Du zerlegst die unübersichtliche Datei: `zeige_ort()`, `bewege_sp
 
 **Kein neues Boot.dev-Thema. Eine eigenständige Fähigkeit.**
 
-Erste Runde. Ab hier läuft die Bug-Jagd unregelmäßig weiter — du wirst nicht wissen, wann.
+**Was du baust:**
+Kein Spielfeature, sondern zwei Dokumente: dein eigenes **Debugging-Protokoll** und ein **Fehlertagebuch** mit der wichtigsten Zeile — *wie gefunden*, nicht *was war*.
 
-**Lernziel:** Du kannst einen Fehler so beschreiben, dass ein anderer ihn ohne deinen Bildschirm versteht: was du erwartet hast, was passiert ist, was du schon ausgeschlossen hast.
+Davor die Werkzeuge, in dieser Reihenfolge: die drei Fehlertypen als Denkraster, Tracebacks von unten nach oben lesen, Ursache von Symptom trennen, Halbieren statt Durchsuchen, `print()` mit Präfix und `!r`, und der **Debugger** — Breakpoints, Step Over/Into/Out, Variablen-Ansicht, bedingte Breakpoints. Dazu `git diff` als Suchraum-Verkleinerer.
+
+Erst wenn die Werkzeuge sitzen, kommt die Jagd: Der Mentor gibt manipulierten Code zurück, ohne zu sagen wie viele Fehler und wo. Ab hier läuft sie unregelmäßig weiter — du wirst nicht wissen, wann. **Ohne Mentor** funktioniert die Zeitversatz-Variante: zehn Sabotagen aufschreiben, zwei Tage warten, drei davon blind anwenden.
+
+**Warum das zählt:** Debugging wird in fast keinem Kurs unterrichtet, ist aber die Fähigkeit, die bei fremdem Code als einzige trägt. Und Typ 3 — läuft durch, liefert das Falsche — zerstört die schädlichste Anfängerüberzeugung: *„Wenn Python keinen Fehler zeigt, ist mein Programm richtig."*
+
+**Wichtige Abgrenzung:** Debugging ist nicht Fehlerbehandlung. Das eine heißt herausfinden, *warum* sich das Programm falsch verhält; das andere kommt in Etappe 20.
+
+**Lernziele:**
+- Die drei Fehlertypen — und warum Typ 3 der gefährlichste ist?
+- In welcher Richtung liest man einen Traceback, und welche Zeile sagt was?
+- Warum ist die Absturzstelle selten die Fehlerstelle?
+- Wann Debugger, wann `print()`?
+- Welche vier Angaben gehören in eine gute Fehlerbeschreibung?
+- Warum ist „ich habe etwas geändert und jetzt geht es" ein schlechtes Ergebnis?
+
+**Transferaufgabe (10–15 Min):** Ein fremdes Programm mit einem Typ-3-Fehler — eine Funktion verändert die übergebene Liste, obwohl ihr Docstring das nicht ankündigt. Mit dem Debugger finden, erklären, reparieren. Verbindet mutable Objekte aus Etappe 4 mit „Abhängigkeiten sichtbar machen" aus Etappe 7.
+
+**Kaputtmachen:** Acht Trainingsbugs, selbst eingebaut — einer je Fehlertyp, dazu der fast richtige Vergleich (`>=` statt `>`), das vergessene `return`, der Fehler in den *Daten* statt im Code, und zwei Fehler gleichzeitig.
 
 **Commit:** `Etappe 8: Bug-Jagd bestanden`
+
+Damit ist Block 1 abgeschlossen.
 
 ---
 

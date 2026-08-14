@@ -158,6 +158,28 @@ Chronologisch nach Etappe. Spalte „Status": `offen` = noch nicht eingelöst, `
 | Struktur in fremdem Code erkennen (Erkennen statt Tippen) | **9** — Leseübungen beginnen; **23** — Code aus echten Projekten | offen |
 | Warnung vor Überabstraktion | **24** — dieselbe Frage bei der Dateiaufteilung | offen |
 | Die Hauptschleife bleibt erhalten | **12** — jeder Durchlauf wird ein Tick; **27** — wird zur Pygame-Loop | offen |
+| Klare Funktionsgrenzen zum Prüfen von Eingaben | **20** — an genau diesen Grenzen wird validiert | offen |
+| `verarbeite_befehl()` wird selbst zur `elif`-Kette | **25** — Befehle werden zu Daten | offen |
+
+### Etappe 8 — Bug-Jagd I ⭐
+
+| Was angelegt wird | Wo es eingelöst wird | Status |
+|---|---|---|
+| Die drei Fehlertypen als Denkraster | **20** — `except:` macht aus Typ 1 einen Typ 3; **21** — `"kamfp"` gegen `GameState.KAMFP` | offen |
+| Tracebacks von unten nach oben lesen | durchgehend — bis **29** das häufigste Werkzeug | offen |
+| Der Debugger (Breakpoints, Step, Variablen) | **9** — Objektzustand aufklappen; **12** — den Tick beobachten; **14** — Bewegung im Raster | offen |
+| Bedingte Breakpoints | **12** — „warum steht die Bäckerin am Minenpfad?" | offen |
+| Ursache und Symptom trennen | **16** — dort liegen sie weiter auseinander | offen |
+| Halbieren als Suchverfahren | **24** — welches Modul ist schuld | offen |
+| Das schriftliche Debugging-Protokoll | **16** — wird nachgelesen und geschärft | offen |
+| Das Fehlertagebuch | **26** — jeder Eintrag ist ein Testkandidat | offen |
+| Einen Fehler präzise beschreiben (vier Punkte) | **23** — dieselbe Fähigkeit bei fremdem Code | offen |
+| `git diff` / `git log` als Debugging-Werkzeug | **24** — dort zusammen mit Branches | offen |
+| Funktionen einzeln aufrufen | **26** — dasselbe, dann automatisiert | offen |
+| Abgrenzung Debugging ↔ Fehlerbehandlung | **20** — warum nacktes `except:` gefährlich ist | offen |
+| Fehler in den **Daten** statt im Code | **25** — bei externem Content die häufigste Sorte | offen |
+| Optional: Konsistenzprüfung der Ortstabelle | **26** — der Gedanke, aus dem Tests entstehen | offen |
+| Optional: `DEBUG = True` als Schalter | **21** — `Enum` für saubere Zustände | offen |
 
 ### Etappe 9 — Alles wird zum Objekt
 
@@ -278,7 +300,8 @@ Umgekehrte Richtung. Vor jeder dieser Etappen prüfen, ob die Voraussetzung wirk
 | **20** (Fehlerbehandlung) | 2, 3, 4 | `else`-Zweige, Eingabe-Wiederholung, Inventar-Obergrenze |
 | **21** (Kampf) | 7, 10, 11, 14 | `berechne_schaden()`, Slots, `Weapon`/`Monster`, die Mine |
 | **25** (Content) | 5, 11, 17, 18, 22 | Alle Inhalte müssen sauber von der Logik getrennt sein |
-| **26** (Tests) | 7, 15, 19, 22 | Die „was muss immer gelten"-Fragen und der Verhaltens-Beweis aus Etappe 7 |
+| **16** (Bug-Jagd II) | **8** | Debugger, Halbieren, das eigene Protokoll — wird dort nachgelesen |
+| **26** (Tests) | 7, 8, 15, 19, 22 | Die „was muss immer gelten"-Fragen, der Verhaltens-Beweis aus Etappe 7, das Fehlertagebuch aus Etappe 8 |
 | **27** (Pygame) | 3, 7, 12, 13, 24 | Loop, **`return` statt `print` in der Logik**, Tick, `wachstum_noetig = 180`, Modulstruktur |
 | **28** (Tilemap) | 14 | Das Raster im unveränderten Format |
 
@@ -294,7 +317,7 @@ Kein einzelner Verweis, sondern etwas, das über den ganzen Plan läuft.
 
 **Die Bug-Jagd** — Etappe 8 (erste Runde) → 16 (subtilere Fehler) → 26 (umgekehrt: erst Test, dann Fix). Dazwischen unregelmäßig und unangekündigt.
 
-**Die drei Fehlertypen** — eingeführt im Lehrplan, benannt in Etappe 1 (fehlendes `f`), Etappe 2 (falsche Einrückung), Etappe 20 (`except:` verwandelt Typ 1 in Typ 3), Etappe 21 (`"kamfp"` gegen `GameState.KAMFP`).
+**Die drei Fehlertypen** — eingeführt im Lehrplan, erlebt in Etappe 1 (fehlendes `f`), Etappe 2 (falsche Einrückung), Etappe 3 (Zähler in der Schleife), Etappe 4 (`liste = liste.append(...)`), Etappe 5 (stiller Tippfehler im Schlüssel) → **systematisch benannt und geübt in Etappe 8** → Etappe 20 (`except:` verwandelt Typ 1 in Typ 3), Etappe 21 (`"kamfp"` gegen `GameState.KAMFP`).
 
 **Git** — Etappe 0 (Minimalset) → 21 (erster Branch mit echtem Zweck) → 24 (Branches, Merges, Konflikte).
 

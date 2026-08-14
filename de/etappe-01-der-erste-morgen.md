@@ -316,6 +316,24 @@ Lösch bei einem String das schließende Anführungszeichen. `SyntaxError`. Zeig
 
 ---
 
+## Ein Blick nach vorne
+
+Heute ist dein Programm ein paar Zeilen lang und läuft einmal durch. Das ändert sich schnell.
+
+In **Etappe 2** trifft der Spieler zum ersten Mal jemanden — und muss sich entscheiden. Deine `tageszeit`, die heute noch ungenutzt herumliegt, kann dort zur ersten Bedingung werden, die auf Weltzustand beruht.
+
+In **Etappe 3** hört das Programm auf, einmal durchzulaufen. Es fängt an zu warten.
+
+In **Etappe 4** stellst du fest, dass „ein Name zeigt auf einen Wert" keine Haarspalterei war. Zwei Namen können auf dieselbe Liste zeigen, und dann ändert sich beides gleichzeitig.
+
+Und in **Etappe 17**, in etwa vier Monaten, verschwindet einer der drei Überlebenden. Der Text, der das anzeigt, greift auf deinen Geruch von heute zurück:
+
+> *„Du erinnerst dich an den Geruch von Brot an diesem ersten Morgen. Jetzt riecht es nach kaltem Rauch."*
+
+Das ist der längste Bogen des ganzen Tutorials — sechzehn Etappen von der Variable bis zur Einlösung. Er funktioniert nur, weil du heute etwas gespeichert hast, statt es nur auszugeben.
+
+---
+
 ## Abschluss
 
 **`GELERNT.md` — zwei bis drei Sätze:**

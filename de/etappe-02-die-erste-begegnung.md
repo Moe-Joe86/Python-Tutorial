@@ -361,6 +361,20 @@ Die Anführungszeichen im Debug-Text sind kein Zufall — nur so siehst du ein v
 
 ---
 
+## Ein Blick nach vorne
+
+Deine Szene läuft einmal ab. `vertrauen` steht auf `True` oder `False` und wird danach nie wieder gelesen.
+
+In **Etappe 3** legt sich eine Schleife um alles. Der Spieler kann `reden` eingeben, so oft er will — und dann zahlt sich `vertrauen` zum ersten Mal aus, weil die Figur unterschiedlich antwortet.
+
+In **Etappe 12** bekommt genau diese Figur einen Tagesablauf. Sie ist dann nicht mehr immer da, wo du sie zuletzt gesehen hast, und sie merkt sich, wo sie dich getroffen hat.
+
+In **Etappe 17** entscheidet unter anderem dein heutiges `vertrauen` mit, wer als Nächstes verschwindet.
+
+Und in **Etappe 18** wird aus der einen Boolean ein vollständiges System: ein Vertrauenswert pro Figur, ein Speicher für alles, was der Spieler weiß, und Dialoge, die beides gleichzeitig prüfen. Bei drei Figuren kannst du jeden Zustand von Hand durchdenken — bei zwölf wäre das unmöglich. Deshalb sind es drei.
+
+---
+
 ## Abschluss
 
 **`GELERNT.md`:**

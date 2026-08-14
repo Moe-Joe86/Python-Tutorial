@@ -105,6 +105,18 @@ Chronologisch nach Etappe. Spalte „Status": `offen` = noch nicht eingelöst, `
 | Verschlossener Mineneingang | **14** — die Mine öffnet sich | offen |
 | Die Wiese | **13** — dort wird gepflanzt | offen |
 | `in` prüft beim Dict den **Schlüssel** | **6** — Gegenüberstellung Liste/Set/Dict | offen |
+| Verschachtelte Struktur (Dict im Dict) | **19** — genau diese Form ist JSON; **25** — Content-Format | offen |
+| Schlüssel müssen immutable sein | **6** — warum ein Set keine Listen aufnimmt | offen |
+| `aktueller_ort` als Zustandsvariable | **10** — wird zu `player.ort`; **19** — Teil des Speicherstands | offen |
+| `.get()` für sicheren Zugriff | **20** — die leichtere Alternative zu `try` / `except` | offen |
+| `.items()` zum Iterieren | **12** — über alle NPCs laufen | offen |
+| Zuweisung ändert die Karte zur Laufzeit | **13** — `world.oeffne_weg()` ist genau diese Zeile | offen |
+| Gegenstände gehören zum Ort | **13** — Pflanzen gehören zur Wiese, nicht zum Spieler | offen |
+| Dictionary nicht ändern, während man iteriert | **12** — dasselbe bei NPCs | offen |
+| Entscheidung: gesperrter Weg fehlt oder ist markiert | **13** — bestimmt, wie `oeffne_weg()` gebaut wird | offen |
+| Dictionary als Nachschlagetabelle (Kennung → Name, Mengen) | **11** — `item.name`; **22** — Rezeptmengen | offen |
+| Ortsbeschreibung beim ersten Besuch länger | **6** — das Set löst das sauber | offen |
+| Fehlerklasse „inkonsistente Daten" (Ausgang zeigt ins Leere) | **25** — bei externem Content die häufigste Fehlerart | offen |
 
 ### Etappe 6 — Liste, Dictionary, Set, Tuple
 
@@ -232,7 +244,8 @@ Umgekehrte Richtung. Vor jeder dieser Etappen prüfen, ob die Voraussetzung wirk
 | **10** (Komposition) | **4** | Mutable vs. immutable — sonst ist das geteilte Inventory unerklärlich |
 | **11** (Vererbung) | 4 | Kennung ↔ Anzeigename wird zu `item.id` / `item.name` |
 | **12** (Tick) | 1, 2, 3, 4, 6, 9, 11 | Weltzustand in Variablen, **die Hauptschleife**, „nicht iterierend entfernen", drei NPCs als `Villager`-Objekte |
-| **13** (Samen) | 5, 11, 12 | `orte`-Dictionary veränderbar, `Seed`-Klasse, laufender Tick |
+| **6** (Datenstrukturen) | 4, 5 | Mutable/immutable, `in` beim Dictionary, besuchte Orte als Problem |
+| **13** (Samen) | 5, 11, 12 | `orte`-Dictionary veränderbar, **Entscheidung zu gesperrten Wegen**, `Seed`-Klasse, laufender Tick |
 | **14** (Mine) | 3, 4, 6, 10 | `range()`, verschachtelte Listen, Set, Tuple-Position |
 | **17** (Verschwinden) | **1**, 2, 12, 15 | **`geruch` und die Sinnesvariablen vom ersten Morgen**, `vertrauen`, NPC-Gedächtnis, Minenfunde |
 | **18** (Vertrauen) | 2, 6, 15 | `vertrauen`, Set-Verständnis, Flags aus Funden |

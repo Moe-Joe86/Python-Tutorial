@@ -35,6 +35,37 @@ Diese Rückblende ist nur möglich, weil du heute eine Variable angelegt hast st
 
 ---
 
+## Der lange Bogen
+
+| Was du heute baust | Wo es wieder auftaucht |
+|---|---|
+| `geruch` als Variable statt als Satz | **Etappe 17** — die Rückblende: „Du erinnerst dich an den Geruch von Brot…" |
+| Weitere Sinnesvariablen (Geräusch, Licht, Temperatur) | **Etappe 17** — Material für weitere Rückblenden |
+| Das Prinzip: Weltzustand speichern, nicht nur ausgeben | **Etappe 12** — der gesamte Tick der Welt beruht darauf |
+| „Name zeigt auf Wert" statt „Behälter" | **Etappe 4** — zwei Namen, eine Liste, beide ändern sich |
+| `=` als „bekommt den Wert" lesen | **Etappe 2** — die Abgrenzung zu `==` |
+| `tageszeit` (angelegt, noch ungenutzt) | **Etappe 2** — deine erste Bedingung auf Weltzustand |
+| Deine Sprachentscheidung bei Variablennamen | durchgehend — Konsistenz bis Etappe 29 |
+| `int()` kann mit `ValueError` scheitern | **Etappe 20** — dort wird daraus echte Fehlerbehandlung |
+
+Nichts davon ist Wegwerfarbeit. Die Variable, die du heute anlegst, wird in vier Monaten gebraucht.
+
+---
+
+## Eine Design-Entscheidung, die du jetzt treffen solltest
+
+**Deutsche oder englische Variablennamen?**
+
+Die Python-Welt schreibt englisch. Dein Spiel ist deutsch. Für ein Lernprojekt ist beides legitim — was **nicht** funktioniert, ist Mischmasch: `player_name` neben `tageszeit` neben `hasKey`.
+
+Das klingt nach Kosmetik und ist es nicht. In Etappe 25 werden aus deinen Variablennamen Schlüssel in Dateien, und in Etappe 23 liest du fremden Code, der englisch ist. Eine Entscheidung, die du jetzt triffst und durchziehst, erspart dir dort eine Umbenennungsaktion über sieben Dateien.
+
+**Mein Rat, wenn du unentschlossen bist:** Deutsch für alles, was zur Spielwelt gehört (`geruch`, `tageszeit`), englisch für technische Begriffe, die ohnehin englisch heißen (`input`, `print`). Aber jede konsequente Regel ist besser als die beste inkonsequente.
+
+Schreib deine Entscheidung in `GELERNT.md`.
+
+---
+
 ## Die Konzepte
 
 ### 1. Variablen

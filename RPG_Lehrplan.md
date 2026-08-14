@@ -128,10 +128,12 @@ Bei 20–30 Minuten am Tag, Übungen eingerechnet:
 | Block | Etappen | Dauer |
 |---|---|---|
 | Werkzeug | 0 | 1 Abend |
-| Fundament | 1–8 | 6–8 Wochen |
+| Fundament | 1–8 | 7–10 Wochen |
 | Objekte und Zeit | 9–16 | 9–12 Wochen |
 | Die Welt reagiert | 17–26 | 12–16 Wochen |
 | Grafik | 27–29 | offen |
+
+Die Etappen 1–6 sind ausgearbeitet und veranschlagen zusammen 22–31 Sitzungen — die Schätzung für Block 1 ist daran geeicht und nicht geraten.
 
 Der Punkt, an dem es *richtig* Spaß macht, liegt bei Etappe 12–13.
 
@@ -158,14 +160,9 @@ Ein Abend, kein Python. Repo auf GitHub, lokal klonen, `README.md`, `GELERNT.md`
 **Boot.dev:** Variablen, Strings, f-Strings, `print()`, `input()`
 
 **Was du baust:**
-`spiel.py`. Der Spieler gibt seinen Namen ein. Variablen für Tageszeit, Wetter, Geruch, Dorfname. Dann ruft er. Niemand antwortet.
+`spiel.py`. Der Spieler gibt seinen Namen ein. Variablen für Tageszeit, Wetter, Geruch, Dorfname — und mindestens drei f-Strings, die sie in die Beschreibung des Morgens einbauen. Dann ruft er. Niemand antwortet.
 
-```python
-print(f"Du wachst auf. Es ist {tageszeit} in {dorfname}.")
-print(f"Der Himmel ist {wetter}. Es riecht nach {geruch}.")
-print(f"Du heißt {spielername}. Und du hast das Gefühl...")
-print("...irgendetwas ist anders.")
-```
+Auflage als Autor: Nirgends darf wörtlich stehen, dass das Dorf leer ist. Der Text zeigt es.
 
 `geruch` hebst du auf. In Etappe 17 schreibst du: *„Du erinnerst dich an den Geruch von Brot an diesem ersten Morgen. Jetzt riecht es nach kaltem Rauch."*
 
@@ -217,6 +214,8 @@ if vertrauen and hat_hinweis and not misstrauisch:
 **Was du baust:**
 Die Hauptschleife. „Was tust du?" → Befehl lesen (`umsehen`, `reden`, `beenden`) → reagieren → von vorn.
 
+Dazu ein Zähler mit `+=`, der die Runden mitzählt — in Etappe 12 wird daraus `self.zeit += 1`, die Uhr deiner Welt. Und eine Eingabe, die so lange wiederholt wird, bis sie gültig ist: die Schuld aus Etappe 2.
+
 **Warum das zählt:** Ab hier ist es kein Skript mehr, sondern ein Spiel. Es wartet auf dich.
 
 **`range()` gehört hierher, nicht als Nebenbemerkung.** Es ist eine der meistgetippten Funktionen in Python überhaupt, und in Etappe 14 läuft dein gesamtes Minenraster darüber.
@@ -243,7 +242,9 @@ Die Hauptschleife. „Was tust du?" → Befehl lesen (`umsehen`, `reden`, `beend
 **Was du baust:**
 `inventar = []`. Befehle `nimm <ding>` und `inventar`. Maximal 10 Gegenstände.
 
-**Erste Fundstücke:** ein halb gegessenes Brot, ein umgestoßener Stuhl, ein Schlüssel, der zu keiner Tür im Dorf passt. Der Schlüssel ist der Köder Richtung Mine.
+Dazu `ablege <ding>` und eine zweite Liste mit dem, was am Ort herumliegt — ein Gegenstand wandert von der einen in die andere. Und `.split()`, damit Zwei-Wort-Befehle überhaupt möglich werden; in Etappe 5 trägt dasselbe Werkzeug `gehe norden`.
+
+**Erste Fundstücke:** ein halb gegessenes Brot, ein umgestoßener Stuhl (nicht tragbar), ein Schlüssel, der zu keiner Tür im Dorf passt. Der Schlüssel ist der Köder Richtung Mine.
 
 **Lernziele:**
 - Warum ist der erste Index 0?
@@ -292,7 +293,9 @@ orte = {
 }
 ```
 
-Fünf bis sechs Orte, plus **Wiese** und **Minenpfad**. Der Mineneingang ist verschlossen — dein erster gesperrter Weg.
+Fünf bis sechs Orte, plus **Wiese** und **Minenpfad**. Dazu `aktueller_ort` als Zustandsvariable (wird in Etappe 10 zu `player.ort`) und Gegenstände, die zum Ort gehören statt zum Spieler.
+
+Der Mineneingang ist verschlossen — dein erster gesperrter Weg. **Und die Design-Entscheidung dazu trägt bis Etappe 13:** Fehlt der Ausgang einfach, oder existiert er und ist markiert? Eine sichtbare verschlossene Tür ist ein Versprechen; eine fehlende Tür ist nichts. Davon hängt ab, ob `world.oeffne_weg()` später eine Zeile oder ein Umbau ist.
 
 **Warum das zählt:** Erster Moment, in dem *Daten* und *Code* auseinanderfallen. Neue Orte, ohne die Logik anzufassen. Merk dir das Gefühl — es kommt in Etappe 25 in voller Größe zurück.
 
@@ -317,11 +320,13 @@ Fünf bis sechs Orte, plus **Wiese** und **Minenpfad**. Der Mineneingang ist ver
 Keine neue Funktion — eine bessere Wahl der Werkzeuge.
 
 ```python
-erkundete_orte = {"dorfplatz", "wiese"}     # Set: keine Duplikate, keine Reihenfolge
-startposition = (4, 7)                       # Tuple: unveränderlich
+besuchte_orte = {"dorfplatz", "wiese"}                    # Set: keine Duplikate, keine Reihenfolge
+RICHTUNGEN = ("norden", "sueden", "osten", "westen")      # Tuple: unveränderlich
 ```
 
-Besuchte Orte werden zum Set. Der Befehl `karte` zeigt, wo du warst.
+Besuchte Orte werden zum Set. Der Befehl `karte` zeigt, wo du warst — und wie viel vom Dorf noch fehlt. Die erste Beschreibung eines Ortes ist länger als jede spätere.
+
+Das Tuple ist bewusst kein Koordinatenpaar: Koordinaten gibt es erst in Etappe 14. `RICHTUNGEN` hat dafür sofort einen Nutzen — damit unterscheidet dein Spiel „das ist keine Richtung" von „hier ist kein Weg".
 
 **Warum eine eigene Etappe:** Die Unterscheidung ist fundamental, und die meisten Anfänger benutzen jahrelang Listen für alles. Ein Set kann nichts doppelt enthalten und beantwortet „ist X drin?" sofort. Ein Tuple sagt dem Leser: *das ändert sich nicht.*
 

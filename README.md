@@ -116,6 +116,7 @@ Die ausführlichen Etappen-Guides gibst du der KI einzeln dazu, wenn du sie erre
 ├── RPG_Lehrplan.md        ← alle 29 Etappen im Überblick
 ├── MENTOR.md              ← Anweisungen für die begleitende KI
 ├── BOGEN.md               ← Register aller Vorausverweise
+├── PROMPT.md              ← fertige Startprompts zum Kopieren
 └── de/
     ├── etappe-01-der-erste-morgen.md
     ├── etappe-02-die-erste-begegnung.md

@@ -36,7 +36,7 @@ Chronologisch nach Etappe. Spalte „Status": `offen` = noch nicht eingelöst, `
 | „Name zeigt auf Wert" statt „Behälter" | **4** — Aliasing: `b = a` und beide ändern sich | offen |
 | `=` als „bekommt den Wert" lesen | **2** — Abgrenzung zu `==` | offen |
 | `tageszeit` (angelegt, ungenutzt) | **2** — erste Bedingung auf Weltzustand | offen |
-| Sprachentscheidung Variablennamen (de/en) | durchgehend — Konsistenz bis 29 | offen |
+| Sprachentscheidung Variablennamen (de/en) | durchgehend — Konsistenz bis 29; **23** fremden Code lesen; **25** Namen werden JSON-Schlüssel | offen |
 | `int()` kann mit `ValueError` scheitern | **20** — echte Fehlerbehandlung | offen |
 
 ### Etappe 2 — Die erste Begegnung
@@ -144,6 +144,20 @@ Chronologisch nach Etappe. Spalte „Status": `offen` = noch nicht eingelöst, `
 | „Was muss immer gelten?" (Testdenken) | **26** — dieselben Fragen als `pytest` | offen |
 | `berechne_schaden()` | **21** — wird zur echten Kampfformel | offen |
 | Verhalten bleibt gleich nach Umbau | **27** — derselbe Beweis bei Pygame | offen |
+| **Zustand als lange Parameterliste (der Schmerz)** | **9** — genau das begründet `self` | offen |
+| Entscheidung `return` statt `print` in der Logik | **27** — nur so bleibt die Logik grafikfähig | offen |
+| Der Verhaltens-Beweis (Charakterisierungstest) | **26** — wird zum automatischen `pytest`-Lauf | offen |
+| Zwei Rückgabewerte als Tuple | **21** — Schaden und Trefferbeschreibung zusammen | offen |
+| Standardwerte für Parameter | **10** — die Falle mit veränderbaren Standardwerten | offen |
+| Docstrings | **23** — bekommen Typannotationen dazu | offen |
+| „Eine Funktion, ein Zweck" | **24** — dasselbe Prinzip bei Modulen | offen |
+| Entscheidung zum Funktionszuschnitt (Thema ↔ Befehl) | **9** — Themen werden zu Klassen | offen |
+| Funktionen einzeln aufrufen zum Debuggen | **8** — der Debugger; **26** — automatisiert | offen |
+| Refactoring und neue Funktionen nicht mischen | durchgehend — Arbeitsregel ab hier | offen |
+| „Abhängigkeiten sichtbar machen" als Prinzip | **9** — `self` bündelt sie; **24** — Module machen sie zu Imports | offen |
+| Struktur in fremdem Code erkennen (Erkennen statt Tippen) | **9** — Leseübungen beginnen; **23** — Code aus echten Projekten | offen |
+| Warnung vor Überabstraktion | **24** — dieselbe Frage bei der Dateiaufteilung | offen |
+| Die Hauptschleife bleibt erhalten | **12** — jeder Durchlauf wird ein Tick; **27** — wird zur Pygame-Loop | offen |
 
 ### Etappe 9 — Alles wird zum Objekt
 
@@ -253,6 +267,7 @@ Umgekehrte Richtung. Vor jeder dieser Etappen prüfen, ob die Voraussetzung wirk
 | **5** (Karte) | 3, 4 | `.split()` für `gehe norden`, Gegenstände pro Ort |
 | **10** (Komposition) | **4** | Mutable vs. immutable — sonst ist das geteilte Inventory unerklärlich |
 | **11** (Vererbung) | 4 | Kennung ↔ Anzeigename wird zu `item.id` / `item.name` |
+| **9** (Objekte) | **7** | Die lange Parameterliste — ohne den Schmerz wirkt `self` willkürlich |
 | **12** (Tick) | 1, 2, 3, 4, 6, 9, 11 | Weltzustand in Variablen, **die Hauptschleife**, „nicht iterierend entfernen", drei NPCs als `Villager`-Objekte |
 | **6** (Datenstrukturen) | 4, 5 | Mutable/immutable, `in` beim Dictionary, besuchte Orte als Problem |
 | **13** (Samen) | 5, 11, 12 | `orte`-Dictionary veränderbar, **Entscheidung zu gesperrten Wegen**, `Seed`-Klasse, laufender Tick |
@@ -263,8 +278,8 @@ Umgekehrte Richtung. Vor jeder dieser Etappen prüfen, ob die Voraussetzung wirk
 | **20** (Fehlerbehandlung) | 2, 3, 4 | `else`-Zweige, Eingabe-Wiederholung, Inventar-Obergrenze |
 | **21** (Kampf) | 7, 10, 11, 14 | `berechne_schaden()`, Slots, `Weapon`/`Monster`, die Mine |
 | **25** (Content) | 5, 11, 17, 18, 22 | Alle Inhalte müssen sauber von der Logik getrennt sein |
-| **26** (Tests) | 7, 15, 19, 22 | Die „was muss immer gelten"-Fragen von Etappe 7 |
-| **27** (Pygame) | 3, 12, 13, 24 | Loop, Tick, `wachstum_noetig = 180`, Modulstruktur |
+| **26** (Tests) | 7, 15, 19, 22 | Die „was muss immer gelten"-Fragen und der Verhaltens-Beweis aus Etappe 7 |
+| **27** (Pygame) | 3, 7, 12, 13, 24 | Loop, **`return` statt `print` in der Logik**, Tick, `wachstum_noetig = 180`, Modulstruktur |
 | **28** (Tilemap) | 14 | Das Raster im unveränderten Format |
 
 **Die kritischste Zeile ist Etappe 17.** Sie ist der einzige Punkt, an dem etwas aus Etappe 1 direkt eingelöst wird — über vier Monate hinweg. Wenn du dort ankommst und die Rückblende nicht schreibst, war der ganze erste Tag umsonst begründet.

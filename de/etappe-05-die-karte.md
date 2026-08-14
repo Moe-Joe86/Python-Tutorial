@@ -707,6 +707,27 @@ Optional, erst bei grünem Selbsttest.
 
 Du brauchst dafür eine Markierung pro Ort — heute geht das mit einem zusätzlichen Eintrag im Ortsdictionary. In Etappe 6 machst du es eleganter.
 
+**Ein Bild für jeden Ort.** Ein Ort im Dictionary kann mehr Einträge haben als Beschreibung und Ausgänge. Zum Beispiel ein kleines Bild aus Textzeichen:
+
+```python
+"minenpfad": {
+    "bild": """
+        /\      /\
+       /  \____/  \
+      |   [    ]   |
+      |   |    |   |
+    """,
+    "beschreibung": "...",
+    "ausgaenge": {...}
+}
+```
+
+Die dreifachen Anführungszeichen sind neu: Sie erlauben einen String über mehrere Zeilen, mit allen Zeilenumbrüchen genau so, wie du sie tippst. Ausgegeben wird er wie jeder andere.
+
+**Warum das mehr ist als Dekoration:** Dein Spiel sieht nach fünf Minuten Arbeit plötzlich nicht mehr aus wie ein Skript. Und didaktisch ist es genau der richtige Ort — das Bild ist ein weiterer *Dateneintrag*, kein Code. Du hast gerade bewiesen, dass deine Struktur erweiterbar ist, ohne dass die Logik davon etwas mitbekommt.
+
+Zwei Warnungen: Rückwärtsschrägstriche in ASCII-Bildern muss man verdoppeln (`\\`), sonst hält Python sie für Steuerzeichen. Und mach es für zwei, drei markante Orte, nicht für alle acht — sonst sitzt du den Abend an Bildchen statt an Python.
+
 **Ein Ort, der sich beim zweiten Besuch verändert hat.** Etwas steht offen, das vorher zu war. Etwas fehlt. Erzählerisch ist das dein stärkstes Mittel in einem leeren Dorf: Der Spieler merkt, dass er nicht allein ist, ohne dass jemand auftaucht.
 
 Technisch brauchst du nichts Neues — nur die Zuweisung aus Konzept 9. Und du hast dabei vorweggenommen, worum es in Etappe 13 geht.

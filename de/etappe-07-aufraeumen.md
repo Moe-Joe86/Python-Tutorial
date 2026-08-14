@@ -454,6 +454,13 @@ Wenn alles gewandert ist, sollte von deiner `while`-Schleife wenig übrig sein: 
 
 Schau dir diesen Moment an. Deine Datei ist genauso lang wie vorher, aber du kannst sie zum ersten Mal überfliegen und verstehen, was passiert.
 
+**Schritt 7b — Zähl die gelöschten Zeilen**
+Nach dem Commit sagt dir `git show --stat` , wie viele Zeilen dazugekommen und wie viele verschwunden sind. Schreib beide Zahlen auf.
+
+Wenn mehr verschwunden als dazugekommen sind, hast du heute etwas geschafft, das den meisten schwerfällt. **Anfänger löschen ungern Code, der funktioniert hat** — er fühlt sich wie Besitz an, und ihn wegzuwerfen wie Verschwendung. Er ist keine. Jede Zeile, die es nicht mehr gibt, kann nicht mehr kaputtgehen, muss nicht mehr gelesen und nie wieder verstanden werden.
+
+Das ist keine Motivationsfloskel: In der Praxis gehört „diese dreißig Zeilen brauchen wir nicht" zu den wertvollsten Beiträgen, die jemand zu einem Projekt leisten kann.
+
 **Schritt 8 — Der Beweis**
 Befehlsfolge aus Schritt 1 nochmal durchspielen, Ausgaben vergleichen. **Jeder Unterschied ist ein Fehler, den du selbst eingebaut hast** — auch ein fehlendes Leerzeichen.
 
@@ -749,6 +756,10 @@ class World:
 
 In **Etappe 10** werden aus einzelnen Werten zusammengesetzte Objekte — ein Spieler, der ein Inventar *hat*. Und dort lauert die Standardwert-Falle, vor der oben gewarnt wurde.
 
+**Und ein praktischer Gewinn, der ab heute jeden Tag zählt:** Vor dem Umbau musstest du deinem Mentor die ganze Datei zeigen, wenn etwas nicht ging. Ab jetzt reicht die eine Funktion plus ein Satz dazu, was der Zustand gerade ist.
+
+Das ist wichtiger, als es klingt. Dein Spiel wird ab Etappe 12 mehrere hundert Zeilen haben, und eine KI, die jedes Mal alles lesen muss, wird unzuverlässiger — sie verliert dann eher ihre Anweisungen aus `MENTOR.md` aus dem Blick und schreibt dir doch die Lösung hin. **Gezielt fragen schützt also nicht nur ihre Zeit, sondern deinen Lernerfolg.**
+
 In **Etappe 20** löst du die versteckten Annahmen auf, die dir heute aufgefallen sind. Deine Funktionen haben klare Grenzen bekommen; jetzt kannst du an diesen Grenzen prüfen, was hereinkommt.
 
 In **Etappe 26** wird aus deinem Verhaltens-Beweis ein automatischer Test. Was du heute von Hand vergleichst, prüft dann der Rechner bei jeder Änderung — und deine „Was muss immer gelten?"-Fragen aus der Transferaufgabe werden zu Testfällen.
@@ -790,6 +801,20 @@ Optional, erst bei grünem Selbsttest.
 Ob sich das zu einer Funktion zusammenfassen lässt, ist eine echte Abwägung — manchmal wird der gemeinsame Code so verschachtelt, dass zwei getrennte Funktionen ehrlicher sind. Nimm dir zehn Minuten und entscheide bewusst.
 
 **Ein `hilfe`-Befehl aus einer Datenstruktur.** Statt fester `print()`-Zeilen ein Dictionary aus Befehl und Erklärung, das die Hilfe-Funktion durchläuft. Das ist derselbe Gedanke wie bei der Karte in Etappe 5: Inhalt sind Daten, nicht Code. Und es ist ein kleiner Vorgriff auf Etappe 25.
+
+**Eine `ARCHITEKTUR.md`.** Eine halbe Seite, die das Skelett deines Spiels beschreibt: welche Datenstrukturen es gibt, welche Funktionen, wer wen ruft. Kein Code — nur die Landkarte.
+
+```text
+Zustand:  orte (dict), inventar (liste), besuchte_orte (set),
+          aktueller_ort (str), runden (int)
+Ablauf:   Hauptschleife -> verarbeite_befehl() -> zeige_ort()
+                                               -> bewege_spieler()
+                                               -> zeige_inventar()
+```
+
+Zehn Minuten Arbeit, zwei Nutzen. Erstens merkst du beim Schreiben, ob du deine eigene Struktur erklären kannst — wenn nicht, ist sie unklar. Zweitens kannst du diese Datei deinem Mentor geben, statt dreihundert Zeilen Code: Er versteht dann, worüber ihr redet, ohne alles lesen zu müssen.
+
+Halte sie kurz und aktualisier sie beim Weiterbauen. Eine veraltete Architekturbeschreibung ist schlimmer als keine.
 
 **Die Funktion, die dir am wenigsten gefällt.** Such die eine Funktion in deinem Code, bei der du beim Lesen zögerst. Schreib in einem Satz auf, was dich stört — zu lang, unklarer Name, tut zwei Dinge, zu viele Parameter.
 

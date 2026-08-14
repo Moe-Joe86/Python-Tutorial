@@ -33,9 +33,9 @@ Chronologisch nach Etappe. Spalte „Status": `offen` = noch nicht eingelöst, `
 | `geruch` als Variable statt als Satz | **17** — Rückblende: „Du erinnerst dich an den Geruch von Brot…" | offen |
 | Weitere Sinnesvariablen (Geräusch, Licht, Temperatur) | **17** — Material für weitere Rückblenden | offen |
 | Prinzip: Weltzustand speichern, nicht nur ausgeben | **12** — der gesamte Tick beruht darauf | offen |
-| „Name zeigt auf Wert" statt „Behälter" | **4** — Aliasing: `b = a` und beide ändern sich | offen |
-| `=` als „bekommt den Wert" lesen | **2** — Abgrenzung zu `==` | offen |
-| `tageszeit` (angelegt, ungenutzt) | **2** — erste Bedingung auf Weltzustand | offen |
+| „Name zeigt auf Wert" statt „Behälter" | **4** — Aliasing: `b = a` und beide ändern sich | **eingelöst** ✓ |
+| `=` als „bekommt den Wert" lesen | **2** — Abgrenzung zu `==` | **eingelöst** ✓ |
+| `tageszeit` (angelegt, ungenutzt) | **2** — erste Bedingung auf Weltzustand | **eingelöst** ✓ |
 | Sprachentscheidung Variablennamen (de/en) | durchgehend — Konsistenz bis 29; **23** fremden Code lesen; **25** Namen werden JSON-Schlüssel | offen |
 | `int()` kann mit `ValueError` scheitern | **20** — echte Fehlerbehandlung | offen |
 
@@ -45,7 +45,7 @@ Chronologisch nach Etappe. Spalte „Status": `offen` = noch nicht eingelöst, `
 |---|---|---|
 | `vertrauen = True/False` | **18** — wird zum Vertrauens- und Flag-System | offen |
 | Verknüpfte Bedingungen (`and`/`or`/`not`) | **18** — Dialoge prüfen mehrere Flags | offen |
-| `.lower()` / `.strip()` auf Eingaben | **3** — Befehle; **5** — `gehe norden`; **7** — `verarbeite_befehl()` | offen |
+| `.lower()` / `.strip()` auf Eingaben | **3** — Befehle; **5** — `gehe norden`; **7** — `verarbeite_befehl()` | **eingelöst** ✓ |
 | Punkt-Schreibweise (`wert.methode()`) | **9** — `npc.speak()` bei Objekten | offen |
 | Der `else`-Zweig für Unerwartetes | **20** — `try`/`except` statt Auffangbecken | offen |
 | Die Wahl Erzählen ↔ Schweigen | **17** — wirkt mit, wer als Nächstes verschwindet | offen |
@@ -54,7 +54,7 @@ Chronologisch nach Etappe. Spalte „Status": `offen` = noch nicht eingelöst, `
 | `elif` ≠ mehrere `if` | **17** — mehrere Ereignisse treffen gleichzeitig zu | offen |
 | Truthy/Falsy-Liste | **4** — `if inventar:`; **18** — als Gefahr bei `0` | offen |
 | `and`/`or` geben mehr zurück als `True`/`False` | **18** — Kurzschlussauswertung | offen |
-| `print()`-Debugging als Reflex | **8** — der Debugger als bessere Variante | offen |
+| `print()`-Debugging als Reflex | **8** — der Debugger als bessere Variante | **eingelöst** ✓ |
 | Optional: Name der Figur in einer Variable | **9** — wird zu `npc.name` | offen |
 | Optional: Spieler kann lügen | **18** — Symmetrie zum unzuverlässigen Fremden | offen |
 
@@ -63,15 +63,15 @@ Chronologisch nach Etappe. Spalte „Status": `offen` = noch nicht eingelöst, `
 | Was angelegt wird | Wo es eingelöst wird | Status |
 |---|---|---|
 | `range()` | **14** — Schleifen über das Minenraster | offen |
-| `range()` zählt ab 0 | **4** — derselbe Grund, warum der erste Listenindex 0 ist | offen |
-| Befehlsverarbeitung (`umsehen`, `reden`) | **7** — wandert in `verarbeite_befehl()` | offen |
+| `range()` zählt ab 0 | **4** — derselbe Grund, warum der erste Listenindex 0 ist | **eingelöst** ✓ |
+| Befehlsverarbeitung (`umsehen`, `reden`) | **7** — wandert in `verarbeite_befehl()` | **eingelöst** ✓ |
 | Die Hauptschleife selbst | **12** — jeder Durchlauf löst einen Tick aus | offen |
 | Die Loop-Struktur | **27** — wird zur Pygame-Loop mit 60 fps | offen |
 | Zähler mit `+=` | **12** — wird zu `self.zeit += 1`, der Weltzeit | offen |
 | Eingabe-Wiederholung bei ungültiger Antwort | **20** — wird zu `try`/`except`-Validierung | offen |
 | Befehl `beenden` | **19** — dort wird vor dem Beenden gespeichert | offen |
-| `else`-Zweig für unbekannte Befehle | **5** — wächst mit jedem neuen Befehl mit | offen |
-| Lange `elif`-Kette (bewusst ertragen) | **5** — Dictionary löst sie ab | offen |
+| `else`-Zweig für unbekannte Befehle | **5** — wächst mit jedem neuen Befehl mit | **eingelöst** ✓ |
+| Lange `elif`-Kette (bewusst ertragen) | **5** — Dictionary löst sie ab | **eingelöst** ✓ |
 | Design-Entscheidung Befehlssprache | **4** `nimm brot`; **5** `gehe norden`; **25** Befehle als Content | offen |
 | `_` als Schleifenvariable (nur zum Erkennen) | **23** — pythonische Schreibweisen | offen |
 | Optional: Zähler verändert die Erzählung | **12** — Reaktion auf verstrichene Zeit statt auf Eingabe | offen |
@@ -86,15 +86,15 @@ Chronologisch nach Etappe. Spalte „Status": `offen` = noch nicht eingelöst, `
 | Obergrenze 10 Gegenstände | **20** — „Inventar voll" als abgefangener Fall | offen |
 | Index ab 0 | **14** — `karte[y][x]` im Minenraster | offen |
 | `len()` | **14** — `range(len(karte))` | offen |
-| `in` bei einer Liste | **6** — Gegenüberstellung Liste / Set / Dictionary | offen |
+| `in` bei einer Liste | **6** — Gegenüberstellung Liste / Set / Dictionary | **eingelöst** ✓ |
 | `remove()` scheitert an fehlendem Element | **20** — wird zu `try` / `except` | offen |
-| `.split()` für Zwei-Wort-Befehle | **5** — `gehe norden`; **7** — `verarbeite_befehl()` | offen |
+| `.split()` für Zwei-Wort-Befehle | **5** — `gehe norden`; **7** — `verarbeite_befehl()` | **eingelöst** ✓ |
 | Kennung ↔ Anzeigename eines Gegenstands | **11** — `item.id` / `item.name`; **25** — JSON-Schlüssel | offen |
 | Liste nie verändern, während man darüber läuft | **12** — NPC beim Iterieren entfernen | offen |
 | `.copy()` als bewusste Kopie | **10** — die Alternative zum geteilten Objekt | offen |
-| Mengen lassen sich mit Listen schlecht führen | **5** — Dictionary löst das | offen |
+| Mengen lassen sich mit Listen schlecht führen | **5** — Dictionary löst das | **eingelöst** ✓ |
 | Optional: `untersuche <ding>` | **15** — Funde in der Mine sind Wissen, nicht Ausrüstung | offen |
-| Erkenntnis: Code beruht auf unausgesprochenen Annahmen über Eingaben | **7** — Aufräumen macht sie sichtbar; **20** — Validierung löst sie auf | offen |
+| Erkenntnis: Code beruht auf unausgesprochenen Annahmen über Eingaben | **7** — Aufräumen macht sie sichtbar; **20** — Validierung löst sie auf | **eingelöst** ✓ |
 
 ### Etappe 5 — Die Karte
 
@@ -104,9 +104,9 @@ Chronologisch nach Etappe. Spalte „Status": `offen` = noch nicht eingelöst, `
 | Trennung Daten ↔ Code | **25** — Inhalt wandert komplett nach `content/` | offen |
 | Verschlossener Mineneingang | **14** — die Mine öffnet sich | offen |
 | Die Wiese | **13** — dort wird gepflanzt | offen |
-| `in` prüft beim Dict den **Schlüssel** | **6** — Gegenüberstellung Liste/Set/Dict | offen |
+| `in` prüft beim Dict den **Schlüssel** | **6** — Gegenüberstellung Liste/Set/Dict | **eingelöst** ✓ |
 | Verschachtelte Struktur (Dict im Dict) | **19** — genau diese Form ist JSON; **25** — Content-Format | offen |
-| Schlüssel müssen immutable sein | **6** — warum ein Set keine Listen aufnimmt | offen |
+| Schlüssel müssen immutable sein | **6** — warum ein Set keine Listen aufnimmt | **eingelöst** ✓ |
 | `aktueller_ort` als Zustandsvariable | **10** — wird zu `player.ort`; **19** — Teil des Speicherstands | offen |
 | `.get()` für sicheren Zugriff | **20** — die leichtere Alternative zu `try` / `except` | offen |
 | `.items()` zum Iterieren | **12** — über alle NPCs laufen | offen |
@@ -115,7 +115,7 @@ Chronologisch nach Etappe. Spalte „Status": `offen` = noch nicht eingelöst, `
 | Dictionary nicht ändern, während man iteriert | **12** — dasselbe bei NPCs | offen |
 | Entscheidung: gesperrter Weg fehlt oder ist markiert | **13** — bestimmt, wie `oeffne_weg()` gebaut wird | offen |
 | Dictionary als Nachschlagetabelle (Kennung → Name, Mengen) | **11** — `item.name`; **22** — Rezeptmengen | offen |
-| Ortsbeschreibung beim ersten Besuch länger | **6** — das Set löst das sauber | offen |
+| Ortsbeschreibung beim ersten Besuch länger | **6** — das Set löst das sauber | **eingelöst** ✓ |
 | Fehlerklasse „inkonsistente Daten" (Ausgang zeigt ins Leere) | **25** — bei externem Content die häufigste Fehlerart | offen |
 
 ### Etappe 6 — Liste, Dictionary, Set, Tuple
@@ -128,6 +128,7 @@ Chronologisch nach Etappe. Spalte „Status": `offen` = noch nicht eingelöst, `
 | Set für gesehene Gegenstände | **18** — wird zum zentralen Flag-Speicher | offen |
 | Mengenoperationen (`&`, `|`, `-`) | **18** — „hat der Spieler alle nötigen Flags?" | offen |
 | Tuple als Dictionary-Schlüssel | **14** — Koordinaten als Schlüssel nachschlagen | offen |
+| Die Komma-Falle: `(5)` ist kein Tuple, `(5,)` schon | **16** — Kandidat für die Bug-Jagd; **21** — Rückgabe zweier Werte | offen |
 | Tuple-Unpacking (`for a, b in ...`) | **12** — über NPCs und ihre Zustände laufen | offen |
 | `RICHTUNGEN` als feste Sammlung | **20** — Eingabe validieren, bevor sie verarbeitet wird | offen |
 | Unterscheidung „kein gültiges Wort" ↔ „hier nicht möglich" | **20** — dieselbe Trennung bei allen Befehlen | offen |
@@ -145,6 +146,7 @@ Chronologisch nach Etappe. Spalte „Status": `offen` = noch nicht eingelöst, `
 | `berechne_schaden()` | **21** — wird zur echten Kampfformel | offen |
 | Verhalten bleibt gleich nach Umbau | **27** — derselbe Beweis bei Pygame | offen |
 | **Zustand als lange Parameterliste (der Schmerz)** | **9** — genau das begründet `self` | offen |
+| **`global` als verlockende Abkürzung, bewusst abgelehnt** | **9** — Klassen lösen das Problem, das `global` nur zudeckt | offen |
 | Entscheidung `return` statt `print` in der Logik | **27** — nur so bleibt die Logik grafikfähig | offen |
 | Der Verhaltens-Beweis (Charakterisierungstest) | **26** — wird zum automatischen `pytest`-Lauf | offen |
 | Zwei Rückgabewerte als Tuple | **21** — Schaden und Trefferbeschreibung zusammen | offen |
@@ -152,9 +154,10 @@ Chronologisch nach Etappe. Spalte „Status": `offen` = noch nicht eingelöst, `
 | Docstrings | **23** — bekommen Typannotationen dazu | offen |
 | „Eine Funktion, ein Zweck" | **24** — dasselbe Prinzip bei Modulen | offen |
 | Entscheidung zum Funktionszuschnitt (Thema ↔ Befehl) | **9** — Themen werden zu Klassen | offen |
-| Funktionen einzeln aufrufen zum Debuggen | **8** — der Debugger; **26** — automatisiert | offen |
+| Funktionen einzeln aufrufen zum Debuggen | **8** — der Debugger; **26** — automatisiert | **eingelöst** ✓ |
 | Refactoring und neue Funktionen nicht mischen | durchgehend — Arbeitsregel ab hier | offen |
 | „Abhängigkeiten sichtbar machen" als Prinzip | **9** — `self` bündelt sie; **24** — Module machen sie zu Imports | offen |
+| Einzelne Funktionen statt ganzer Datei zeigen können | **durchgehend** — hält den Mentor bei langem Code arbeitsfähig | offen |
 | Struktur in fremdem Code erkennen (Erkennen statt Tippen) | **9** — Leseübungen beginnen; **23** — Code aus echten Projekten | offen |
 | Warnung vor Überabstraktion | **24** — dieselbe Frage bei der Dateiaufteilung | offen |
 | Die Hauptschleife bleibt erhalten | **12** — jeder Durchlauf wird ein Tick; **27** — wird zur Pygame-Loop | offen |
@@ -177,7 +180,7 @@ Chronologisch nach Etappe. Spalte „Status": `offen` = noch nicht eingelöst, `
 | `git diff` / `git log` als Debugging-Werkzeug | **24** — dort zusammen mit Branches | offen |
 | Funktionen einzeln aufrufen | **26** — dasselbe, dann automatisiert | offen |
 | Abgrenzung Debugging ↔ Fehlerbehandlung | **20** — warum nacktes `except:` gefährlich ist | offen |
-| Fehler in den **Daten** statt im Code | **25** — bei externem Content die häufigste Sorte | offen |
+| Fehler in den **Daten** statt im Code | **16** — als manipulierter Speicherstand; **25** — bei externem Content die häufigste Sorte | offen |
 | Optional: Konsistenzprüfung der Ortstabelle | **26** — der Gedanke, aus dem Tests entstehen | offen |
 | Optional: `DEBUG = True` als Schalter | **21** — `Enum` für saubere Zustände | offen |
 
@@ -315,7 +318,7 @@ Kein einzelner Verweis, sondern etwas, das über den ganzen Plan läuft.
 
 **Erweitern ohne zu zerstören** — Etappe 7 (erstes Refactoring) → 15 (vierter Fund ohne Dialogänderung) → 19 (Pflanzen mitspeichern) → 22 (Rezept ohne Logikänderung) → 26 (Tests machen daraus Gewissheit).
 
-**Die Bug-Jagd** — Etappe 8 (erste Runde) → 16 (subtilere Fehler) → 26 (umgekehrt: erst Test, dann Fix). Dazwischen unregelmäßig und unangekündigt.
+**Die Bug-Jagd** — Etappe 8 (erste Runde, Werkzeuge und Protokoll) → 16 (subtilere Fehler; dort auch ein **manipulierter Speicherstand**, sobald Etappe 19 ihn möglich macht — ein `aktueller_ort`, den es in der Karte nicht gibt, stürzt erst beim Umsehen ab) → 26 (umgekehrt: erst Test, dann Fix). Dazwischen unregelmäßig und unangekündigt.
 
 **Die drei Fehlertypen** — eingeführt im Lehrplan, erlebt in Etappe 1 (fehlendes `f`), Etappe 2 (falsche Einrückung), Etappe 3 (Zähler in der Schleife), Etappe 4 (`liste = liste.append(...)`), Etappe 5 (stiller Tippfehler im Schlüssel) → **systematisch benannt und geübt in Etappe 8** → Etappe 20 (`except:` verwandelt Typ 1 in Typ 3), Etappe 21 (`"kamfp"` gegen `GameState.KAMFP`).
 
@@ -329,7 +332,11 @@ Kein einzelner Verweis, sondern etwas, das über den ganzen Plan läuft.
 
 ## Teil D — Pflege
 
-**Wenn ein Verweis eingelöst ist:** Status auf `eingelöst` setzen und das Datum dazuschreiben. Die Liste der offenen Posten ist damit immer aktuell.
+**Was der Status bedeutet.** Er beschreibt den Zustand des **Tutorials**, nicht deines Codes: `eingelöst` heißt, dass der Guide für die Ziel-Etappe geschrieben ist und diese Schuld dort tatsächlich einlöst. Solange eine Ziel-Etappe noch nicht ausgearbeitet ist, bleibt der Eintrag `offen` — auch wenn die Idee feststeht.
+
+Damit beantwortet die Spalte genau die Frage, die beim Weiterschreiben zählt: *Was muss die nächste Etappe noch abarbeiten?*
+
+**Wenn eine Etappe fertig geschrieben ist:** alle Schulden durchgehen, die auf sie zeigen, und prüfen, ob der Guide sie wirklich einlöst. Was er nicht einlöst, bleibt offen und wandert auf die nächste Ziel-Etappe.
 
 **Wenn du von der Vorgabe abweichst:** Eintrag anpassen, nicht löschen. Wenn du in Etappe 6 doch keine Sets nimmst, muss Etappe 14 und 18 das wissen. Eine Zeile hier erspart dir eine Stunde Verwirrung dort.
 

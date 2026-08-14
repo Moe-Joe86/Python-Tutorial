@@ -593,6 +593,24 @@ Bau ihn so, dass er sich abschalten lässt — eine Konstante `DEBUG = True` gan
 
 Du brauchst dafür noch kein `try`/`except` — eine Prüfung und ein `print()` reichen. Und du merkst dabei etwas Wichtiges: Eine gute Fehlermeldung ist eine, die dir sagt, **was du als Nächstes tun sollst**.
 
+**Farbe im Terminal.** Block 1 ist geschafft — das darf man sehen. Dein Terminal kann Farben, und du brauchst dafür kein Modul, nur ein paar Konstanten:
+
+```python
+ROT   = "\033[91m"
+GRUEN = "\033[92m"
+GELB  = "\033[93m"
+GRAU  = "\033[90m"
+RESET = "\033[0m"
+
+print(f"{GELB}Die Versorgerin sieht dich an.{RESET}")
+```
+
+Diese Zeichenfolgen sind Steuerbefehle an das Terminal: Farbe an, Farbe aus. Vergiss das `RESET` nicht, sonst bleibt alles Folgende eingefärbt.
+
+Ein sinnvolles Schema: Gegenstände grün, Figuren gelb, Fehlermeldungen rot, Ortsbeschreibungen normal, Debug-Ausgaben grau. Nach zehn Minuten sieht dein Spiel aus wie eine echte Konsolenanwendung statt wie ein Übungsskript — und das nach einer Etappe, in der du nichts gebaut, sondern nur repariert hast.
+
+**Zur Verträglichkeit:** Auf Linux, macOS und im modernen Windows Terminal funktioniert das ohne Weiteres. In der alten `cmd.exe` bleiben die Codes unter Umständen als Zeichensalat stehen — dann entweder Windows Terminal benutzen oder die Farben über eine Konstante `FARBEN = False` abschaltbar machen. Letzteres ist ohnehin die bessere Übung.
+
 **Die Konsistenzprüfung.** Schreib eine Funktion, die deine Ortstabelle einmal komplett durchgeht und meldet, wenn ein Ausgang auf einen Ort zeigt, den es nicht gibt. Ruf sie beim Start auf.
 
 Zehn Zeilen, und Trainingsbug 7 kann dir nie wieder passieren. Das ist der Gedanke, aus dem in Etappe 26 die Tests entstehen — nur dass du ihn hier von Hand baust, für ein Problem, das dich heute geärgert hat.

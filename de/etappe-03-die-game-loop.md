@@ -562,7 +562,18 @@ Optional, erst bei grünem Selbsttest.
 
 **Ein Zähler, der die Erzählung verändert.** Beim ersten `umsehen` beschreibst du das Dorf. Beim dritten fällt dem Spieler etwas auf, das vorher nicht da war. Beim fünften wird die Stille unangenehm.
 
-Gebaut mit `if` und einem Zähler, keine neue Technik. Aber es ist das erste Mal, dass dein Spiel **auf verstrichene Zeit reagiert** statt auf eine Eingabe — und genau dieses Muster ist ab Etappe 12 das Rückgrat deines lebendigen Dorfes. Wenn du eine Sache aus diesem Abschnitt mitnimmst, dann diese.
+Gebaut mit `if` und einem Zähler, keine neue Technik.
+
+Wenn du es *regelmäßig* wiederkehren lassen willst — jede fünfte Runde ein Geräusch —, brauchst du einen Operator, den du noch nicht kennst: `%` liefert den Rest einer Division.
+
+```python
+if runden % 5 == 0:
+    print("Irgendwo fällt etwas um.")
+```
+
+`17 % 5` ergibt 2, `20 % 5` ergibt 0. Immer wenn der Rest 0 ist, ist die Rundenzahl glatt durch 5 teilbar. Das ist die übliche Art, in Programmen etwas zyklisch passieren zu lassen, und du wirst sie überall wiedersehen — in Etappe 12 steuert genau dieses Muster den Tagesablauf deiner Welt.
+
+Aber es ist das erste Mal, dass dein Spiel **auf verstrichene Zeit reagiert** statt auf eine Eingabe — und genau dieses Muster ist ab Etappe 12 das Rückgrat deines lebendigen Dorfes. Wenn du eine Sache aus diesem Abschnitt mitnimmst, dann diese.
 
 **Eine Pause zwischen den Echos.** Wenn du in Etappe 1 schon `time.sleep()` nachgeschlagen hast, kombinier es mit der `for`-Schleife. Ein Echo, das in Abständen verhallt, wirkt völlig anders als drei Zeilen auf einmal.
 

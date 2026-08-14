@@ -125,6 +125,16 @@ Chronologisch nach Etappe. Spalte „Status": `offen` = noch nicht eingelöst, `
 | Set für besuchte Orte | **14** — `besuchte_felder`; **18** — `flags` | offen |
 | Tuple für Koordinaten | **10** — `self.position`; **14** — `(x, y)` in der Mine | offen |
 | Sets lassen sich nicht als JSON speichern | **19** — Design-Entscheidung beim Speichern | offen |
+| Set für gesehene Gegenstände | **18** — wird zum zentralen Flag-Speicher | offen |
+| Mengenoperationen (`&`, `|`, `-`) | **18** — „hat der Spieler alle nötigen Flags?" | offen |
+| Tuple als Dictionary-Schlüssel | **14** — Koordinaten als Schlüssel nachschlagen | offen |
+| Tuple-Unpacking (`for a, b in ...`) | **12** — über NPCs und ihre Zustände laufen | offen |
+| `RICHTUNGEN` als feste Sammlung | **20** — Eingabe validieren, bevor sie verarbeitet wird | offen |
+| Unterscheidung „kein gültiges Wort" ↔ „hier nicht möglich" | **20** — dieselbe Trennung bei allen Befehlen | offen |
+| Entscheidung: was heißt „besucht" | **14** — Nebel des Krieges in der Mine | offen |
+| Objekt ändern ↔ Namen neu zuweisen | **10** — geteilte Objekte; **14** — Position bei jedem Schritt ersetzen | offen |
+| „Modellierungsentscheidung" als Begriff | **14** — Dict oder Raster; **19** — Struktur ↔ Dateiformat | offen |
+| Die Frage „welche Struktur passt hier?" | **14** — Dorf als Dict, Mine als Raster; **22** — Rezepte als Daten | offen |
 
 ### Etappe 7 — Aufräumen
 
@@ -246,9 +256,9 @@ Umgekehrte Richtung. Vor jeder dieser Etappen prüfen, ob die Voraussetzung wirk
 | **12** (Tick) | 1, 2, 3, 4, 6, 9, 11 | Weltzustand in Variablen, **die Hauptschleife**, „nicht iterierend entfernen", drei NPCs als `Villager`-Objekte |
 | **6** (Datenstrukturen) | 4, 5 | Mutable/immutable, `in` beim Dictionary, besuchte Orte als Problem |
 | **13** (Samen) | 5, 11, 12 | `orte`-Dictionary veränderbar, **Entscheidung zu gesperrten Wegen**, `Seed`-Klasse, laufender Tick |
-| **14** (Mine) | 3, 4, 6, 10 | `range()`, verschachtelte Listen, Set, Tuple-Position |
+| **14** (Mine) | 3, 4, 5, 6, 10 | `range()`, verschachtelte Listen, **Set für besuchte Felder**, **Tuple als Position und als Schlüssel**, Entscheidung „was heißt besucht" |
 | **17** (Verschwinden) | **1**, 2, 12, 15 | **`geruch` und die Sinnesvariablen vom ersten Morgen**, `vertrauen`, NPC-Gedächtnis, Minenfunde |
-| **18** (Vertrauen) | 2, 6, 15 | `vertrauen`, Set-Verständnis, Flags aus Funden |
+| **18** (Vertrauen) | 2, 6, 15 | `vertrauen`, **Set und Mengenoperationen**, Flags aus Funden |
 | **19** (Speichern) | 6, 10, 12, 13 | Sets, `None`, `self.zeit`, halb gewachsene Pflanzen |
 | **20** (Fehlerbehandlung) | 2, 3, 4 | `else`-Zweige, Eingabe-Wiederholung, Inventar-Obergrenze |
 | **21** (Kampf) | 7, 10, 11, 14 | `berechne_schaden()`, Slots, `Weapon`/`Monster`, die Mine |

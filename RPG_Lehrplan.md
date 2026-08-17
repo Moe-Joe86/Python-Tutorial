@@ -1,7 +1,7 @@
 # Projekt-Lehrplan: Dein Dorf-RPG
 
 **Begleitend zu Boot.dev — Python lernen, indem das Spiel wächst**
-*Fassung 4 — final. Ab hier wächst der Plan nur noch durch dein eigenes Projekt.*
+*Fassung 5 — 30 Etappen. Ab hier wächst der Plan nur noch durch dein eigenes Projekt.*
 
 ---
 
@@ -130,12 +130,13 @@ Bei 20–30 Minuten am Tag, Übungen eingerechnet:
 | Werkzeug | 0 | 1 Abend |
 | Fundament | 1–8 | 7–10 Wochen |
 | Objekte und Zeit | 9–16 | 9–12 Wochen |
-| Die Welt reagiert | 17–26 | 12–16 Wochen |
-| Grafik | 27–29 | offen |
+| Die Welt reagiert | 17–27 | 13–17 Wochen |
+| Grafik (optional) | 28–30 | offen |
 
 Die Etappen 1–6 sind ausgearbeitet und veranschlagen zusammen 22–31 Sitzungen — die Schätzung für Block 1 ist daran geeicht und nicht geraten.
 
 Der Punkt, an dem es *richtig* Spaß macht, liegt bei Etappe 12–13.
+Der Punkt, an dem sich das eigentliche Ziel einlöst, ist Etappe 27.
 
 ---
 
@@ -145,7 +146,11 @@ Der Punkt, an dem es *richtig* Spaß macht, liegt bei Etappe 12–13.
 
 Ein Abend, kein Python. Repo auf GitHub, lokal klonen, `README.md`, `GELERNT.md`, `.gitignore`, virtuelle Umgebung (`python -m venv .venv`), erster Commit, erster Push.
 
-**Lernziele:** Was ist ein Commit? Warum existiert `.gitignore`? Wozu eine virtuelle Umgebung?
+**Klein ergänzt, weil es später gebraucht wird:** Aktivier die venv, installier irgendein Paket (`pip install requests`), schau mit `pip list` nach und halt es mit `pip freeze > requirements.txt` fest. Du musst heute nicht verstehen, warum — nur einmal gesehen haben, dass eine venv ein *Ort für Pakete* ist und die Paketliste zum Projekt gehört. Spätestens in Etappe 28 brauchst du das für Pygame.
+
+`requirements.txt` reicht dir lange. In Etappe 24 lernst du ihr Gegenstück `pyproject.toml` kennen — und warum beide nebeneinander existieren dürfen.
+
+**Lernziele:** Was ist ein Commit? Warum existiert `.gitignore`? Wozu eine virtuelle Umgebung — und warum steht `.venv/` in `.gitignore`, `requirements.txt` aber nicht?
 
 **Commit:** `Etappe 0: Projektstart`
 
@@ -363,8 +368,11 @@ Nichts Neues. Du zerlegst die unübersichtliche Datei: `zeige_ort()`, `bewege_sp
 
 **Prüfung:** Nach dem Umbau muss sich das Spiel *exakt* wie vorher verhalten.
 
+**Ein Standardargument nimmst du mit:** `def zeige_ort(orte, ort, ausfuehrlich=False)`. Damit erweiterst du eine Funktion, ohne einen einzigen bestehenden Aufruf anzufassen — das häufigste Muster für rückwärtskompatible Änderungen überhaupt. Passt genau zur Erstbesuch-Logik aus Etappe 6.
+
 **Lernziele:**
 - Unterschied `return` ↔ `print`?
+- Was ist ein Standardargument, und warum ist es rückwärtskompatibel?
 - Was ist Scope — warum kennt eine Funktion deine äußeren Variablen nicht?
 - Was passiert, wenn eine Funktion kein `return` hat?
 - Unterschied Parameter ↔ Argument?
@@ -422,8 +430,18 @@ Damit ist Block 1 abgeschlossen.
 **Was du baust:**
 Klasse `Player` mit `name`, `hp`, `ort`. Deine losen Variablen wandern hinein.
 
+**Eine Methode nimmst du sofort mit, weil sie jede spätere Fehlersuche erleichtert:**
+
+```python
+def __repr__(self):
+    return f"Player(name={self.name!r}, hp={self.hp}, ort={self.ort!r})"
+```
+
+Ohne sie zeigt `print(spieler)` etwas wie `<__main__.Player object at 0x7f3a...>` — die nutzloseste Ausgabe der Sprache. Mit ihr siehst du im Debugger aus Etappe 8 sofort, was im Objekt steckt. Merk dir das Muster: **Methoden mit doppelten Unterstrichen sind Haken, an denen Python selbst zieht.** `__init__` beim Erzeugen, `__repr__` beim Anzeigen. Mehr davon in Etappe 11.
+
 **Lernziele:**
 - Was ist `self` — und warum steht es überall?
+- Wer ruft `__repr__` auf, und warum rufst *du* es nie selbst?
 - Unterschied Klasse ↔ Objekt?
 - Wann wird `__init__` aufgerufen?
 - Unterschied Attribut ↔ lokale Variable in einer Methode?
@@ -494,8 +512,33 @@ Ein Schwert hat Schaden, ein Werkzeug Haltbarkeit, ein Samen eine Wachstumsdauer
 
 Es gibt keine richtige Antwort, die ich dir vorsagen könnte. Aber die Frage zu stellen ist der Unterschied zwischen jemandem, der Syntax kann, und jemandem, der Entscheidungen trifft.
 
+**Dritter Teil, klein aber folgenreich — die weiteren Haken, an denen Python zieht:**
+
+```python
+class Inventory:
+    def __len__(self):           # was passiert bei len(inventar)
+    def __contains__(self, x):   # was passiert bei "brot" in inventar
+    def __iter__(self):          # was passiert bei "for g in inventar"
+```
+
+Damit liest sich dein Inventar plötzlich wie eine eingebaute Datenstruktur — `if "schluessel" in spieler.inventar` statt `if "schluessel" in spieler.inventar.items`.
+
+Dazu `@property` — eine Methode, die sich wie ein Attribut liest:
+
+```python
+@property
+def gesamtgewicht(self):
+    return sum(item.gewicht for item in self.items)
+
+# Aufruf: spieler.inventar.gesamtgewicht   (ohne Klammern!)
+```
+
+**Warum das hier steht:** Wenn du in fremdem Code `for x in obj:` liest und dich fragst, wo diese Schleife herkommt — das hier ist die Antwort. Es ist eine Dunder-Methode der Klasse.
+
 **Lernziele:**
 - Was macht `super().__init__()` genau?
+- Woran erkennst du beim Lesen, dass ein Objekt iterierbar ist?
+- Warum steht bei `@property` beim Aufruf keine Klammer?
 - Was passiert, wenn du es vergisst?
 - Was heißt „Methode überschreiben"?
 - Wann ist Vererbung die falsche Wahl?
@@ -567,7 +610,7 @@ Irgendwann wirst du fragen: *Warum muss die Pflanze eigentlich die ganze Welt ke
 - **Tick-Zeit** — wächst pro Spieleraktion. Passt zum Textspiel: Kaffee kochen ändert nichts.
 - **Echtzeit** (`time.time()`) — wächst, während du weg bist. Im Textspiel fühlt sich das falsch an.
 
-**Empfehlung: jetzt Tick-Zeit.** Nicht als Kompromiss — in Etappe 27 läuft die Loop mit 60 Bildern pro Sekunde. Dann *ist* ein Tick eine Zeiteinheit, und `wachstum_noetig = 180` sind exakt deine drei Minuten. Ohne eine Zeile neue Wachstumslogik.
+**Empfehlung: jetzt Tick-Zeit.** Nicht als Kompromiss — in Etappe 28 läuft die Loop mit 60 Bildern pro Sekunde. Dann *ist* ein Tick eine Zeiteinheit, und `wachstum_noetig = 180` sind exakt deine drei Minuten. Ohne eine Zeile neue Wachstumslogik.
 
 **Commit:** `Etappe 13: Die Wiese wächst`
 
@@ -600,7 +643,7 @@ for y in range(len(karte)):
 
 **Warum eine eigene Etappe:** Bewusst eine *andere* Datenstruktur als das Dorf. Handgeschriebene Orte im Dictionary passen zu einem Dorf mit Charakter. Ein Raster passt zu einem Dungeon, der groß, verzweigt und potenziell zufällig erzeugt ist. Zu wissen, wann welche Struktur passt, trennt Anfänger von Fortgeschrittenen.
 
-**Der spätere Zahltag:** Genau dieses Raster ist das Format, in dem Pygame Tilemaps zeichnet. Deine Mine wird in Etappe 28 zur ersten grafischen Karte — ohne Umbau.
+**Der spätere Zahltag:** Genau dieses Raster ist das Format, in dem Pygame Tilemaps zeichnet. Deine Mine wird in Etappe 29 zur ersten grafischen Karte — ohne Umbau.
 
 **Lernziele:**
 - Bei `karte[y][x]` — welcher Index ist Zeile, welcher Spalte? Warum verwechselt das jeder mindestens einmal?
@@ -702,7 +745,24 @@ SAVE_DIR = Path("saves")
 SAVE_DIR.mkdir(exist_ok=True)
 ```
 
+**Neu dabei: `with`.** Ab hier öffnest du Dateien nie wieder anders:
+
+```python
+with open(pfad, "w", encoding="utf-8") as f:
+    json.dump(daten, f, ensure_ascii=False, indent=2)
+```
+
+`with` sorgt dafür, dass die Datei **auch dann geschlossen wird, wenn mittendrin ein Fehler auftritt**. Und `encoding="utf-8"` schreibst du *immer* hin — sonst funktionieren deine Umlaute auf deinem Rechner und auf einem anderen nicht.
+
+**Und eine Frage, die dein Spiel wirklich betrifft:** Was passiert, wenn beim Speichern der Strom ausfällt? Dann steht eine halb geschriebene Datei da, und der Spielstand ist unrettbar — schlimmer als gar keiner. Die übliche Lösung ist zwei Zeilen lang: erst in eine temporäre Datei schreiben, dann umbenennen. Umbenennen ist unteilbar, Schreiben nicht.
+
 **Erweitern ohne zu zerstören:** Erweitere das Speichern so, dass Pflanzen mitgesichert werden — ohne die bestehende Speicherlogik umzuschreiben.
+
+**Lernziele:**
+- Welche sechs Datentypen kennt JSON?
+- Wie stellst du ein Set in JSON dar — und wie machst du es beim Laden rückgängig?
+- Was macht `with` genau, und was passiert ohne?
+- Warum ist ein halb geschriebener Spielstand schlimmer als gar keiner?
 
 ---
 
@@ -713,6 +773,32 @@ SAVE_DIR.mkdir(exist_ok=True)
 Kein Absturz mehr. Unbekannte Befehle, volles Inventar, Bewegung in Fels — alles wird abgefangen und erklärt.
 
 **Wichtige Abgrenzung:** Das hier ist Fehler*behandlung*. Debugging (Etappe 8, 16) ist etwas anderes. Fehlerbehandlung heißt: das Programm bleibt stehen statt abzustürzen. Debugging heißt: du findest heraus, warum es sich falsch verhält. Verwechsle die beiden nie.
+
+**Eigene Exceptions, und zwar mit Hierarchie:**
+
+```python
+class SpielFehler(Exception): pass
+class InventarVoll(SpielFehler): pass
+class WegVersperrt(SpielFehler): pass
+```
+
+Damit fängst du an einer Stelle nur `except InventarVoll` ab und an einer anderen alles auf einmal mit `except SpielFehler`. Genau dieses Muster benutzt jede ernsthafte Bibliothek — und es ist der Grund, warum du in fremdem Code Zeilen wie `except json.JSONDecodeError` liest.
+
+**Neu: `finally`.**
+
+```python
+try:
+    spiele()
+finally:
+    speichere_automatisch()     # läuft IMMER — auch bei Absturz, auch bei return
+```
+
+In deinem Spiel ist das der automatische Spielstand beim Beenden. Der Spieler soll nach einem Absturz nicht zwei Stunden Fortschritt verlieren.
+
+**Lernziele:**
+- Unterschied `except Exception` ↔ `except:`?
+- Wann läuft `finally`, wann `else` beim `try`?
+- Warum eine eigene Exception-Klasse statt `raise Exception("...")`?
 
 **Kaputtmachen:** Fang alles mit `except:` ab. Merke, warum das eine schlechte Idee ist — es verwandelt Fehler vom Typ 1 in Fehler vom Typ 3.
 
@@ -769,12 +855,46 @@ Keine neue Spielfunktion. **Und trotzdem die Etappe, die deinem eigentlichen Zie
 
 Bis hierher lautete die Frage: *Wie schreibe ich etwas?* Ab hier: *Wie lese ich Code, den jemand anders geschrieben hat?* Das ist dein Übergang von „Claude macht Dinge, die ich nicht verstehe" zu „Claude macht Dinge, die ich nachvollziehen und beurteilen kann."
 
+Sie ist bewusst groß — nimm dir zwei oder drei Sitzungen.
+
 **Comprehensions:**
 ```python
 namen = [npc.name for npc in self.npcs]
 lebende = {npc.name: npc for npc in self.npcs if npc.lebendig}
 ```
 *Warnung:* Eine Ebene, nie verschachtelt. Wenn die Comprehension schwerer zu lesen ist als die Schleife, hast du verloren.
+
+**Funktionen sind Werte ⭐ — die wichtigste Einzelheit dieser Etappe.** Eine Funktion ist ein ganz normales Ding, das man in eine Variable legen, in ein Dictionary stecken und weiterreichen kann:
+
+```python
+befehle = {
+    "inventar": zeige_inventar,     # kein Aufruf! Keine Klammern!
+    "umsehen": zeige_ort,
+}
+
+befehle["inventar"](spieler)        # HIER wird aufgerufen
+```
+
+Damit stirbt die letzte `elif`-Kette deines Spiels — die in `verarbeite_befehl()`, die seit Etappe 3 gewachsen ist. Und du hast nebenbei das Muster gelernt, mit dem jede grafische Oberfläche der Welt arbeitet: *„ruf DAS hier auf, wenn geklickt wird."* Das heißt **Callback**, und ohne dieses Konzept ist fremder Oberflächen-Code Magie.
+
+Dazu die Kurzform für Wegwerf-Funktionen:
+
+```python
+sortiert = sorted(self.npcs, key=lambda npc: npc.vertrauen)
+```
+
+**Was `@` eigentlich bedeutet.** Ein Dekorator ist eine Funktion, die eine Funktion nimmt und eine veränderte zurückgibt. Die Syntax ist nur eine Abkürzung:
+
+```python
+@irgendwas
+def f(): ...
+
+# ist exakt dasselbe wie:
+def f(): ...
+f = irgendwas(f)
+```
+
+Du wirst wenige eigene schreiben und tausende lesen — `@dataclass`, `@property`, `@pytest.fixture`. Wenn du weißt, dass die Zeile darunter durch die Zeile darüber hindurchgereicht wird, verlierst du die Angst davor.
 
 **dataclass:**
 ```python
@@ -794,7 +914,16 @@ def finde_npc(self, name: str) -> Villager | None:
 ```
 **Ehrliche Einordnung:** Python *prüft* das zur Laufzeit nicht. Es ist Dokumentation, die dein Editor lesen kann — keine Typsicherheit. Genau deshalb ist es für dich wichtig: Die Signatur sagt dir sofort, was rein- und rausgeht.
 
-**Nur zur Kenntnis:** `*args` und `**kwargs` bedeuten „beliebig viele weitere Argumente". Du wirst darüber stolpern. Mehr musst du vorerst nicht wissen.
+**`*args` und `**kwargs`, jetzt richtig.** Du brauchst sie zum Lesen, nicht zum Schreiben:
+
+```python
+def log(nachricht, *args, **kwargs):
+    print(nachricht, args, kwargs)
+
+log("hallo", 1, 2, stufe="warnung")   # args=(1,2)  kwargs={"stufe":"warnung"}
+```
+
+Und die Form, die dir am häufigsten begegnet — das Durchreichen: `fremde_funktion(**config)` faltet ein Dictionary in benannte Argumente auf.
 
 **Leseübung (15 Min):** Ich gebe dir ein Stück Code aus einem unserer alten Vibe-Coding-Projekte. Du erklärst mir, was es tut. Das ist der eigentliche Test dieses ganzen Lehrplans.
 
@@ -810,9 +939,57 @@ Aufteilung in mehrere Dateien, zum Beispiel `world.py`, `entities.py`, `items.py
 
 > Ich teile ein Programm in Module auf, wenn es dadurch verständlicher und wartbarer wird.
 
-Wenn du beim Aufteilen merkst, dass zwei Dateien ständig voneinander importieren, ist das ein Signal — dann gehören sie vielleicht zusammen, oder es fehlt eine dritte.
+Wenn du beim Aufteilen merkst, dass zwei Dateien ständig voneinander importieren, ist das ein Signal — dann gehören sie vielleicht zusammen, oder es fehlt eine dritte. **Und wenn es knallt, heißt der Fehler `ImportError: ... (most likely due to a circular import)`. Diesen Satz solltest du einmal gesehen haben, bevor er dich in fremdem Code trifft.**
+
+**Zwei Dinge, die zur Struktur gehören:**
+
+```python
+if __name__ == "__main__":
+    main()
+```
+
+Eine Datei hat zwei Rollen: gestartet werden *oder* importiert werden. Ohne diese Zeile läuft dein Spiel los, sobald jemand `import main` schreibt — zum Beispiel dein Testframework in Etappe 26.
+
+Dazu der Unterschied zwischen `from .world import World` (relativ, innerhalb des Pakets) und `from dorfspiel.world import World` (absolut). Beides siehst du in fremdem Code, und beides bricht auf unterschiedliche Weise.
+
+**Und die Datei, die sagt „das hier ist ein Projekt": `pyproject.toml`.**
+
+In Etappe 0 hast du `requirements.txt` angelegt — eine flache Liste dessen, was installiert war. Das reicht, solange dein Spiel ein Ordner mit Skripten ist. Jetzt ist es ein Paket, und Pakete beschreiben sich selbst:
+
+```toml
+[project]
+name = "dorfspiel"
+version = "0.1.0"
+requires-python = ">=3.11"
+dependencies = ["pygame>=2.5"]
+
+[project.scripts]
+dorfspiel = "dorfspiel.main:main"
+```
+
+Mit der letzten Zeile wird aus `python -m dorfspiel.main` ein Befehl namens `dorfspiel`. Das ist der Moment, in dem sich dein Spiel wie ein installierbares Programm anfühlt.
+
+**Die Unterscheidung, die fast überall falsch erklärt wird:** Die beiden Dateien sind **keine Konkurrenten**.
+
+| | Sagt | Beispiel |
+|---|---|---|
+| `pyproject.toml` | Was mein Projekt **braucht** — als Bereich | `pygame>=2.5` |
+| `requirements.txt` | Was genau **installiert war** — exakt | `pygame==2.5.2` |
+
+Das erste ist die Absicht, das zweite die Momentaufnahme. Viele Projekte haben beides: die Absicht für Leute, die dein Projekt benutzen, die Momentaufnahme für den Fall, dass es bei dir läuft und woanders nicht.
+
+**Versionsangaben lesen können** ist wichtiger als sie schreiben zu können: `>=2.5` heißt „mindestens", `==2.5.2` heißt „genau diese", `~=2.5` heißt „2.5 und Korrekturen, aber nicht 3.0". Dahinter steht **semantische Versionierung**: Der Sprung von 1.x auf 2.0 ist eine Warnung an dich, dass sich etwas Grundlegendes geändert hat.
+
+**Ehrlich eingeordnet:** Du musst `pyproject.toml` für dein Spiel nicht zwingend anlegen — es läuft auch ohne. Aber du wirst sie in praktisch jedem modernen Repo sehen, das du in Etappe 27 öffnest, und dann soll sie kein Rätsel sein. Es gibt außerdem Werkzeuge, die diese Datei für dich verwalten; wenn du eines davon triffst, weißt du jetzt, worauf es schaut.
 
 **Der Git-Teil, den wir aufgeschoben haben:** Branches, Merges, Pull Requests, Merge-Konflikte — und wie man einen absichtlich herbeiführt, um zu sehen, wie er aussieht. Erst jetzt, weil du erst jetzt einen Grund hast.
+
+**Lernziele:**
+- Wozu `if __name__ == "__main__"` — was passiert ohne?
+- Was ist der Unterschied zwischen einem Modul und einem Paket?
+- Was sagt `pyproject.toml`, was `requirements.txt` — und warum ist das kein Widerspruch?
+- Woran erkennst du an einer Versionsnummer, dass ein Update gefährlich sein könnte?
+- Was ist ein zirkulärer Import, und was sagt er über deine Aufteilung?
 
 ---
 
@@ -821,6 +998,10 @@ Wenn du beim Aufteilen merkst, dass zwei Dateien ständig voneinander importiere
 **Boot.dev:** JSON als Content-Format, Laden zur Laufzeit
 
 Alle Dialoge, NPCs, Items, Orte, Ereignisse und Minenebenen wandern nach `content/`. Der Code lädt sie beim Start.
+
+**Neu und wichtig: Daten von außen sind nie vertrauenswürdig.** Ein Tippfehler in deinem JSON darf keinen unverständlichen Traceback erzeugen, sondern eine klare Meldung: *„content/npcs.json, Eintrag 3: Feld 'name' fehlt."* Schreib eine kleine Prüffunktion, die die geladenen Daten kontrolliert, bevor das Spiel startet.
+
+Das ist dieselbe Fehlerklasse wie in Etappe 8 — der Fehler steckt in den Daten, nicht im Code. Nur dass er jetzt aus einer Datei kommt, die du beim Schreiben nicht im Blick hattest.
 
 **Warum das für dich besonders zählt:** Ab hier kannst du an deinem Spiel *schreiben*, ohne zu programmieren. Und genau hier kommen die verschwundenen Dorfbewohner zurück: Einen NPC hinzuzufügen ist kein Code mehr, sondern ein JSON-Eintrag. Dein Dorf kann von drei auf zwanzig wachsen, ohne dass du die Spiellogik anfasst. **Das ist der Moment, in dem deine Prämisse ihre Schuld einlöst.**
 
@@ -832,17 +1013,83 @@ Alle Dialoge, NPCs, Items, Orte, Ereignisse und Minenebenen wandern nach `conten
 
 Jetzt formalisierst du, was du seit Etappe 7 nebenbei gemacht hast. Tests für das, was stillschweigend kaputtgeht: Schadensberechnung, Inventar-Limits, Rezeptprüfung, Speichern/Laden, Wachstumszeiten.
 
+**Zwei Werkzeuge, die du gleich mitnimmst:**
+
+```python
+@pytest.mark.parametrize("angriff,ruestung,erwartet", [
+    (10, 0, 10), (10, 5, 5), (1, 99, 0),
+])
+def test_schaden(angriff, ruestung, erwartet):
+    assert berechne_schaden(angriff, ruestung) == erwartet
+
+def test_speichern(tmp_path):      # tmp_path ist eine Fixture: ein Wegwerf-Ordner
+    ...
+```
+
+`parametrize` ersetzt zehn fast gleiche Tests durch einen — genau der Fall deiner Schadensformel. **Fixtures** sind vorbereitete Zutaten, die pytest deinem Test übergibt; `tmp_path` ist die nützlichste davon, weil deine Speicher-Tests damit nichts kaputtmachen können.
+
 **Und hier schließt sich der Kreis zum übergreifenden Prinzip:** Tests sind das, was „erweitern ohne zu zerstören" von einer Hoffnung in eine Gewissheit verwandelt. Beim ersten Test, der einen Fehler findet, den du nicht bemerkt hattest, verstehst du das körperlich.
 
 **Bug-Jagd III, umgekehrt:** Ich baue einen Fehler ein, und du schreibst zuerst einen Test, der ihn *nachweist*, bevor du ihn behebst.
 
 ---
 
+## Etappe 27 — Fremden Code lesen ⭐⭐
+
+**Kein neues Python. Der Zweck des ganzen Lehrplans.**
+
+Bis hierher hast du ein Spiel gebaut. Das war der Köder. Das eigentliche Ziel stand auf der ersten Seite: **fremden Python-Code lesen und beurteilen können, statt ihm zu vertrauen.** Diese Etappe ist die Probe darauf.
+
+**Was du baust:** Kein Code. Ein Dokument.
+
+Such dir ein echtes, veröffentlichtes Python-Repository — nicht zu groß, ein paar tausend Zeilen. Eine kleine Spielebibliothek, ein Werkzeug, das du benutzt, oder eines deiner eigenen KI-generierten Projekte, das du nie verstanden hast. Und dann schreib **ohne Hilfe** eine Architekturbeschreibung:
+
+1. Was tut dieses Projekt, in drei Sätzen?
+2. Wo ist der Einstiegspunkt? Was passiert beim Start, der Reihe nach?
+3. Welche fünf Dateien sind die wichtigsten, und warum?
+4. Welche Objekte gibt es zur Laufzeit, und wer besitzt wen?
+5. Welche externen Abhängigkeiten gibt es?
+6. Wo würdest du eine neue Funktion einbauen, und warum genau dort?
+7. **Was hältst du für die schwächste Stelle?**
+
+**Frage 7 ist die eigentliche.** Bis hierher warst du Konsument von Code. Sie zu beantworten heißt, ein Urteil zu haben.
+
+**Fang bei `pyproject.toml` an.** Das ist der schnellste Einstieg in ein unbekanntes Repo, und die wenigsten machen es: Die Datei nennt dir den Projektnamen, die Python-Version, sämtliche Abhängigkeiten — und unter `[project.scripts]` oft direkt den Einstiegspunkt. Drei Minuten Lesen ersparen dir zehn Minuten Suchen.
+
+Was du daraus schon ablesen kannst, bevor du eine Zeile Code siehst: Hängt das Projekt am Netz (`requests`, `httpx`)? Rechnet es viel (`numpy`)? Hat es eine Oberfläche (`gradio`, `flask`)? Die Abhängigkeitsliste ist eine Inhaltsangabe.
+
+**Dein Werkzeugkasten — alles längst gelernt:**
+- `print(paket.__file__)` zeigt dir, wo ein installiertes Paket liegt
+- F12 in VS Code springt in fremden Code hinein („Go to Definition")
+- `help(objekt)` und `dir(objekt)` fragen ein Objekt, was es kann
+- `git log --oneline` verrät, was zuletzt angefasst wurde
+- Der Debugger aus Etappe 8 mit einem Breakpoint an der ersten Zeile
+- Die Importe von oben nach unten lesen — sie sind das Inhaltsverzeichnis
+- `pyproject.toml` oder `requirements.txt` als Inhaltsangabe, bevor du Code liest
+
+**Die Erkenntnis, auf die es ankommt:** Fremder Code ist kein Zauber und keine Blackbox. Es ist Python, von Menschen geschrieben, meistens schlechter dokumentiert als deiner. Du darfst da hineinschauen — und du kannst es jetzt.
+
+**Lernziele:**
+- Wie findest du in einem unbekannten Projekt den Einstiegspunkt?
+- Woran erkennst du, was öffentlich gemeint ist und was interner Kram? (Stichwort: führender Unterstrich)
+- Wie findest du heraus, welche Argumente eine Funktion erwartet, wenn die Doku schweigt?
+- Was sagt dir die Ordnerstruktur eines Projekts, bevor du eine Zeile liest?
+
+**Dann sprechen wir darüber.** Nicht als Prüfung — sondern weil das ab hier die Form ist, in der über Code geredet wird. Du bringst eine Lesart mit, dein Mentor widerspricht, wo er anderer Meinung ist.
+
+**Und ab hier gilt eine neue Arbeitsregel:** Wenn du beim Vibe Coding Code bekommst, den du nicht verstehst, ist das ab sofort ein Problem der Erklärung und nicht deines Könnens. Frag nach. Du hast jetzt die Begriffe dafür.
+
+**Commit:** `Etappe 27: Ich kann fremden Code lesen`
+
+Damit ist das Kernprogramm abgeschlossen.
+
+---
+
 # BLOCK 4 — Grafik
 
-*Erst starten, wenn Block 1–3 stehen. Wirklich.*
+*Optional. Erst starten, wenn Block 1–3 stehen — aber dann mit gutem Gewissen: Das hier ist der Nachtisch.*
 
-## Etappe 27 — Pygame: Das erste Fenster
+## Etappe 28 — Pygame: Das erste Fenster
 
 Fenster, Spielschleife mit Bildrate, ein Rechteck mit Pfeiltasten.
 
@@ -850,11 +1097,11 @@ Fenster, Spielschleife mit Bildrate, ein Rechteck mit Pfeiltasten.
 
 **Und hier wird die 3-Minuten-Idee wahr:** Die Loop tickt 60-mal pro Sekunde. `wachstum_noetig = 180` sind exakt drei Minuten Echtzeit.
 
-## Etappe 28 — Kacheln, Sprites, Kamera
+## Etappe 29 — Kacheln, Sprites, Kamera
 
 Tilemap für Dorf und Mine, animierte Figuren, eine Kamera, die dem Spieler folgt. Deine Minenkarte aus Etappe 14 ist bereits im richtigen Format.
 
-## Etappe 29 — Isometrie
+## Etappe 30 — Isometrie
 
 Umrechnung von Karten- auf Bildschirmkoordinaten, Zeichenreihenfolge nach Tiefe. Mathematisch der anspruchsvollste Teil. Zu diesem Zeitpunkt bist du ein anderer Programmierer als heute.
 
@@ -862,7 +1109,7 @@ Umrechnung von Karten- auf Bildschirmkoordinaten, Zeichenreihenfolge nach Tiefe.
 
 ## Warum hier Schluss ist
 
-Der Bogen steht: Grundlagen → Datenstrukturen → Funktionen → Debugging → OOP → Komposition → Vererbung → Zeit und Zustand → Dateien → Fehlerbehandlung → Zustandsmodellierung → datengetriebenes Design → modernes Python → Module → Tests → Grafik.
+Der Bogen steht: Grundlagen → Datenstrukturen → Funktionen → Debugging → OOP → Komposition → Vererbung → Zeit und Zustand → Dateien → Fehlerbehandlung → Zustandsmodellierung → datengetriebenes Design → modernes Python → Module → Tests → **fremden Code lesen** → Grafik.
 
 Weitere Themen hineinzupressen würde den Plan verbessern und das Projekt verschlechtern. Ab Etappe 17 ist er bewusst grob — und das ist keine Lücke, sondern die eigentliche Absicht.
 

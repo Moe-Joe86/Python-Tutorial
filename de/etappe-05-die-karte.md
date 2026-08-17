@@ -1,6 +1,6 @@
 # Etappe 5 — Die Karte
 
-> **Block 1: Fundament** · Etappe 5 von 29 · [← Etappe 4](etappe-04-das-inventar.md) · [Lehrplan](../RPG_Lehrplan.md) · [Etappe 6 →](etappe-06-liste-dict-set-tuple.md)
+> **Block 1: Fundament** · Etappe 5 von 30 · [← Etappe 4](etappe-04-das-inventar.md) · [Lehrplan](../RPG_Lehrplan.md) · [Etappe 6 →](etappe-06-liste-dict-set-tuple.md)
 
 **Boot.dev:** Dictionaries, verschachtelte Dictionaries, `keys()` / `values()` / `items()`
 **Zeitaufwand:** 5–7 Sitzungen à 20–30 Minuten

@@ -1,6 +1,6 @@
 # Python lernen, indem ein Spiel wächst
 
-**Ein Tutorial in 29 Etappen. Du baust ein textbasiertes Rollenspiel — und eine KI begleitet dich dabei als Mentor, der dir nicht die Lösung verrät.**
+**Ein Tutorial in 30 Etappen. Du baust ein textbasiertes Rollenspiel — und eine KI begleitet dich dabei als Mentor, der dir nicht die Lösung verrät.**
 
 > 🇬🇧 **English:** This is a German-language Python curriculum. You learn Python by building a text-based RPG over 29 stages, guided by an AI mentor that is explicitly instructed never to write the code for you. All materials are in German — an English version does not exist yet.
 
@@ -56,7 +56,7 @@ Das hier ist der Kern, und er unterscheidet dieses Tutorial von allem anderen.
 Lade das Repo herunter und gib der KI deiner Wahl (Claude, ChatGPT, Gemini …) diese drei Dateien:
 
 - `MENTOR.md` — die Regeln, nach denen sie dich begleitet
-- `RPG_Lehrplan.md` — der Überblick über alle 29 Etappen
+- `RPG_Lehrplan.md` — der Überblick über alle 30 Etappen
 - `BOGEN.md` — das Register aller Querverweise
 
 Bei Claude legst du sie als Projektdateien ab, bei anderen Anbietern als Anweisung oder angehängtes Dokument. Dann schreibst du einfach:
@@ -113,7 +113,7 @@ Die ausführlichen Etappen-Guides gibst du der KI einzeln dazu, wenn du sie erre
 
 ```
 ├── README.md              ← du bist hier
-├── RPG_Lehrplan.md        ← alle 29 Etappen im Überblick
+├── RPG_Lehrplan.md        ← alle 30 Etappen im Überblick
 ├── MENTOR.md              ← Anweisungen für die begleitende KI
 ├── BOGEN.md               ← Register aller Vorausverweise
 ├── PROMPT.md              ← fertige Startprompts zum Kopieren
@@ -125,7 +125,7 @@ Die ausführlichen Etappen-Guides gibst du der KI einzeln dazu, wenn du sie erre
 
 **Die drei Kerndateien:**
 
-**`RPG_Lehrplan.md`** — die Landkarte. Alle 29 Etappen, in vier Blöcken: Fundament, Objekte und Zeit, Die Welt reagiert, Grafik. Dazu die Arbeitsregeln und der Zeitrahmen.
+**`RPG_Lehrplan.md`** — die Landkarte. Alle 30 Etappen, in vier Blöcken: Fundament, Objekte und Zeit, Die Welt reagiert, Grafik. Dazu die Arbeitsregeln und der Zeitrahmen.
 
 **`MENTOR.md`** — die Anweisung an die KI. Enthält die Hinweis-Leiter, die Regeln für Code-Reviews, das Bug-Jagd-Ritual und eine Ehrlichkeitszusage. Lies sie ruhig selbst: Zu wissen, warum dir jemand die Lösung vorenthält, macht es erträglicher.
 
@@ -139,7 +139,9 @@ Die ausführlichen Etappen-Guides gibst du der KI einzeln dazu, wenn du sie erre
 
 **Erst kaputt machen, dann fragen.** Wenn etwas funktioniert, änderst du absichtlich etwas und schaust zu. „So schreibt man es" ist Auswendiglernen. „Warum muss es so sein" ist Verstehen.
 
-**Grafik kommt zum Schluss.** Das leere Dorf, die Zeitabläufe, das Verschwinden — alles reine Logik, kein Pixel nötig. Wer mit Sprites anfängt, kämpft ein halbes Jahr mit Kollisionsabfragen und baut nie das, was ihn eigentlich interessiert hat. Pygame kommt ab Etappe 27.
+**Am Ende steht eine Leseprobe.** In Etappe 27 nimmst du ein echtes, fremdes Repository und beschreibst seine Architektur — ohne Hilfe. Das ist die Probe auf das eigentliche Ziel: fremden Code lesen und beurteilen können.
+
+**Grafik kommt zum Schluss.** Das leere Dorf, die Zeitabläufe, das Verschwinden — alles reine Logik, kein Pixel nötig. Wer mit Sprites anfängt, kämpft ein halbes Jahr mit Kollisionsabfragen und baut nie das, was ihn eigentlich interessiert hat. Pygame kommt ab Etappe 28.
 
 **Das Spiel läuft ab Etappe 1.** Erst hässlich und textbasiert, aber spielbar. Jede Etappe macht es größer, nicht hübscher.
 
@@ -154,8 +156,8 @@ Die ausführlichen Etappen-Guides gibst du der KI einzeln dazu, wenn du sie erre
 | Werkzeug | 0 | 1 Abend |
 | Fundament | 1–8 | 6–8 Wochen |
 | Objekte und Zeit | 9–16 | 9–12 Wochen |
-| Die Welt reagiert | 17–26 | 12–16 Wochen |
-| Grafik | 27–29 | offen |
+| Die Welt reagiert | 17–27 | 13–17 Wochen |
+| Grafik (optional) | 28–30 | offen |
 
 Bei 20–30 Minuten am Tag. Das ist kein Wochenendprojekt.
 

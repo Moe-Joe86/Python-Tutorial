@@ -1,6 +1,6 @@
 # Etappe 8 — Bug-Jagd I ⭐
 
-> **Block 1: Fundament** · Etappe 8 von 29 · [← Etappe 7](etappe-07-aufraeumen.md) · [Lehrplan](../RPG_Lehrplan.md) · [Etappe 9 →](etappe-09-alles-wird-zum-objekt.md)
+> **Block 1: Fundament** · Etappe 8 von 30 · [← Etappe 7](etappe-07-aufraeumen.md) · [Lehrplan](../RPG_Lehrplan.md) · [Etappe 9 →](etappe-09-alles-wird-zum-objekt.md)
 
 **Boot.dev:** Kein neues Thema. Eine eigenständige Fähigkeit.
 **Zeitaufwand:** 3–5 Sitzungen à 20–30 Minuten
@@ -29,7 +29,7 @@ Heute lernst du also kein Python. Du lernst, was man mit Python tut, wenn es nic
 | Was du heute baust | Wo es wieder auftaucht |
 |---|---|
 | Die drei Fehlertypen als Denkraster | **Etappe 20** — `except:` verwandelt Typ 1 in Typ 3; **Etappe 21** — `"kamfp"` gegen `GameState.KAMFP` |
-| Tracebacks von unten nach oben lesen | durchgehend — bis Etappe 29 dein häufigstes Werkzeug |
+| Tracebacks von unten nach oben lesen | durchgehend — bis Etappe 30 dein häufigstes Werkzeug |
 | Der Debugger | **Etappe 12** — den Tick Schritt für Schritt beobachten; **Etappe 14** — Bewegung im Raster |
 | Ursache und Symptom trennen | **Etappe 16** — dort liegen sie noch weiter auseinander |
 | Halbieren als Suchverfahren | **Etappe 24** — welches Modul ist schuld |
@@ -104,6 +104,22 @@ Du kennst Typ 3 längst, auch wenn er keinen Namen hatte. Das fehlende `f` vor d
 
 Jedes Mal lief das Programm. Jedes Mal war es falsch.
 
+**Und jetzt die zweite Einteilung, die du überall sonst lesen wirst.** In fast jedem Python-Buch und in jeder Fehlerdiskussion im Netz stehen diese drei Begriffe:
+
+| Klassischer Begriff | Was schiefgeht |
+|---|---|
+| **Syntaxfehler** | Python kann deinen Code nicht einmal lesen — eine Klammer fehlt, ein Doppelpunkt |
+| **Laufzeitfehler** | Python liest ihn, führt ihn aus, und stößt auf etwas Unmögliches — `int("Hallo")` |
+| **Logischer Fehler** | Alles läuft. Nur das Ergebnis ist falsch — `schaden = angriff + ruestung` |
+
+**Die beiden Einteilungen widersprechen sich nicht — sie beantworten verschiedene Fragen.** Die klassische sagt, *was* schiefgeht. Unsere sagt, *wann es auffällt*:
+
+- Ein Syntaxfehler ist immer Typ 1. Er kommt sofort und ist harmlos.
+- Ein logischer Fehler ist immer Typ 3. Er kommt nie und ist gefährlich.
+- Ein Laufzeitfehler kann Typ 1 oder Typ 2 sein — je nachdem, ob er bei jeder Eingabe auftritt oder nur bei manchen.
+
+Merk dir beide. Die klassischen Begriffe brauchst du, um dich mit anderen zu verständigen und fremde Erklärungen zu lesen. Unsere brauchst du, um einzuschätzen, wie gefährlich ein Fehler ist.
+
 ### 2. Den Traceback lesen
 
 Ein Traceback sieht abschreckend aus und ist eine der hilfreichsten Ausgaben, die Python macht. Man muss ihn nur richtig herum lesen.
@@ -146,6 +162,14 @@ Im Traceback oben knallt es in Zeile 98, weil `richtung` den Wert `'westen'` hat
 - Deine Ortstabelle hat einen Ausgang, der auf einen Ort ohne Rückweg zeigt → die Ursache steht in den Daten, nicht im Code.
 
 **Die Frage lautet deshalb nie „welche Zeile ist falsch?", sondern:** *Woher kam der Wert, der hier Ärger macht?*
+
+**Und in ihrer allgemeinsten Form, die dich später durch große fremde Programme trägt:**
+
+> **Welche Annahme über den Zustand meines Programms ist gerade falsch?**
+
+Denn jede Zeile Code setzt etwas voraus. `orte[aktueller_ort]` setzt voraus, dass dieser Ort existiert. `teile[1]` setzt voraus, dass zwei Wörter eingegeben wurden. `spieler.inventar` setzt voraus, dass es angelegt wurde. Ein Fehler ist immer eine Voraussetzung, die nicht stimmte — und die Suche ist die Frage, welche.
+
+*„Ich dachte, `richtung` wäre `'norden'`."* — *„Ich dachte, das Inventar wäre leer."* — *„Ich dachte, die Funktion gibt etwas zurück."* Wenn du deine Fehler so formulierst, hast du die Ursache meistens schon halb gefunden.
 
 Bei Typ-3-Fehlern gibt es gar keine Absturzstelle, und dann bleibt nur diese Frage. Du arbeitest dich rückwärts: Was hätte hier stehen müssen? Wo wurde es zuletzt gesetzt? Stimmte es dort schon nicht?
 
@@ -342,6 +366,13 @@ abstürzen, sondern nur das Falsche liefern.
 
 **Während der Jagd: kein `git diff`.** Und führ Protokoll — welche Hypothese, welche Vorhersage, was kam heraus.
 
+**Schritt 6b — Nicht sofort reparieren**
+Wenn du einen Fehler gefunden hast, ist der erste Impuls, ihn wegzumachen. Widersteh ihm für zwei Minuten.
+
+Schreib erst auf: erwartet, tatsächlich, Ursache, wie gefunden. Dann repariere.
+
+**Der Grund ist nicht Ordnungsliebe.** Wer sofort repariert, lernt *„so bringe ich diesen konkreten Fehler zum Verschwinden"*. Wer vorher aufschreibt, lernt *„so finde ich heraus, warum Fehler entstehen"*. Das erste hilft dir einmal, das zweite dreißig Jahre.
+
 **Schritt 7 — Beschreiben statt fragen**
 Wenn du bei einem Fehler feststeckst, schreib die Vier-Punkte-Beschreibung aus Konzept 11 auf, bevor du deinen Mentor fragst.
 
@@ -467,6 +498,40 @@ Das verbindet drei Etappen: mutable Objekte aus Etappe 4, das Prinzip „Abhäng
 
 ---
 
+**Teil 4 — Lesen statt Ausführen (5 Minuten)**
+
+Zum Schluss etwas anderes: **Führ das hier nicht aus.** Lies es und sag voraus, was passiert.
+
+```python
+orte = {
+    "dorfplatz": {"ausgaenge": {"norden": "schmiede"}},
+    "schmiede":  {"ausgaenge": {"sueden": "dorfplatz"}},
+}
+aktueller_ort = "dorfplatz"
+
+def bewege_spieler(richtung):
+    if richtung in orte[aktueller_ort]["ausgaenge"]:
+        aktueller_ort = orte[aktueller_ort]["ausgaenge"][richtung]
+        return True
+    return False
+
+print(bewege_spieler("norden"))
+print(aktueller_ort)
+```
+
+Beantworte, bevor du es laufen lässt:
+
+1. Was gibt die erste `print`-Zeile aus?
+2. Was gibt die zweite aus?
+3. Ist `aktueller_ort` *innerhalb* der Funktion dieselbe Variable wie außerhalb?
+4. Welche Zeile ist die eigentliche Ursache — und welche würde Python nennen?
+
+Dann ausführen. Wenn dich das Ergebnis überrascht, lies Konzept 5 aus Etappe 7 noch einmal.
+
+**Das ist eine Vorstufe zu dem, was ab Etappe 9 regelmäßig kommt:** Leseübungen, bei denen du nichts schreibst, sondern erklärst. Für dein eigentliches Ziel — fremden Code verstehen — ist das die wichtigere Fähigkeit, und sie wird nirgends geübt, weil Kurse einen immer schreiben lassen.
+
+---
+
 ## Kaputtmachen
 
 Heute ist das Kaputtmachen die Vorbereitung, nicht der Abschluss. Bau jeden dieser Fehler ein, beobachte ihn, mach ihn rückgängig.
@@ -486,27 +551,38 @@ Verschieb die Initialisierung deines Rundenzählers in die Schleife hinein.
 
 Kein Absturz, keine Meldung. Der Zähler steht immer auf 1. Wie lange hättest du gebraucht, das zu bemerken, wenn du es nicht selbst getan hättest?
 
-**Trainingsbug 4 — Der Vergleich, der fast stimmt**
+**Trainingsbug 4 — Der Befehl, der stillschweigend nichts tut**
+Nimm in deiner Befehlsverarbeitung `.lower()` und `.strip()` heraus. Dann tipp:
+
+```text
+  GEHE NORDEN
+```
+
+Kein Absturz. Keine Fehlermeldung. Der Spieler bleibt stehen, und niemand sagt ihm warum — falls dein `else`-Zweig zuschlägt, bekommt er sogar „Das kenne ich nicht", obwohl er einen gültigen Befehl getippt hat.
+
+**Warum das der lehrreichste Trainingsbug ist:** Er ist Typ 3, er entsteht aus etwas, das du seit Etappe 2 richtig gemacht hast, und er fällt beim eigenen Testen nie auf — weil du selbst immer sauber tippst. Fehler dieser Art findet man nur, wenn jemand anderes spielt.
+
+**Trainingsbug 5 — Der Vergleich, der fast stimmt**
 Ändere in deiner Inventar-Obergrenze `>=` zu `>` (oder umgekehrt). Jetzt passen elf Gegenstände hinein statt zehn.
 
 Ein Zeichen. Kein Absturz. Und es fällt nur auf, wenn jemand genau nachzählt. **Diese Sorte Fehler ist der Grund, warum Etappe 26 existiert.**
 
-**Trainingsbug 5 — Das vergessene `return`**
+**Trainingsbug 6 — Das vergessene `return`**
 Entferne in einer Funktion, die etwas berechnet, das `return`. Ruf sie auf und arbeite mit dem Ergebnis weiter.
 
 Was steht in der Variable? Wo knallt es — in der Funktion oder viel später? **Das ist Ursache gegen Symptom in Reinform.**
 
-**Trainingsbug 6 — Die Reihenfolge zweier Zeilen**
+**Trainingsbug 7 — Die Reihenfolge zweier Zeilen**
 Vertausch bei den besuchten Orten die `in`-Prüfung und das `add()`.
 
 Kennst du aus Etappe 6. Diesmal ist die Frage nicht, was passiert, sondern: **Wie würdest du es finden, wenn du es nicht wüsstest?** Welchen Breakpoint würdest du wo setzen?
 
-**Trainingsbug 7 — Der Fehler in den Daten**
+**Trainingsbug 8 — Der Fehler in den Daten**
 Ändere in deiner Ortstabelle einen Zielort auf einen Namen, den es nicht gibt. Geh in diese Richtung.
 
 Der Code ist einwandfrei. Der Fehler steht in den Daten. **Für einen Anfänger ist das der verwirrendste Fall überhaupt**, weil man reflexhaft im Code sucht. Merk dir das Gefühl — ab Etappe 25 liegen deine Daten in Dateien, und dann ist diese Fehlersorte häufiger als jede andere.
 
-**Trainingsbug 8 — Zwei auf einmal**
+**Trainingsbug 9 — Zwei auf einmal**
 Bau zwei Fehler gleichzeitig ein. Repariere einen und starte.
 
 Es geht immer noch nicht. **Die Falle:** Man denkt, die Reparatur war falsch, und macht sie rückgängig. Dann hat man zwei Fehler und eine falsche Überzeugung.
@@ -577,6 +653,12 @@ git push
 
 Damit ist **Block 1 abgeschlossen.** Acht Etappen, und dein Spiel hat eine Welt, ein Inventar, eine Karte, ein Gedächtnis, saubere Bausteine — und du hast eine Methode, wenn etwas davon nicht tut, was es soll.
 
+**Was du seit Etappe 1 gelernt hast**, einmal am Stück, weil man das aus der Nähe nicht sieht:
+
+Variablen, Datentypen, f-Strings, Ein- und Ausgabe · Bedingungen, Booleans, `and`/`or`/`not`, Truthy · Schleifen, `range()`, `break`/`continue`, Zähler · Listen, Indizes, mutable und immutable · Dictionaries, verschachtelte Strukturen, `.get()` · Sets, Tuples und die Frage, welche Struktur wann passt · Funktionen, Parameter, `return`, Scope, Refactoring · und jetzt eine Debugging-Methode.
+
+Das ist der komplette Werkzeugkasten, mit dem die meisten Python-Programme geschrieben werden. Alles Weitere ist Ausbau.
+
 Schau dir `git log --oneline` an. Das ist keine Zeremonie: Diese Liste ist der Beleg dafür, dass du seit Wochen dranbleibst, und in Block 2 wird der Stoff schwerer.
 
 ---
@@ -613,7 +695,7 @@ Ein sinnvolles Schema: Gegenstände grün, Figuren gelb, Fehlermeldungen rot, Or
 
 **Die Konsistenzprüfung.** Schreib eine Funktion, die deine Ortstabelle einmal komplett durchgeht und meldet, wenn ein Ausgang auf einen Ort zeigt, den es nicht gibt. Ruf sie beim Start auf.
 
-Zehn Zeilen, und Trainingsbug 7 kann dir nie wieder passieren. Das ist der Gedanke, aus dem in Etappe 26 die Tests entstehen — nur dass du ihn hier von Hand baust, für ein Problem, das dich heute geärgert hat.
+Zehn Zeilen, und Trainingsbug 8 kann dir nie wieder passieren. Das ist der Gedanke, aus dem in Etappe 26 die Tests entstehen — nur dass du ihn hier von Hand baust, für ein Problem, das dich heute geärgert hat.
 
 ---
 

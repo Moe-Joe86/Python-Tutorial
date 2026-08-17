@@ -1,6 +1,6 @@
 # Etappe 3 — Die Game-Loop
 
-> **Block 1: Fundament** · Etappe 3 von 29 · [← Etappe 2](etappe-02-die-erste-begegnung.md) · [Lehrplan](../RPG_Lehrplan.md) · [Etappe 4 →](etappe-04-das-inventar.md)
+> **Block 1: Fundament** · Etappe 3 von 30 · [← Etappe 2](etappe-02-die-erste-begegnung.md) · [Lehrplan](../RPG_Lehrplan.md) · [Etappe 4 →](etappe-04-das-inventar.md)
 
 **Boot.dev:** `while`, `for`, `range()`, `break`, `continue`
 **Zeitaufwand:** 4–6 Sitzungen à 20–30 Minuten
@@ -24,7 +24,7 @@ frage nach einem Befehl
 → ...
 ```
 
-Das ist die **Game-Loop**. Zwanzig Zeilen ungefähr — und das Skelett, an dem bis Etappe 29 alles andere hängt.
+Das ist die **Game-Loop**. Zwanzig Zeilen ungefähr — und das Skelett, an dem bis Etappe 30 alles andere hängt.
 
 Der Sprung ist größer, als die Syntax vermuten lässt. Dein Programm bekommt zum ersten Mal einen **Zustand, der zwischen den Durchläufen bestehen bleibt**. Es merkt sich etwas über die Zeit. Es fragt, hört zu, reagiert, fragt wieder.
 
@@ -37,7 +37,7 @@ Das ist die Definition eines Spiels. **Feier den Tag, an dem das läuft.**
 | Was du heute baust | Wo es wieder auftaucht |
 |---|---|
 | Die Hauptschleife | **Etappe 12** — jeder Durchlauf löst einen Tick der Weltzeit aus |
-| Die Schleifen-Struktur selbst | **Etappe 27** — wird zur Pygame-Loop mit 60 Bildern pro Sekunde |
+| Die Schleifen-Struktur selbst | **Etappe 28** — wird zur Pygame-Loop mit 60 Bildern pro Sekunde |
 | Befehle lesen und unterscheiden | **Etappe 7** — wandert in die Funktion `verarbeite_befehl()` |
 | `range()` | **Etappe 14** — jede einzelne Schleife über das Minenraster |
 | `range()` zählt ab 0 | **Etappe 4** — derselbe Grund, warum der erste Listenindex 0 ist |

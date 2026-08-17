@@ -1,4 +1,4 @@
- Der Bogen — Register aller Vorausverweise
+# Der Bogen — Register aller Vorausverweise
 
 > Verbindlicher Anhang zum [Lehrplan](RPG_Lehrplan.md). Diese Datei ist die einzige Quelle der Wahrheit für alles, was eine frühe Etappe verspricht und eine späte einlösen muss.
 
@@ -52,6 +52,9 @@ Chronologisch nach Etappe. Spalte „Status": `offen` = noch nicht eingelöst, `
 | Was angelegt wird | Wo es eingelöst wird | Status |
 |---|---|---|
 | `vertrauen = True/False` | **18** — wird zum Vertrauens- und Flag-System | offen |
+| Dialoge als `if`-Kette (bewusst ertragen) | **7** — wandert in eine Funktion; **15** — Flags kommen dazu; **18** — die Kette stirbt; **25** — Dialoge werden Daten | offen |
+| Grenze des Booleans: nur zwei Zustände | **18** — wird zur Zahl; **21** — `Enum` für benannte Zustände | offen |
+| Die drei Figuren als festes Personal | **12** — Tagesabläufe; **17** — einer verschwindet; **18** — Vertrauen pro Figur | offen |
 | Verknüpfte Bedingungen (`and`/`or`/`not`) | **18** — Dialoge prüfen mehrere Flags | offen |
 | `.lower()` / `.strip()` auf Eingaben | **3** — Befehle; **5** — `gehe norden`; **7** — `verarbeite_befehl()` | **eingelöst** ✓ |
 | Punkt-Schreibweise (`wert.methode()`) | **9** — `npc.speak()` bei Objekten | **eingelöst** ✓ |

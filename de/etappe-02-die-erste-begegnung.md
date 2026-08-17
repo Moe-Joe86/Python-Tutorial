@@ -12,6 +12,20 @@
 
 Der Spieler ist nicht allein. Einer der drei Verbliebenen findet ihn — und stellt die erste Frage, die eine Antwort verlangt.
 
+**Wer diese drei sind**, weil sie ab heute dein gesamtes Personal sind:
+
+| Rolle | Erzählerisch | Woran sie später hängt |
+|---|---|---|
+| **Der Wissende** | Kennt das Dorf und seine Geschichte, redet aber nur gegen Gegenleistung | Dialoge und Flags (Etappe 15, 18) |
+| **Die Versorgerin** | Hat Werkzeug, Samen, Vorräte — und gibt sie nicht umsonst her | Gegenstände, Handel, Crafting (Etappe 4, 22) |
+| **Der Fremde** | War erst seit kurzem im Dorf. Oder behauptet das | Vertrauen und unzuverlässige Auskunft (Etappe 18) |
+
+**Namen, Alter, Geschlecht und Sprechweise gehören dir.** „Der Wissende" ist die Beschreibung einer Funktion, kein Charakter — mach daraus eine alte Frau, die den Brunnen instand hält, oder einen Jungen, der zu viel gesehen hat. Was feststeht, ist nur die Rolle im Gefüge.
+
+**Alle drei existieren gleichzeitig.** Das ist keine Auswahl, aus der der Spieler eine Figur wählt — es sind die drei, die geblieben sind. Heute begegnet ihm einer davon, die anderen beiden lernt er später kennen.
+
+Warum ausgerechnet drei? Weil das die kleinste Zahl ist, bei der ein Verdacht funktioniert. Bei zwölf Verdächtigen ist niemand verdächtig; bei einem gibt es keinen Verdacht — bei dreien ist es jeder. Und technisch ist es die Zahl, bei der du in Etappe 18 noch jeden Zustand von Hand durchdenken kannst.
+
 Zwei Möglichkeiten: Der Spieler erzählt, was er gesehen hat. Oder er behält es für sich. Beides ist eine legitime Entscheidung, und beide haben Folgen — nicht heute, aber in vier Monaten.
 
 Technisch ist diese Etappe ein größerer Sprung als Etappe 1. Zum ersten Mal trifft dein Programm eine **Entscheidung**, und zum ersten Mal schreibst du einen **Block** — Code, der eingerückt unter einer Bedingung steht. Diese Einrückung ist in Python keine Formatierung, sondern Bedeutung. Das ist der Punkt, an dem viele Anfänger die ersten wirklich verwirrenden Fehlermeldungen sehen.
@@ -221,7 +235,7 @@ Der Punkt hinter der Variable heißt: „ruf diese Funktion auf diesem Wert auf"
 Wieder schrittweise, wieder nach jedem Schritt ausführen.
 
 **Schritt 1 — Die Begegnung**
-Nach dem Ruf aus Etappe 1: Jemand antwortet doch. Beschreib, wie diese Person auftaucht — und lass offen, ob das eine Erleichterung ist.
+Nach dem Ruf aus Etappe 1: Eine der drei verbliebenen NPCs antwortet doch. Du als Autor entscheidest jetzt, welche Person das sein wird. Diese Person bleibt bis Etappe 18 die Bezugsperson. Beschreib, wie diese Person auftaucht — und lass offen, ob das eine Erleichterung ist. 
 
 **Schritt 2 — Die Frage**
 Die Figur fragt den Spieler, ob er etwas gesehen hat. Der Spieler antwortet per `input()`.
@@ -238,7 +252,25 @@ Wandle die Eingabe so um, dass `Ja`, `ja` und ` JA ` alle dasselbe bedeuten. Zwe
 Der dritte Zweig ist keine Pflichtübung, sondern eine Erkenntnis: Benutzer tun nie das, was man erwartet. Heute fängst du das mit `else` ab. In Etappe 20 machst du es richtig.
 
 **Schritt 5 — Das Spiel merkt sich die Entscheidung**
-Leg `vertrauen` an und setz es je nach Antwort. Kommentier, dass diese Variable in Etappe 18 zum Vertrauenssystem wird — dein Zukunfts-Ich wird dankbar sein.
+Leg eine Variable `vertrauen` an — **als Boolean, also `True` oder `False`**, nicht als Zahl und nicht als Text. Setz sie je nach Antwort des Spielers.
+
+```python
+vertrauen = True      # oder False, je nach Zweig
+```
+
+**Jeder Zweig muss sie setzen — auch der dritte.** Wenn sie nur in einem gesetzt wird, existiert sie in den anderen Fällen gar nicht, und das gibt später einen `NameError` an einer Stelle, die damit nichts zu tun hat.
+
+**Und jetzt die Frage, die dir gleich kommt:** Du hast drei Zweige, aber ein Boolean kennt nur zwei Werte. Was setzt der dritte?
+
+Die Antwort ist keine technische, sondern eine erzählerische — und sie ist der Grund, warum zwei Werte hier ausreichen:
+
+> **Aus Sicht der Figur sind Schweigen und Unsinn dasselbe. Sie hat nichts erfahren.**
+
+Wer „ja" sagt, gibt etwas preis. Wer „nein" sagt oder wirres Zeug tippt, gibt nichts preis. Für das Vertrauen der Figur ist das derselbe Fall. Der dritte Zweig bekommt also denselben Wert wie der zweite — und darf trotzdem einen eigenen Text haben, weil die Figur ja merkt, dass da keine Antwort kam.
+
+**Was du dabei nicht tun sollst:** einen dritten Wert erfinden. Weder `None` noch `"unklar"` noch `0`. Das sieht nach einer Lösung aus und ist eine Krücke — wer den Code später liest, kann nicht mehr sagen, ob `None` „hat nichts gesagt", „noch nicht gefragt" oder „Eingabe kaputt" bedeutet. Ein Wert, der drei Dinge bedeuten kann, bedeutet nichts.
+
+Kommentier die Variable: In Etappe 18 wird daraus das Vertrauenssystem. Dein Zukunfts-Ich wird dankbar sein.
 
 **Schritt 6 — Die Reaktion**
 Die Figur reagiert unterschiedlich. Und hier eine Auflage als Autor: **Die freundlichere Antwort darf nicht offensichtlich die bessere sein.** Wer sofort alles erzählt, macht sich angreifbar. Wer schweigt, wirkt verdächtig. Ein Spiel, in dem eine Option erkennbar richtig ist, hat keine Entscheidungen — nur eine Prüfung.
@@ -254,9 +286,38 @@ Irgendwo im Ablauf brauchst du mindestens eine Bedingung mit `and`, `or` oder `n
 - ❌ Gegenstände einsammeln → **Etappe 4**
 - ❌ Ein Dialogsystem mit mehreren Ebenen → **Etappe 18**
 - ❌ Ein Zahlenwert für Vertrauen statt `True`/`False` → **Etappe 18**
+- ❌ Ein dritter Zustand für Vertrauen (`None`, `"unklar"`) → siehe Schritt 5
 - ❌ `try` / `except` für ungültige Eingaben → **Etappe 20**
 
 Besonders der Punkt mit dem Zahlenwert wird verlockend sein. Widersteh. Der Sinn dieser Etappe ist, dass du Booleans wirklich verstehst, bevor du etwas Komplizierteres baust. Wenn du direkt zu Zahlen springst, überspringst du das Fundament — und in Etappe 18 fehlt es dir.
+
+**Und eine ehrliche Einordnung dazu, damit du die Grenze kennst:** Ein Boolean kann genau zwei Zustände. Sobald dein Spiel mehr als „vertraut" und „vertraut nicht" ausdrücken soll — abgestuftes Vertrauen, verschiedene Sorten von Wissen, ein Zustand „noch nie gefragt" —, reicht er nicht mehr.
+
+Das ist kein Konstruktionsfehler dieser Etappe, sondern ihr Zweck: **Du sollst erleben, wie ein Modell an seine Grenze kommt.** Zwei Werkzeuge dafür bekommst du später — in Etappe 18 wird aus dem Boolean eine Zahl, und in Etappe 21 lernst du `Enum` kennen, mit dem man benannte Zustände sauber ausdrückt.
+
+Heute wären beide verfrüht. Booleans sind das Thema dieser Etappe, und wer sie überspringt, hat in Etappe 18 kein Fundament.
+
+### Und jetzt zu deinen Dialogen — die Absicht dahinter
+
+Du wirst ab heute jedes Gespräch mit `if` verzweigen. Erst eine Bedingung, dann zwei, irgendwann eine Kette, die über den halben Bildschirm läuft. Das wird sich mit jedem neuen Gespräch schlechter anfühlen.
+
+**Das ist gewollt, und du sollst wissen, warum.**
+
+Dieses Tutorial gibt dir ein Werkzeug nie, bevor du das Problem hattest, das es löst. Sonst lernst du eine Regel („Dialoge macht man mit Datenstrukturen") statt einer Einsicht („eine `if`-Kette wächst schneller als der Inhalt"). Dasselbe Muster wiederholt sich mehrfach: In Etappe 3 erträgst du eine lange Befehlskette, die in Etappe 5 und 7 verschwindet. Hier erträgst du Dialoge im Code, die in Etappe 18 zu Daten werden.
+
+**Der Weg deiner Dialoge durch das Tutorial:**
+
+| Etappe | Was daraus wird |
+|---|---|
+| **2** (heute) | Eine Boolean, ein `if`. Der Keim. |
+| **7** | Die Kette wandert in eine Funktion — übersichtlicher, aber immer noch Code. |
+| **15** | Funde in der Mine setzen Flags, und Dialoge prüfen sie. Die Kette wird länger. |
+| **18** | Ein zentraler Flag-Speicher, Vertrauenswerte pro Figur, Dialoge prüfen beides. **Hier stirbt die Kette.** |
+| **25** | Dialoge verlassen den Code ganz und liegen in JSON-Dateien. Du schreibst am Spiel, ohne zu programmieren. |
+
+**Was du daraus für heute mitnehmen sollst — ein praktischer Rat:** Halte die Gespräche klein. Zwei, drei Zustände pro Figur reichen völlig, um das Prinzip zu zeigen. Wenn du jetzt einen ausgewachsenen Dialogbaum mit zwanzig Verzweigungen schreibst, baust du ihn in Etappe 18 um und in Etappe 25 noch einmal.
+
+Der Inhalt deiner Dialoge ist nicht verloren — die Struktur schon. Schreib die Texte, spar dir die Verästelung.
 
 ---
 
@@ -357,7 +418,7 @@ Zwei verschiedene Ergebnisse. Warum?
 print(f"DEBUG: antwort ist '{antwort}'")
 ```
 
-Die Anführungszeichen im Debug-Text sind kein Zufall — nur so siehst du ein verirrtes Leerzeichen. Diese Technik ist die primitivste Form von Debugging, und sie wird dich bis Etappe 29 begleiten. In Etappe 8 lernst du die bessere Variante.
+Die Anführungszeichen im Debug-Text sind kein Zufall — nur so siehst du ein verirrtes Leerzeichen. Diese Technik ist die primitivste Form von Debugging, und sie wird dich bis Etappe 30 begleiten. In Etappe 8 lernst du die bessere Variante.
 
 ---
 

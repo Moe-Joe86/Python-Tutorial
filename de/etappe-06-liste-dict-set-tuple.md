@@ -1,6 +1,6 @@
 # Etappe 6 — Liste, Dictionary, Set, Tuple
 
-> **Block 1: Fundament** · Etappe 6 von 29 · [← Etappe 5](etappe-05-die-karte.md) · [Lehrplan](../RPG_Lehrplan.md) · [Etappe 7 →](etappe-07-aufraeumen.md)
+> **Block 1: Fundament** · Etappe 6 von 30 · [← Etappe 5](etappe-05-die-karte.md) · [Lehrplan](../RPG_Lehrplan.md) · [Etappe 7 →](etappe-07-aufraeumen.md)
 
 **Boot.dev:** Sets, Tuples, Mengenoperationen
 **Zeitaufwand:** 4–6 Sitzungen à 20–30 Minuten

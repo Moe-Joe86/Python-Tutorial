@@ -1,6 +1,6 @@
 # Etappe 2 — Die erste Begegnung
 
-> **Block 1: Fundament** · Etappe 2 von 29 · [← Etappe 1](etappe-01-der-erste-morgen.md) · [Lehrplan](../RPG_Lehrplan.md) · [Etappe 3 →](etappe-03-die-game-loop.md)
+> **Block 1: Fundament** · Etappe 2 von 30 · [← Etappe 1](etappe-01-der-erste-morgen.md) · [Lehrplan](../RPG_Lehrplan.md) · [Etappe 3 →](etappe-03-die-game-loop.md)
 
 **Boot.dev:** `if` / `elif` / `else`, Vergleiche, Booleans, `and` / `or` / `not`
 **Zeitaufwand:** 3–5 Sitzungen à 20–30 Minuten

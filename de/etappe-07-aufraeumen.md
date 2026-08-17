@@ -1,6 +1,6 @@
 # Etappe 7 — Aufräumen
 
-> **Block 1: Fundament** · Etappe 7 von 29 · [← Etappe 6](etappe-06-liste-dict-set-tuple.md) · [Lehrplan](../RPG_Lehrplan.md) · [Etappe 8 →](etappe-08-bug-jagd.md)
+> **Block 1: Fundament** · Etappe 7 von 30 · [← Etappe 6](etappe-06-liste-dict-set-tuple.md) · [Lehrplan](../RPG_Lehrplan.md) · [Etappe 8 →](etappe-08-bug-jagd.md)
 
 **Boot.dev:** Funktionen, Parameter, Rückgabewerte, Scope
 **Zeitaufwand:** 5–7 Sitzungen à 20–30 Minuten

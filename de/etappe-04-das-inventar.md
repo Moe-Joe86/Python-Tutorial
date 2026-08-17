@@ -1,6 +1,6 @@
 # Etappe 4 — Das Inventar
 
-> **Block 1: Fundament** · Etappe 4 von 29 · [← Etappe 3](etappe-03-die-game-loop.md) · [Lehrplan](../RPG_Lehrplan.md) · [Etappe 5 →](etappe-05-die-karte.md)
+> **Block 1: Fundament** · Etappe 4 von 30 · [← Etappe 3](etappe-03-die-game-loop.md) · [Lehrplan](../RPG_Lehrplan.md) · [Etappe 5 →](etappe-05-die-karte.md)
 
 **Boot.dev:** Listen, `append()`, `remove()`, `len()`, Indexing
 **Zeitaufwand:** 4–6 Sitzungen à 20–30 Minuten

@@ -1,6 +1,6 @@
 # Etappe 1 — Der erste Morgen
 
-> **Block 1: Fundament** · Etappe 1 von 29 · [← Lehrplan](../RPG_Lehrplan.md) · [Etappe 2 →](etappe-02-die-erste-begegnung.md)
+> **Block 1: Fundament** · Etappe 1 von 30 · [← Lehrplan](../RPG_Lehrplan.md) · [Etappe 2 →](etappe-02-die-erste-begegnung.md)
 
 **Boot.dev:** Variablen, Strings, f-Strings, `print()`, `input()`
 **Zeitaufwand:** 2–4 Sitzungen à 20–30 Minuten

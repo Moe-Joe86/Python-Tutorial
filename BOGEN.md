@@ -528,7 +528,7 @@ Umgekehrte Richtung. Vor jeder dieser Etappen prüfen, ob die Voraussetzung wirk
 
 Kein einzelner Verweis, sondern etwas, das über den ganzen Plan läuft.
 
-**Die Darstellung** — Etappe 1 (fester ASCII-Kopf) → **2 (hält bewusst still: nur mehr Variablen im selben Briefing)** → **3c (Balken beim `status`-Befehl; der Kopf bleibt unangetastet)** → **4 (die Anmarschbahn — eine Zeile, in der man Bewegung sieht; ab hier ist die Anzeige auch Messgerät)** → **5 (der Grundriss mit Markierung — handgezeichnet, nur die Markierung kommt aus den Daten)** → **4 (die Anmarschbahn als eine Zeile, in drei Schritten gebaut)** → 5 (Grundriss) → 7b (eigene Zeichenschicht, die nichts entscheidet) → **14a (aus einer Zeile wird ein Raster)** → 28 (dieselbe Schicht, andere Ausgabe) → 29 (Kacheln) → 30 (Isometrie). Der Faden hat zwei Zwecke: Das Spiel ist früh sichtbar, und die Trennung Logik/Darstellung wird eingeübt, lange bevor sie in Etappe 28 zur Bedingung wird.
+**Die Darstellung** — Etappe 1 (fester ASCII-Kopf) → **2 (hält bewusst still: nur mehr Variablen im selben Briefing)** → **3c (Balken beim `status`-Befehl; der Kopf bleibt unangetastet)** → **4 (die Anmarschbahn — eine Zeile, in der man Bewegung sieht; ab hier ist die Anzeige auch Messgerät)** → **5 (der Grundriss mit Markierung — handgezeichnet, nur die Markierung kommt aus den Daten)** → 7b (eigene Zeichenschicht, die nichts entscheidet) → **14a (aus einer Zeile wird ein Raster)** → 28 (dieselbe Schicht, andere Ausgabe) → 29 (Kacheln) → 30 (Isometrie). Der Faden hat zwei Zwecke: Das Spiel ist früh sichtbar, und die Trennung Logik/Darstellung wird eingeübt, lange bevor sie in Etappe 28 zur Bedingung wird.
 
 **Die Leseleiter** ⭐ — vier Stufen mit festen Fragen. Stufe 1 (Benennen): Etappe 9–11, 5–10 Zeilen. Stufe 2 (Verfolgen): 12–16, 15–30 Zeilen — zahlt direkt in 16 bei den Reihenfolgefehlern. Stufe 3 (Zusammenhänge): 17–22, 30–60 Zeilen. Stufe 4 (Beurteilen): ab 23b, echter KI-Code, hier kommt die sechste Frage dazu → **27 (ganzes Repo, Frage 7 ist Frage 6)**. Die Stufen dürfen nicht übersprungen werden: Frage 6 setzt voraus, dass Alternativen bekannt sind.
 
@@ -561,6 +561,36 @@ Der Faden liegt bis 23b vollständig auf Stufe 👀. Das ist Absicht: Kopplung i
 **Erweitern ohne zu zerstören** — **Etappe 4 (der Befehlsumbau darf die Befehle aus 3b nicht brechen)** → **5 (der `vorrat`-Umbau fasst Statusanzeige, Feuern und Aufsammeln an; eigener Rückwärtsgang-Schritt)** → 7a (erstes Refactoring) → 15 (vierter Fund ohne Änderung der Depot-Logik) → 19 (Statuseffekte mitspeichern) → 22 (neuer Geschütztyp ohne Logikänderung) → 25 (Gegnertypen als JSON) → 26 (Tests machen daraus Gewissheit).
 
 **Knobelstellen** ⭐ — Aufgaben, bei denen das Problem gestellt wird, aber nicht das Verfahren: **3a** (Abbruch von innen nach außen) → **4** (`.join()` selbst finden; „erst sammeln, dann entfernen" selbst bauen) → **8** (die Bug-Jagd ist eine einzige große Knobelstelle) → **14b** (Zielsuche und Zonengrenze) → **16** (Reihenfolgefehler finden) → **27** (fremdes Repo). Im Guide ausdrücklich als solche markiert, damit Hängenbleiben nicht als Verständnislücke missdeutet wird — der Mentor gibt dort **Hinweise, keine Lösungen**.
+
+**Von Namen zu Daten** ⭐ — die Architekturlinie des gesamten Tutorials, und der Faden, den man am leichtesten übersieht:
+
+| Etappe | Was ein Name bezeichnet |
+|---|---|
+| **1** | einen einzelnen Wert |
+| **4** | eine Sammlung von Werten |
+| **5** | Werte, die über Namen nachgeschlagen werden |
+| **9 / 10** | ein Objekt aus Zustand und Verhalten, das aus anderen Objekten besteht |
+| **25** | Daten, die nicht einmal im Python-Code stehen müssen |
+
+Jede dieser Etappen soll den Schritt am Ende benennen, nicht nur vollziehen. **Und der wichtigste Satz dabei steht in Etappe 4:** *Objektorientierung ersetzt keine Datenstrukturen — sie gibt ihren Einträgen mehr Bedeutung.*
+
+**Migrationen — was womit ersetzt wird** ⭐
+
+Der Plan baut mehrfach etwas Funktionierendes um. **Diese Übergänge müssen festgelegt sein, sonst entstehen zwei Wahrheiten über dieselbe Sache:**
+
+| Was | Bis | Ab | Regel |
+|---|---|---|---|
+| **Gegner** | 3: `gegner_anzahl = 5` | 4: `gegner = [7, 4, 2]` | Die Anzahl verschwindet, `len()` ersetzt sie. **Keine zweite Zählvariable.** |
+| **Gegner** | 4: Positionszahlen | 9/11: `Gegner`-Objekte | **Die Liste bleibt, nur der Eintrag wird reicher.** Positionen werden Attribute. |
+| **Munition** | 3: `munition = 40` | 5: `vorrat["munition"]` | Die lose Variable verschwindet. **Kein zweiter Speicher.** |
+| **Munition** | 5: loses `vorrat` | 9: `marine.vorrat` | Der ganze Vorrat wandert in den Marine — **`marine.munition` wird nicht neu eingeführt.** |
+| **Schrott** | 4: Eintrag in `inventar` | 5: `vorrat["schrott"]` | **Schrott ist ab 5 Ressource, kein Gegenstand.** Nie beides gleichzeitig. |
+| **Inventar** | 4: Liste von Strings | 11: Liste von `Item`-Objekten | Die Liste bleibt, der Eintrag wird reicher. |
+| **Zustandsstrings** | 12: `"tot"` | 21b: `Enum` | Nur die Spielzustände, nicht jeder String im Programm. |
+
+**Und das Ritual dazu, ab Etappe 4 in jedem Guide vor einem Umbau:** *Was bleibt gleich? Was ändert sich nur in der Darstellung? Was ändert sich wirklich am Datenmodell?* Zweck: **Umbauen heißt nicht „alles neu".**
+
+**Invarianten** — Sätze, die immer wahr bleiben müssen: **4** (`len(gegner)` ist die Wahrheit; keine Position außerhalb der Bahn; Munition nie negativ) → **5** (jeder Nachbarname existiert; jeder Sektor hat Beschreibung und Integrität) → **13** (Bauzeit kann nicht gleichzeitig laufen und fertig sein) → **20** (aus Invarianten werden Prüfungen) → **26** (aus Prüfungen werden Tests). **Bis 20 werden sie nur aufgeschrieben, nicht geprüft** — das ist Absicht, weil `assert` erst in 7b als 👀 auftaucht.
 
 **Die drei Debugging-Reflexe** — je einer pro Fundament-Etappe, alle nach demselben Grundsatz *Nachsehen schlägt Vermuten*: Etappe 1 *welchen Typ hat dieser Wert?* (`print(type(x))`) → Etappe 2 *welcher Zweig läuft?* (`### ZWEIG`) → **Etappe 3 *wie oft läuft das?* (`### RUNDE n`)** → **Etappe 4 *was steht da gerade wirklich drin?* (`### VOR`/`### NACH` mit Inhalt **und** `len()`)** → **Etappe 5 *unter welchem Namen?* (`.keys()` zeigt Tippfehler in Schlüsseln, die sonst unsichtbar sind)** → **8** (der Debugger löst alle vier `print`-Varianten ab, der Reflex bleibt). Gemeinsamer Grundsatz: **Nachsehen schlägt Vermuten.**
 

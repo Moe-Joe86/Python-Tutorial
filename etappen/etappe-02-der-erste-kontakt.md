@@ -315,6 +315,15 @@ Diese Sorte Fehler heißt im Lehrplan **Null-Falle** und begleitet dich bis Etap
 
 ### 10. `.strip()` — und was der Punkt bedeutet
 
+**Zuerst zwei Zeilen, die dich später Stunden kosten, wenn du sie heute nicht siehst:**
+
+```python
+"ja" == "Ja"       # False
+"ja" == "ja "      # False
+```
+
+Groß- und Kleinschreibung zählen. Ein einzelnes Leerzeichen zählt. Wer den Spieler etwas tippen lässt und dann auf `== "ja"` prüft, scheitert an jedem, der `Ja` schreibt — und das sind fast alle.
+
 Der Spieler tippt ` 2` mit einem Leerzeichen davor. Für Python ist das nicht `"2"`, und `int(" 2")` geht zwar gut, aber der Reflex lohnt sich trotzdem:
 
 ```python

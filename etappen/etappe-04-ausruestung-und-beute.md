@@ -8,7 +8,9 @@
 
 | 🔨 Bauen | 🧠 Verstehen | 👀 Nur erkennen |
 |---|---|---|
-| Inventar, Gegnerliste, `.split()`, die Anmarschbahn | Warum `append()` nichts zurückgibt · zwei Namen, ein Objekt | Der Begriff *mutable* |
+| Inventar, Gegnerliste, `.split()`, die Anmarschbahn · **`dir()` und `help()` aktiv benutzen** | Warum `append()` nichts zurückgibt · zwei Namen, ein Objekt · Zustand gegen Darstellung | Der Begriff *mutable* · Slicing |
+
+*(`dir()` und `help()` stehen bewusst in der ersten Spalte: Du sollst sie heute **benutzen**, nicht nur kennen. In Konzept 14 findest du `.join()` damit selbst.)*
 
 ---
 
@@ -42,6 +44,15 @@ Zwei Gegner. Einer auf Feld 7, einer auf Feld 4. Mehr weiß dein Programm über 
 
 **Diese Liste ist der Spielzustand.** Sie zu ändern heißt, dass sich im Spiel etwas ändert. Alles andere ist Anzeige.
 
+**Und hier der Satz, der den ganzen Umbau zusammenhält:** Deine `gegner_anzahl` aus Etappe 3 verschwindet nicht — sie wird **berechnet**.
+
+```
+vorher:   gegner_anzahl = 5
+nachher:  gegner = [7, 4, 2, 9, 6]   →   len(gegner) ist 5
+```
+
+Fünf Gegner bleiben fünf Gegner. Dein Spiel soll sich nach dem Umbau **genau so verhalten wie vorher** — nur dass die Fünf jetzt aus den Daten kommt statt in einer Variablen zu stehen. `len()` ist damit nicht nur eine neue Funktion, sondern der Schlüssel zu diesem Umbau.
+
 Und weil du die Gegner jetzt einzeln hast, kannst du sie zum ersten Mal **zeigen**:
 
 ```
@@ -64,6 +75,26 @@ Etappe 19   dieser Zustand wird gespeichert
 ```
 
 Jeder Schritt ersetzt nur, *was in der Liste steht* — nie, dass es eine Liste ist.
+
+---
+
+## Vor dem Umbau: drei Fragen ⭐
+
+**Heute änderst du zum ersten Mal etwas, das schon funktioniert.** Das kommt in diesem Plan öfter — in Etappe 5 wieder, in 7a, in 9, in 11. Und es fühlt sich jedes Mal falsch an: Da läuft etwas, und du reißt es auseinander.
+
+**Deshalb ab heute ein festes Ritual. Beantworte vor jedem Umbau drei Fragen schriftlich:**
+
+| Frage | Für heute |
+|---|---|
+| **Was bleibt gleich?** | Zwanzig Wellen, Runden, Kampf, Schaden, Balken — das gesamte Spielgefühl |
+| **Was ändert sich nur in der Darstellung?** | Die Gegner werden sichtbar; vorher stand da eine Zahl |
+| **Was ändert sich wirklich am Datenmodell?** | `gegner_anzahl` (eine Zahl) wird zu `gegner` (eine Liste von Positionen) |
+
+**Der Ertrag ist ein Entwicklerreflex, der dir dreißig Etappen lang hilft:**
+
+> **Umbauen heißt nicht „alles neu". Es heißt: eine Sache ändert sich, alles andere beweist, dass es noch funktioniert.**
+
+Die dritte Zeile ist die kürzeste und die einzige, bei der du wirklich aufpassen musst. Alles andere ist Beweislast — dafür gibt es Auftragsschritt 10.
 
 ---
 
@@ -324,6 +355,18 @@ Der Name zeigt danach woanders hin — die Liste merkt davon nichts. Das ist der
 *(Die Feinheit dazu, für später: Wenn ein Listeneintrag selbst ein veränderbares Objekt ist, kannst du ihn über die Schleifenvariable sehr wohl verändern — `ding.append(...)` fasst das Objekt an, auf das beide zeigen. Bei Strings und Zahlen geht das nicht, deshalb spielt es heute noch keine Rolle. Ab Etappe 11, wenn deine Liste Objekte enthält, schon.)*
 
 👀 **Beim Lesen fremden Codes** wirst du zwei weitere Formen sehen: `for k, v in daten.items():` und `for i, x in enumerate(dinge):`. Die erste kommt in Etappe 5, die zweite in 14a. Heute genügt es, sie einmal gesehen zu haben und zu wissen, dass es Varianten derselben Sache sind.
+
+### 8b. 👀 Slicing — nur zum Wiedererkennen
+
+```python
+werkzeuge[0:2]     # die ersten beiden
+werkzeuge[:3]      # von vorn bis Position 3 (ausschließlich)
+werkzeuge[2:]      # ab Position 2 bis zum Ende
+```
+
+Ein Doppelpunkt in den eckigen Klammern liefert einen **Ausschnitt** statt eines einzelnen Elements. Die obere Grenze ist ausgeschlossen — dasselbe Prinzip wie bei `range()` in Etappe 3a, und derselbe Grund, warum der erste Index 0 ist.
+
+**Du brauchst das heute nicht.** Aber es steht in fast jedem fremden Python-Programm, und dann soll es nicht rätselhaft sein. Ein Satz reicht: *Doppelpunkt heißt Ausschnitt.*
 
 ### 9. Zwei Namen, ein Objekt ⭐ — die Einlösung aus Etappe 1
 
@@ -683,6 +726,16 @@ Alle vier Reflexe folgen demselben Grundsatz, und er ist der eigentliche Ertrag 
 ---
 
 ## Abschluss
+
+**Zwei bis drei Invarianten aufschreiben — und mehr nicht.** Welche Aussagen müssen bei deinem Spiel nach jeder Runde **immer** stimmen? Zum Beispiel:
+
+- `len(gegner)` ist die Zahl der Gegner, die noch stehen — es gibt keine zweite Variable, die etwas anderes behauptet
+- Keine Gegnerposition liegt außerhalb der Bahn
+- Munition wird nie negativ
+
+Solche Sätze heißen **Invarianten**. Du prüfst heute nichts davon; das ist Etappe 26, und dort sind sie dann schon fertig formuliert. *(In Etappe 5 kommen die Invarianten deiner Sektorenkarte dazu.)*
+
+---
 
 **In `GELERNT.md`** — das Format aus dem Lehrplan, und diesmal gehören zwei Entscheidungen hinein:
 

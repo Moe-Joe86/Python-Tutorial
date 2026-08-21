@@ -120,7 +120,20 @@ while tassen > 0:
 print("Tresen leer.")
 ```
 
-**Die Struktur kennst du vom `if`** — Bedingung, Doppelpunkt, eingerückter Block. Ein Unterschied: `if` prüft einmal, `while` prüft **vor jedem Durchlauf erneut**.
+**Die Struktur kennst du vom `if`** — Bedingung, Doppelpunkt, eingerückter Block. Und genau das ist die Falle: Sie sehen fast gleich aus und tun etwas völlig Verschiedenes.
+
+```python
+if tassen > 0:
+    print("Noch Tassen da.")      # läuft höchstens einmal
+
+while tassen > 0:
+    print("Noch Tassen da.")      # läuft, bis die Bedingung falsch wird
+```
+
+> **`if`** — *wenn das gerade stimmt, mach es.* Einmal. Dann weiter.
+> **`while`** — *solange das stimmt, mach es immer wieder.*
+
+**Ein Wort Unterschied, zwei völlig verschiedene Programme.**
 
 Daraus folgt die wichtigste Eigenschaft: **Irgendetwas im Block muss die Bedingung irgendwann falsch machen.** Hier ist es `tassen -= 1`.
 
@@ -326,6 +339,19 @@ Du weißt aus Konzept 6, dass `break` nur die innere Schleife verlässt. Die äu
 
 **Wenn du hier hängst, hast du nichts falsch verstanden.** Das ist die erste Stelle in diesem Tutorial, an der du ein Problem lösen sollst, für das dir niemand das Verfahren gezeigt hat — nur die Bausteine. Nimm dir Zeit. Wenn es nach zwanzig Minuten nicht klappt, frag deinen Mentor nach einem *Hinweis*, nicht nach der Lösung.
 
+**Und wenn du fragst, frag in dieser Form — vier Zeilen:**
+
+```
+Was ich will:            Das Spiel soll enden, wenn die Kernintegrität 0 erreicht.
+Was passiert:            Die Welle endet, aber die nächste beginnt trotzdem.
+Was ich ausgeschlossen habe:  Die Bedingung stimmt — ich habe sie mit print geprüft.
+Was ich vermute:         Das break beendet nur die innere Schleife.
+```
+
+**Der Nutzen ist nicht, dass man dir besser helfen kann.** Es ist die dritte Zeile: Beim Schreiben merkst du oft, dass du noch gar nichts ausgeschlossen hast — und gehst es prüfen, statt zu fragen. Ein erschreckender Anteil aller Fehler löst sich beim Beschreiben.
+
+*(Das hat einen Namen: **Rubber-Duck-Debugging**. Man erklärt das Problem laut einer Gummiente. Klingt albern, funktioniert, weil Erklären dich zwingt, Lücken zu benennen, über die du beim Denken hinweggerutscht bist. In Etappe 8 wird daraus ein eigener Abschnitt.)*
+
 **7. Committen.**
 
 ```
@@ -392,7 +418,34 @@ Technisch ist das ein `if` — der Zähler wird nicht mehr bedingungslos erhöht
 
 *(In Etappe 12 kommt genau diese Frage wieder, dann unter anderem Namen: Welche Spieleraktion löst einen Tick aus? Deine heutige Antwort ist die erste Fassung davon.)*
 
-### 11. Der Rundenzähler — die Entscheidung aus Konzept 5
+### 11. 👀 Zwei Bauformen für Schleifen — welche hast du gebaut?
+
+**Erst weiterlesen, wenn die Knobelstelle aus 3a gelöst ist.** Hier bekommt das, was du dort selbst gefunden hast, seinen Namen.
+
+Es gibt zwei verbreitete Formen, eine Schleife zu beenden. Beide sind richtig, du solltest beide erkennen:
+
+```python
+# Variante A — mit einer Zustandsvariablen
+laeuft = True
+while laeuft:
+    befehl = input("> ")
+    if befehl == "beenden":
+        laeuft = False
+
+# Variante B — mit break
+while True:
+    befehl = input("> ")
+    if befehl == "beenden":
+        break
+```
+
+**A** liest sich selbsterklärend — die Bedingung oben sagt, worum es geht — und die Variable lässt sich von überall setzen, auch aus einer inneren Schleife heraus. **B** ist kürzer und macht den Ausstieg an genau einer Stelle sichtbar.
+
+**Welche hast du in 3a gebaut?** Wenn du für den Abbruch von innen nach außen eine Variable angelegt hast, war es A. Wenn du es anders gelöst hast, ist das auch in Ordnung — sag nur, wie.
+
+*(Für dieses Projekt passt A etwas besser, weil eine Zustandsvariable genau das Muster ist, das ab Etappe 12 dein ganzes Spiel trägt. Bau deswegen aber nichts um, was funktioniert.)*
+
+### 12. Der Rundenzähler — die Entscheidung aus Konzept 5
 
 Du brauchst einen Zähler für die Runden. Eine Zeile beim Anlegen, eine zum Hochzählen. Trivial — bis auf die Frage, die du aus Konzept 5 schon kennst: **wo legst du ihn an?**
 
@@ -442,7 +495,7 @@ Zum Prüfen: Ruf zehnmal hintereinander `status` auf. Die Rundenzahl muss dabei 
 
 **Entscheide außerdem bewusst, ob du `runde` innerhalb oder außerhalb der Wellenschleife anlegst.** Schreib beide Entscheidungen mit Begründung in `GELERNT.md`.
 
-**11. Probier die andere Variante aus.** Verschieb die Zeile `runde = 1` an die jeweils andere Stelle, spiel bis Welle 3 und lies den Rundenzähler ab. Vergleich mit deiner Vorhersage aus Konzept 11.
+**11. Probier die andere Variante aus.** Verschieb die Zeile `runde = 1` an die jeweils andere Stelle, spiel bis Welle 3 und lies den Rundenzähler ab. Vergleich mit deiner Vorhersage aus Konzept 12.
 
 Danach zurück auf die Variante, die du haben willst.
 
@@ -470,7 +523,7 @@ git commit -m "Etappe 3b: Befehle und Runden"
 
 ## Die Konzepte
 
-### 12. Kampf, absichtlich primitiv
+### 13. Kampf, absichtlich primitiv
 
 Ein Schuss trifft. Fester Schaden. Munition sinkt. Fertig.
 
@@ -486,7 +539,7 @@ Keine Trefferchance, keine Panzerung, keine kritischen Treffer. **Das ist kein P
 
 Was sich falsch anfühlt, wird **notiert statt geändert**. Die Liste ist deine Grundlage für Etappe 21a.
 
-### 13. Die Balken
+### 14. Die Balken
 
 Dein `status`-Befehl zeigt Zahlen. Ab heute zusätzlich einen Balken:
 
@@ -543,7 +596,7 @@ Der Doppelpunkt im f-String leitet eine Formatanweisung ein. `.0%` heißt: *als 
 
 👀 **Mehr Formatierung brauchst du heute nicht.** Es gibt viel davon (`:.2f`, `:>8`, `:,`), und du wirst sie in fremdem Code sehen. Ein Satz reicht: *nach dem Doppelpunkt steht, wie der Wert aussehen soll.*
 
-### 14. Warum der Balken kein Schmuck ist
+### 15. Warum der Balken kein Schmuck ist
 
 Ein Balken bei 110 Prozent läuft aus dem Rahmen. Ein Balken bei minus 20 sieht unmöglich aus.
 
@@ -595,7 +648,7 @@ Kein Absturz, keine Fehlermeldung — nur ein Spiel, das den Spieler fürs Hinse
 
 Arbeite in dieser Reihenfolge:
 
-1. **Zuerst in `uebung.py`**, mit festen Zahlen statt Variablen. Die drei Rechenschritte stehen als Fragen in Konzept 13.
+1. **Zuerst in `uebung.py`**, mit festen Zahlen statt Variablen. Die drei Rechenschritte stehen als Fragen in Konzept 14.
    *(Und beachte den Warnkasten dort: Die Rechnung gehört später **in** den `status`-Befehl, nicht an den Programmanfang.)*
 2. **Prüf ihn mit drei Werten:** voll, halb, leer. Sieht er bei allen dreien richtig aus?
 3. **Dann ins Spiel übernehmen**, in den `status`-Befehl. Zweimal: für Kernintegrität (Obergrenze 100) und Munition (Obergrenze 40).
@@ -603,7 +656,7 @@ Arbeite in dieser Reihenfolge:
 
 **20. Der Test, der zeigt, wofür der Balken da ist.** Setz `kern_integritaet = 150`, ruf `status` auf und sieh dir den Balken an. Dann dasselbe mit `-20`.
 
-Beides sind Werte, die dein Spiel nie erzeugen sollte. Wenn dein Balken sie auffällig falsch darstellt, hast du ab heute eine Anzeige, die dich warnt. **Reparier ihn nicht** — siehe Konzept 14.
+Beides sind Werte, die dein Spiel nie erzeugen sollte. Wenn dein Balken sie auffällig falsch darstellt, hast du ab heute eine Anzeige, die dich warnt. **Reparier ihn nicht** — siehe Konzept 15.
 
 **21. Räum auf, bevor du committest.**
 
@@ -738,7 +791,7 @@ Alle drei in `GELERNT.md`, mit einem Satz dazu: **woran du sie erkannt hättest.
 | `NameError: name 'runde' is not defined` | Variable erst in der Schleife angelegt, außerhalb gelesen | Konzept 5 |
 | `TypeError: can't multiply sequence by non-int of type 'float'` | `"#" * 7.0` — die Anzahl ist eine Kommazahl | Etappe 1, Abschnitt 8 |
 | Balken ist immer leer | Ganzzahldivision `//` statt `/` | Die Anteilsrechnung |
-| **Balken zeigt immer denselben Stand** | Die Länge wird einmal oben berechnet statt beim Anzeigen | Konzept 13, Warnkasten — die Rechnung gehört in `status` |
+| **Balken zeigt immer denselben Stand** | Die Länge wird einmal oben berechnet statt beim Anzeigen | Konzept 14, Warnkasten — die Rechnung gehört in `status` |
 | Kernintegrität sinkt auch bei `status` | Die Schadenszeile steht am Ende des Schleifenkörpers statt in den zeitkostenden Zweigen | Auftragsschritt 17 |
 | Prozentzahl zeigt `7000%` | `anteil` war schon mit 100 multipliziert | `:.0%` erwartet die Zahl zwischen 0 und 1 |
 | Munition wird negativ | Vor dem Feuern nicht geprüft | Die Bedingung aus Etappe 2 |

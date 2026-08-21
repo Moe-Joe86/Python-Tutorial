@@ -359,6 +359,24 @@ Zu fast jeder Design-Entscheidung im Plan gehört eine Gegenfrage. Sie steht in 
 
 ---
 
+## Vor jedem Umbau: drei Fragen — ab Etappe 4
+
+Dieser Plan lässt dich mehrfach etwas umbauen, das schon funktioniert: die Gegnerzahl wird eine Liste (4), die Munition wandert ins Dictionary (5), alles wandert in Funktionen (7a) und dann in Objekte (9). Jedes Mal fühlt es sich falsch an — da läuft etwas, und du reißt es auseinander.
+
+**Deshalb steht ab Etappe 4 vor jedem Umbau dasselbe kleine Ritual:**
+
+> **Was bleibt gleich? Was ändert sich nur in der Darstellung? Was ändert sich wirklich am Datenmodell?**
+
+Die dritte Zeile ist immer die kürzeste. Alles andere ist Beweislast — und dafür gibt es in jedem betroffenen Guide einen eigenen Auftragsschritt, der prüft, dass das Bestehende noch tut, was es tat.
+
+**Der Ertrag ist ein Reflex, der weit über dieses Projekt hinausreicht:**
+
+> **Umbauen heißt nicht „alles neu". Es heißt: eine Sache ändert sich, alles andere beweist, dass es noch funktioniert.**
+
+**Und die Migrationen selbst sind festgelegt, nicht dem Zufall überlassen** — welcher Wert ab wann wo lebt, steht in `BOGEN.md` in einer eigenen Tabelle. Das ist wichtiger, als es klingt: Ohne diese Festlegung entstehen zwei Wahrheiten über dieselbe Sache, und das ist die Fehlerquelle, die am längsten unentdeckt bleibt.
+
+---
+
 ## 🧠 Die Entwicklerfrage — ab Etappe 17
 
 Ab Block 3 gehört zu jeder Etappe eine Frage, die **kein Lernziel und keine Aufgabe** ist. Sie hat keine Musterlösung, und ich habe sie auch nicht. Sie ist die Sorte Frage, über die in echten Projekten in Besprechungen gestritten wird:
@@ -965,6 +983,15 @@ kann_a & kann_b      # was beide können
 
 Bei dir: Welche Fähigkeiten fehlen dir noch für eine bestimmte Freischaltung? Das ist eine Differenzmenge und keine Schleife.
 
+**Die Etappe endet mit einer Entscheidungshilfe** — vier Fragen in dieser Reihenfolge, und die Struktur steht fest:
+
+> **1. Schlage ich etwas unter einem Namen nach?** → Dictionary
+> **2. Sollen Duplikate unmöglich sein und die Reihenfolge egal?** → Set
+> **3. Soll sich das nach dem Anlegen nicht mehr ändern?** → Tuple
+> **4. Sonst** → Liste
+
+Damit werden auch die drei Fragen beantwortet, die Etappe 5 offen gelassen hat: *Ist es schon enthalten? Darf es doppelt vorkommen? Ist die Reihenfolge Teil der Bedeutung?*
+
 **Das `in`-Experiment — mach es wirklich:**
 
 ```python
@@ -1019,6 +1046,21 @@ Nichts Neues. Du zerlegst die unübersichtliche Datei: `zeige_status()`, `wechsl
 **Die Abkürzung, die du nicht nimmst:** `global`. Sie funktioniert, sie ist zwei Zeichen kürzer, und sie deckt genau das Problem zu, das Etappe 9 löst. Wenn du in Versuchung kommst, frag mich — ich erkläre dir, warum sie hier falsch ist.
 
 **Ein Standardargument nimmst du mit:** `def zeige_status(marine, ausfuehrlich=False)`. Damit erweiterst du eine Funktion, ohne einen einzigen bestehenden Aufruf anzufassen — das häufigste Muster für rückwärtskompatible Änderungen überhaupt.
+
+**Und der Umbau bekommt einen Beweis, keine Hoffnung.** Bevor irgendetwas angefasst wird: eine Befehlsfolge von fünfzehn bis zwanzig Zeilen aufschreiben, die das Spiel gründlich durchgeht — **gerade die Fälle, die schiefgehen, gehören dazu**. Einmal durchspielen, Ausgabe in eine Datei. Umbauen. Dieselbe Folge nochmal, Ausgaben vergleichen.
+
+```bash
+python spiel.py < befehle.txt > vorher.txt
+# ... umbauen ...
+python spiel.py < befehle.txt > nachher.txt
+diff vorher.txt nachher.txt
+```
+
+Das heißt **Charakterisierungstest**: Man friert das aktuelle Verhalten ein, um es beim Umbau nicht zu verlieren. Es ist gängige Praxis und der direkte Vorläufer von Etappe 26 — dort wird dasselbe zu `pytest`, nur automatisch.
+
+**Dazu die Regel, die Refactoring erträglich macht:** in kleinen Schritten. Eine Funktion herauslösen, ausführen, prüfen. Nicht fünf auf einmal — sonst suchst du hinterher.
+
+⚠️ **Und eine Gegenwarnung, damit die Etappe nicht ins Gegenteil kippt:** *Mehr Funktionen sind nicht besser.* Eine Funktion, die einmal aufgerufen wird und drei Zeilen hat, macht den Code nicht klarer, sondern verteilt ihn. Die Prüffrage lautet nicht „kann man das auslagern?", sondern **„hat dieses Stück einen Namen, den ich aussprechen kann?"**
 
 **Commit dazwischen:** `Etappe 7a: Refactoring in Funktionen`
 
@@ -1092,6 +1134,10 @@ Erst wenn die Werkzeuge sitzen, kommt die Jagd: Der Mentor gibt manipulierten Co
 **Transferaufgabe (10–15 Min):** Ein fremdes Programm mit einem Typ-3-Fehler — eine Funktion verändert die übergebene Liste, obwohl ihr Docstring das nicht ankündigt. Mit dem Debugger finden, erklären, reparieren. Verbindet mutable Objekte aus Etappe 4 mit „Abhängigkeiten sichtbar machen" aus Etappe 7.
 
 **Kaputtmachen:** Acht Trainingsbugs, selbst eingebaut — einer je Fehlertyp, dazu der fast richtige Vergleich (`>=` statt `>` beim Wellenende), das vergessene `return` in `berechne_schaden()`, der Fehler in den *Daten* statt im Code (ein Nachbar-Sektor, den es nicht gibt), und zwei Fehler gleichzeitig.
+
+**Die Fehlertypen bekommen hier ihre zweite Benennung.** Neben den Typen 1/2/3 dieses Plans (die sagen, *wann* ein Fehler auffällt) stehen die klassischen Begriffe, die überall sonst benutzt werden und sagen, *was* schiefgeht: **Syntaxfehler** (Python kann den Code nicht lesen), **Laufzeitfehler** (stößt beim Ausführen auf etwas Unmögliches), **logischer Fehler** (läuft, Ergebnis falsch). Ein Syntaxfehler ist immer Typ 1, ein logischer Fehler immer Typ 3, ein Laufzeitfehler kann beides sein. Beide Einteilungen werden gebraucht: die klassische, um fremde Erklärungen zu lesen, die eigene, um die Gefährlichkeit einzuschätzen.
+
+**Und ein eigener Abschnitt: den Fehler beschreiben.** Vier Zeilen — *was ich wollte · was passiert · was ich ausgeschlossen habe · was ich vermute*. Der Nutzen liegt in der dritten: Beim Schreiben merkt man, dass man noch nichts ausgeschlossen hat, und prüft es, statt zu fragen. Der Name dafür ist **Rubber-Duck-Debugging**; ein erschreckender Anteil aller Fehler löst sich während der Beschreibung. In Etappe 3 wird die Form schon einmal kurz vorgestellt.
 
 **Commit:** `Etappe 8: Bug-Jagd bestanden`
 

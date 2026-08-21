@@ -55,6 +55,27 @@ Ein sichtbar blockierter Weg ist ein Versprechen an den Spieler — er weiß, da
 
 Technisch hängt daran, ob das Freiräumen in Etappe 13 eine Zeile ist oder ein Umbau. **Ich sage dir nicht, welche Variante du nehmen sollst** — aber schreib auf, welche du genommen hast, denn in Etappe 13 schlagen wir hier nach.
 
+**Meine Empfehlung für heute: Lass den Weg fehlen.** Die Landeplattform bleibt außerhalb des erreichbaren Kartenteils, und der Spieler erfährt von ihr durch die Beschreibung des Osttors, nicht durch einen Ausgang. Das ist die kleinere Aufgabe, und du hast heute genug vor.
+
+**Wenn du die markierte Variante trotzdem willst** — sie ist erzählerisch die bessere —, dann bau sie so und nicht anders:
+
+Ein Eintrag `"osten": "landeplattform"` sagt nur, *wohin* es geht, nicht dass es nicht geht. Die Blockade braucht also einen eigenen Platz. **Nimm dafür ein zweites, flaches Dictionary im Sektor** — Richtung → Grund:
+
+```
+"nachbarn":  {"osten": "landeplattform"}
+"blockiert": {"osten": "Der Osttunnel ist verschüttet."}
+```
+
+Zwei Tabellen, jede beantwortet eine Frage. Deine Bewegung hat dann drei Fälle statt zwei:
+
+```
+Richtung gibt es nicht      →  „Da ist keine Tür."
+Richtung gibt es, blockiert →  der Grund aus der zweiten Tabelle
+Richtung gibt es, frei      →  gehen
+```
+
+**Bau den Nachbarwert nicht selbst zu einem Dictionary aus.** Das wäre eine dritte Verschachtelungsebene, und die brauchst du heute nirgends. Zwei flache Tabellen nebeneinander sind hier die einfachere Lösung — und in Etappe 22 siehst du, wann es sich lohnt, sie zu einer zusammenzuziehen.
+
 ### Entscheidung 2 — Hat das Depot einen Bestand?
 
 Bisher ist das Depot ein Katalog: Ware → Preis. Du kannst unendlich oft dasselbe kaufen.
@@ -83,6 +104,30 @@ dir({})              # alles, was ein Dictionary kann
 help({}.get)         # was eine bestimmte Methode tut
 ```
 
+### 0. Drei Wörter, die heute nicht durcheinandergeraten dürfen
+
+Du baust heute drei Sammlungen, die alle mit Gegenständen zu tun haben. Wenn du sie verwechselst, verwechselst du sie den Rest des Projekts:
+
+| Wort | Was es ist | Wem es gehört | Struktur |
+|---|---|---|---|
+| **Depot** (`waren`) | Der Katalog: was man kaufen *kann*, und was es kostet | dem Vorposten | Dictionary Ware → Preis |
+| **Vorrat** (`vorrat`) | Gezählte Ressourcen: Schrott, Munition | dem Spieler | Dictionary Name → Anzahl |
+| **Inventar** (`inventar`) | Einzelne Gegenstände, die man trägt | dem Spieler | Liste (aus Etappe 4) |
+
+**Das Depot hat keinen Bestand** — es ist eine Preisliste, kein Lager. Wenn später von „Bestand" die Rede ist, ist immer der Vorrat des Spielers gemeint.
+
+⚠️ **Und eine Entscheidung, die heute fällt und die du sauber durchziehen musst:**
+
+> **Ab heute ist Schrott kein Inventargegenstand mehr. Er ist eine Ressource.**
+
+In Etappe 4 lag Schrott in deiner `inventar`-Liste, weil du nichts Besseres hattest — und zweimal `"schrott"` untereinander war der Grund, warum diese Etappe existiert. Ab heute wird er **gezählt** statt gelegt: Aufsammeln erhöht `vorrat["schrott"]`, und in der Inventarliste taucht er nicht mehr auf.
+
+**Prüf das ausdrücklich, wenn du Schritt 9 gebaut hast.** Wenn Schrott gleichzeitig in `inventar` und in `vorrat` steht, hast du ihn zweimal — und irgendwann verkaufst oder verbrauchst du eines von beidem, und der Rest bleibt stehen. Das ist keine Kleinigkeit, sondern zwei Wahrheiten über dieselbe Sache.
+
+Dieselbe Frage stellt sich für Munition. Für Medkit und Panzerplatte nicht — die bleiben Einzelstücke.
+
+Diese drei Wörter benutzt der Guide ab hier konsequent. Benutz sie in deinem Code genauso.
+
 ### 1. Schlüssel und Wert
 
 ```python
@@ -98,9 +143,11 @@ Links vom Doppelpunkt der **Schlüssel**, rechts der **Wert**. Geschweifte Klamm
 |---|---|---|
 | Zugriff über | Position (`werkzeuge[0]`) | Name (`farben["rot"]`) |
 | Die Frage | „Was ist das dritte?" | „Was gehört zu *rot*?" |
-| Reihenfolge | trägt Bedeutung | trägt keine |
+| Reihenfolge | **ist** der Zugriffsweg | ist **nicht** der Zugriffsweg |
 
 Eine Liste ist eine Reihe. Ein Dictionary ist ein Nachschlagewerk. Und Nachschlagewerke schlägt man nicht der Reihe nach auf.
+
+*(Genauer, weil es sonst später irritiert: Ein Dictionary **merkt** sich seit Python 3.7 durchaus, in welcher Reihenfolge du Einträge angelegt hast — beim Durchlaufen kommen sie so heraus. Nur **adressieren** kannst du darüber nichts. `waren[0]` gibt es nicht.)*
 
 Ein leeres Dictionary ist `{}`. Genau wie die leere Liste ist es falsy — die Regel aus Etappe 2 gilt weiter.
 
@@ -191,17 +238,31 @@ for name, daten in gewuerze.items():         # Schlüssel und Wert
 
 👀 **`.keys()` und `.values()`** liefern dasselbe einzeln. Du brauchst sie selten (`for name in gewuerze` tut schon dasselbe wie `.keys()`), aber du wirst sie in fremdem Code sehen. Ein Satz reicht.
 
-⚠️ **Und dieselbe Falle wie bei Listen:** Ein Dictionary nicht verändern, während man darüber läuft. Bei einem Dictionary ist Python sogar strenger als bei einer Liste — es stürzt mit `RuntimeError: dictionary changed size during iteration` ab, statt still das Falsche zu tun. Das ist ein Geschenk.
+⚠️ **Und die Falle von Etappe 4, präziser gefasst:** Verändere während einer Schleife nicht die **Größe** des Dictionaries — also keine Einträge anlegen oder löschen.
 
-### 7. Schlüssel müssen unveränderlich sein 👀
+Die **Werte** zu ändern ist dagegen erlaubt:
+
+```python
+for name in gewuerze:
+    gewuerze[name]["menge_g"] += 10      # in Ordnung
+    del gewuerze[name]                    # nicht in Ordnung
+```
+
+Bei einem Dictionary ist Python dabei strenger als bei einer Liste: Es bricht mit `RuntimeError: dictionary changed size during iteration` ab. Eine Liste lässt dich gewähren und liefert danach ein falsches Ergebnis.
+
+**Der Abbruch ist ein Geschenk**, auch wenn er sich nicht so anfühlt — du vergleichst beides im Kaputtmach-Teil.
+
+### 7. Nicht alles darf Schlüssel sein 👀
 
 ```python
 d = {["a", "b"]: 1}      # TypeError: unhashable type: 'list'
 ```
 
-Eine Liste kann kein Schlüssel sein. Ein String, eine Zahl oder ein Tuple schon.
+**Die Regel für heute:** Strings, Zahlen und Tuples funktionieren als Schlüssel. Listen nicht.
 
-**Der Grund in einem Satz:** Python merkt sich, *wo* ein Schlüssel abgelegt wurde — und das kann es nur, wenn der Schlüssel sich danach nicht mehr ändert. Das hängt direkt an *mutable* und *immutable* aus Etappe 4.
+Der Fachbegriff steht in der Fehlermeldung: ein Schlüssel muss **hashbar** sein. Das hängt eng mit *mutable* und *immutable* aus Etappe 4 zusammen — was sich ändern kann, taugt schlecht als Adresse. Ganz deckungsgleich sind die beiden Begriffe aber nicht, und für heute musst du den Unterschied nicht kennen.
+
+*(Eine Feinheit, falls du sie ausprobierst: Ein Tuple funktioniert nur, solange **alles darin** ebenfalls hashbar ist. `(1, 2)` geht, `([1, 2], 3)` nicht.)*
 
 Mehr brauchst du heute nicht. In Etappe 6 wird daraus die Frage, warum ein Set keine Listen aufnimmt, und in Etappe 14a ist es der Grund, warum Koordinaten Tuples sind.
 
@@ -225,7 +286,17 @@ Das funktioniert. Und jede neue Ware ist ein neuer Zweig — also eine Änderung
 
 Mit einem Dictionary schlägst du den Preis nach, statt ihn abzufragen. Die Kauflogik enthält danach **kein einziges Warenwort mehr**. Sie kennt nur noch: den Namen, den der Spieler getippt hat, und die Tabelle, in der sie nachschlägt.
 
-> **Eine neue Ware ist dann eine Zeile in den Daten und keine Zeile im Code.**
+> **Eine neue Ware ist dann eine Änderung an den Daten und keine Änderung an der Logik.**
+
+*(Nicht „eine Zeile" — in Etappe 22 hat eine Ware Kosten, Bauzeit und Voraussetzungen, dann sind es mehrere. Der Satz bleibt trotzdem wahr, und darauf kommt es an.)*
+
+⭐ **Und jetzt die Einschränkung, die wichtiger ist als der Satz selbst.** Sie gilt nur unter einer Bedingung:
+
+> **Eine neue Ware kommt nur dann ohne Logikänderung aus, wenn *alles*, was die Logik über sie wissen muss, in den Daten steht.**
+
+Sobald deine Kauflogik etwas braucht, das nirgends hinterlegt ist — ob eine Ware stapelbar ist, zum Beispiel —, fällt sie auf eine Fallunterscheidung zurück, und der Vorteil ist weg.
+
+**Das ist der Grund, warum in Auftragsschritt 10 die Stapelbarkeit *vor* dem Kauf hinterlegt wird.** Und es ist die Frage, die dich bis Etappe 25 begleitet: Nicht *„sind meine Daten in einem Dictionary?"*, sondern **„steht dort alles, was mein Code fragen wird?"**
 
 Probier es aus, sobald dein Kauf läuft: Füge eine vierte Ware hinzu, ohne die Kauffunktion anzufassen. Wenn das klappt, hast du heute das Prinzip verstanden, um das es in Etappe 22 und 25 vollständig geht — und du hast es nicht gelesen, sondern gebaut.
 
@@ -268,7 +339,9 @@ vorrat = {"mehl_kg": 3, "eier": 12, "zucker_kg": 1}
 vorrat["eier"] -= 2
 ```
 
-Zwölf Eier sind ein Eintrag, nicht zwölf. Und der entscheidende Vorteil ist derselbe wie in Konzept 8: Der Code, der etwas hinzufügt, muss nicht wissen, **was** er hinzufügt.
+Zwölf Eier sind ein Eintrag, nicht zwölf. Und der entscheidende Vorteil ist derselbe wie in Konzept 8: **Der Code, der etwas hinzufügt, muss den konkreten Namen nicht kennen.**
+
+*(Die Struktur kennt er sehr wohl — er weiß, dass es ein Dictionary aus Namen und Anzahlen ist. Das ist der Unterschied zwischen „datengetrieben" und „weiß von nichts", und er ist wichtig: Datengetrieben heißt nicht ahnungslos, sondern **nicht auf einzelne Werte festgelegt**.)*
 
 **Und damit trennt sich dein Inventar in zwei Hälften** — genau entlang der Frage aus Etappe 4:
 
@@ -290,9 +363,35 @@ Eine Zuweisung, und die Daten sind andere. Kein Neuanlegen, kein Kopieren.
 
 Das klingt banal und ist der Grund, warum eine Sektorenkarte etwas anderes ist als ein Text. Ein Sektor, dessen Integrität von 100 auf 60 fällt, ist derselbe Sektor mit einem anderen Wert. In Etappe 13 räumst du damit den Osttunnel frei — **eine Zeile**, wenn du in Entscheidung 1 den markierten Weg gewählt hast.
 
-⚠️ **Und die Kehrseite:** Was sich zur Laufzeit ändert, muss in Etappe 19 gespeichert werden. Was sich nie ändert, nicht. Behalt beim Bauen im Hinterkopf, welche deiner Werte zur ersten und welche zur zweiten Sorte gehören — du musst heute nichts tun, aber in Etappe 19 wirst du gefragt.
+⚠️ **Und die Kehrseite:** In Etappe 19 wird gespeichert — und dann gilt die Frage:
 
-### 12. Wenn ein Nachbar ins Leere zeigt
+> **Was sich zur Laufzeit ändert *und nach dem Laden noch so sein soll*, muss in den Spielstand.**
+
+Der zweite Halbsatz ist wichtig. Deine Eingabe ändert sich ständig und gehört nirgendwohin. Der Schaden einer einzelnen Attacke auch nicht. Aber die Integrität eines Sektors schon — sonst ist der Vorposten nach dem Laden wieder heil.
+
+Du musst heute nichts tun. Behalt nur im Hinterkopf, welche deiner Werte zu welcher Sorte gehören.
+
+### 12. Richtung, Ziel und Standort sind drei Dinge ⭐
+
+Der Spieler tippt `gehe osten`. Was danach in deinem Programm passiert, sind drei Schritte — und drei verschiedene Werte:
+
+```
+"osten"          ← die Richtung. Was der Spieler getippt hat.
+"landeplattform" ← das Ziel. Steht als Wert in nachbarn.
+sektoren[...]    ← der Sektor selbst. Das Dictionary dahinter.
+```
+
+**`"osten"` ist kein Sektorname.** Das klingt banal, und trotzdem entsteht daraus ein Fehler, den fast jeder einmal baut:
+
+```python
+aktueller_sektor = "osten"      # ← die Himmelsrichtung als Standort
+```
+
+Danach schlägt `sektoren["osten"]` fehl — und der `KeyError` erscheint an einer ganz anderen Stelle als die Zeile, die ihn verursacht hat.
+
+**Der Reflex dazu:** Wenn du einen Wert weiterreichst, frag dich, *welche der drei Sorten* er ist. Diese Unterscheidung — Adresse, Inhalt, und der Weg dazwischen — begegnet dir in Etappe 14a als Koordinate gegen Feldinhalt wieder und in Etappe 9, wenn ein Objekt seinen eigenen Standort kennt.
+
+### 13. Wenn ein Nachbar ins Leere zeigt
 
 Deine Sektoren verweisen aufeinander: `nordtor` hat einen Nachbarn `kern`, `kern` hat einen Nachbarn `depot`.
 
@@ -302,9 +401,17 @@ Der Spieler geht nach Süden. Dein Code schlägt `sektoren["kern"]` nach. `KeyEr
 
 **Das ist eine eigene Fehlerklasse, und sie hat einen Namen:** *inkonsistente Daten*. Der Code ist richtig. Die Daten widersprechen sich. Kein Test der Kauflogik und kein Blick auf die Bewegungslogik findet das je.
 
-Heute reicht es, sie einmal erzeugt zu haben — im Kaputtmach-Teil tust du das absichtlich. In Etappe 25 wird daraus ein eigenes Thema, weil Content aus einer Datei genau diese Fehler produziert, und in Etappe 26 schreibst du einen Test, der die Karte auf sich selbst prüft.
+**Es gibt davon zwei Sorten, und die eine ist deutlich unangenehmer als die andere.** Welche das ist und woran man es merkt, findest du im Kaputtmach-Teil selbst heraus — Experiment 5. Lies hier nicht weiter nach; der Unterschied ist in zwei Minuten erlebt und in zwei Sätzen nicht zu ersetzen.
 
-### 13. Die Darstellung: ein Grundriss mit Markierung
+**Was du dagegen jetzt schon mitnehmen sollst, ist eine Frage, die du dir heute zum ersten Mal stellen sollst:**
+
+> **Welche Bedingungen müssen bei meinen Sektordaten *immer* stimmen?**
+
+Zum Beispiel: Jeder Sektor hat eine Beschreibung. Jeder hat eine Integrität. Jeder Nachbarname existiert auch wirklich als Sektor. Solche Sätze heißen **Invarianten**, und sie sind der Unterschied zwischen „Python akzeptiert meine Daten" und „meine Daten ergeben Sinn".
+
+**Schreib deine drei bis vier Invarianten in `GELERNT.md` — mehr nicht.** Du baust heute keinen Prüfer dafür. Aber in Etappe 25 kommt Content aus einer Datei, die du nicht selbst getippt hast, und in Etappe 26 schreibst du einen Test, der genau diese Sätze prüft. Dann holst du die Liste wieder hervor.
+
+### 14. Die Darstellung: ein Grundriss mit Markierung
 
 Zehn Minuten, ganz am Schluss.
 
@@ -339,7 +446,7 @@ Jeder Sektor bekommt drei Eigenschaften: `"beschreibung"` (ein bis zwei Sätze i
 
 `"nachbarn"` ist selbst ein Dictionary: **Richtung → Sektorname**, etwa `{"sueden": "kern", "osten": "osttor"}`. Damit hast du zwei Verschachtelungsebenen — sieh dir an, wie sich das im Editor liest, und rück ordentlich ein.
 
-Verbind die Sektoren so, dass man von jedem aus jeden erreichen kann. **Außer der Landeplattform** — die bleibt abgeschnitten, nach deiner Entscheidung 1.
+Verbind die **erreichbaren** Sektoren so, dass man von jedem aus jeden erreichen kann. Die Landeplattform behandelst du nach deiner Entscheidung 1 — sie ist entweder gar nicht angebunden oder angebunden und blockiert.
 
 **Zum Prüfen:** Gib `sektoren["nordtor"]["nachbarn"]` aus. Es muss ein Dictionary erscheinen, kein Text.
 
@@ -365,7 +472,7 @@ Er soll drei Fälle sauber behandeln:
 
 Das `.split()` aus Etappe 4 trägt das schon — du erweiterst nur deine Befehlskette.
 
-**Zum Prüfen:** Lauf einmal durch alle sechs Sektoren und wieder zurück. Wenn du irgendwo steckenbleibst, sind deine `nachbarn` nicht in beide Richtungen eingetragen.
+**Zum Prüfen:** Lauf einmal durch alle erreichbaren Sektoren und wieder zurück. Wenn du irgendwo steckenbleibst, sind deine `nachbarn` nicht in beide Richtungen eingetragen.
 
 **5. Bau den versiegelten Weg** nach deiner Entscheidung 1. Ruf am Osttor `umsehen` auf und geh dann Richtung Landeplattform. Der Spieler muss verstehen, *warum* es nicht geht — „unbekannte Richtung" reicht nicht, wenn du den markierten Weg gewählt hast.
 
@@ -376,6 +483,10 @@ waren: medkit → 40, munition → 15, panzerplatte → 90
 ```
 
 Preise in Schrott. Bau den Befehl `depot`, der alle Waren mit Preisen auflistet — mit einer Schleife über das Dictionary, nicht mit drei `print`-Zeilen. **Wenn du eine vierte Ware einträgst, muss sie ohne weitere Arbeit in der Liste erscheinen.**
+
+**Zum Nachdenken, bevor du weitergehst:** Öffne `inventar` und `waren` nebeneinander im Editor. Beides sind Sammlungen von Gegenständen, und trotzdem ist das eine eine Liste und das andere ein Dictionary.
+
+Frag dich: **Was wäre unsinnig daran, das Inventar wie `waren` aufzubauen?** Und umgekehrt — was ginge verloren, wenn `waren` eine Liste wäre? Ein, zwei Sätze in `GELERNT.md`. Die vollständige Antwort gibt Etappe 6.
 
 **7. Prüf deine Kennungen gegen Etappe 4.** Ruf `depot` auf, dann `inventar`. Vergleich die Schreibweisen: Steht ein Medkit in beiden Listen unter demselben Wort?
 
@@ -401,49 +512,84 @@ Pass alle Stellen an, die bisher `schrott` oder `ammo` direkt benutzt haben — 
 
 **Zum Prüfen:** Feuern muss weiterhin Munition senken, und der Balken aus Etappe 3c muss weiterhin stimmen.
 
-> **⏸ Hier ist der Schnitt.** Nach Schritt 9 hast du eine begehbare Karte und ein sichtbares Depot. Das ist ein guter Abend und ein eigener Commit (`Etappe 5: Sektorenkarte und Depot`). Die Schritte 10 bis 16 sind der zweite.
+> **⏸ Hier ist der Schnitt.** Nach Schritt 9 hast du eine begehbare Karte und ein sichtbares Depot. Das ist ein guter Abend und ein eigener Commit (`Etappe 5: Sektorenkarte und Depot`). Die Schritte 10 bis 17 sind der zweite.
 
-**10. Bau `kaufe <ware>`.**
+**10. Hinterleg, welche Waren stapelbar sind.**
 
-Drei Bedingungen, alle drei mit eigener Meldung:
+Munition ist stapelbar — vierzig Schuss sind ein Eintrag im `vorrat`. Ein Medkit ist ein Einzelstück und gehört in die `inventar`-Liste aus Etappe 4.
 
-1. Gibt es die Ware überhaupt? *(Hier gehört `.get()` oder `in` hin — der Spieler tippt, also ist Fehlen der Normalfall.)*
-2. Reicht der Schrott?
-3. Ist Platz im Inventar? *(Die Obergrenze von zehn aus Etappe 4 gilt weiter — aber nur für Einzelstücke.)*
+**Dein Code muss diese Unterscheidung aus den Daten lesen können, nicht aus einer `if`-Kette.** Sonst hast du in Schritt 11 wieder Warennamen in der Logik — und die Erkenntnis aus Konzept 8 fällt in sich zusammen.
 
-Erst wenn alle drei stimmen, wird abgebucht und eingebucht. **Denk an Konzept 10 aus Etappe 4: erst prüfen, dann anfassen.** Sonst zahlt der Spieler für ein volles Inventar.
+**Bau dafür ein zweites, flaches Dictionary neben `waren`:**
 
-**Und die eigentliche Anforderung:** In deiner Kauflogik darf **kein Warenname vorkommen**. Kein `if ware == "medkit"`. Der Preis wird nachgeschlagen.
+```
+stapelbar: medkit → False, munition → True, panzerplatte → False
+```
 
-**Zum Prüfen — das ist der Selbsttest dieser Etappe:** Trag eine vierte Ware in `waren` ein, zum Beispiel `"reparaturkit"` für 60. Sie muss kaufbar sein, ohne dass du eine einzige Zeile Logik anfasst. Wenn das nicht klappt, steckt irgendwo noch ein Warenname im Code.
+Zwei parallele Tabellen mit denselben Schlüsseln. Das sieht nach Doppelung aus, und ein bisschen ist es das auch — in Etappe 22 werden daraus Waren mit mehreren Eigenschaften in **einer** verschachtelten Tabelle. Heute wäre das eine Ebene zu viel; zwei flache Tabellen sind leichter zu lesen und zu tippen.
 
-**11. Entscheide, wohin die Ware wandert.**
+⚠️ **Der Preis dieser Bauweise, und du sollst ihn kennen:** Eine neue Ware braucht ab jetzt **zwei** Einträge. Vergisst du den zweiten, ist das genau der inkonsistente Datenfehler aus Konzept 13 — nur diesmal in deinen Warendaten statt in der Karte.
 
-Stapelbares (Munition) erhöht den `vorrat`. Einzelstücke (Medkit, Panzerplatte) kommen in die `inventar`-Liste aus Etappe 4.
+*(Was du **nicht** tun solltest: die Stapelbarkeit daran ablesen, ob der Name schon im `vorrat` steht. Das sähe aus, als würde es funktionieren, und beantwortet in Wirklichkeit eine andere Frage — nämlich ob der Spieler die Ressource gerade besitzt. Zwei Sachen, die zufällig oft zusammenfallen, sind nicht dieselbe Sache.)*
 
-Woran dein Code das unterscheidet, ist deine Entscheidung. Ein zusätzlicher Eintrag in den Warendaten wäre ein Weg — dann bleibt die Kauflogik weiterhin ohne Warennamen. Schreib in `GELERNT.md`, wie du es gelöst hast.
+**11. Bau `kaufe <ware>`.**
 
-**12. Frag beim Kauf nach der Menge.**
+**Schreib den Ablauf erst auf Papier, bevor du tippst.** Vier Prüfungen, dann zwei Änderungen — und die Reihenfolge ist der Punkt:
 
-Bei stapelbaren Waren fragst du nach: *„Wie viele?"*. Die Antwort kommt als Text aus `input()` — **hier fällt die Schuld aus Etappe 1 an.** Der Dreisatz: Text rein, `int()` drauf, dann rechnen.
+```
+Gibt es die Ware?          →  nein: Meldung, Ende
+Reicht der Schrott?        →  nein: Meldung, Ende
+Ist Platz im Inventar?     →  nein: Meldung, Ende
+                              (nur bei Einzelstücken)
+── ab hier wird verändert ──
+Schrott abbuchen
+Ware einbuchen
+```
 
-Multiplizier den Preis mit der Menge, bevor du prüfst, ob der Schrott reicht.
+> **Ein Kauf darf erst dann etwas verändern, wenn alle Prüfungen bestanden sind.**
 
-**Zum Prüfen:** Tippe `drei` statt `3`. Es stürzt ab — das ist heute in Ordnung und wird in Etappe 20 abgefangen. Notier den Fehlernamen in `GELERNT.md`.
+Das ist derselbe Gedanke wie beim Umzug zwischen zwei Listen in Etappe 4 — nur dass es diesmal um Geld geht. Wer mitten in der Prüfung schon abbucht, hat einen Spieler, der für ein volles Inventar bezahlt hat. Merk dir den Satz; er ist der Kern von Etappe 20 und der Grund, warum es in Datenbanken Transaktionen gibt.
 
-**13. Verknüpf Schrott mit dem Kampf.** Gefallene Gegner hinterlassen Schrott. Wenn du in Etappe 4 eine Beuteliste gebaut hast, erhöht das Aufsammeln jetzt den `vorrat`.
+Jede Prüfung bekommt eine eigene Meldung. *„Kauf nicht möglich"* sagt dem Spieler nichts — die Erkenntnis aus Etappe 2, dass eine verknüpfte Bedingung ihr Scheitern nicht begründet, gilt hier genauso.
+
+**Und die eigentliche Anforderung:** In deiner Kauflogik darf **kein Warenname vorkommen**. Kein `if ware == "medkit"`. Preis und Stapelbarkeit werden nachgeschlagen.
+
+**12. Frag bei stapelbaren Waren nach der Menge.**
+
+*„Wie viele?"* — nur bei Stapelware, ein Einzelstück kauft man einzeln. Die Antwort kommt als Text aus `input()`; **hier fällt die Schuld aus Etappe 1 an.** Der Dreisatz: Text rein, `int()` drauf, dann rechnen.
+
+Multiplizier den Preis mit der Menge, **bevor** du prüfst, ob der Schrott reicht — sonst prüfst du gegen den Einzelpreis und buchst den Gesamtpreis ab.
+
+**Zum Prüfen:** Tippe `drei` statt `3`. Es stürzt ab — das ist heute in Ordnung und wird in Etappe 20 abgefangen. Notier den Fehlernamen in `GELERNT.md`. Tippe dann `0` und `-5`. Was passiert?
+
+**13. ⭐ Der Architekturtest — nur Daten anfassen, keine Logik.**
+
+Das ist die Prüfung, um die diese ganze Etappe gebaut ist. Vier Änderungen, und **keine einzige Zeile Logik darf dabei angefasst werden**:
+
+| Änderung | Was passieren muss |
+|---|---|
+| **Ware hinzufügen** — `"reparaturkit"`, Preis 60, mit allen Daten, die dein Code braucht | Erscheint im Depot, ist kaufbar, landet an der richtigen Stelle |
+| **Ware löschen** — nimm `"panzerplatte"` heraus | Verschwindet aus dem Depot, `kaufe panzerplatte` meldet sauber, dass es sie nicht gibt, nichts stürzt ab |
+| **Preis ändern** — Medkit auf 25 | Depot zeigt 25, Kauf bucht 25 ab |
+| **Ausgang entfernen** — lösch eine Richtung aus einem Sektor | `umsehen` zeigt sie nicht mehr, `gehe` dorthin meldet, welche Richtungen es gibt |
+
+**Das Löschen ist die schärfere Hälfte.** Hinzufügen kann auch klappen, wenn irgendwo noch ein fest verdrahteter Warenname steht — der stört ja nicht. Beim Löschen fällt er auf: Wenn `panzerplatte` verschwunden ist und dein Depot sie trotzdem anzeigt oder dein Kauf abstürzt, steckt sie im Code.
+
+Danach alles zurücksetzen. Der Test ist nicht der Zustand, sondern der Beweis.
+
+**14. Verknüpf Schrott mit dem Kampf.** Gefallene Gegner hinterlassen Schrott. Wenn du in Etappe 4 eine Beuteliste gebaut hast, erhöht das Aufsammeln jetzt den `vorrat`.
 
 Damit läuft zum ersten Mal ein Kreislauf: Gegner fallen → Schrott → Munition → Gegner fallen.
 
-**14. Der Rückwärtsgang.** Spiel drei volle Wellen. Feuern, nachladen, Status, Balken, Wellenende, Gegner auf der Bahn — funktioniert alles noch genau wie nach Etappe 4? Der `vorrat`-Umbau aus Schritt 9 hat viele Stellen angefasst.
+**15. Der Rückwärtsgang.** Spiel drei volle Wellen. Feuern, nachladen, Status, Balken, Wellenende, Gegner auf der Bahn — funktioniert alles noch genau wie nach Etappe 4? Der `vorrat`-Umbau aus Schritt 9 hat viele Stellen angefasst.
 
-**15. Der Grundriss — zehn Minuten, Wecker stellen.**
+**16. Der Grundriss — zehn Minuten, Wecker stellen.**
 
 Zeichne einen groben ASCII-Grundriss von Hand, wie den Kopf aus Etappe 1. Markier darin den aktuellen Sektor. Der Grundriss ist statisch; **nur die Markierung kommt aus `aktueller_sektor`.**
 
 Wenn du nach zehn Minuten etwas hast, in dem man sechs Räume erkennt, ist der Schritt erledigt.
 
-**16. Committen.**
+**17. Committen.**
 
 ```
 git add .
@@ -462,7 +608,7 @@ git push
 - ❌ **Die Karte aus einer JSON-Datei laden** → Etappe 25
 - ❌ **Gegner, die in einzelnen Sektoren stehen** → Etappe 14a
 - ❌ **Sektoren, die einzeln fallen können** → Etappe 17b
-- ❌ **Den Grundriss aus den Daten erzeugen** → gar nicht, siehe Konzept 13
+- ❌ **Den Grundriss aus den Daten erzeugen** → gar nicht, siehe Konzept 14
 - ❌ **Verkaufen** → wenn du willst, aber es bringt heute nichts Neues
 - ❌ **Balancing** (Preise, Schrott pro Gegner) → notieren, Etappe 21a
 
@@ -486,14 +632,19 @@ Prüft den Zustand deines Programms, nicht dein Gefühl. Führ jeden Punkt tats�
 - [ ] `gehe norden` an einer Stelle ohne Norden meldet, welche Richtungen es gibt
 - [ ] `gehe` ohne zweites Wort stürzt nicht ab
 - [ ] Die Landeplattform ist nicht erreichbar, und der Spieler erfährt, warum
+- [ ] *(Bei Variante „markiert")* Eine blockierte Richtung meldet etwas anderes als eine Richtung, die es gar nicht gibt
 - [ ] `depot` außerhalb des Depots meldet, wo das Depot ist
-- [ ] ⭐ **Eine vierte Ware ins `waren`-Dictionary eintragen, mehr nicht — sie erscheint in der Liste und ist kaufbar.** Wenn du dafür Code ändern musstest, steckt noch ein Warenname in der Logik
+- [ ] ⭐ **Ware hinzufügen:** `"reparaturkit"` mit allen Daten eintragen, **keine Zeile Logik anfassen** — sie erscheint im Depot, ist kaufbar und landet an der richtigen Stelle
+- [ ] ⭐ **Ware löschen:** `"panzerplatte"` aus den Daten entfernen — sie verschwindet aus dem Depot, `kaufe panzerplatte` meldet sauber, nichts stürzt ab
+- [ ] Preis einer Ware ändern — Depot **und** Abbuchung zeigen den neuen Wert
+- [ ] Einen Ausgang aus einem Sektor löschen — `umsehen` zeigt ihn nicht mehr, `gehe` dorthin meldet die vorhandenen Richtungen
 - [ ] Kaufen mit zu wenig Schrott sagt, dass der Schrott nicht reicht — und der Schrott wird **nicht** abgebucht
 - [ ] Kaufen bei vollem Inventar sagt das — und der Schrott wird **nicht** abgebucht
 - [ ] `kaufe hubschrauber` meldet, dass es die Ware nicht gibt
 - [ ] Gekaufte Munition erhöht den Vorrat, ein gekauftes Medkit landet im Inventar
+- [ ] ⭐ **Schrott steht nur an einer Stelle** — im `vorrat`, nicht mehr in der `inventar`-Liste. Sammel welchen auf und prüf beide
 - [ ] Feuern senkt weiterhin die Munition, der Balken aus Etappe 3c stimmt weiterhin
-- [ ] Eine volle Welle lässt sich von Anfang bis Ende spielen, ohne dass etwas abstürzt
+- [ ] **Drei volle Wellen** lassen sich spielen — inklusive mindestens eines Kaufs und eines aufgesammelten Schrotts — ohne dass etwas abstürzt
 - [ ] Im Grundriss ist der aktuelle Sektor markiert und wandert beim Gehen mit
 
 ---
@@ -506,16 +657,18 @@ Ohne Nachschlagen, in eigenen Worten. Dein Mentor fragt sie ab.
 2. Wie kommst du an einen verschachtelten Wert, und was liefert der erste Schlüssel dabei zurück?
 3. Was passiert bei einem Schlüssel, den es nicht gibt? Was macht `.get()` anders, und wann willst du welches von beiden?
 4. **Was prüft `"medkit" in waren` — den Schlüssel oder den Wert?** Und wie fragst du nach dem anderen?
-5. Was bekommst du, wenn du direkt über ein Dictionary iterierst? Und was liefert `.items()`?
-6. Warum ist `sektoren` verschachtelt und `waren` flach? Nenn die Frage, mit der du das entscheidest.
-7. Warum kann eine Liste kein Dictionary-Schlüssel sein? *(Ein Satz genügt — 👀.)*
-8. **Warum kommt in deiner Kauflogik kein einziger Warenname vor — und was wäre der Preis dafür, wenn doch?**
-9. Warum ist Schrott jetzt ein Dictionary-Eintrag und ein Medkit weiterhin ein Listeneintrag?
-10. Was wird in deinem Programm verglichen und was angezeigt — und warum sollten das nicht dieselben Wörter sein?
-11. Was ist ein *inkonsistenter Datenfehler*, und warum findet ihn kein Blick in die Bewegungslogik?
-12. Welche deiner Werte ändern sich zur Laufzeit und welche nie? *(Die Frage kommt in Etappe 19 wieder.)*
+5. Der Spieler tippt `gehe osten`. Welche drei verschiedenen Werte entstehen dabei — und warum ist `"osten"` keiner davon, den du in `aktueller_sektor` schreiben darfst?
+6. Was bekommst du, wenn du direkt über ein Dictionary iterierst? Und was liefert `.items()`?
+7. Warum ist `sektoren` verschachtelt und `waren` flach? Nenn die Frage, mit der du das entscheidest.
+8. Warum kann eine Liste kein Dictionary-Schlüssel sein? *(Ein Satz genügt — 👀.)*
+9. **Warum kommt in deiner Kauflogik kein einziger Warenname vor — und was wäre der Preis dafür, wenn doch?**
+10. Warum ist Schrott jetzt ein Dictionary-Eintrag und ein Medkit weiterhin ein Listeneintrag?
+11. Was wird in deinem Programm verglichen und was angezeigt — und warum sollten das nicht dieselben Wörter sein?
+12. Was ist ein *inkonsistenter Datenfehler*, und warum findet ihn kein Blick in die Bewegungslogik?
+13. Welche deiner Werte ändern sich zur Laufzeit **und sollen nach dem Laden noch so sein**? *(Die Frage kommt in Etappe 19 wieder.)*
+14. Nenn drei Bedingungen, die bei deinen Sektordaten immer stimmen müssen. *(Deine Invarianten aus Konzept 13.)*
 
-**Frage 8 ist die wichtigste.** Die anderen sind Werkzeugwissen, und Werkzeugwissen holt man nach. Frage 8 ist der Übergang von *„ich schreibe Code, der Werte kennt"* zu *„ich schreibe Code, der Werte nachschlägt"* — und das ist der Gedanke, aus dem Etappe 22 und Etappe 25 vollständig bestehen. Wer ihn heute an drei Waren begriffen hat, versteht dort in zehn Minuten, warum dreißig Gegnertypen in eine Textdatei gehören.
+**Frage 9 ist die wichtigste.** Die anderen sind Werkzeugwissen, und Werkzeugwissen holt man nach. Frage 8 ist der Übergang von *„ich schreibe Code, der Werte kennt"* zu *„ich schreibe Code, der Werte nachschlägt"* — und das ist der Gedanke, aus dem Etappe 22 und Etappe 25 vollständig bestehen. Wer ihn heute an drei Waren begriffen hat, versteht dort in zehn Minuten, warum dreißig Gegnertypen in eine Textdatei gehören.
 
 ---
 
@@ -535,25 +688,64 @@ Wenn Schritt 5 ohne jede Änderung funktioniert, hast du Konzept 8 verstanden. W
 
 ## Kaputtmachen
 
-**Vor jedem Experiment aufschreiben, was passieren wird.**
+**Vor jedem Experiment aufschreiben, was passieren wird.** Die ersten fünf gehören dazu, die letzten vier sind Kür.
 
-1. **Greif auf einen Schlüssel zu, den es nicht gibt.** Lies die Fehlermeldung ganz. Was genau steht in den Anführungszeichen?
+**1. Greif auf einen Schlüssel zu, den es nicht gibt.** Lies die Fehlermeldung ganz. Was genau steht in den Anführungszeichen?
 
-2. **Verschreib dich absichtlich beim Zuweisen:** setz `sektoren["nordtorr"]["integritaet"] = 50` — oder, wenn das knallt, leg einen ganzen Sektor unter einem falschen Namen an. Ruf danach `umsehen` auf. **Kommt eine Fehlermeldung? Und wo ist der Wert hin, den du gesetzt hast?**
+**2. Der Tippfehler beim Zuweisen — und warum er zweimal etwas anderes tut.**
 
-3. **Mach aus `nachbarn` eine Liste** statt eines Dictionaries: `["kern", "osttor"]`. Versuch, `gehe sueden` zu bauen. Woran genau scheitert es — und was sagt dir das darüber, was ein Dictionary eigentlich leistet?
+Probier beides und vergleich:
 
-4. **Lösch einen Sektor, auf den ein Nachbar zeigt.** Geh dann dorthin. Das ist der *inkonsistente Datenfehler* aus Konzept 12 — merk dir, an welcher Stelle er auffällt und wie weit die von der Ursache entfernt ist.
+```python
+waren["repraturkit"] = 60                   # ← Tippfehler
+sektoren["nordtorr"]["integritaet"] = 50    # ← Tippfehler
+```
 
-5. ⭐ **Schreib beim Kaufen `vorrat["schrott"] - preis` statt `-= preis`.** Kauf dreimal hintereinander dasselbe. **Das ist der Typ-3-Fehler dieser Etappe:** keine Fehlermeldung, kein Absturz — nur ein Spieler, der unendlich viel Geld hat. Der Ausdruck wird berechnet und weggeworfen.
+Das erste läuft **still durch** und legt einen Eintrag an, den nie jemand liest. Das zweite **knallt sofort** mit `KeyError`.
 
-6. **Buch den Schrott ab, bevor du prüfst, ob Platz im Inventar ist.** Kauf bei vollem Inventar. Wo ist der Schrott hin?
+**Warum der Unterschied?** Beim ersten legst du einen Schlüssel *an* — das ist erlaubt, dafür gibt es keine Rechtschreibprüfung. Beim zweiten musst du erst einen Schlüssel *lesen*, um an das innere Dictionary zu kommen, und den gibt es nicht.
 
-7. **Verändere ein Dictionary, während du darüber läufst** — lösch in einer `for`-Schleife über `waren` einen Eintrag. Vergleich die Fehlermeldung mit dem, was dieselbe Sache bei einer Liste in Etappe 4 gemacht hat. **Welches Verhalten ist dir lieber, und warum?**
+**Die Regel dahinter ist wichtiger als das Beispiel:** Ein Tippfehler links vom `=` ist gefährlich. Ein Tippfehler beim Lesen ist harmlos, weil er abstürzt. Ruf danach `waren` auf und sieh dir an, was da jetzt drinsteht.
 
-8. **Versuch, eine Liste als Schlüssel zu benutzen.** Lies die Fehlermeldung. Das Wort `unhashable` musst du heute nicht verstehen — merk dir nur, dass es mit *unveränderlich* zu tun hat.
+**3. Schreib beim Kaufen `vorrat["schrott"] - preis` statt `-= preis`.** Kauf dreimal hintereinander dasselbe.
 
-**Experiment 5 ist das wichtigste** und Experiment 7 das lehrreichste: Bei einer Liste läuft derselbe Fehler still durch, beim Dictionary knallt es. Dass eine Sprache manchmal streng ist, damit man nicht in Ruhe Unsinn machen kann, ist ein Gedanke, der dir bis Etappe 26 begegnet.
+⭐ **Das ist der Typ-3-Fehler dieser Etappe:** keine Fehlermeldung, kein Absturz — nur ein Spieler, der unendlich viel Geld hat. Der Ausdruck wird berechnet und weggeworfen.
+
+**4. Buch den Schrott ab, bevor du prüfst, ob Platz im Inventar ist.** Kauf bei vollem Inventar. Wo ist der Schrott hin? Das ist die Gegenprobe zu Auftragsschritt 11.
+
+**5. Zwei Sorten kaputter Karte — und sie fühlen sich verschieden an.**
+
+Erst: Lösch eine Richtung aus einem Sektor und geh dorthin. Dann: Lass die Richtung stehen, aber **verschreib dich im Zielnamen** (`"sueden": "ker"`) und geh dorthin.
+
+**Beantworte danach drei Fragen, bevor du weiterliest:**
+
+1. Bei welchem der beiden greift deine eigene Prüfung — und bei welchem nicht?
+2. Bei welchem stürzt das Programm ab, **obwohl** die Prüfung durchgelaufen ist?
+3. Warum ist der zweite Fall der gemeinere, wenn du ihn in vier Wochen suchen musst?
+
+Das ist der inkonsistente Datenfehler aus Konzept 13, und du hast ihn dir gerade selbst gebaut. Die Antworten in `GELERNT.md`.
+
+---
+
+Die folgenden vier sind Kür. Wenn dir die Zeit fehlt, nimm mindestens Nummer 6.
+
+**6. ⭐ Der Umbenennungstest.** Benenne `"werkstatt"` in `"schmiede"` um — nur den Schlüssel, sonst nichts. Führ das Spiel aus und such alle Stellen, die dadurch kaputtgehen.
+
+Es werden mehr sein, als du denkst: Nachbarn anderer Sektoren, vielleicht dein Grundriss, vielleicht eine Ortsprüfung. **Und Python hat dich bei keiner einzigen davon gewarnt.**
+
+Das ist der Satz, um den es geht: **Daten sind nicht konsistent, nur weil Python sie akzeptiert.** Danach zurückbenennen.
+
+**7. Mach aus `nachbarn` eine Liste** statt eines Dictionaries: `["kern", "osttor"]`. Versuch, `gehe sueden` zu bauen. Woran genau scheitert es — und was sagt dir das darüber, was ein Dictionary eigentlich leistet?
+
+**8. Lösch einen Eintrag, während du über das Dictionary läufst.** Vergleich die Fehlermeldung mit dem, was dieselbe Sache bei einer Liste in Etappe 4 gemacht hat. **Welches Verhalten ist dir lieber, und warum?**
+
+**9. Versuch, eine Liste als Schlüssel zu benutzen.** Lies die Fehlermeldung. Das Wort `unhashable` musst du heute nicht verstehen — merk dir nur, dass es mit *veränderlich* zu tun hat.
+
+---
+
+**Experiment 3 ist das wichtigste**, Experiment 6 das lehrreichste und Experiment 8 das überraschendste: Beim Dictionary bricht Python ab. Bei einer Liste kann das Programm weiterlaufen und trotzdem ein falsches Ergebnis liefern — es überspringt Einträge, wie du in Etappe 4 gesehen hast.
+
+Dass eine Sprache manchmal streng ist, damit man nicht in Ruhe Unsinn machen kann, ist ein Gedanke, der dir bis Etappe 26 begegnet.
 
 Alle Typ-3-Fehler in `GELERNT.md`, mit einem Satz dazu: **woran du sie erkannt hättest.**
 
@@ -571,6 +763,8 @@ Alle Typ-3-Fehler in `GELERNT.md`, mit einem Satz dazu: **woran du sie erkannt h
 | Kein Fehler, aber Schrott wird nie weniger | `x - y` statt `x -= y` | Die Zeile mit der Abbuchung |
 | Schrott ist weg, Ware nicht da | Abgebucht, bevor alle Prüfungen durch waren | Konzept 10 aus Etappe 4 |
 | `gehe` funktioniert in eine Richtung, aber nicht zurück | Nachbar nur einseitig eingetragen | Beide Sektoren prüfen |
+| `KeyError` beim Gehen, **obwohl** die Richtung geprüft wurde | Der Zielname existiert nicht — inkonsistente Daten | Nicht die Prüfung, sondern den **Wert** hinter der Richtung |
+| `KeyError: 'osten'` nach dem Gehen | Die Himmelsrichtung wurde als Standort gespeichert | Konzept 12 — Richtung ist nicht Ziel |
 | Neue Ware erscheint nicht im Depot | Die Anzeige ist von Hand geschrieben statt aus den Daten | Auftragsschritt 6 |
 | `in` findet die Ware nicht, obwohl sie da ist | Du suchst nach dem Wert statt nach dem Schlüssel | Konzept 4 |
 
@@ -591,7 +785,19 @@ print("### WERT", sektoren.get(aktueller_sektor))
 
 ## Ein Blick nach vorne
 
-**Etappe 6** stellt Liste, Dictionary, Set und Tuple nebeneinander und beantwortet endgültig die Frage, die dich seit Etappe 4 begleitet: welche Struktur für welches Problem? Du wirst dort rückblickend sehen, dass du heute an zwei Stellen ein Dictionary benutzt hast, wo etwas anderes gepasst hätte.
+**Etappe 6** stellt Liste, Dictionary, Set und Tuple nebeneinander. Damit du dort nicht bei „Liste = mehrere Dinge, Dictionary = mehrere Daten" landest, hier dein Zwischenstand — **drei Fragen, drei Antworten**, alle schon gebaut:
+
+| Frage an die Daten | Antwort |
+|---|---|
+| *Welche Dinge habe ich?* | **Liste** (`inventar`) |
+| *Was gehört zu diesem Namen?* | **Dictionary** (`sektoren`, `waren`) |
+| *Wie viel habe ich?* | **Zahl** — oder ein Dictionary aus Namen und Anzahlen (`vorrat`) |
+
+**Etappe 6 ergänzt die drei fehlenden Fragen:**
+
+> *Ist es schon enthalten?* · *Darf es doppelt vorkommen?* · *Ist die Reihenfolge Teil der Bedeutung?*
+
+Und dann wirst du rückblickend sehen, dass du heute an ein bis zwei Stellen ein Dictionary benutzt hast, wo etwas anderes besser gepasst hätte.
 
 **Etappe 7a** räumt deine Befehlskette auf. Der Kaufvorgang wird zur ersten Funktion, die wirklich etwas leistet — und du wirst merken, dass er nur deshalb so leicht auszulagern ist, weil er heute schon keine Warennamen kennt.
 
@@ -611,6 +817,23 @@ print("### WERT", sektoren.get(aktueller_sektor))
 
 ## Abschluss
 
+**⭐ Und einmal, weil es sich lohnt: Schreib eine Zustandsübersicht.**
+
+Dein Spiel hat inzwischen viele Werte, die verstreut ganz oben in der Datei stehen. Sortier sie einmal auf einem Blatt — nicht im Code, nur als Liste:
+
+```
+SPIELER      Name, Klasse, Trefferpunkte, Schaden, Panzerung
+RESSOURCEN   vorrat (Schrott, Munition)
+BESITZ       inventar
+VORPOSTEN    kern_integritaet, sektoren
+POSITION     aktueller_sektor
+WELLE        welle, runde, gegner
+```
+
+**Das ist keine neue Technik, sondern eine Bestandsaufnahme** — und der Moment, in dem die meisten zum ersten Mal denken: *Mein Spiel hat einen Zustand.*
+
+Du brauchst diese Liste vier Mal wieder: in **Etappe 7a**, wenn Funktionen Zustand übergeben bekommen; in **Etappe 9**, wenn ein Teil davon in den Marine wandert; in **Etappe 12**, wenn ein anderer Teil zur Welt gehört; und in **Etappe 19**, wenn du entscheiden musst, was gespeichert wird. Heb sie auf.
+
 **In `GELERNT.md`:**
 
 - Was habe ich gebaut?
@@ -620,6 +843,9 @@ print("### WERT", sektoren.get(aktueller_sektor))
 - **Entscheidung 1:** Fehlt der versiegelte Weg oder ist er markiert — und warum?
 - **Entscheidung 2:** Hat das Depot einen Bestand — und warum (nicht)?
 - **Wie unterscheidet mein Code stapelbare Waren von Einzelstücken?**
+- **Meine drei bis vier Invarianten:** Was muss bei den Sektordaten immer stimmen?
+- Was beim Umbenennungstest kaputtging — und wie viele Stellen es waren
+- Warum `inventar` eine Liste ist und `vorrat` ein Dictionary
 - Die Zeile aus dem „Was NICHT"-Abschnitt: **wann ist mir zuerst aufgefallen, dass die Datei zu lang wird?**
 
 ---

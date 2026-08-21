@@ -206,22 +206,42 @@ Chronologisch nach Etappe. Spalte „Status": `offen` = noch nicht eingelöst, `
 
 ### Etappe 6 — Liste, Dictionary, Set, Tuple
 
+**⭐ Hier werden Gegnertypen eingeführt.** Bis Etappe 5 ist ein Gegner eine Positionszahl und alle sehen gleich aus. Ab hier hat jeder einen Typ — als **zweite, parallele Liste** neben den Positionen, über den Index verbunden. Das ist bewusst unbequem und die tragende Begründung für Etappe 11.
+
 | Was angelegt wird | Wo es eingelöst wird | Status |
 |---|---|---|
 | `freigeschaltet` als Set | **18** — wird zum zentralen Flag-Speicher | offen |
 | **Das Set ist die Spielregel, nicht die Prüfung** | **18** — Freischaltungen; **22** — Voraussetzungen | offen |
+| ⭐ **Ein Set garantiert den Zustand, nicht den Vorgang** — die Prüfung vor dem Abbuchen bleibt nötig | **18** — dieselbe Prüfung mit Voraussetzungen; **20** — aus der Prüfreihenfolge wird Fehlerbehandlung | offen |
+| `AUSBAUTEN` als Katalog (Kennung → Preis) — zweiter Katalog nach `waren` aus **5** | **18** — Voraussetzungen kommen als Dateneintrag dazu; **22** — Kosten, Bauzeit, Ausbaustufen | offen |
+| `"zielhilfe"` — eine Freischaltung ohne Wirkung | **18** — sie bekommt dort eine Fähigkeit | offen |
 | `KLASSEN` als Tuple | **11** — die Klassenhierarchie; **20** — Eingabe validieren | offen |
-| `gesehene_gegnertypen` als Set | **15** — Erkenntnisse bauen darauf auf; **25** — Gegnertypen kommen aus JSON | offen |
-| Set für abgedeckte Felder | **14b** — Reichweite eines Geschützes | offen |
-| 👀 Mengenoperationen (`&`, `|`, `-`) | **18** — „welche Voraussetzungen fehlen noch?" | offen |
 | Tuple als unveränderliche Liste (`KLASSEN`) — **ohne Koordinaten-Vorgriff** | **10** — `self.position`; **14a** — dort wird `(x, y)` das eigentliche Beispiel | offen |
 | Tuple als Dictionary- und Set-Element | **14b** — Koordinaten in einer Menge | offen |
 | Die Komma-Falle: `(5)` ist kein Tuple, `(5,)` schon | **21a** — Rückgabe zweier Werte; **16** — Kandidat für die Bug-Jagd | offen |
 | Tuple-Unpacking (`for a, b in ...`) | **12** — über Einheiten und ihre Zustände laufen | offen |
+| 👀 Mengenoperationen (`&`, `\|`, `-`) | **18** — „welche Voraussetzungen fehlen noch?" | offen |
+| Set für abgedeckte Felder | **14b** — Reichweite eines Geschützes | offen |
 | Sets und Tuples lassen sich nicht als JSON speichern | **19** — Design-Entscheidung beim Speichern | offen |
 | Unterscheidung „kein gültiges Wort" ↔ „hier nicht möglich" | **20** — dieselbe Trennung bei allen Befehlen | offen |
 | „Modellierungsentscheidung" als Begriff | **14a** — Dict oder Raster; **19** — Struktur ↔ Dateiformat | offen |
+| **Die Entscheidungshilfe: vier Fragen, feste Reihenfolge** | durchgehend ab hier — jede Strukturwahl bis **25** | offen |
+
+**Gegnertypen — die Einträge dazu:**
+
+| Was angelegt wird | Wo es eingelöst wird | Status |
+|---|---|---|
+| ⭐ **`GEGNERTYPEN` als verschachteltes Dictionary** (Kennung → langer und kurzer Text) | **15** — Erkenntnisse hängen sich an denselben Eintrag; **17a** — dieselben Einträge bekommen Kosten; **25** — wandert nach `content/` | offen |
+| ⭐ **`gegner_typen` als zweite Liste parallel zu `gegner`**, über den Index verbunden | **11** — beide Listen kollabieren zu **einer** Liste von Objekten | offen |
+| ⭐ **Der Schmerz paralleler Listen** — beim Entfernen muss an **zwei** Stellen derselbe Index getroffen werden; `remove()` nach Wert trägt nicht mehr | **11** — genau dieser Schmerz ist die Begründung für Objekte; **16** — Kandidat für die Bug-Jagd | offen |
+| Entfernen über den **Index** statt über den Wert (`pop`), rückwärts oder mit gesammelten Indizes | **11** — entfällt, weil ein Objekt eine Sache ist; **12** — dasselbe Problem im Tick | offen |
+| `gesehene_gegnertypen` als Set | **15** — Erkenntnisse bauen darauf auf; **25** — Gegnertypen kommen aus JSON | offen |
 | Erstbegegnung ausführlicher als jede spätere | **15** — Erkenntnisse verändern die Anzeige | offen |
+| Wellenzusammenstellung als `if`/`elif` über die Wellennummer | **17a** — der Budget-Generator ersetzt die Kette | offen |
+| Die Anmarschbahn zeigt **verschiedene Zeichen je Typ** | **14a** — dieselbe Zuordnung Typ → Zeichen im Raster; **29** — Typ → Kachel | offen |
+| `bestiarium` als Auskunftsbefehl, kostet keine Runde — Anwendung aus **3b** | **12** — welche Spieleraktion löst einen Tick aus | offen |
+| Unterscheidung „Typ existiert nicht" ↔ „Typ noch nie gesehen" | **20** — dieselbe Trennung als Fehlerbehandlung | offen |
+| **Invariante zwischen zwei Sammlungen** — jeder Eintrag in `gesehene_gegnertypen` ist Schlüssel in `GEGNERTYPEN`; `len(gegner)` und `len(gegner_typen)` sind immer gleich | **20** — daraus wird eine Prüfung; **26** — daraus wird ein Test | offen |
 
 ### Etappe 7 — Aufräumen  *(7a Funktionen · 7b Trennung)*
 
@@ -391,7 +411,7 @@ Chronologisch nach Etappe. Spalte „Status": `offen` = noch nicht eingelöst, `
 |---|---|---|
 | **17a:** Budget statt Anzahl | **22** — Kosten stehen in denselben Daten; **25** — Wellenrezepte werden JSON | offen |
 | 👀 **17a:** Gewichtete Auswahl (`random.choices`) — einbauen erlaubt, Theorie nicht nötig | **17b** — Ereignisse benutzen dieselbe Form; **25** — Gewichte werden Content | offen |
-| **17a:** Gegnertypen als Datensätze | **23b** — `@dataclass`; **25** — JSON | offen |
+| **17a:** Gegnertypen bekommen **Kosten und Gewichte** — die Typen selbst gibt es seit **6** | **23b** — `@dataclass`; **25** — JSON | offen |
 | **17b: Fester Seed** ⭐ | **19** — gehört in den Spielstand; **26** — ohne ihn ist der Generator untestbar | offen |
 | **17b: Der Seed als sichtbare Entwicklerfunktion** (`Seed: 48173` in der Anzeige) | **16**-Rückgriff — ein Bug wird vorführbar statt jagdbar; **19** — wird mitgespeichert; **26** — Testvoraussetzung | offen |
 | **17b:** Ereignisse als Liste mit Bedingungen | **25** — wandern nach `content/` | offen |
@@ -451,7 +471,7 @@ Chronologisch nach Etappe. Spalte „Status": `offen` = noch nicht eingelöst, `
 | **23a:** Zielauswahl-Strategien als Funktionen | — Einlösung aus **14b** und **18**; **28** — dasselbe Muster bei Eingabe-Callbacks | offen |
 | **23a:** Comprehensions | — Einlösung aus **14a** (Schleifenformen) und **14b** (Reichweitenmengen) | offen |
 | 👀 **23a:** `*args` / `**kwargs` — erkennen, nie selbst schreiben | **24** — `fremde_funktion(**config)` beim Lesen fremder Bibliotheken | offen |
-| **23b:** `@dataclass` und Typannotationen | — Einlösung aus **17a** (Gegnertypen als Datensätze); **25** — dieselben Felder als JSON | offen |
+| **23b:** `@dataclass` und Typannotationen | — Einlösung aus **6** und **17a** (die Gegnertyp-Einträge werden zum Wertetyp); **25** — dieselben Felder als JSON | offen |
 | 👀 **23b:** Dekoratoren — die Zeile darunter geht durch die Zeile darüber | — Einlösung aus **11** (`@property`); **26** — `@pytest.mark.parametrize` | offen |
 | **23b: Die Kopplungszeichnung zum zweiten Mal** | — Einlösung aus **13** und **15**; **27** — Frage 7 ist eine Kopplungsfrage | offen |
 | **23b:** Lesekompetenz für fremden Code, **Leseleiter Stufe 4** | **27** — das eigentliche Ziel des Projekts | offen |
@@ -485,20 +505,20 @@ Umgekehrte Richtung. Vor jeder dieser Etappen prüfen, ob die Voraussetzung wirk
 | **3c** (Kampf, Anzeige) | **3b**, 1 | Eine Befehlskette, in die Wirkung eingehängt wird · `munition`, `kern_integritaet` |
 | **4** (Ausrüstung) | 1, 2, **3a**, **3b**, **3c** | „Name zeigt auf Wert", Truthy und die `0`, `.strip()`/`.lower()`, `range()`-Zählung ab 0, **die einwortige Befehlssprache, die hier durch `.split()` abgelöst wird**, die Gegnerzahl aus 3c, die Balkendarstellung |
 | **5** (Vorposten) | 3, **4** | `.split()` für `kaufe medkit`, Schrott als Währung, Beute pro Ort, **die Kennung-oder-Anzeigename-Entscheidung** (das Depot braucht die zweite Stelle), **mehrfach `"schrott"` in der Liste als erlebtes Problem** |
-| **6** (Datenstrukturen) | **4**, **5** | Mutable/immutable, `in` bei Liste und Dictionary, doppelte Käufe als Problem, **die Frage „Menge oder mehrere Dinge?" — in 4 einmal gestellt, hier für vier Strukturen beantwortet** |
+| **6** (Datenstrukturen) | **4**, **5** | Mutable/immutable, `in` bei Liste und Dictionary, doppelte Käufe als Problem, **die Frage „Menge oder mehrere Dinge?" — in 4 einmal gestellt, hier für vier Strukturen beantwortet**, **die Gegnerliste als Positionszahlen und der Kaufvorgang, an den sich `AUSBAUTEN` anlehnt** |
 | **7a** (Funktionen) | 3, 4, 5, 6 | Die Platzhalterformel, die gewachsene `elif`-Kette |
 | **7b** (Trennung) | **7a**, 1, 3b, 4, 5 | Funktionen als Bausteine **und** die Zeichenschnipsel aus 1/3b/4/5 |
 | **9a** (Objekte) | **7a** | Die lange Parameterliste — ohne den Schmerz wirkt `self` willkürlich |
 | **9b** (`__repr__`) | **9a**, 8 | Klassen **und** der Debugger, sonst fehlt der Anlass |
 | **10** (Komposition) | **4**, 9a | Mutable vs. immutable, Aliasing bei Objekten, `__init__` mit Standardwerten |
-| **11** (Vererbung) | 2, **4**, 9a, **10** | **Die `elif`-Kette der Klassenwerte**, Komposition als Vergleichsgrundlage, **die Notizliste „hier war ein String zu dünn" aus Etappe 4** — sie ist die Begründung für Klassen. *Hier — und nicht in 2 — entsteht der Trupp.* |
+| **11** (Vererbung) | 2, **4**, **6**, 9a, **10** | **Die `elif`-Kette der Klassenwerte**, Komposition als Vergleichsgrundlage, **die Notizliste „hier war ein String zu dünn" aus Etappe 4 und der Schmerz der zwei parallelen Listen aus Etappe 6** — zusammen sind sie die Begründung für Klassen. *Hier — und nicht in 2 — entsteht der Trupp.* |
 | **12** (Tick) | 1, 3a, 4, 6, 9, 11 | Weltzustand in Variablen, **die Hauptschleife**, „nicht iterierend entfernen", `Einheit` als Basis, **vier Marine-Objekte aus 11** |
 | **13** (Bauzeit) | **5**, 11, 12 | `sektoren` veränderbar, **Entscheidung zum versiegelten Sektor**, **die Werkstatt als Ort mit ortsgebundenem Befehl**, laufender Tick |
 | **14a** (Raster) | 3a, **4**, 5, 6 | `range()`, **die Anmarschbahn als eine Zeile und die Entscheidung, ob sie der Zustand oder sein Bild ist**, `.join()`, das dreischrittige Bauen, Dictionary als Gegenbeispiel, Tuple |
 | **14b** (Reichweite, Bewegung) | **14a**, 6, 10, 12, 13 | Das Raster, **Set und Tuple**, `self.position`, Trupp-KI Stufe 1, das Geschütz |
-| **15** (Erkenntnisse) | 4, 6, 12 | Der Datenkern aus 4, `gesehene_gegnertypen`, laufende Gegnerobjekte |
+| **15** (Erkenntnisse) | 4, **6**, 12 | Der Datenkern aus 4, **`GEGNERTYPEN` und `gesehene_gegnertypen`** — Erkenntnisse hängen sich an vorhandene Typ-Einträge, sie erfinden keine |
 | **16** (Bug-Jagd II) | **8**, 12, 13, 14b | Debugger, Halbieren, das eigene Protokoll, **eine notierte Tick-Reihenfolge aus 12**, mehrere Systeme im selben Tick |
-| **17a** (Zufall) | 3a, 9a, 15 | `range()` über Wellen, `Gegner` als Klasse, Vorwissen aus Erkenntnissen |
+| **17a** (Zufall) | 3a, **6**, 9a, 15 | `range()` über Wellen, **die Gegnertypen und die `if`/`elif`-Wellenkette, die hier durch das Budget ersetzt wird**, `Gegner` als Klasse, Vorwissen aus Erkenntnissen |
 | **17b** (Seed, Ereignisse) | **17a**, **1**, 2, 12, 16 | **`letzte_meldung` vom ersten Tag**, `meldung_abgesetzt`, Einheiten-Gedächtnis, **das Bedürfnis nach Reproduzierbarkeit aus 16** |
 | **18** (Fähigkeiten) | 2, 6, 10, 15 | Verknüpfte Bedingungen, **Set und Mengenoperationen**, `None` ≠ `0`, Erkenntnis-Flags |
 | **19** (Speichern) | 6, 10, 12, 13, **14a**, 17b, 18 | Sets und Tuples, `None`, `self.zeit`, halb fertige Zähler, **der Seed**, Restdauern. *`erkundete_felder` nur, wenn die Kür in 14b gebaut wurde.* |
@@ -528,7 +548,7 @@ Umgekehrte Richtung. Vor jeder dieser Etappen prüfen, ob die Voraussetzung wirk
 
 Kein einzelner Verweis, sondern etwas, das über den ganzen Plan läuft.
 
-**Die Darstellung** — Etappe 1 (fester ASCII-Kopf) → **2 (hält bewusst still: nur mehr Variablen im selben Briefing)** → **3c (Balken beim `status`-Befehl; der Kopf bleibt unangetastet)** → **4 (die Anmarschbahn — eine Zeile, in der man Bewegung sieht; ab hier ist die Anzeige auch Messgerät)** → **5 (der Grundriss mit Markierung — handgezeichnet, nur die Markierung kommt aus den Daten)** → 7b (eigene Zeichenschicht, die nichts entscheidet) → **14a (aus einer Zeile wird ein Raster)** → 28 (dieselbe Schicht, andere Ausgabe) → 29 (Kacheln) → 30 (Isometrie). Der Faden hat zwei Zwecke: Das Spiel ist früh sichtbar, und die Trennung Logik/Darstellung wird eingeübt, lange bevor sie in Etappe 28 zur Bedingung wird.
+**Die Darstellung** — Etappe 1 (fester ASCII-Kopf) → **2 (hält bewusst still: nur mehr Variablen im selben Briefing)** → **3c (Balken beim `status`-Befehl; der Kopf bleibt unangetastet)** → **4 (die Anmarschbahn — eine Zeile, in der man Bewegung sieht; ab hier ist die Anzeige auch Messgerät)** → **5 (der Grundriss mit Markierung — handgezeichnet, nur die Markierung kommt aus den Daten)** → **6 (die Bahn zeigt verschiedene Zeichen je Gegnertyp — die Darstellung liest zum ersten Mal aus zwei Quellen)** → 7b (eigene Zeichenschicht, die nichts entscheidet) → **14a (aus einer Zeile wird ein Raster)** → 28 (dieselbe Schicht, andere Ausgabe) → 29 (Kacheln) → 30 (Isometrie). Der Faden hat zwei Zwecke: Das Spiel ist früh sichtbar, und die Trennung Logik/Darstellung wird eingeübt, lange bevor sie in Etappe 28 zur Bedingung wird.
 
 **Die Leseleiter** ⭐ — vier Stufen mit festen Fragen. Stufe 1 (Benennen): Etappe 9–11, 5–10 Zeilen. Stufe 2 (Verfolgen): 12–16, 15–30 Zeilen — zahlt direkt in 16 bei den Reihenfolgefehlern. Stufe 3 (Zusammenhänge): 17–22, 30–60 Zeilen. Stufe 4 (Beurteilen): ab 23b, echter KI-Code, hier kommt die sechste Frage dazu → **27 (ganzes Repo, Frage 7 ist Frage 6)**. Die Stufen dürfen nicht übersprungen werden: Frage 6 setzt voraus, dass Alternativen bekannt sind.
 
@@ -558,7 +578,7 @@ Der Faden liegt bis 23b vollständig auf Stufe 👀. Das ist Absicht: Kopplung i
 
 **🚨 KI-Code-Warnsignale** — ab Etappe 8 verteilt: 12 (`update(self, welt)` — warum die ganze Welt?), 15 (die Zeile, die das halbe Spiel kennt), 20 (breites `except`), 22 (`elif`-Kette statt Daten), 23b (Funktion mit acht Parametern), 26 (kein einziger Test), durchgehend die Null-Falle → **27 (drei Risiken finden)**. Alle liegen auf Stufe 👀: bemerken und benennen, nicht beheben.
 
-**Erweitern ohne zu zerstören** — **Etappe 4 (der Befehlsumbau darf die Befehle aus 3b nicht brechen)** → **5 (der `vorrat`-Umbau fasst Statusanzeige, Feuern und Aufsammeln an; eigener Rückwärtsgang-Schritt)** → 7a (erstes Refactoring) → 15 (vierter Fund ohne Änderung der Depot-Logik) → 19 (Statuseffekte mitspeichern) → 22 (neuer Geschütztyp ohne Logikänderung) → 25 (Gegnertypen als JSON) → 26 (Tests machen daraus Gewissheit).
+**Erweitern ohne zu zerstören** — **Etappe 4 (der Befehlsumbau darf die Befehle aus 3b nicht brechen)** → **5 (der `vorrat`-Umbau fasst Statusanzeige, Feuern und Aufsammeln an; eigener Rückwärtsgang-Schritt)** → **6 (die zweite Gegnerliste darf Bewegung, Feuern und Wellenende nicht brechen)** → 7a (erstes Refactoring) → 15 (vierter Fund ohne Änderung der Depot-Logik) → 19 (Statuseffekte mitspeichern) → 22 (neuer Geschütztyp ohne Logikänderung) → 25 (Gegnertypen als JSON) → 26 (Tests machen daraus Gewissheit).
 
 **Knobelstellen** ⭐ — Aufgaben, bei denen das Problem gestellt wird, aber nicht das Verfahren: **3a** (Abbruch von innen nach außen) → **4** (`.join()` selbst finden; „erst sammeln, dann entfernen" selbst bauen) → **8** (die Bug-Jagd ist eine einzige große Knobelstelle) → **14b** (Zielsuche und Zonengrenze) → **16** (Reihenfolgefehler finden) → **27** (fremdes Repo). Im Guide ausdrücklich als solche markiert, damit Hängenbleiben nicht als Verständnislücke missdeutet wird — der Mentor gibt dort **Hinweise, keine Lösungen**.
 
@@ -574,6 +594,14 @@ Der Faden liegt bis 23b vollständig auf Stufe 👀. Das ist Absicht: Kopplung i
 
 Jede dieser Etappen soll den Schritt am Ende benennen, nicht nur vollziehen. **Und der wichtigste Satz dabei steht in Etappe 4:** *Objektorientierung ersetzt keine Datenstrukturen — sie gibt ihren Einträgen mehr Bedeutung.*
 
+**Die Gegner** ⭐ — der längste Datenfaden des Plans, und der, an dem sich Modellierung erklärt:
+
+**3** (`gegner_anzahl = 3` — eine Menge) → **4** (`gegner = [7, 4, 2]` — Positionen, alle sehen gleich aus) → **6** (`gegner_typen` als zweite Liste daneben; jeder hat einen Typ, die Bahn zeigt verschiedene Zeichen — **und das Entfernen wird unangenehm**) → **11** (beide Listen kollabieren zu einer Liste von Objekten; der Schmerz endet) → **12** (die Objekte ticken) → **14a** (die Position wird `(x, y)`) → **17a** (die Typen bekommen Kosten, der Generator wählt sie) → **19** (der Zustand wird gespeichert) → **25** (die Typen kommen aus einer Datei).
+
+**Warum die parallelen Listen in 6 gewollt sind:** Vererbung und Objekte in 9–11 sind sonst Zeremonie. Wer erlebt hat, dass ein gefallener Gegner an zwei Stellen mit demselben Index verschwinden muss, versteht in der ersten Minute von Etappe 11, wozu ein Objekt gut ist. **Das ist absichtliches technisches Schuldenmachen mit festem Rückzahlungstermin.**
+
+**Parallele Sammlungen als Muster** — zwei Strukturen, die über den Index oder denselben Schlüssel zusammenhängen: **5** (`waren` und `stapelbar` — zwei Tabellen, ein Schlüsselsatz) → **6** (`gegner` und `gegner_typen` — zwei Listen, ein Index) → **11 / 22** (beide Male werden sie zu **einer** Struktur zusammengezogen). Gemeinsame Erkenntnis: **Zwei Sammlungen, die immer gleich lang sein müssen, sind eine Sammlung, die noch nicht gebaut wurde.**
+
 **Migrationen — was womit ersetzt wird** ⭐
 
 Der Plan baut mehrfach etwas Funktionierendes um. **Diese Übergänge müssen festgelegt sein, sonst entstehen zwei Wahrheiten über dieselbe Sache:**
@@ -581,7 +609,8 @@ Der Plan baut mehrfach etwas Funktionierendes um. **Diese Übergänge müssen fe
 | Was | Bis | Ab | Regel |
 |---|---|---|---|
 | **Gegner** | 3: `gegner_anzahl = 5` | 4: `gegner = [7, 4, 2]` | Die Anzahl verschwindet, `len()` ersetzt sie. **Keine zweite Zählvariable.** |
-| **Gegner** | 4: Positionszahlen | 9/11: `Gegner`-Objekte | **Die Liste bleibt, nur der Eintrag wird reicher.** Positionen werden Attribute. |
+| **Gegner** | 4: Positionszahlen | 6: `gegner` **plus** `gegner_typen`, über den Index verbunden | Zwei parallele Listen, bewusst unbequem. **`len()` beider muss immer gleich sein.** |
+| **Gegner** | 6: zwei parallele Listen | 9/11: `Gegner`-Objekte | **Beide Listen kollabieren zu einer.** Position und Typ werden Attribute desselben Objekts. Das ist der Zahltag für den Schmerz aus 6. |
 | **Munition** | 3: `munition = 40` | 5: `vorrat["munition"]` | Die lose Variable verschwindet. **Kein zweiter Speicher.** |
 | **Munition** | 5: loses `vorrat` | 9: `marine.vorrat` | Der ganze Vorrat wandert in den Marine — **`marine.munition` wird nicht neu eingeführt.** |
 | **Schrott** | 4: Eintrag in `inventar` | 5: `vorrat["schrott"]` | **Schrott ist ab 5 Ressource, kein Gegenstand.** Nie beides gleichzeitig. |
@@ -590,7 +619,7 @@ Der Plan baut mehrfach etwas Funktionierendes um. **Diese Übergänge müssen fe
 
 **Und das Ritual dazu, ab Etappe 4 in jedem Guide vor einem Umbau:** *Was bleibt gleich? Was ändert sich nur in der Darstellung? Was ändert sich wirklich am Datenmodell?* Zweck: **Umbauen heißt nicht „alles neu".**
 
-**Invarianten** — Sätze, die immer wahr bleiben müssen: **4** (`len(gegner)` ist die Wahrheit; keine Position außerhalb der Bahn; Munition nie negativ) → **5** (jeder Nachbarname existiert; jeder Sektor hat Beschreibung und Integrität) → **13** (Bauzeit kann nicht gleichzeitig laufen und fertig sein) → **20** (aus Invarianten werden Prüfungen) → **26** (aus Prüfungen werden Tests). **Bis 20 werden sie nur aufgeschrieben, nicht geprüft** — das ist Absicht, weil `assert` erst in 7b als 👀 auftaucht.
+**Invarianten** — Sätze, die immer wahr bleiben müssen: **4** (`len(gegner)` ist die Wahrheit; keine Position außerhalb der Bahn; Munition nie negativ) → **5** (jeder Nachbarname existiert; jeder Sektor hat Beschreibung und Integrität) → **6** (`len(gegner)` und `len(gegner_typen)` sind immer gleich; jeder gesehene Typ existiert in `GEGNERTYPEN`) → **13** (Bauzeit kann nicht gleichzeitig laufen und fertig sein) → **20** (aus Invarianten werden Prüfungen) → **26** (aus Prüfungen werden Tests). **Bis 20 werden sie nur aufgeschrieben, nicht geprüft** — das ist Absicht, weil `assert` erst in 7b als 👀 auftaucht.
 
 **Die drei Debugging-Reflexe** — je einer pro Fundament-Etappe, alle nach demselben Grundsatz *Nachsehen schlägt Vermuten*: Etappe 1 *welchen Typ hat dieser Wert?* (`print(type(x))`) → Etappe 2 *welcher Zweig läuft?* (`### ZWEIG`) → **Etappe 3 *wie oft läuft das?* (`### RUNDE n`)** → **Etappe 4 *was steht da gerade wirklich drin?* (`### VOR`/`### NACH` mit Inhalt **und** `len()`)** → **Etappe 5 *unter welchem Namen?* (`.keys()` zeigt Tippfehler in Schlüsseln, die sonst unsichtbar sind)** → **8** (der Debugger löst alle vier `print`-Varianten ab, der Reflex bleibt). Gemeinsamer Grundsatz: **Nachsehen schlägt Vermuten.**
 

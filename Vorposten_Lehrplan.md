@@ -65,7 +65,7 @@ Dieser Plan ist die Portierung eines Dorf-RPGs. Der Grund für den Umzug war nic
 
 **Was du gewinnst:**
 
-- **Zahlen statt Prosa.** Ein neuer Gegnertyp ist eine Zeile mit vier Werten, kein Charakter mit Motiv. Der Inhalt deines Spiels ist eine Tabelle.
+- **Zahlen statt Prosa.** Ein Gegnertyp ist ein Tabelleneintrag, kein Charakter mit Motiv. Ab Etappe 6 hat er zwei Beschreibungstexte, ab 17a Kosten, ab 21b Widerstände — aber nie eine Vorgeschichte. Der Inhalt deines Spiels ist eine Tabelle.
 - **Die Schleife ist von selbst da.** Ein Wellenspiel *ist* eine Schleife mit Zähler. `range()` hat ab Etappe 3 einen echten Zweck statt bis Etappe 14 zu warten.
 - **Der Tick ist unvermeidlich.** In einem RPG muss man begründen, warum die Welt tickt. Hier fällt das Spiel ohne Tick auseinander: Gegner rücken vor, Abklingzeiten laufen, Geschütze bauen sich, Rekruten kommen nach.
 - **Fehler vom Typ 3 werden greifbar.** Wo gerechnet wird, kann etwas leise falsch sein. Eine Schadensformel, die nie abstürzt und trotzdem Unsinn liefert, ist der beste Lehrmeister, den dieser Plan hat.
@@ -955,7 +955,7 @@ Beide Entscheidungen kommen in `GELERNT.md`.
 
 | 🔨 Bauen | 🧠 Verstehen | 👀 Nur erkennen |
 |---|---|---|
-| `KLASSEN` als Tuple, zwei Sets, Bestiarium | Warum ein Set eine Regel *ist* statt sie zu prüfen | Mengenoperationen (`-`, `&`) |
+| `KLASSEN` als Tuple · Freischaltungen als Set · **Gegnertypen und die zweite Gegnerliste** · Bestiarium | Warum ein Set eine Regel *ist* statt sie zu prüfen · **warum zwei parallele Listen unangenehm sind** · die vier Fragen der Strukturwahl | Mengenoperationen (`-`, `&`) · warum `in` beim Set schneller ist |
 
 **Was du baust:**
 Keine neue Funktion — eine bessere Wahl der Werkzeuge.
@@ -967,7 +967,42 @@ freigeschaltet = {"panzerbrecher", "schnellladen"}    # Set: keine Duplikate
 
 **Das Set ist hier keine Optimierung, sondern eine Spielregel.** Eine Fähigkeit zweimal zu kaufen darf nicht gehen. Mit einer Liste musst du das prüfen. Mit einem Set ist es strukturell unmöglich — die Datenstruktur *ist* die Regel. Das ist der Unterschied zwischen „ich habe es abgefangen" und „es kann nicht passieren", und er wird dich dein Programmiererleben lang begleiten.
 
-Dazu ein zweites Set: `gesehene_gegnertypen`. Der Befehl `bestiarium` zeigt, was dir bisher begegnet ist — und damit auch, wie viel du noch nicht kennst. Die erste Begegnung mit einem Typ bekommt eine ausführlichere Beschreibung als jede spätere.
+---
+
+**⭐ Und hier führt der Plan die Gegnertypen ein. Das ist die eigentliche Neuerung dieser Etappe.**
+
+Bis Etappe 5 ist ein Gegner eine Positionszahl, und alle sehen gleich aus — `gegner = [7, 4, 2]`, drei Zeichen `K` auf der Bahn. Ab heute hat jeder einen **Typ**: Kriecher, Speier, Panzerbrut. Die Typen selbst stehen in einem verschachtelten Dictionary mit je einem langen und einem kurzen Beschreibungstext.
+
+**Und jetzt der Teil, der bewusst unbequem ist.** Der Typ bekommt keine eigene Klasse und kein Tuple — er bekommt eine **zweite Liste neben der ersten**:
+
+```
+gegner       = [7, 4, 2]
+gegner_typen = ["kriecher", "kriecher", "speier"]
+```
+
+Zwei Listen, über den **Index** verbunden. Der Gegner an Stelle 1 steht auf Feld 4 und ist ein Kriecher.
+
+**Warum das so und nicht besser:**
+
+Beim Anlegen ist es harmlos. Beim **Entfernen** wird es unangenehm — ein gefallener Gegner muss aus beiden Listen an derselben Stelle verschwinden, und `remove()` nach Wert trägt nicht mehr, weil zwei Gegner denselben Typ haben können. Der Lernende muss über den **Index** entfernen und dabei aufpassen, dass die Listen synchron bleiben.
+
+> **Zwei Sammlungen, die immer gleich lang sein müssen, sind eine Sammlung, die noch nicht gebaut wurde.**
+
+**Das ist absichtliches technisches Schuldenmachen mit festem Rückzahlungstermin.** In Etappe 11 kollabieren beide Listen zu einer Liste von Objekten, und der Schmerz endet. Wer ihn nicht erlebt hat, hält Objekte dort für Zeremonie. Wer ihn erlebt hat, versteht sie in der ersten Minute.
+
+*(Deshalb steht im Guide auch ausdrücklich: nicht heute schon Objekte bauen, nicht heute schon ein Tuple aus Typ und Position basteln. Beides wäre eine Konstruktion, die in fünf Etappen wieder abgerissen wird.)*
+
+**Der sichtbare Gewinn:** Die Anmarschbahn zeigt zum ersten Mal verschiedene Zeichen — `S..k...S....@`. Damit liest die Darstellung erstmals aus zwei Quellen, und die Zuordnung Typ → Zeichen ist dieselbe, die in Etappe 14a im Raster und in Etappe 29 bei den Kacheln wieder auftaucht.
+
+**Welche Typen in welcher Welle vorkommen, entscheidet eine `if`/`elif`-Kette über die Wellennummer.** Sie ist hässlich und heute genau richtig — in Etappe 17a ersetzt der Budget-Generator sie.
+
+---
+
+**Dazu ein zweites Set: `gesehene_gegnertypen`.** Der Befehl `bestiarium` zeigt, was dir bisher begegnet ist — und damit auch, wie viel du noch nicht kennst. Die erste Begegnung mit einem Typ bekommt den langen Text, jede spätere den kurzen.
+
+**Das ist die erste Sache im Programm, die sich etwas über Wellen hinweg merkt.** Bisher beschreibt jede Variable den aktuellen Zustand; das Bestiarium beschreibt die Geschichte des Spielers. Und es ist der Lehrbuchfall für ein Set: keine Reihenfolge, keine Duplikate, eine einzige Frage — *war der schon mal da?*
+
+`bestiarium` kostet **keine Runde** — Anwendung der Unterscheidung aus 3b zwischen Auskunft und Handlung.
 
 **Das Tuple bleibt heute bei `KLASSEN`, und das hat einen Grund.** Die übliche Tuple-Begründung lautet „gut für Koordinaten" — nur hat dein Spiel noch keine, und über etwas zu reden, das man nicht braucht, erzeugt keine Einsicht, sondern eine offene Frage. `KLASSEN` dagegen hat sofort Nutzen: Damit unterscheidet dein Programm „das ist keine Klasse" von „diese Klasse hast du nicht gewählt". Und es ist eine Liste, die sich nie ändern darf — genau dafür ist ein Tuple da.
 
@@ -1011,7 +1046,7 @@ Dreimal dasselbe Wort, dreimal etwas anderes.
 
 **Transferaufgabe (10 Min):** Zwei Listen mit Ausrüstungsteilen. Finde ohne Schleife heraus, welche in beiden vorkommen. (Eine Zeile, wenn du das richtige Werkzeug wählst.)
 
-**Kaputtmachen:** Leg eine Liste in ein Set. Ändere ein Tuple. Schreib `(5)` und `(5,)` und lass dir mit `type()` sagen, was das jeweils ist.
+**Kaputtmachen:** Leg eine Liste in ein Set. Ändere ein Tuple. Schreib `(5)` und `(5,)` und lass dir mit `type()` sagen, was das jeweils ist. **Und der wichtigste Versuch: Entfern einen gefallenen Gegner nur aus `gegner` und vergiss `gegner_typen`.** Spiel danach eine Welle. Das läuft ohne Fehlermeldung, bis die Listen so weit auseinanderlaufen, dass ein Index ins Leere greift — ein Typ-2-Fehler, der genau dann kommt, wenn man ihn am wenigsten erwartet.
 
 **Commit:** `Etappe 6: Die richtige Datenstruktur`
 
@@ -1302,6 +1337,25 @@ Und `if waffe is None:` — nicht `== None`. Kein Stil, echter Unterschied; frag
 **Die dritte Spalte ist ausdrücklich keine Aufgabe.** Keine Implementierung, keine Transferübung, keine Prüfung außer einer einzigen Verständnisfrage. Du sollst nicht lernen, `__iter__` zu schreiben — du sollst beim Lesen fremden Codes wissen, *warum* dort `for x in trupp:` steht, obwohl `trupp` keine Liste ist. Ein Satz dazu, und die Spalte ist erledigt.
 
 Wer daraus eine Übung macht, verbringt drei Abende mit Dunder-Methoden und einen mit Vererbung — und genau andersherum wäre richtig.
+
+**⭐ Und hier wird die Schuld aus Etappe 6 zurückgezahlt.** Seit dort trägt der Lernende zwei parallele Listen mit sich herum:
+
+```
+gegner       = [7, 4, 2]
+gegner_typen = ["kriecher", "kriecher", "speier"]
+```
+
+Zwei Sammlungen, die über den Index zusammenhängen, immer gleich lang sein müssen und beim Entfernen doppelte Sorgfalt verlangen. **Heute kollabieren sie zu einer:**
+
+```
+gegner = [Gegner("kriecher", 7), Gegner("kriecher", 4), Gegner("speier", 2)]
+```
+
+Ein Eintrag, eine Sache. Kein Index-Abgleich mehr, kein Synchronhalten, kein „ich habe vergessen, es aus der zweiten Liste zu löschen".
+
+**Das ist der stärkste Moment, den diese Etappe zu bieten hat, und er funktioniert nur, weil der Schmerz echt war.** Der Guide soll ausdrücklich darauf zurückkommen: erst die alten zwei Listen zeigen, dann die neue eine, dann die Frage, welche der beiden Fehlermöglichkeiten aus Etappe 6 jetzt gar nicht mehr existieren kann.
+
+Es gilt weiter die Migrationsregel: **Die Liste bleibt — nur was ein Eintrag bedeutet, wird reicher.** Schleifen, `len()` und die Bewegungslogik funktionieren unverändert.
 
 **Was du baust:**
 - `Einheit` → `Marine`, `Rekrut`, `Geschuetz`, `Gegner` — alles, was Trefferpunkte hat und Schaden nehmen kann
@@ -1767,7 +1821,11 @@ random.random()           # eine Kommazahl zwischen 0 und 1
 
 Fünf Minuten, dreimal laufen lassen, dreimal etwas anderes sehen. Dann ins Spiel.
 
+**Die Gegnertypen gibt es seit Etappe 6 — hier bekommen sie Zahlen.** Zu den Beschreibungstexten kommen Kosten und optional ein Gewicht. Das ist ein Dateneintrag mehr pro Typ, keine neue Struktur.
+
 **Jede Welle bekommt ein Budget**, das mit der Wellennummer wächst. Jeder Gegnertyp hat Kosten. Der Generator kauft ein, bis das Budget leer ist. Damit ist Welle 14 jedes Mal anders und trotzdem ungefähr gleich schwer.
+
+**Und die `if`/`elif`-Kette aus Etappe 6 stirbt hier** — die, die festlegte, welche Typen in welcher Welle vorkommen. Sie war dort genau richtig und ist es ab jetzt nicht mehr. Der Guide soll den Vergleich zeigen: vorher eine Kette mit drei Zweigen, nachher eine Rechnung, die mit dreißig Typen genauso funktioniert.
 
 **Der schwierige Teil ist nicht `random`, sondern das Wort davor.**
 

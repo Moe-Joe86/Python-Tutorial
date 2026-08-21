@@ -8,7 +8,7 @@
 
 | 🔨 Bauen | 🧠 Verstehen | 👀 Nur erkennen |
 |---|---|---|
-| `KLASSEN` als Tuple · zwei Sets · Freischaltungen · Bestiarium | Warum ein Set die Regel *ist* statt sie zu prüfen · die vier Fragen der Strukturwahl | Mengenoperationen (Differenz, Schnitt, Vereinigung) · warum `in` beim Set schneller ist · Sets und Tuples in JSON |
+| `KLASSEN` als Tuple · zwei Sets · Freischaltungen · **Gegnertypen als zweite Liste** · Bestiarium | Warum ein Set die Regel *ist* statt sie zu prüfen · **warum zwei parallele Listen unangenehm sind** · die vier Fragen der Strukturwahl | Mengenoperationen · warum `in` beim Set schneller ist · Sets und Tuples in JSON |
 
 ---
 
@@ -32,15 +32,21 @@ Sieh dir drei Stellen in deinem eigenen Code an, bevor du weiterliest:
 
 Vier Strukturen, vier Fragen. Am Ende der Etappe hast du eine Entscheidungshilfe, die du im ganzen Rest des Projekts benutzt — und in Etappe 25, wenn dreißig Gegnertypen aus einer Datei kommen, ist sie der Grund, warum du weißt, was davon Liste wird und was Dictionary.
 
-**Und weil eine Etappe ohne neue Spielfunktion sich schnell nach Hausaufgabe anfühlt, bekommt dein Spiel trotzdem zwei Dinge dazu:** Freischaltungen, die man nicht doppelt kaufen kann. Und ein **Bestiarium** — die erste Sache in deinem Programm, die sich etwas über Wellen hinweg *merkt*. Bisher beschreibt jede deiner Variablen den aktuellen Zustand. Das Bestiarium beschreibt deine Geschichte.
+**Und weil eine Etappe ohne neue Spielfunktion sich schnell nach Hausaufgabe anfühlt, bekommt dein Spiel trotzdem drei Dinge dazu.**
+
+**Freischaltungen**, die man nicht doppelt kaufen kann. **Gegnertypen** — ab heute ist nicht mehr jeder Gegner derselbe, und die Anmarschbahn zeigt es. Und ein **Bestiarium**, die erste Sache in deinem Programm, die sich etwas über Wellen hinweg *merkt*. Bisher beschreibt jede deiner Variablen den aktuellen Zustand; das Bestiarium beschreibt deine Geschichte.
+
+⚠️ **Und eine Warnung, die du beim Bauen brauchst:** Die Gegnertypen kommen als **zweite Liste neben deine Gegnerpositionen**. Das ist mit Absicht unbequem — und die Unbequemlichkeit ist der Grund, warum du in Etappe 11 verstehen wirst, wozu Objekte da sind. Mehr dazu bei Entscheidung 1.
 
 ---
 
 ## Vor dem Umbau: drei Fragen ⭐
 
-Das Ritual seit Etappe 4. Heute betrifft es die Stapelbarkeit aus Etappe 5, Auftragsschritt 10.
+Das Ritual seit Etappe 4. Heute betrifft es **zwei** Umbauten, und sie fühlen sich völlig verschieden an.
 
-| Frage | Für heute |
+**Umbau 1 — die Stapelbarkeit aus Etappe 5 wird ein Set** (Auftragsschritt 10):
+
+| Frage | Antwort |
 |---|---|
 | **Was bleibt gleich?** | Der Kauf. Munition landet im `vorrat`, ein Medkit im `inventar`, die Meldungen, die Preise — alles |
 | **Was ändert sich nur in der Darstellung?** | Nichts. Der Spieler merkt von diesem Umbau überhaupt nichts |
@@ -48,30 +54,65 @@ Das Ritual seit Etappe 4. Heute betrifft es die Stapelbarkeit aus Etappe 5, Auft
 
 **Die zweite Zeile ist die ungewöhnliche.** Ein Umbau, den niemand sieht, fühlt sich sinnlos an. Er ist es nicht: Danach kann eine Ware nicht mehr *widersprüchlich* eingetragen sein, weil es nichts mehr gibt, worin sie sich widersprechen könnte. Das ist die Sorte Arbeit, die dir in vier Wochen eine Stunde Fehlersuche erspart, und du wirst nie erfahren, welche.
 
+**Umbau 2 — Gegner bekommen einen Typ** (Auftragsschritte 8 bis 12):
+
+| Frage | Antwort |
+|---|---|
+| **Was bleibt gleich?** | Bewegung, Feuern, Wellenende, `len(gegner)` als Anzahl — die Positionsliste wird nicht angefasst |
+| **Was ändert sich nur in der Darstellung?** | Die Bahn zeigt verschiedene Zeichen statt dreimal `K` |
+| **Was ändert sich wirklich am Datenmodell?** | Eine **zweite Liste** kommt daneben — und ab jetzt müssen beide synchron bleiben |
+
+**Die dritte Zeile ist die teuerste des ganzen Fundaments.** Genau darum geht es bei Entscheidung 1.
+
 ---
 
 ## Zwei Design-Entscheidungen, die du jetzt treffen solltest
 
 Beide haben mehr als eine vertretbare Antwort. Schreib deine Wahl **und die Begründung** in `GELERNT.md`.
 
-### Entscheidung 1 — Wo lebt der Gegnertyp? ⭐
+### Entscheidung 1 — Wie entfernst du einen gefallenen Gegner? ⭐
 
-Dein Bestiarium soll zeigen, welchen Sorten Brut du bisher begegnet bist. Dafür muss irgendwo stehen, welcher Typ gerade anrückt — und dein Programm weiß das im Moment nirgends. Ein Gegner ist eine Zahl: die Stelle, an der er steht.
+**Zum Kontext, weil daran heute alles hängt:** Ab heute hat jeder Gegner einen Typ, und der wohnt in einer **zweiten Liste neben der ersten**, über den Index verbunden:
 
-Es gibt zwei Orte, an die der Typ kann:
+```
+gegner       = [7, 4, 2]
+gegner_typen = ["kriecher", "kriecher", "speier"]
+```
 
-| | Die **Welle** kennt ihre Typen | Jeder **Gegner** kennt seinen Typ |
+Der Gegner an Stelle 1 steht auf Feld 4 und ist ein Kriecher. Solange nur etwas dazukommt, ist das harmlos: an beide Listen anhängen, fertig.
+
+**Unangenehm wird es beim Entfernen** — und genau da musst du dich entscheiden.
+
+Bisher hast du `remove()` benutzt: „nimm den Eintrag mit diesem Wert raus". Das trägt jetzt nicht mehr. `gegner_typen.remove("kriecher")` entfernt *irgendeinen* Kriecher, nicht den gefallenen — und wenn zwei Gegner auf demselben Feld stehen, gilt dasselbe für die Positionsliste.
+
+| | Über den Index | Neu aufbauen |
 |---|---|---|
-| In den Daten | Eine Menge Typen pro Welle, daneben unverändert `gegner = [7, 4, 2]` | Jeder Eintrag trägt Typ **und** Position |
-| Die Anmarschbahn | Alle Gegner sehen gleich aus | Jeder Typ hat ein eigenes Zeichen |
-| Aufwand heute | zwanzig Minuten | ein bis zwei Abende, dein Bewegungscode wird angefasst |
-| In Etappe 11 | Der Typ wandert vom Wellen- ins Gegnerobjekt | Der Typ ist schon am richtigen Ort |
+| Wie | Position des Gefallenen merken, aus **beiden** Listen an dieser Stelle entfernen | Beide Listen neu erzeugen, ohne die gefallenen Einträge |
+| Werkzeug | `pop(i)` oder `del` | eine Schleife, die überträgt |
+| Falle | Beim Entfernen während einer Schleife verschieben sich alle Indizes dahinter | keine — deshalb ist es die sicherere Variante |
+| Aufwand | weniger Code | etwas mehr Code |
 
-**Meine Empfehlung: die Welle.** Nicht weil es eleganter wäre — es ist es nicht —, sondern weil der zweite Weg dich zwingt, dir *heute* auszudenken, wie ein Gegner mit mehreren Eigenschaften aussieht. Genau diese Frage ist der Inhalt von Etappe 11, und sie wird dort mit dem richtigen Werkzeug beantwortet. Wer sie heute mit den Mitteln von Etappe 6 löst, baut eine Konstruktion, die er in fünf Etappen wieder abreißt.
+**Ich empfehle dir keine Variante, und das ist ausnahmsweise Absicht.** Beide funktionieren, beide sind in echtem Code verbreitet, und die Falle bei der ersten ist genau die aus Etappe 4 — nur diesmal mit zwei Listen statt einer.
 
-**Wenn du den zweiten Weg trotzdem willst** — er ist spielerisch der bessere —, dann bau ihn so: Jeder Eintrag in `gegner` wird ein Tuple aus Typ und Position, `("kriecher", 7)`. Und dann merkst du sofort etwas, das ich dir nicht wegnehmen will: **Ein Tuple lässt sich nicht ändern.** Ein Gegner, der ein Feld vorrückt, muss also ersetzt werden statt verändert. Das ist mühsam, es ist die ehrliche Rechnung für die Struktur — und es ist die beste Begründung für Etappe 11, die du bekommen kannst. Notier, wie es sich anfühlt.
+**Was ich dir stattdessen mitgebe, ist ein Satz zum Aufschreiben:**
 
-**Der Begriff dafür, und du wirst ihn ab jetzt oft brauchen:** Das hier ist eine **Modellierungsentscheidung**. Nicht die Frage, wie man etwas programmiert, sondern *woraus die Sache in deinem Programm besteht*. Sie hat selten eine richtige Antwort und immer Folgen. In Etappe 14a triffst du die nächste (benannte Orte oder Raster?), in Etappe 19 die übernächste (was ist Struktur, was ist Dateiformat?).
+> **Was immer du wählst: Nach jeder Änderung müssen `len(gegner)` und `len(gegner_typen)` gleich sein.**
+
+Das ist eine **Invariante** — die zweite in diesem Projekt nach denen aus Etappe 4 und 5. Schreib sie in `GELERNT.md`. Im Kaputtmach-Teil brichst du sie absichtlich und siehst zu, was passiert.
+
+**Und warum baust du das überhaupt so?**
+
+Weil es unbequem ist. Der naheliegende Gedanke — *„ein Gegner sollte ein Ding sein, das Position und Typ zusammen hat"* — ist völlig richtig, und dafür fehlt dir heute das Werkzeug. Es kommt in Etappe 11, und dort kollabieren deine zwei Listen zu einer:
+
+```
+gegner = [Gegner("kriecher", 7), Gegner("kriecher", 4), Gegner("speier", 2)]
+```
+
+**Bau das heute nicht vor.** Kein Tuple aus Typ und Position, keine selbstgebaute Konstruktion. Wer es heute mit den Mitteln von Etappe 6 löst, reißt es in fünf Etappen wieder ab — und verliert dabei die Erfahrung, die Etappe 11 überhaupt erst begründet.
+
+> **Zwei Sammlungen, die immer gleich lang sein müssen, sind eine Sammlung, die noch nicht gebaut wurde.**
+
+Merk dir den Satz. Du hast dasselbe Muster schon einmal gebaut, ohne dass es benannt wurde: `waren` und `stapelbar` in Etappe 5 sind auch zwei Tabellen mit demselben Schlüsselsatz. In Etappe 22 werden auch die zusammengezogen.
 
 ### Entscheidung 2 — Was passiert beim zweiten Mal?
 
@@ -129,7 +170,7 @@ b = set()       # ein leeres Set
 
 `{}` war zuerst da und gehört dem Dictionary. Ein leeres Set schreibt man `set()`, und es gibt keine kürzere Form. Wenn du dich vertust, merkst du es nicht sofort — beide sind falsy, beide nehmen `len()`, und der Fehler kommt erst bei `.add()`.
 
-*(Ein Set aus einer Liste bauen geht auch: `set(["a", "b", "a"])` ergibt ein Set mit zwei Einträgen. Merk dir das für Kaputtmach-Experiment 5.)*
+*(Ein Set aus einer Liste bauen geht auch: `set(["a", "b", "a"])` ergibt ein Set mit zwei Einträgen. Merk dir das für Kaputtmach-Experiment 6.)*
 
 ### 3. Keine Reihenfolge, kein Index, keine Duplikate
 
@@ -487,6 +528,33 @@ Eine `if`/`elif`-Kette reicht. *(In Etappe 17 ersetzt der Wellengenerator diese 
 
 **Zum Prüfen:** Setz `welle` testweise auf 4 und starte. Dann auf 8.
 
+**9b. Gib jedem einzelnen Gegner einen Typ.**
+
+Bis jetzt weiß nur die Welle, welche Typen vorkommen. Jetzt weiß es jeder Gegner:
+
+```
+gegner       = [7, 4, 2]
+gegner_typen = ["kriecher", "kriecher", "speier"]
+```
+
+Bau die zweite Liste **immer dann mit auf**, wenn du die erste aufbaust — zu Wellenbeginn, für jeden Gegner ein Eintrag aus den Typen dieser Welle. Wie du verteilst, ist dir überlassen: alle gleich, abwechselnd, oder der letzte ist der stärkste. Zufall gibt es erst in Etappe 17a.
+
+⚠️ **Und jetzt der Teil, um den es wirklich geht — bau das Entfernen um.**
+
+Dein `feuern` aus Etappe 3c entfernt einen Gegner. Ab jetzt muss es **beide** Listen an derselben Stelle treffen. Halt dich an deine Entscheidung 1.
+
+**Zum Prüfen, und mach das gründlich:** Gib nach jedem Schuss `len(gegner)` und `len(gegner_typen)` aus. **Die beiden Zahlen müssen immer gleich sein.** Spiel drei volle Wellen so durch, bevor du weitergehst — wenn sie irgendwann auseinanderlaufen, findest du es hier in zwei Minuten und in Etappe 8 in zwei Stunden.
+
+*(Diese zwei Debugzeilen sind der Grund, warum diese Etappe machbar ist. Lass sie stehen, bis Schritt 15 durch ist.)*
+
+**9c. Zeig die Typen auf der Anmarschbahn.**
+
+Statt dreimal `K` bekommt jeder Typ ein eigenes Zeichen — `k`, `S`, `P` oder was du willst. Eine Zuordnung Kennung → Zeichen, und deine Zeichenfunktion aus Etappe 4 liest ab jetzt aus **zwei** Listen statt einer.
+
+**Das ist der sichtbare Gewinn dieser Etappe.** Zum ersten Mal sieht man auf der Bahn, was da kommt.
+
+*(Die Zuordnung Typ → Zeichen taucht in Etappe 14a im Raster wieder auf und in Etappe 29 als Kachel. Bau sie als eigenes Dictionary, nicht als `if`-Kette — den Grund kennst du aus Etappe 5.)*
+
 **10. Melde neue Typen ausführlich, bekannte kurz.**
 
 Zu Wellenbeginn: Für jeden Typ dieser Welle, der **noch nicht** in `gesehene_gegnertypen` steht, gib den langen Text aus. Für die übrigen den kurzen. Danach nimm alle Typen der Welle ins Set auf.
@@ -583,6 +651,9 @@ Prüft den Zustand deines Programms, nicht dein Gefühl. Führ jeden Punkt tats�
 - [ ] `schalte frei tarnkappe` meldet, dass es das nicht gibt, und stürzt nicht ab
 - [ ] Freischalten mit zu wenig Schrott meldet das — und bucht **nichts** ab
 - [ ] Der Panzerbrecher verändert deinen Schaden pro Schuss nachweisbar
+- [ ] ⭐ **`len(gegner)` und `len(gegner_typen)` sind nach jedem Schuss gleich** — über drei volle Wellen geprüft, nicht angenommen
+- [ ] Auf der Anmarschbahn haben verschiedene Typen verschiedene Zeichen
+- [ ] Fällt der Gegner in der Mitte, verschwinden Position **und** Typ an derselben Stelle — die übrigen behalten ihren Typ
 - [ ] Der erste Kriecher der ersten Welle bekommt den langen Text
 - [ ] ⭐ Der Kriecher der zweiten Welle bekommt den kurzen Text
 - [ ] Bei `welle = 4` erscheint der Speier zum ersten Mal — mit langem Text
@@ -630,7 +701,7 @@ Schritt 5 ist der Grund, warum diese Aufgabe existiert. Wenn du je Ausgaben aus 
 
 ## Kaputtmachen
 
-**Vor jedem Experiment aufschreiben, was passieren wird.** Die ersten fünf gehören dazu, die letzten drei sind Kür.
+**Vor jedem Experiment aufschreiben, was passieren wird.** Die ersten sechs gehören dazu, die letzten drei sind Kür.
 
 **1. Schreib `freigeschaltet = {}` statt `set()`** und ruf danach `.add("zielhilfe")` auf. Lies die Fehlermeldung. Ruf dann `len({})` und `bool({})` auf und vergleich mit dem Set — an welcher Stelle hättest du den Unterschied gemerkt, und an welchen nicht?
 
@@ -642,7 +713,25 @@ Schritt 5 ist der Grund, warum diese Aufgabe existiert. Wenn du je Ausgaben aus 
 
 ⭐ **Das ist der Typ-3-Fehler dieser Etappe:** Kein Absturz, keine Meldung, `freigeschaltet` sieht danach vollkommen korrekt aus — genau ein Eintrag, wie es sein soll. Nur der Schrott ist dreimal weg. **Die Datenstruktur ist sauber und das Spiel ist kaputt.** Das ist Konzept 4 von der unangenehmen Seite, und es ist der Grund, warum dort der Zusatz steht.
 
-**5. ⭐ Bau die Anmarschbahn einmal über ein Set.**
+**5. ⭐ Brich die Invariante aus Entscheidung 1.**
+
+Entfern einen gefallenen Gegner **nur aus `gegner`** und lass `gegner_typen` unangetastet. Spiel dann eine ganze Welle.
+
+**Sag vorher, wann es knallt.** Dann führ es aus.
+
+Es knallt nicht sofort. Erst wenn die Listen so weit auseinandergelaufen sind, dass ein Index in der kürzeren ins Leere greift — und das kann drei Schüsse dauern oder zwanzig. Vorher zeigt die Bahn falsche Typen an, ohne sich zu beschweren.
+
+**Das ist ein Fehler vom Typ 2:** Er kommt nicht immer, sondern unter Bedingungen, und die Fehlermeldung erscheint weit entfernt von der Zeile, die ihn verursacht hat.
+
+Beantworte danach in `GELERNT.md`:
+
+1. Wie viele Schüsse hat es gedauert?
+2. In welcher Zeile erschien der Fehler — und in welcher lag die Ursache?
+3. Was hätte dir das früher gezeigt? *(Du hast es in Schritt 9b eingebaut.)*
+
+**Das ist die wichtigste halbe Stunde dieser Etappe.** Merk dir das Gefühl. In Etappe 11 wird es unmöglich, diesen Fehler zu machen — nicht weil du besser aufpasst, sondern weil es nichts mehr gibt, was auseinanderlaufen könnte.
+
+**6. ⭐ Bau die Anmarschbahn einmal über ein Set.**
 
 Statt deine Gegnerpositionen einzeln in die Bahn zu schreiben: Bau ein Set aus allen besetzten Feldern und prüf beim Zeichnen für jedes Feld mit `in`, ob es besetzt ist. Nur zum Ausprobieren, in einer Kopie.
 
@@ -659,11 +748,11 @@ Das ist die Zusage „keine Duplikate" an einer Stelle, an der sie schadet. Antw
 
 Die folgenden drei sind Kür.
 
-**6. Leg ein Set an, das ein Tuple mit einer Liste darin enthalten soll** — `{([1, 2], 3)}`. Erklär die Fehlermeldung mit Konzept 7.
+**7. Leg ein Set an, das ein Tuple mit einer Liste darin enthalten soll** — `{([1, 2], 3)}`. Erklär die Fehlermeldung mit Konzept 7.
 
-**7. Lass ein Komma weg.** Bau eine Funktion, die `return 5, 7` macht, und dann eine mit `return (5)`. Pack beide Ergebnisse mit `a, b = ...` aus. Welche Fehlermeldung bekommst du, und an welcher Zeile — an der Rückgabe oder am Auspacken?
+**8. Lass ein Komma weg.** Bau eine Funktion, die `return 5, 7` macht, und dann eine mit `return (5)`. Pack beide Ergebnisse mit `a, b = ...` aus. Welche Fehlermeldung bekommst du, und an welcher Zeile — an der Rückgabe oder am Auspacken?
 
-**8. Sortier ein Set.** Ruf `sorted()` darauf auf und sieh dir an, was zurückkommt. Ist das noch ein Set?
+**9. Sortier ein Set.** Ruf `sorted()` darauf auf und sieh dir an, was zurückkommt. Ist das noch ein Set?
 
 ---
 
@@ -681,7 +770,10 @@ Die folgenden drei sind Kür.
 | Der lange Text erscheint **jedes Mal** | Der Typ wird nie ins Set aufgenommen | Dieselbe Stelle, andere Hälfte |
 | Kein Fehler, aber Schrott verschwindet mehrfach | Die „schon freigeschaltet?"-Prüfung fehlt | Auftragsschritt 6 |
 | `a, b = paar` scheitert mit „too many values to unpack" | Links stehen weniger Namen als rechts Werte | Was liefert die rechte Seite wirklich? |
-| Zwei Gegner, aber nur einer auf der Bahn | Positionen in ein Set gelegt, Duplikat verschluckt | Kaputtmach-Experiment 5 |
+| Zwei Gegner, aber nur einer auf der Bahn | Positionen in ein Set gelegt, Duplikat verschluckt | Kaputtmach-Experiment 6 |
+| `IndexError` beim Zeichnen der Bahn, mitten in der Welle | `gegner` und `gegner_typen` sind auseinandergelaufen | Nicht die Zeichenfunktion — die Stelle, an der entfernt wird |
+| Auf der Bahn steht der falsche Typ | Dieselbe Ursache, nur noch ohne Absturz | `len()` beider Listen ausgeben, Schritt 9b |
+| `gegner_typen.remove(typ)` entfernt den falschen Gegner | `remove()` sucht nach Wert, nicht nach Stelle | Entscheidung 1 — über den Index gehen |
 
 **Der Debugging-Reflex dieser Etappe: „Welche Struktur ist das eigentlich?"**
 
@@ -701,7 +793,18 @@ print("### TYP", type(freigeschaltet), freigeschaltet)
 
 **Etappe 7a** räumt deine Befehlskette auf. Sie ist heute um zwei Befehle gewachsen, und `schalte frei` hat vier Prüfungen — beides Material für die erste Funktion, die wirklich etwas leistet.
 
-**Etappe 11** löst deine `elif`-Kette der Klassenwerte durch vier Python-Klassen ab. `KLASSEN` überlebt das: Aus dem Tuple wird die Liste der verfügbaren Klassen, an der dein Programm prüft, was es überhaupt gibt.
+**Etappe 11 ist der Zahltag für heute.** Deine zwei parallelen Listen werden eine:
+
+```
+heute:   gegner = [7, 4, 2]   und   gegner_typen = ["kriecher", "kriecher", "speier"]
+später:  gegner = [Gegner("kriecher", 7), Gegner("kriecher", 4), Gegner("speier", 2)]
+```
+
+Ein Eintrag, eine Sache. Kein Index-Abgleich, kein Synchronhalten — **und der Fehler aus Kaputtmach-Experiment 5 kann nicht mehr passieren.** Nicht weil du besser aufpasst, sondern weil es nichts mehr gibt, was auseinanderlaufen könnte.
+
+Es gilt dabei die Regel, die seit Etappe 4 für jede Migration steht: **Die Liste bleibt — nur was ein Eintrag bedeutet, wird reicher.** Deine Schleifen, dein `len()`, deine Bewegung funktionieren weiter.
+
+Dieselbe Etappe löst außerdem deine `elif`-Kette der Klassenwerte durch vier Python-Klassen ab. `KLASSEN` überlebt das: Aus dem Tuple wird die Liste der verfügbaren Klassen, an der dein Programm prüft, was es überhaupt gibt.
 
 **Etappe 12** lässt den Tick über deine Einheiten laufen — und die Schleifenform dabei ist das Tuple-Unpacking aus Konzept 9.
 
@@ -709,7 +812,7 @@ print("### TYP", type(freigeschaltet), freigeschaltet)
 
 **Etappe 15** baut auf `gesehene_gegnertypen` das Erkenntnissystem auf. Der Datenkern aus Etappe 4 wird dort endlich zu etwas.
 
-**Etappe 17** ersetzt deine `if`/`elif`-Kette aus Schritt 9 durch einen Wellengenerator mit Budget. Deine Typen bekommen dort Kosten, und ab da ist jede Welle anders.
+**Etappe 17a** ersetzt deine `if`/`elif`-Kette aus Schritt 9 durch einen Wellengenerator mit Budget. Deine `GEGNERTYPEN`-Einträge bekommen dort **Kosten** — ein Feld mehr im selben Dictionary, keine neue Struktur. Ab da ist jede Welle anders und trotzdem fair.
 
 **Etappe 18** macht aus `freigeschaltet` den zentralen Flag-Speicher des Spiels — und dann weißt du, warum es ein Set ist und keine Liste. Dort kommen Voraussetzungen dazu, und die Frage *„was fehlt mir noch?"* ist die Differenzmenge aus Konzept 10.
 
@@ -727,12 +830,14 @@ print("### TYP", type(freigeschaltet), freigeschaltet)
 - Was habe ich verstanden?
 - Was hat mich überrascht? *(Kandidaten: `{}` ist ein Dictionary · `(5)` ist keine Klammer, sondern eine Zahl · `.items()` liefert seit Etappe 5 Tuples)*
 - Welchen Fehler habe ich gemacht — und **wie habe ich ihn gefunden?**
-- **Entscheidung 1:** Kennt die Welle die Typen oder der einzelne Gegner — und warum?
+- **Entscheidung 1:** Wie entferne ich einen gefallenen Gegner aus beiden Listen — und warum so?
+- ⭐ **Wie hat es sich angefühlt, zwei Listen synchron zu halten?** Zwei, drei Sätze, ehrlich. Diesen Eintrag liest du in Etappe 11 wieder, und dann ist er die Antwort auf die Frage, wozu Objekte gut sind.
 - **Entscheidung 2:** Was passiert beim zweiten Freischalten?
 - **Die vier Fragen der Entscheidungshilfe**, in der richtigen Reihenfolge, aus dem Kopf
 - **Wo wäre in meinem Spiel ein Set die falsche Wahl — und warum?**
 - **Was ein Set garantiert und was nicht** *(der Satz aus Konzept 4, in eigenen Worten)*
-- Die Antworten aus Kaputtmach-Experiment 5 (die zwei Zahlen, und welche die Wahrheit ist)
+- **Die drei Antworten aus Kaputtmach-Experiment 5** (nach wie vielen Schüssen, wo der Fehler erschien, wo die Ursache lag)
+- Die Antworten aus Kaputtmach-Experiment 6 (die zwei Zahlen, und welche die Wahrheit ist)
 - **Zwei neue Invarianten** aus Auftragsschritt 14
 - Der Preis des `STAPELBAR`-Umbaus: welche Fehlerquelle ich gegen welche getauscht habe
 - Die Idee für Etappe 18, die ich heute **nicht** gebaut habe

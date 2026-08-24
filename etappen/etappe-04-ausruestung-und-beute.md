@@ -3,7 +3,7 @@
 > **Block 1: Fundament** · Etappe 4 von 30 · [← Etappe 3](etappe-03-die-wellenschleife.md) · [Lehrplan](../Vorposten_Lehrplan.md) · [Etappe 5 →](etappe-05-vorposten-und-depot.md)
 
 **Boot.dev:** Listen, `append()`, `remove()`, `len()`, Indexing
-**Zeitaufwand:** 3–5 Sitzungen à 20–30 Minuten
+**Zeitaufwand:** 4–6 Sitzungen à 20–30 Minuten — **die bisher größte Etappe.** Auftragsschritt 2 und 9 sind die schweren; wenn du daran länger sitzt als am ganzen Rest, ist das der Normalfall und kein Rückstand.
 **Voraussetzung:** Etappe 3c abgeschlossen, Selbsttest grün
 
 | 🔨 Bauen | 🧠 Verstehen | 👀 Nur erkennen |
@@ -440,30 +440,68 @@ if munition:        # heißt: munition ist nicht 0
 
 Solange `0` „leer" bedeutet, ist das genau richtig. Sobald `0` ein *gültiger Wert* ist, den man von „nicht gesetzt" unterscheiden muss, ist es falsch — und der Fehler zeigt sich nie sofort. Merk dir die Frage, die dazu gehört und die du ab heute stellst: **Kann diese Variable legitim `0` sein?** In Etappe 10 kommt der Gegenbegriff dazu, in Etappe 18 die Falle in voller Größe.
 
-### 12. `.split()` — aus einer Zeile werden Wörter
+### 12. `.split()` — aus einer Zeile werden Wörter ⭐
+
+**Das ist der schwerste Abschnitt dieser Etappe.** Nicht wegen `.split()` — das ist eine Zeile. Sondern weil du danach zum ersten Mal mit einer Eingabe arbeitest, die **unterschiedlich viele Teile** haben kann. Nimm dir Zeit dafür; eine Stunde ist hier normal.
+
+**Der Anfang ist harmlos:**
 
 ```python
-"nimm schrott".split()        # ["nimm", "schrott"]
+"hol zeitung".split()        # ["hol", "zeitung"]
+"hol".split()                # ["hol"]
+"".split()                   # []      ← eine leere Liste!
 ```
 
-Ohne Argument trennt `.split()` an Leerzeichen und wirft überzählige weg. `"nimm   schrott"` mit drei Leerzeichen liefert dasselbe Ergebnis — was dir einen Teil der Arbeit abnimmt, die du sonst `.strip()` überlassen müsstest.
+Ohne Argument trennt `.split()` an Leerzeichen und wirft überzählige weg — `"hol   zeitung"` mit drei Leerzeichen liefert dasselbe wie mit einem.
 
-**Und jetzt wird die Entscheidung aus Etappe 3b fällig.** Damals hast du einwortige Befehle gebaut und es stand dabei, dass heute der Umbau kommt. Er kommt jetzt: Aus einer Zeile werden ein Verb und ein Ziel, aus `if befehl == "status"` wird ein Vergleich mit dem ersten Wort.
+**Und jetzt das Problem, das daraus entsteht.**
 
-Drei Dinge, über die dabei jeder stolpert — such dir die Antworten selbst, sie stehen alle in einem `print()`:
+Du bekommst eine **Liste unbekannter Länge**. Bei `hol zeitung` hat sie zwei Einträge, bei `hol` einen, bei einer leeren Eingabe keinen. Und ein Zugriff auf `teile[1]`, wenn nur ein Wort da ist, ist der `IndexError` aus Konzept 4.
 
-1. Was liefert `"".split()`? Und was macht dein Programm dann bei einer leeren Eingabe?
-2. Der Spieler tippt nur `nimm`. Wie viele Elemente hat die Liste, und was passiert bei `teile[1]`?
-3. Der Spieler tippt `NIMM Schrott`. Wo genau in deiner Kette gehört `.lower()` hin — vor oder nach dem Zerlegen? Macht das einen Unterschied?
-4. Tipp das hier in die Konsole und sieh nach, was herauskommt:
+**Der übliche Weg damit umzugehen — an einem Kiosk, nicht an deinem Spiel:**
 
-   ```python
-   "  NIMM   Schrott  ".strip().lower().split()
-   ```
+```python
+eingabe = input("> ").strip().lower()
+teile = eingabe.split()
 
-   Lies die Kette von links nach rechts und sag vorher, was nach jedem Schritt dasteht. **Das ist die Eingabezeile, die dein Spiel von hier bis Etappe 25 benutzt** — drei Methoden hintereinander, jede gibt einen neuen Wert zurück, auf dem die nächste arbeitet.
+if len(teile) == 0:           # gar nichts eingetippt
+    print("Bitte gib etwas ein.")
+else:
+    wort1 = teile[0]          # gibt es immer, wenn die Liste nicht leer ist
+    wort2 = ""                # Vorbelegung für den Fall, dass es kein zweites gibt
+    if len(teile) > 1:
+        wort2 = teile[1]
 
-**Ehrlich eingeordnet:** Der Umbau selbst ist in zehn Minuten erledigt. Der Wert liegt nicht darin, sondern in dem, was du dabei fühlst — eine Entscheidung von vor zwei Wochen kostet dich heute Arbeit. Das ist die billigste Version dieser Erfahrung, die dieser Plan zu bieten hat. In Etappe 25 machst du dieselbe Sorte Entscheidung noch einmal, dann für dein ganzes Content-System, und dann ist sie nicht mehr billig.
+    # ab hier arbeitest du nur noch mit wort1 und wort2
+    if wort1 == "hol":
+        print(f"Ich hole: {wort2}")
+    elif wort1 == "kasse":
+        print("Zur Kasse.")
+    else:
+        print("Kenne ich nicht.")
+```
+
+**Lies das Muster, nicht die Zeilen.** Es hat drei Teile, und die Reihenfolge ist der ganze Trick:
+
+1. **Leere Eingabe abfangen**, bevor irgendetwas anderes passiert.
+2. **Die Wörter einmal in Variablen holen** — mit einer Vorbelegung für das zweite, falls es fehlt.
+3. **Danach ganz normal vergleichen**, so wie du es seit Etappe 2 tust.
+
+**Warum das besser ist als die naheliegende Variante.** Man kann auch für jede mögliche Wortanzahl eine eigene `if`-Kette bauen — erst `if len(teile) == 1:` mit allen Ein-Wort-Befehlen darin, dann `if len(teile) == 2:` mit allen Zwei-Wort-Befehlen. Das funktioniert. Aber du hast dann **zwei Ketten, die beide wachsen**, und bei jedem neuen Befehl musst du überlegen, in welche er gehört. Mit dem Muster oben hast du **eine** Kette, und die Wortanzahl ist vorher erledigt.
+
+Das ist keine Stilfrage. In Etappe 5 kommen `gehe`, `depot` und `kaufe` dazu, in Etappe 6 zwei weitere — mit zwei Ketten wird das schnell unübersichtlich.
+
+**Zwei Dinge, die du selbst ausprobieren sollst**, bevor du baust:
+
+```python
+"  NIMM   Schrott  ".strip().lower().split()
+```
+
+Sag vorher, was nach jedem der drei Schritte dasteht. Dann ausführen. **Das ist die Eingabezeile, die dein Spiel von hier bis Etappe 25 benutzt.**
+
+Und: Gehört `.lower()` vor oder nach `.split()`? Probier beides. *(Tipp: Eines von beiden arbeitet auf einem Text, das andere auf einer Liste — und nur eines von beidem hat eine `.lower()`-Methode.)*
+
+**Der eigentliche Ertrag dieser Etappe steckt nicht in der Technik, sondern in einem Gefühl.** In Etappe 3b hast du dich für einwortige Befehle entschieden, und es stand dabei, dass Etappe 4 den Umbau erzwingt. Jetzt zahlst du. Merk dir, wie sich das anfühlt — in Etappe 25 triffst du dieselbe Sorte Entscheidung noch einmal, dann für dein ganzes Content-System, und dann ist die Rechnung nicht mehr so günstig.
 
 ### 13. Die Falle: eine Liste verändern, während man über sie läuft ⭐
 
@@ -528,36 +566,139 @@ Das ist kein Anfängertrick, sondern das Suchverfahren, das dir in Etappe 8 als 
 
 ## Dein Auftrag
 
-Nach jedem Schritt ausführen. Nach den Schritten 4, 7 und 9 ist ein Commit sinnvoll, auch wenn erst am Ende der offizielle steht.
+**Wie lange das dauert, sagt nichts über dich.** Schritt 2 ist die erste Aufgabe dieses Tutorials, bei der du zwei neue Dinge gleichzeitig brauchst — `.split()` **und** den Umgang mit einer Liste unbekannter Länge. Eine Stunde nur dafür ist normal. Schritt 9 ist der zweite schwere Punkt.
 
-1. **Das Inventar als leere Liste anlegen** und den Befehl `inventar` bauen, der zeigt, was drin ist — inklusive des Falls, dass nichts drin ist. Der Unterschied zwischen „leer" und „gar nicht vorhanden" soll für den Spieler sichtbar sein.
-2. **Die Befehlskette auf zwei Wörter umbauen.** Eingabe zerlegen, mit dem ersten Wort vergleichen. Die bestehenden Einwort-Befehle aus Etappe 3b müssen danach **unverändert funktionieren** — prüf das ausdrücklich, bevor du weitergehst. Das ist die erste Erweiterung dieses Projekts, die etwas Bestehendes anfasst.
-3. **Eine Liste mit dem, was im Vorfeld liegt.** Vier Fundstücke reichen: Schrott, ein Munitionskasten, eine Panzerplatte, ein Datenkern der Brut. Der Datenkern tut heute nichts. Das ist Absicht.
-4. **`nimm <ding>` und `ablege <ding>`** — ein Gegenstand wandert zwischen den beiden Listen. Denk an Konzept 10: erst prüfen, ob der Umzug möglich ist, dann bewegen.
-5. **Die Obergrenze von zehn Gegenständen** mit einer verständlichen Meldung. Der Gegenstand bleibt dabei liegen, wo er lag.
-> **Wenn du hier teilen willst, teil hier.** Nach Schritt 6 steht ein funktionierendes Inventar, und das ist ein sauberer Schnitt mit eigenem Commit (`Etappe 4: Das Inventar ist eine Liste`). Der Lehrplan teilt diese Etappe nicht offiziell — aber die Regel *„Etappen dürfen halbiert werden"* gilt, und dies ist die Stelle, an der es ohne Bruch geht. Die Schritte 7 bis 10 sind ein eigener Abend.
+Nach jedem Schritt ausführen. Committen ist nach 4, 7 und 9 sinnvoll.
 
-6. **Was passiert bei `nimm hubschrauber`?** Und bei `nimm` ohne zweites Wort? Beides soll den Spieler nicht abstürzen lassen. Noch ohne `try`/`except` — das ist Etappe 20.
-7. **Ersetz `gegner_anzahl` durch eine Liste von Positionen.**
+---
 
-   Zu Wellenbeginn entsteht eine Liste mit einer Positionszahl pro Gegner — wie viele, sagt deine Formel aus 3c. Wo sie starten, entscheidest du: alle am Spawnpunkt, oder verteilt.
+### 1. Leg das Inventar an
 
-   Danach gibt es **keine Variable mehr, die zählt, wie viele Gegner übrig sind.** Die Anzahl liest du mit `len(gegner)` aus der Liste ab — überall, auch in deiner `while`-Bedingung.
+- Eine leere Liste für die Gegenstände, die du trägst.
+- Bau den Befehl `inventar`, der ihren Inhalt zeigt.
+- Ist sie leer, kommt eine eigene Meldung — nicht eine leere Zeile.
 
-   Deine Kampflogik aus 3c muss danach dasselbe tun wie vorher: `feuern` entfernt einen Gegner aus der Liste, statt eine Zahl zu senken.
-8. **Die Falle bauen und sehen.** Entferne getroffene Gegner absichtlich mitten im Durchlauf. Schreib auf, was du erwartest, führ es aus, vergleiche. Erst danach bau es richtig.
-9. **Die Anmarschbahn, in vier Schritten.** Konzept 15 erklärt, warum einzeln und nicht auf einmal. Nach **jedem** Schritt ausführen:
+**So prüfst du es:** `inventar` direkt nach dem Start eingeben. Es muss etwas Lesbares erscheinen.
 
-   **9.1 — Ein Gegner bewegt sich.** Setz `gegner = [7]`. Erhöh die Zahl am Ende jeder Runde um eins und zeichne die Bahn neu. Du siehst ein `K`, das nach rechts wandert. Mehr nicht — noch kein Feuern, noch kein Entfernen.
+---
 
-   **9.2 — Mehrere bewegen sich.** `gegner = [7, 4, 9]`. Alle rücken pro Runde ein Feld vor. Dafür brauchst du eine Schleife, die **jede Position** verändert — und hier wirst du merken, dass das Ändern einer Schleifenvariablen nicht reicht (Konzept 8).
+### 2. Bau die Befehle auf zwei Wörter um
 
-   **9.3 — Die Bahn kommt aus den Positionen.** Bau die Darstellung nach Konzept 14: leere Bahn erzeugen, Zeichen an die richtigen Stellen setzen, zu einer Zeile zusammenfügen. **Die Gegnerliste bleibt unangetastet** — die Bahn wird jede Runde neu gebaut.
+Das Muster steht in Konzept 12. Halt dich an die Reihenfolge dort.
 
-   **9.4 — Getroffene verschwinden.** Jetzt entfernt `feuern` eine Position aus der Liste. **Und hier schnappt die Falle aus Konzept 13 zu**, wenn du beim Entfernen über die Liste läufst.
+- Zerleg die Eingabe mit `.split()`.
+- Fang den Fall ab, dass **gar nichts** eingetippt wurde.
+- Hol das erste Wort in eine Variable, das zweite in eine zweite — mit Vorbelegung, falls es fehlt.
+- Vergleich danach nur noch mit dem **ersten** Wort.
 
-   Zehn Minuten gelten für die Optik in 9.3, nicht für alle vier Schritte.
-10. **Der Rückwärtsgang:** Spiel eine ganze Welle durch, so wie du es nach Etappe 3c getan hast. Der Balken, das Nachladen, das Wellenende — funktioniert alles noch? Wenn nicht, hast du nicht erweitert, sondern umgebaut.
+**Deine alten Befehle müssen unverändert funktionieren.** `status`, `feuern`, `nachladen`, `beenden` — alle vier, genau wie nach Etappe 3c.
+
+**So prüfst du es:** Tipp der Reihe nach `status`, `feuern`, ` FEUERN `, `nachladen`, und dann Enter ohne Eingabe. Nichts davon darf abstürzen.
+
+*(Das ist die erste Änderung in diesem Projekt, die etwas Bestehendes anfasst. Genau dafür gibt es das Ritual „Vor dem Umbau: drei Fragen" weiter oben.)*
+
+---
+
+### 3. Leg das Vorfeld an
+
+- Eine zweite Liste mit dem, was nach einer Welle draußen liegt.
+- Vier Gegenstände: `"schrott"`, `"munitionskasten"`, `"panzerplatte"`, `"datenkern"`.
+- Zeig sie an — entweder als eigener Befehl oder am Ende jeder Welle.
+
+*(Der Datenkern tut heute nichts. Das ist Absicht — er wird in Etappe 15 eingelöst.)*
+
+---
+
+### 4. Bau `nimm <gegenstand>` und `ablege <gegenstand>`
+
+- `nimm` bewegt einen Gegenstand vom Vorfeld ins Inventar.
+- `ablege` bewegt ihn zurück.
+- **Prüf zuerst, ob der Gegenstand überhaupt da ist.** Erst danach entfernen und hinzufügen.
+
+**So prüfst du es:** `nimm schrott`, dann `inventar`, dann `nimm schrott` noch einmal. Beim zweiten Mal muss eine Meldung kommen, dass dort nichts mehr liegt.
+
+*(Warum erst prüfen: Konzept 10. Wer zuerst entfernt und dann merkt, dass es nicht geht, hat den Gegenstand gelöscht statt bewegt.)*
+
+---
+
+### 5. Begrenz das Inventar auf zehn
+
+- Ist das Inventar voll, kommt eine Meldung.
+- Der Gegenstand **bleibt liegen**, wo er lag.
+
+**So prüfst du es:** Setz die Grenze testweise auf 2, nimm dreimal etwas auf. Danach zurück auf 10.
+
+---
+
+### 6. Fang die zwei Fehleingaben ab
+
+- `nimm` ohne zweites Wort → Meldung, kein Absturz.
+- `nimm hubschrauber` → Meldung, dass so etwas hier nicht liegt.
+
+Beides ohne `try`/`except` — das ist Etappe 20. Mit dem, was du in Schritt 2 gebaut hast, geht es schon.
+
+**So prüfst du es:** Beide Eingaben tippen. Das Spiel muss danach weiterlaufen.
+
+> **⏸ Guter Schnitt.** Hier steht ein funktionierendes Inventar. Commit: `Etappe 4: Das Inventar ist eine Liste`. Die Schritte 7 bis 10 sind ein eigener Abend.
+
+---
+
+### 7. Ersetz die Gegnerzahl durch eine Liste von Positionen
+
+- Zu Wellenbeginn entsteht eine Liste mit **einer Zahl pro Gegner**. Wie viele, sagt deine Formel aus 3c. Wo sie starten, entscheidest du.
+- Die Anzahl liest du ab jetzt überall mit `len(gegner)` — auch in der `while`-Bedingung.
+- `feuern` entfernt einen Eintrag aus der Liste, statt eine Zahl zu senken.
+
+**Danach darf es keine Variable mehr geben, die zählt, wie viele Gegner übrig sind.**
+
+**So prüfst du es:** Such in deiner Datei nach `gegner_anzahl`. Es darf keinen Treffer mehr geben.
+
+---
+
+### 8. Bau die Falle absichtlich
+
+- Entferne getroffene Gegner **während** du über die Liste läufst.
+- Schreib vorher auf, was du erwartest. Dann ausführen und vergleichen.
+- **Erst danach** bau es richtig — also nicht mehr während des Durchlaufs entfernen.
+
+*(Kein Absturz, keine Fehlermeldung. Nur ein übersprungener Gegner. Konzept 13.)*
+
+---
+
+### 9. Bau die Anmarschbahn — in vier Schritten
+
+**Nach jedem Teilschritt ausführen.** Warum einzeln und nicht auf einmal, steht in Konzept 15.
+
+**9.1 — Ein Gegner bewegt sich.**
+Setz `gegner = [7]`. Erhöh die Zahl am Ende jeder Runde um eins. Zeichne die Bahn neu. Du siehst ein `K`, das nach rechts wandert. Noch kein Feuern, noch kein Entfernen.
+
+**9.2 — Mehrere bewegen sich.**
+Setz `gegner = [7, 4, 9]`. Alle rücken pro Runde ein Feld vor.
+⚠️ *Die Schleifenvariable zu ändern reicht nicht — du musst die Liste selbst ändern. Konzept 8.*
+
+**9.3 — Die Bahn entsteht aus den Positionen.**
+Erzeug eine Bahn aus lauter Punkten, setz an den Positionen ein Zeichen, füg alles zu einer Zeile zusammen. Konzept 14 nennt dir die zwei Werkzeuge dafür.
+**Die Gegnerliste bleibt unangetastet** — die Bahn wird jede Runde neu gebaut.
+
+**9.4 — Getroffene verschwinden.**
+`feuern` entfernt jetzt eine Position aus der Liste. **Hier schnappt die Falle aus Schritt 8 zu**, wenn du beim Entfernen über die Liste läufst.
+
+**So prüfst du es:** Zähl über eine ganze Welle mit, ob genauso viele Gegner verschwinden, wie du getroffen hast.
+
+*(Die Zehn-Minuten-Regel gilt nur für die Optik in 9.3 — also dafür, wie hübsch die Bahn aussieht. Nicht für die vier Schritte.)*
+
+---
+
+### 10. Der Rückwärtsgang
+
+Spiel eine ganze Welle, so wie nach Etappe 3c. Prüf der Reihe nach:
+
+- Balken bei `status`
+- Nachladen
+- Wellenende, wenn kein Gegner mehr steht
+- Spielende, wenn die Kernintegrität fällt
+
+Wenn etwas davon nicht mehr geht, hast du nicht erweitert, sondern umgebaut.
 
 ---
 
@@ -588,6 +729,7 @@ Prüft den Zustand deines Programms, nicht dein Gefühl. Führ jeden Punkt tats�
 - [ ] `inventar` bei leerem Inventar sagt etwas anderes als bei vollem — und stürzt nicht ab
 - [ ] `nimm schrott` funktioniert, `NIMM  Schrott` mit Großbuchstaben und zwei Leerzeichen auch
 - [ ] `nimm` allein tippen führt nicht zum Absturz
+- [ ] Enter drücken, ohne etwas zu tippen, führt nicht zum Absturz
 - [ ] `nimm hubschrauber` sagt, dass hier so etwas nicht liegt
 - [ ] Ein genommener Gegenstand liegt danach **nicht mehr** im Vorfeld — und `nimm` desselben Dings ein zweites Mal meldet, dass da nichts mehr ist
 - [ ] `ablege schrott` legt ihn zurück; danach kannst du ihn erneut nehmen
@@ -679,7 +821,10 @@ Experiment 5 ist das wichtigste dieser Etappe. Experiment 6 ist das unterschätz
 | `AttributeError: 'NoneType' object has no attribute 'append'` | Irgendwo steht `liste = liste.append(...)` | Such nach `= ` und `.append` in derselben Zeile |
 | `TypeError: object of type 'NoneType' has no len()` | Dasselbe, nur später bemerkt | Dieselbe Suche |
 | `TypeError: 'str' object does not support item assignment` | Du behandelst die Bahn als String statt als Liste | Ein String lässt sich nicht an einer Stelle ändern. Eine Liste schon. |
-| `IndexError` beim Befehl mit nur einem Wort | `.split()` liefert eine Liste mit einem Element | Prüf die Länge, bevor du auf das zweite zugreifst |
+| `IndexError` beim Befehl mit nur einem Wort | `.split()` liefert eine Liste mit einem Element | Konzept 12 — Länge prüfen, bevor du auf `[1]` zugreifst |
+| `IndexError` bei leerer Eingabe | `"".split()` liefert eine **leere** Liste, auch `[0]` gibt es dann nicht | Konzept 12, erster Teil des Musters |
+| `AttributeError: 'list' object has no attribute 'lower'` | `.lower()` steht **hinter** `.split()` | Eine Liste hat kein `.lower()`. Reihenfolge tauschen |
+| Zwei-Wort-Befehle gehen, Ein-Wort-Befehle nicht mehr | Zwei getrennte `if`-Ketten je nach Wortanzahl | Konzept 12 — eine Kette, Wortanzahl vorher erledigen |
 | Kein Fehler, aber Gegner werden übersprungen | Entfernen während des Durchlaufs | Konzept 13 |
 | Kein Fehler, aber ein Gegenstand ist doppelt da | Beim Umzug hinzugefügt, aber nicht entfernt | Konzept 10 |
 | Kein Fehler, aber ein Gegenstand ist weg | Beim Umzug entfernt, aber nicht hinzugefügt — weil die Prüfung dazwischen scheiterte | Konzept 10 |

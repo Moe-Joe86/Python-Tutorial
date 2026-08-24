@@ -427,114 +427,144 @@ Was aus den Daten kommt, ist nur die **Markierung**: welcher Sektor gerade dran 
 
 ## Dein Auftrag
 
-Nach jedem Schritt ausführen — und vorher sagen, was passieren wird. Das Ritual aus Etappe 3 gilt weiter.
+**Diese Etappe ist groß.** Schritt 1 und Schritt 11 sind die aufwendigsten — bei Schritt 1 entstehen zwei Verschachtelungsebenen auf einmal, bei Schritt 11 vier Prüfungen in der richtigen Reihenfolge. Beide dürfen dich länger beschäftigen als der Rest zusammen.
 
-**1. Bau die Sektorenkarte.**
+Nach jedem Schritt ausführen, vorher sagen, was passieren wird.
 
-Leg ein verschachteltes Dictionary namens `sektoren` an. Sechs Sektoren:
+---
 
-| Schlüssel | Rolle |
-|---|---|
-| `"nordtor"` | Hier stehst du zu Beginn |
-| `"osttor"` | Zweiter Zugang |
-| `"kern"` | Die Anlage, die du verteidigst |
-| `"depot"` | Hier wird gekauft |
-| `"werkstatt"` | Ab Etappe 13 wird hier gebaut |
-| `"landeplattform"` | Nicht erreichbar |
+### 1. Bau die Sektorenkarte
 
-Jeder Sektor bekommt drei Eigenschaften: `"beschreibung"` (ein bis zwei Sätze in deinen Worten), `"integritaet"` (eine Zahl, 100 zu Beginn) und `"nachbarn"`.
+- Leg ein verschachteltes Dictionary `sektoren` an, mit sechs Einträgen:
 
-`"nachbarn"` ist selbst ein Dictionary: **Richtung → Sektorname**, etwa `{"sueden": "kern", "osten": "osttor"}`. Damit hast du zwei Verschachtelungsebenen — sieh dir an, wie sich das im Editor liest, und rück ordentlich ein.
+  | Schlüssel | Rolle |
+  |---|---|
+  | `"nordtor"` | Hier stehst du zu Beginn |
+  | `"osttor"` | Zweiter Zugang |
+  | `"kern"` | Die Anlage, die du verteidigst |
+  | `"depot"` | Hier wird gekauft |
+  | `"werkstatt"` | Ab Etappe 13 wird hier gebaut |
+  | `"landeplattform"` | Nicht erreichbar |
 
-Verbind die **erreichbaren** Sektoren so, dass man von jedem aus jeden erreichen kann. Die Landeplattform behandelst du nach deiner Entscheidung 1 — sie ist entweder gar nicht angebunden oder angebunden und blockiert.
+- Jeder Sektor bekommt drei Eigenschaften: `"beschreibung"` (ein bis zwei eigene Sätze), `"integritaet"` (Zahl, 100 zu Beginn), `"nachbarn"`.
+- `"nachbarn"` ist selbst ein Dictionary — **Richtung → Sektorname**, etwa `{"sueden": "kern", "osten": "osttor"}`.
+- Verbind die **erreichbaren** Sektoren so, dass man von jedem aus jeden erreichen kann.
+- Die Landeplattform behandelst du nach Entscheidung 1 — entweder gar nicht angebunden, oder angebunden und blockiert.
 
-**Zum Prüfen:** Gib `sektoren["nordtor"]["nachbarn"]` aus. Es muss ein Dictionary erscheinen, kein Text.
+**So prüfst du es:** `sektoren["nordtor"]["nachbarn"]` ausgeben. Es muss ein Dictionary erscheinen, kein Text.
 
-**2. Leg `aktueller_sektor` an** und setz ihn auf `"nordtor"`. Eine einzelne Variable, kein Dictionary-Eintrag — sie beschreibt nicht die Karte, sondern *dich*.
+---
+
+### 2. Leg deine Position an
+
+- Eine einzelne Variable `aktueller_sektor`, Startwert `"nordtor"`.
+- **Kein** Dictionary-Eintrag — sie beschreibt nicht die Karte, sondern dich.
 
 *(In Etappe 9 wird daraus `marine.sektor`, in Etappe 19 Teil des Spielstands.)*
 
-**3. Bau den Befehl `umsehen`.**
+---
 
-Er gibt die Beschreibung des aktuellen Sektors aus, seine Integrität, und eine Zeile mit den möglichen Richtungen. Die Richtungen liest du aus `nachbarn` — schreib sie **nicht** von Hand hin, sonst stimmen sie ab Etappe 13 nicht mehr.
+### 3. Bau den Befehl `umsehen`
 
-**Zum Prüfen:** Ändere eine Richtung in deinen Daten und ruf `umsehen` auf. Die Ausgabe muss sich mitändern, ohne dass du die Ausgabe angefasst hast.
+- Gibt aus: die Beschreibung des aktuellen Sektors, seine Integrität, die möglichen Richtungen.
+- Die Richtungen liest du aus `nachbarn` — **schreib sie nicht von Hand hin**, sonst stimmen sie ab Etappe 13 nicht mehr.
 
-**4. Bau den Befehl `gehe <richtung>`.**
+**So prüfst du es:** Ändere eine Richtung in deinen Daten, ruf `umsehen` auf. Die Ausgabe muss sich mitändern, ohne dass du die Ausgabe selbst anfasst.
 
-Er soll drei Fälle sauber behandeln:
+---
+
+### 4. Bau den Befehl `gehe <richtung>`
+
+Drei Fälle, sauber getrennt:
 
 | Fall | Reaktion |
 |---|---|
-| Die Richtung existiert | `aktueller_sektor` ändert sich, danach `umsehen` |
-| Die Richtung existiert nicht | Meldung, welche Richtungen es gibt |
+| Richtung existiert | `aktueller_sektor` ändert sich, danach `umsehen` |
+| Richtung existiert nicht | Meldung, welche Richtungen es gibt |
 | Kein zweites Wort (`gehe` allein) | Meldung, kein Absturz |
 
 Das `.split()` aus Etappe 4 trägt das schon — du erweiterst nur deine Befehlskette.
 
-**Zum Prüfen:** Lauf einmal durch alle erreichbaren Sektoren und wieder zurück. Wenn du irgendwo steckenbleibst, sind deine `nachbarn` nicht in beide Richtungen eingetragen.
+**So prüfst du es:** Einmal durch alle erreichbaren Sektoren laufen und zurück. Bleibst du irgendwo stecken, sind die `nachbarn` nicht in beide Richtungen eingetragen.
 
-**5. Bau den versiegelten Weg** nach deiner Entscheidung 1. Ruf am Osttor `umsehen` auf und geh dann Richtung Landeplattform. Der Spieler muss verstehen, *warum* es nicht geht — „unbekannte Richtung" reicht nicht, wenn du den markierten Weg gewählt hast.
+---
 
-**6. Bau das Depot als flaches Dictionary.**
+### 5. Bau den versiegelten Weg
+
+- Nach Entscheidung 1.
+- Ruf am Osttor `umsehen` auf, geh dann Richtung Landeplattform.
+- **Der Spieler muss verstehen, warum es nicht geht.** „Unbekannte Richtung" reicht nicht, wenn du die markierte Variante gewählt hast.
+
+---
+
+### 6. Bau das Depot als flaches Dictionary
 
 ```
 waren: medkit → 40, munition → 15, panzerplatte → 90
 ```
 
-Preise in Schrott. Bau den Befehl `depot`, der alle Waren mit Preisen auflistet — mit einer Schleife über das Dictionary, nicht mit drei `print`-Zeilen. **Wenn du eine vierte Ware einträgst, muss sie ohne weitere Arbeit in der Liste erscheinen.**
+- Preise in Schrott.
+- Befehl `depot`, der alle Waren mit Preisen auflistet — **mit einer Schleife über das Dictionary**, nicht mit drei `print`-Zeilen.
+- Trägst du eine vierte Ware ein, muss sie ohne weitere Arbeit in der Liste erscheinen.
 
-**Zum Nachdenken, bevor du weitergehst:** Öffne `inventar` und `waren` nebeneinander im Editor. Beides sind Sammlungen von Gegenständen, und trotzdem ist das eine eine Liste und das andere ein Dictionary.
+**Zum Nachdenken, bevor du weitergehst:** Öffne `inventar` und `waren` nebeneinander. Beides sind Sammlungen von Gegenständen — eine Liste, ein Dictionary. Was wäre unsinnig daran, das Inventar wie `waren` aufzubauen? Ein, zwei Sätze in `GELERNT.md`. Die vollständige Antwort gibt Etappe 6.
 
-Frag dich: **Was wäre unsinnig daran, das Inventar wie `waren` aufzubauen?** Und umgekehrt — was ginge verloren, wenn `waren` eine Liste wäre? Ein, zwei Sätze in `GELERNT.md`. Die vollständige Antwort gibt Etappe 6.
+---
 
-**7. Prüf deine Kennungen gegen Etappe 4.** Ruf `depot` auf, dann `inventar`. Vergleich die Schreibweisen: Steht ein Medkit in beiden Listen unter demselben Wort?
+### 7. Prüf deine Kennungen gegen Etappe 4
 
-Wenn nicht, hast du die Lage aus Konzept 9 — entscheide dich für einen Weg und schreib die Entscheidung in `GELERNT.md`.
+- Ruf `depot` auf, dann `inventar`.
+- Steht ein Medkit in beiden unter demselben Wort?
 
-**Mach das jetzt und nicht in Schritt 10.** Sobald `kaufe` gebaut ist, gibt es eine dritte Stelle mit denselben Namen, und dann ist die Umstellung dreimal so groß.
+Wenn nicht: du hast die Lage aus Konzept 9. Entscheide dich für einen Weg, schreib die Entscheidung in `GELERNT.md`.
 
-**8. Sperr das Depot auf den richtigen Sektor.** `depot` und `kaufe` sollen nur funktionieren, wenn `aktueller_sektor` auf `"depot"` steht. Sonst: eine Meldung, wo das Depot ist.
+⚠️ **Mach das jetzt, nicht in Schritt 11.** Sobald `kaufe` steht, gibt es eine dritte Stelle mit denselben Namen — dann ist die Umstellung dreimal so groß.
 
-Das ist eine Zeile und der erste Fall, in dem ein Befehl vom **Ort** abhängt statt nur von Werten.
+---
 
-**9. Bau den Vorrat als Dictionary.**
+### 8. Sperr das Depot auf den richtigen Sektor
 
-Deine losen Zahlen für Schrott und Munition wandern in ein Dictionary `vorrat`, Name → Anzahl:
+- `depot` und `kaufe` funktionieren nur, wenn `aktueller_sektor` auf `"depot"` steht.
+- Sonst: Meldung, wo das Depot ist.
+
+*(Eine Zeile — und der erste Befehl, der vom Ort abhängt statt nur von Werten.)*
+
+---
+
+### 9. Bau den Vorrat als Dictionary
 
 ```
 vorrat: schrott → 0, munition → 40
 ```
 
-Pass alle Stellen an, die bisher `schrott` oder `ammo` direkt benutzt haben — Statusanzeige, Feuern, Aufsammeln.
+- Deine losen Zahlen für Schrott und Munition wandern hinein.
+- Pass **alle** Stellen an, die bisher direkt darauf zugegriffen haben — Statusanzeige, Feuern, Aufsammeln.
 
-**Warum der Umbau sich lohnt:** Danach kann eine Funktion Vorrat erhöhen, ohne zu wissen, *was* sie erhöht. Genau das brauchst du in Schritt 10.
+**So prüfst du es:** Feuern muss weiterhin Munition senken, der Balken aus Etappe 3c muss weiterhin stimmen.
 
-**Zum Prüfen:** Feuern muss weiterhin Munition senken, und der Balken aus Etappe 3c muss weiterhin stimmen.
+> **⏸ Guter Schnitt.** Nach Schritt 9 steht eine begehbare Karte mit sichtbarem Depot. Commit: `Etappe 5: Sektorenkarte und Depot`. Die Schritte 10 bis 17 sind ein eigener Abend.
 
-> **⏸ Hier ist der Schnitt.** Nach Schritt 9 hast du eine begehbare Karte und ein sichtbares Depot. Das ist ein guter Abend und ein eigener Commit (`Etappe 5: Sektorenkarte und Depot`). Die Schritte 10 bis 17 sind der zweite.
+---
 
-**10. Hinterleg, welche Waren stapelbar sind.**
+### 10. Hinterleg, welche Waren stapelbar sind
 
-Munition ist stapelbar — vierzig Schuss sind ein Eintrag im `vorrat`. Ein Medkit ist ein Einzelstück und gehört in die `inventar`-Liste aus Etappe 4.
+- Munition ist stapelbar, Medkit und Panzerplatte sind Einzelstücke.
+- **Dein Code muss das aus den Daten lesen, nicht aus einer `if`-Kette.**
+- Bau dafür ein zweites, flaches Dictionary:
 
-**Dein Code muss diese Unterscheidung aus den Daten lesen können, nicht aus einer `if`-Kette.** Sonst hast du in Schritt 11 wieder Warennamen in der Logik — und die Erkenntnis aus Konzept 8 fällt in sich zusammen.
+  ```
+  stapelbar: medkit → False, munition → True, panzerplatte → False
+  ```
 
-**Bau dafür ein zweites, flaches Dictionary neben `waren`:**
+⚠️ *Was du nicht tun solltest: die Stapelbarkeit daran ablesen, ob der Name schon im `vorrat` steht. Das sieht aus, als würde es funktionieren, beantwortet aber eine andere Frage — nämlich ob der Spieler die Ressource gerade besitzt.*
 
-```
-stapelbar: medkit → False, munition → True, panzerplatte → False
-```
+**Der Preis dieser Bauweise:** Eine neue Ware braucht ab jetzt zwei Einträge. Vergisst du den zweiten, ist das der inkonsistente Datenfehler aus Konzept 13 — nur diesmal in deinen Warendaten.
 
-Zwei parallele Tabellen mit denselben Schlüsseln. Das sieht nach Doppelung aus, und ein bisschen ist es das auch — in Etappe 22 werden daraus Waren mit mehreren Eigenschaften in **einer** verschachtelten Tabelle. Heute wäre das eine Ebene zu viel; zwei flache Tabellen sind leichter zu lesen und zu tippen.
+---
 
-⚠️ **Der Preis dieser Bauweise, und du sollst ihn kennen:** Eine neue Ware braucht ab jetzt **zwei** Einträge. Vergisst du den zweiten, ist das genau der inkonsistente Datenfehler aus Konzept 13 — nur diesmal in deinen Warendaten statt in der Karte.
+### 11. Bau `kaufe <ware>`
 
-*(Was du **nicht** tun solltest: die Stapelbarkeit daran ablesen, ob der Name schon im `vorrat` steht. Das sähe aus, als würde es funktionieren, und beantwortet in Wirklichkeit eine andere Frage — nämlich ob der Spieler die Ressource gerade besitzt. Zwei Sachen, die zufällig oft zusammenfallen, sind nicht dieselbe Sache.)*
-
-**11. Bau `kaufe <ware>`.**
-
-**Schreib den Ablauf erst auf Papier, bevor du tippst.** Vier Prüfungen, dann zwei Änderungen — und die Reihenfolge ist der Punkt:
+**Schreib den Ablauf erst auf Papier, dann tippe.** Vier Prüfungen, danach zwei Änderungen:
 
 ```
 Gibt es die Ware?          →  nein: Meldung, Ende
@@ -546,50 +576,69 @@ Schrott abbuchen
 Ware einbuchen
 ```
 
-> **Ein Kauf darf erst dann etwas verändern, wenn alle Prüfungen bestanden sind.**
+- **Erst wenn alle vier Prüfungen bestanden sind, wird etwas verändert.**
+- Jede Prüfung bekommt eine **eigene** Meldung — „Kauf nicht möglich" sagt dem Spieler nichts.
+- **In deiner Kauflogik darf kein Warenname vorkommen.** Kein `if ware == "medkit"`. Preis und Stapelbarkeit werden nachgeschlagen.
 
-Das ist derselbe Gedanke wie beim Umzug zwischen zwei Listen in Etappe 4 — nur dass es diesmal um Geld geht. Wer mitten in der Prüfung schon abbucht, hat einen Spieler, der für ein volles Inventar bezahlt hat. Merk dir den Satz; er ist der Kern von Etappe 20 und der Grund, warum es in Datenbanken Transaktionen gibt.
+*(Der Grund für die Reihenfolge steht in Konzept 8 — derselbe Gedanke wie beim Umzug zwischen zwei Listen in Etappe 4.)*
 
-Jede Prüfung bekommt eine eigene Meldung. *„Kauf nicht möglich"* sagt dem Spieler nichts — die Erkenntnis aus Etappe 2, dass eine verknüpfte Bedingung ihr Scheitern nicht begründet, gilt hier genauso.
+---
 
-**Und die eigentliche Anforderung:** In deiner Kauflogik darf **kein Warenname vorkommen**. Kein `if ware == "medkit"`. Preis und Stapelbarkeit werden nachgeschlagen.
+### 12. Frag bei stapelbaren Waren nach der Menge
 
-**12. Frag bei stapelbaren Waren nach der Menge.**
+- *„Wie viele?"* — nur bei Stapelware, ein Einzelstück kauft man einzeln.
+- Text rein, `int()` drauf, dann rechnen — der Dreisatz aus Etappe 1.
+- Multiplizier den Preis mit der Menge, **bevor** du prüfst, ob der Schrott reicht.
 
-*„Wie viele?"* — nur bei Stapelware, ein Einzelstück kauft man einzeln. Die Antwort kommt als Text aus `input()`; **hier fällt die Schuld aus Etappe 1 an.** Der Dreisatz: Text rein, `int()` drauf, dann rechnen.
+**So prüfst du es:** Tippe `drei` statt `3` — es stürzt ab, das ist heute in Ordnung. Notier den Fehlernamen. Tippe dann `0` und `-5`. Was passiert?
 
-Multiplizier den Preis mit der Menge, **bevor** du prüfst, ob der Schrott reicht — sonst prüfst du gegen den Einzelpreis und buchst den Gesamtpreis ab.
+---
 
-**Zum Prüfen:** Tippe `drei` statt `3`. Es stürzt ab — das ist heute in Ordnung und wird in Etappe 20 abgefangen. Notier den Fehlernamen in `GELERNT.md`. Tippe dann `0` und `-5`. Was passiert?
+### 13. ⭐ Der Architekturtest — nur Daten anfassen
 
-**13. ⭐ Der Architekturtest — nur Daten anfassen, keine Logik.**
-
-Das ist die Prüfung, um die diese ganze Etappe gebaut ist. Vier Änderungen, und **keine einzige Zeile Logik darf dabei angefasst werden**:
+Vier Änderungen, **keine einzige Zeile Logik darf dabei angefasst werden:**
 
 | Änderung | Was passieren muss |
 |---|---|
-| **Ware hinzufügen** — `"reparaturkit"`, Preis 60, mit allen Daten, die dein Code braucht | Erscheint im Depot, ist kaufbar, landet an der richtigen Stelle |
-| **Ware löschen** — nimm `"panzerplatte"` heraus | Verschwindet aus dem Depot, `kaufe panzerplatte` meldet sauber, dass es sie nicht gibt, nichts stürzt ab |
-| **Preis ändern** — Medkit auf 25 | Depot zeigt 25, Kauf bucht 25 ab |
-| **Ausgang entfernen** — lösch eine Richtung aus einem Sektor | `umsehen` zeigt sie nicht mehr, `gehe` dorthin meldet, welche Richtungen es gibt |
+| Ware hinzufügen — `"reparaturkit"`, Preis 60, mit allen nötigen Daten | Erscheint im Depot, ist kaufbar |
+| Ware löschen — nimm `"panzerplatte"` heraus | Verschwindet aus dem Depot, `kaufe panzerplatte` meldet sauber |
+| Preis ändern — Medkit auf 25 | Depot zeigt 25, Kauf bucht 25 ab |
+| Ausgang entfernen — lösch eine Richtung | `umsehen` zeigt sie nicht mehr |
 
-**Das Löschen ist die schärfere Hälfte.** Hinzufügen kann auch klappen, wenn irgendwo noch ein fest verdrahteter Warenname steht — der stört ja nicht. Beim Löschen fällt er auf: Wenn `panzerplatte` verschwunden ist und dein Depot sie trotzdem anzeigt oder dein Kauf abstürzt, steckt sie im Code.
+Danach alles zurücksetzen.
 
-Danach alles zurücksetzen. Der Test ist nicht der Zustand, sondern der Beweis.
+*(Das Löschen ist die schärfere Hälfte — dabei fällt jeder fest verdrahtete Warenname auf.)*
 
-**14. Verknüpf Schrott mit dem Kampf.** Gefallene Gegner hinterlassen Schrott. Wenn du in Etappe 4 eine Beuteliste gebaut hast, erhöht das Aufsammeln jetzt den `vorrat`.
+---
+
+### 14. Verknüpf Schrott mit dem Kampf
+
+- Gefallene Gegner hinterlassen Schrott.
+- Aus Etappe 4: Das Aufsammeln erhöht jetzt den `vorrat`.
 
 Damit läuft zum ersten Mal ein Kreislauf: Gegner fallen → Schrott → Munition → Gegner fallen.
 
-**15. Der Rückwärtsgang.** Spiel drei volle Wellen. Feuern, nachladen, Status, Balken, Wellenende, Gegner auf der Bahn — funktioniert alles noch genau wie nach Etappe 4? Der `vorrat`-Umbau aus Schritt 9 hat viele Stellen angefasst.
+---
 
-**16. Der Grundriss — zehn Minuten, Wecker stellen.**
+### 15. Der Rückwärtsgang
 
-Zeichne einen groben ASCII-Grundriss von Hand, wie den Kopf aus Etappe 1. Markier darin den aktuellen Sektor. Der Grundriss ist statisch; **nur die Markierung kommt aus `aktueller_sektor`.**
+Spiel drei volle Wellen. Prüf der Reihe nach: Feuern, Nachladen, Status, Balken, Wellenende, Gegner auf der Bahn.
 
-Wenn du nach zehn Minuten etwas hast, in dem man sechs Räume erkennt, ist der Schritt erledigt.
+*(Der `vorrat`-Umbau aus Schritt 9 hat viele Stellen angefasst.)*
 
-**17. Committen.**
+---
+
+### 16. Der Grundriss
+
+- Zeichne einen groben ASCII-Grundriss von Hand, wie den Kopf aus Etappe 1.
+- Markier darin den aktuellen Sektor.
+- Der Grundriss selbst ist statisch — **nur die Markierung kommt aus `aktueller_sektor`.**
+
+**Zehn Minuten, Wecker stellen.** Wenn man sechs Räume erkennt, ist der Schritt erledigt.
+
+---
+
+### 17. Committen
 
 ```
 git add .

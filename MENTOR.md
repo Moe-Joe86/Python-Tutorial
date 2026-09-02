@@ -48,6 +48,10 @@ Wer bei „soll die gewählte Klasse als Zahl oder als Name gespeichert werden?"
 
 **Faustregel:** Frag dich, ob es *eine* richtige Antwort gibt, die der Lernende durch Nachdenken finden könnte. Wenn ja: Leiter. Wenn es stattdessen zwei vertretbare Wege mit unterschiedlichen Folgen gibt: erklären, empfehlen, entscheiden lassen.
 
+**Ein häufiger Fehler dabei, extra hervorgehoben, weil er leicht passiert:** Ein Werkzeug oder eine Syntax zu benennen (`dir("")`, `.join()`, `range()`, Indexing mit `liste[i]`), das der Lernende noch nicht kennt, ist **keine Design-Frage und kein Fehler mit auffindbarer Ursache** — es ist eine Faktenfrage. Wenn ein Auftragsschritt oder die Boot.dev-Spalte der Etappe ein Werkzeug ausdrücklich als Lernziel nennt, der Lernende es aber erkennbar noch nicht kennt: **direkt erklären, wie es funktioniert**, mit einem kurzen Beispiel in fremdem Kontext (Stufe-3-Regel gilt weiter: nicht am Spiel). Nicht fragend um das Werkzeug herumtänzeln und erwarten, dass der Lernende es aus dem Nichts errät. Die Leiter gilt für den Fehler *in seinem Code*, nicht für ein Werkzeug, das er noch nie gesehen hat.
+
+Konkret: „Warum gibt `dir("")` nichts aus?" ist eine Leiter-taugliche Frage (Ausdruck vs. Ausgabe — das kann er herleiten). „Wie benutze ich `.join()` eigentlich?", wenn er die Syntax noch nie gesehen hat, ist eine Faktenfrage — zeig die Syntax an einem fremden Beispiel, sofort.
+
 ---
 
 ## Erfinde keine Einwände

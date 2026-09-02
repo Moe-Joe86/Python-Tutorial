@@ -1078,6 +1078,8 @@ Nichts Neues. Du zerlegst die unübersichtliche Datei: `zeige_status()`, `wechsl
 
 **Der Schmerz, den du hier fühlen sollst:** Deine Funktionen brauchen ständig dieselben sechs Werte. `berechne_schaden(waffe, ziel, panzerung, klasse, boni, munition)` — und du reichst sie durch drei Ebenen. Das ist unangenehm, und es ist Absicht. In Etappe 9 verschwindet dieser Schmerz, und dann verstehst du, wozu `self` da ist. Wer diesen Schmerz nicht hatte, hält Klassen für Zeremonie.
 
+**Die Design-Entscheidung der Etappe: Wie kommt Zustand in eine Funktion?** Drei Wege stehen zur Wahl — alles als Parameter, `global`, oder ein Zustands-Dictionary. Der Guide empfiehlt **Parameter**, und die Begründung ist nicht Eleganz: Eine lange Parameterliste ist unbequem und *sichtbar*, `global` ist bequem und *unsichtbar*. In Etappe 9 wird die Entscheidung wieder gelesen.
+
 **Die Abkürzung, die du nicht nimmst:** `global`. Sie funktioniert, sie ist zwei Zeichen kürzer, und sie deckt genau das Problem zu, das Etappe 9 löst. Wenn du in Versuchung kommst, frag mich — ich erkläre dir, warum sie hier falsch ist.
 
 **Ein Standardargument nimmst du mit:** `def zeige_status(marine, ausfuehrlich=False)`. Damit erweiterst du eine Funktion, ohne einen einzigen bestehenden Aufruf anzufassen — das häufigste Muster für rückwärtskompatible Änderungen überhaupt.
@@ -1107,11 +1109,15 @@ Das heißt **Charakterisierungstest**: Man friert das aktuelle Verhalten ein, um
 
 Auf der einen Seite steht alles, was *rechnet und entscheidet*. Auf der anderen alles, was *ausgibt*. Bisher lagen beide Sorten durcheinander in denselben Funktionen, und das war völlig in Ordnung — bis heute.
 
-**Die Darstellung wird zur eigenen Schicht.** Was seit Etappe 1 gewachsen ist — Kopf, Balken, Anmarschbahn, Grundriss — wandert in Funktionen, die nur zeichnen: `zeichne_bahn(gegner)`, `zeichne_balken(wert, maximum)`. Sie rechnen nichts und entscheiden nichts. Sie bekommen fertige Werte und geben Zeichen aus.
+**Die Darstellung wird zur eigenen Schicht.** Was seit Etappe 1 gewachsen ist — Kopf, Balken, Anmarschbahn, Grundriss — wandert in vier Funktionen, die nur zeichnen: `zeichne_kopf()`, `zeichne_balken(wert, maximum)`, `zeichne_bahn(gegner, gegner_typen)`, `zeichne_grundriss(sektor)`. Sie rechnen nichts und entscheiden nichts. Sie bekommen fertige Werte und geben Zeichen aus.
+
+**`zeichne_balken()` ersetzt dabei zwei fast gleiche Blöcke** — Kern und Munition —, und genau das ist der sichtbare Gewinn der Trennung. Dazu gehört ein eigener Prüfschritt: Greift eine Zeichenfunktion auf eine äußere Variable zu, ist sie nicht rein und in Etappe 28 nicht austauschbar.
 
 Das ist die wichtigste Trennung dieser Etappe, und sie ist dieselbe wie die nächste:
 
 **Eine Entscheidung mit langer Wirkung:** Deine Logikfunktionen geben Werte **zurück**, sie geben nicht selbst aus. `berechne_schaden()` liefert eine Zahl, keine Zeile Text. Das fühlt sich heute umständlich an. In Etappe 28 ist es der Unterschied zwischen „Pygame draufsetzen" und „alles neu schreiben".
+
+**Drei Kleinigkeiten gehören dazu, weil sie hier zum ersten Mal gebraucht werden:** dass `return` die Funktion **sofort verlässt** (die frühe Abfahrt macht die Prüfketten aus 5 und 6 flacher), **zwei Rückgabewerte als Tuple** — die Komma-Falle aus Etappe 6 von der nützlichen Seite —, und **Docstrings** als das, was `help()` in Etappe 4 angezeigt hat.
 
 **Lernziele:**
 - Unterschied `return` ↔ `print`?
@@ -1119,7 +1125,10 @@ Das ist die wichtigste Trennung dieser Etappe, und sie ist dieselbe wie die näc
 - Was ist Scope — warum kennt eine Funktion deine äußeren Variablen nicht?
 - Was passiert, wenn eine Funktion kein `return` hat?
 - Unterschied Parameter ↔ Argument?
-- Warum ist eine Funktion mit sieben Parametern ein Signal und kein Erfolg?
+- Warum ist eine Funktion mit sieben Parametern ein Signal und kein Erfolg? ← die wichtigste
+- **Warum kann eine Funktion eine äußere Zahl nicht überschreiben, eine äußere Liste aber sehr wohl verändern?** *(Kein Widerspruch — mutable aus Etappe 4.)*
+- Was ist ein Charakterisierungstest, und was beweist er **nicht**?
+- Was darf eine Zeichenfunktion nicht tun?
 
 **Transferaufgabe (10 Min):** Funktion `berechne_trinkgeld(betrag, prozent)`. Danach die entscheidende Frage — noch ohne Testframework: **Was muss immer gelten?** Nie negativ? Bei 0 Prozent genau der Betrag? Schreib drei Fälle auf und prüf sie von Hand. Das ist Testdenken, lange bevor du `pytest` anfasst.
 
@@ -1135,7 +1144,7 @@ assert trinkgeld >= 0
 
 **Drei Zeilen, mehr nicht — und dann ist das Thema für heute erledigt.** Du fängst jetzt nicht an zu testen. Du hast einmal gesehen, dass man eine Annahme hinschreiben kann und dass sie knallt, wenn sie bricht. Beim Lesen fremden Codes hast du ab jetzt eine Frage, die fast alles über eine Funktion verrät: **Welche Annahmen macht sie eigentlich — und prüft sie eine davon?** Alles Weitere wartet bis Etappe 26.
 
-**Kaputtmachen:** Ändere eine Variable in einer Funktion und lies sie draußen aus. Bau ein `return` in eine Funktion ein, das mitten in einer Schleife steht.
+**Kaputtmachen:** Das entscheidende Paar ist *Zahl gegen Liste* — einer äußeren Zahl in einer Funktion etwas zuweisen (wirkt nicht nach außen) gegen `append()` auf einer äußeren Liste (wirkt sehr wohl). Dieselbe Regel von zwei Seiten; wer nur eines macht, lernt die halbe Wahrheit. Dazu: `return` vergessen und sehen, wo es knallt. `global` einbauen und danach zählen, wie viele Zeilen man lesen muss, um zu wissen, wer den Schrott verändert. **Und ein Feature einbauen, während man umbaut** — dann zeigt `diff` einen Unterschied, und man weiß immerhin, dass er von einem selbst kommt.
 
 **Commit:** `Etappe 7b: Logik und Darstellung getrennt`
 

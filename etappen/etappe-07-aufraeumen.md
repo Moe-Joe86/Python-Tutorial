@@ -1,9 +1,13 @@
 # Etappe 7 — Aufräumen
 
-> **Block 1: Fundament** · Etappe 7 von 30 · [← Etappe 6](etappe-06-datenstrukturen.md) · [Lehrplan](../Vorposten_Lehrplan.md) · [Etappe 8 →](etappe-08-bug-jagd.md)
+*v1.1.0 · 2026-09-02*
 
-**Boot.dev:** Funktionen, Parameter, Rückgabewerte, Scope
-**Zeitaufwand:** 7a: 3–4 Sitzungen · 7b: 2–3 Sitzungen, à 20–30 Minuten
+> **Block 1: Fundament** · Etappe 7 von 30 · [← Etappe 6](etappe-06-datenstrukturen.md) · [Lehrplan](../Vorposten_Lehrplan.md) · Etappe 8 →
+
+**Neue Syntax heute:** `def` · Parameter und Argumente · `return`, auch mehrfach im selben Körper · `return a, b` · Standardargumente · Docstrings · Scope · 👀 `global` · 👀 `assert`
+
+**Zeitaufwand:** 7a: 4–5 Sitzungen · 7b: 3 Sitzungen, à 20–30 Minuten. Rund 40 Minuten davon sind Lesestoff. **Der Umbau selbst dauert länger, als es aussieht** — plan für Auftragsschritt 2 allein eine ganze Sitzung ein.
+
 **Voraussetzung:** Etappe 6 abgeschlossen, Selbsttest grün
 
 **Diese Etappe ist geteilt, und diesmal aus einem inhaltlichen Grund.** 7a ist eine Programmieretappe: Du lernst Funktionen und baust dein Spiel um. 7b ist eine Denketappe: Du trennst zwei Dinge, die bisher vermischt waren. Beides an einem Abend zu *tun* geht — beides an einem Abend *ankommen* nicht.
@@ -29,7 +33,7 @@ In Etappe 5 stand die Bitte, dir zu notieren, **wann dir zum ersten Mal aufgefal
 
 > **Was du heute lernst, heißt Refactoring: funktionierenden Code umbauen, ohne sein Verhalten zu ändern.**
 
-Das ist ungefähr die Hälfte dessen, was Entwickler den ganzen Tag tun. Und beim ersten Mal fühlt es sich falsch an — *es lief doch*. Genau deshalb bekommt der Umbau heute einen **Beweis** statt einer Hoffnung.
+Refactoring gehört zum normalen Entwicklungsalltag: funktionierenden Code verändern, ohne sein Verhalten unbeabsichtigt mitzuverändern. Beim ersten Mal fühlt es sich falsch an — *es lief doch*. Genau deshalb bekommt der Umbau heute einen **Beweis** statt einer Hoffnung.
 
 **Und es gibt einen zweiten Grund, warum diese Etappe genau hier steht.** Deine Funktionen werden gleich ständig dieselben sechs Werte brauchen und sie durch drei Ebenen durchreichen. Das ist unangenehm — und Absicht. In Etappe 9 verschwindet dieser Schmerz, und dann verstehst du, wozu `self` da ist. Wer ihn nicht hatte, hält Klassen für Zeremonie.
 
@@ -142,7 +146,10 @@ print(verdopple_und_zeige(5) + 1)    # geht nicht
 
 > **Eine Funktion mit `print` erzählt dir etwas. Eine Funktion mit `return` gibt dir etwas.**
 
-Nur mit dem zweiten kannst du rechnen, vergleichen, speichern, weiterreichen.
+Nur mit dem zweiten kannst du rechnen, vergleichen, speichern, weiterreichen. Die Regel zum Anwenden, wenn du im Zweifel bist:
+
+> **Soll der Aufrufer mit dem Ergebnis noch etwas machen können? → `return`.**
+> **Soll die Funktion ausschließlich dem Spieler etwas zeigen? → `print`.**
 
 **Und wenn kein `return` dasteht?** Dann gibt die Funktion `None` zurück — genau wie `append()` in Etappe 4. Das ist dieselbe Falle, nur diesmal in deinem eigenen Code:
 
@@ -191,9 +198,9 @@ verbrauche()
 print("draußen:", vorrat)     # Was steht hier? Vorher sagen!
 ```
 
-**Der Bereich, in dem ein Name gilt, heißt Scope.** Und die Regel dazu:
+**Der Bereich, in dem ein Name gilt, heißt Scope.** Und die Regel dazu, genau formuliert:
 
-> **Eine Funktion darf äußere Werte *lesen*. Zuweisen erzeugt eine neue, eigene Variable — die äußere bleibt unberührt.**
+> **Weist du innerhalb einer Funktion einem Namen einen Wert zu, behandelt Python diesen Namen im ganzen Funktionskörper als lokal. Lesen allein macht das nicht.**
 
 ```python
 def zeige():
@@ -203,11 +210,46 @@ def aendere():
     vorrat = 50               # erzeugt eine lokale Variable
 ```
 
+⚠️ **Die Formulierung „im ganzen Funktionskörper" ist wichtig, sonst überrascht dich das hier:**
+
+```python
+def kaputt():
+    print(vorrat)             # UnboundLocalError
+    vorrat = 50
+```
+
+Die erste Zeile liest, die zweite weist zu — und weil irgendwo im Körper eine Zuweisung steht, gilt `vorrat` schon **ab der ersten Zeile** als lokal. Python entscheidet das, bevor die Funktion überhaupt läuft. *(`global` ändert genau diese Entscheidung. Du baust es heute nicht ein.)*
+
 **Warum das gut ist**, auch wenn es sich gerade nach Schikane anfühlt: Eine Funktion kann deine Werte nicht versehentlich zerstören. Was drinnen passiert, bleibt drinnen — es sei denn, du gibst es mit `return` heraus.
 
 **Und daraus folgt die Arbeitsweise dieser Etappe:** Werte kommen als Parameter **hinein** und mit `return` wieder **hinaus**. Beides sichtbar, beides in der ersten Zeile ablesbar.
 
 ⚠️ **Die Ausnahme, die keine ist:** Bei einer **Liste** oder einem **Dictionary** kannst du den Inhalt sehr wohl von innen verändern — `liste.append(...)` funktioniert, ohne dass du zuweist. Das ist kein Widerspruch, sondern *mutable* aus Etappe 4: Der Name bleibt derselbe, das Objekt ändert sich. Merk dir das, es wird dich einmal überraschen.
+
+**Probier beides aus, es sind sechs Zeilen:**
+
+```python
+menge = 100
+kiste = ["hammer", "zange"]
+
+def leere_menge(m):
+    m = 0
+
+def leere_kiste(k):
+    k.clear()
+
+leere_menge(menge)
+leere_kiste(kiste)
+print(menge, kiste)      # Vorher sagen!
+```
+
+**Und dann die Entscheidungsfrage, um die es hier eigentlich geht:**
+
+> **Welche der beiden Funktionen verändert etwas außerhalb von sich selbst — und welche ist deshalb leichter vorherzusagen?**
+
+Was `leere_kiste()` tut, heißt **Seiteneffekt**: eine Wirkung, die man der Zeile `leere_kiste(kiste)` nicht ansieht. Seiteneffekte sind nicht verboten und manchmal genau richtig. Sie sind nur teuer, weil man den Funktionskörper lesen muss, um sie zu bemerken.
+
+**Merk dir die drei Wörter als Reihenfolge:** Parameter hinein → Rückgabewert heraus → Seiteneffekt nur, wenn du ihn willst.
 
 ### 6. Standardargumente — erweitern, ohne alte Aufrufe zu brechen
 
@@ -264,6 +306,12 @@ Eine Funktion, die einmal aufgerufen wird und drei Zeilen hat, macht deinen Code
 
 **Zerlegen hat einen Preis, und der heißt Sprünge.** Der Gewinn muss größer sein als dieser Preis. Bei deiner 200-Zeilen-Befehlskette ist er das mit Sicherheit. Bei drei Zeilen fast nie.
 
+**Die Stopp-Regel dazu, und die ist heute wichtiger als die Zerlegeregel:**
+
+> **Musst du länger darüber nachdenken, ob etwas eine eigene Funktion sein sollte, dann lass es vorerst, wo es ist.**
+
+Die offensichtlichen Fälle erkennst du in zwei Sekunden — der `status`-Block, die Kaufprüfung, die Befehlskette. Alles, worüber du grübeln musst, ist ein Grenzfall, und Grenzfälle löst man nicht am ersten Tag mit einem neuen Werkzeug. Sie laufen ohnehin nicht weg.
+
 *(In Etappe 24 stellt sich dieselbe Frage noch einmal, dann für Dateien statt Funktionen. Der Preis ist derselbe, nur größer.)*
 
 ### 9. Docstrings — was die Funktion verspricht
@@ -292,7 +340,7 @@ Das ist dasselbe Verfahren wie das dreischrittige Bauen der Anmarschbahn in Etap
 
 ⚠️ **Und die zweite Regel, die noch wichtiger ist:**
 
-> **Niemals Refactoring und neue Funktionen im selben Schritt.**
+> **Du verschiebst heute Code. Du verbesserst ihn nicht.** Niemals Refactoring und neue Funktionen im selben Schritt.
 
 Wenn du beim Auslagern merkst, dass `kaufe()` eigentlich auch eine Mengenprüfung bräuchte — **notier es, bau es nicht.** Sonst weißt du hinterher nicht, ob der neue Fehler vom Umbau kommt oder vom neuen Feature. Das ist die häufigste Art, sich einen Abend zu ruinieren.
 
@@ -302,20 +350,38 @@ Wenn du beim Auslagern merkst, dass `kaufe()` eigentlich auch eine Mengenprüfun
 
 Bevor du irgendetwas anfasst, schreib eine Befehlsfolge von fünfzehn bis zwanzig Zeilen auf, die dein Spiel gründlich durchgeht. **Gerade die Fälle, die schiefgehen, gehören dazu** — leere Eingabe, unbekannter Befehl, Kauf ohne Schrott, `nimm` ohne zweites Wort.
 
-Dann:
+Dann brauchst du einen Weg, dein Programm zweimal **exakt gleich** zu bedienen — von Hand tippst du dich sonst irgendwann selbst in einen Unterschied hinein. Dafür gibt es zwei Zeichen im Terminal, die du hier zum ersten Mal siehst:
 
 ```bash
 python spiel.py < befehle.txt > vorher.txt
-# ... umbauen ...
+```
+
+- **`< befehle.txt`** — dein Programm liest seine Eingaben aus der Datei statt von der Tastatur. Jede Zeile der Datei ist eine Antwort auf ein `input()`.
+- **`> vorher.txt`** — alles, was das Programm ausgeben würde, landet in dieser Datei statt auf dem Bildschirm. Auf dem Bildschirm siehst du dann nichts. Das ist richtig so.
+
+Beide Zeichen gehören zum Terminal, nicht zu Python. Mehr musst du darüber heute nicht wissen.
+
+Dann baust du um und lässt es noch einmal laufen:
+
+```bash
 python spiel.py < befehle.txt > nachher.txt
+```
+
+**Jetzt vergleichst du die beiden Dateien. Zwei Wege, beide völlig in Ordnung:**
+
+**Der eine:** Öffne `vorher.txt` und `nachher.txt` in deinem Editor nebeneinander und lies sie durch. Bei zwanzig Befehlen ist das eine Minute Arbeit.
+
+**Der andere**, falls du magst — ein Terminalwerkzeug, das den Vergleich für dich macht:
+
+```bash
 diff vorher.txt nachher.txt
 ```
 
-Die erste Zeile füttert dein Programm mit der Datei statt mit der Tastatur und schreibt die Ausgabe in eine zweite Datei. `diff` zeigt die Unterschiede zwischen beiden Läufen. **Bei einem gelungenen Refactoring gibt `diff` gar nichts aus.**
+**Bei einem gelungenen Refactoring gibt `diff` gar nichts aus.** Das fühlt sich beim ersten Mal an, als wäre der Befehl kaputt. Er ist es nicht — Schweigen ist das Ergebnis.
 
-**Das heißt Charakterisierungstest:** Man friert das aktuelle Verhalten ein, um es beim Umbau nicht zu verlieren — auch das Verhalten, das man selbst nicht ganz versteht. Es ist gängige Praxis, und es ist der direkte Vorläufer von Etappe 26, wo `pytest` genau das automatisch tut.
+*(Unter Windows heißt das Werkzeug in der klassischen Eingabeaufforderung `fc` statt `diff`. Wenn dir das zu fummelig ist, nimm den Editor. Der Punkt ist der Vergleich, nicht das Werkzeug.)*
 
-*(Falls `diff` bei dir nicht verfügbar ist: Die beiden Dateien im Editor nebeneinander öffnen tut es auch. Der Punkt ist der Vergleich, nicht das Werkzeug.)*
+**Das Verfahren heißt Charakterisierungstest:** Man friert das aktuelle Verhalten ein, um es beim Umbau nicht zu verlieren — auch das Verhalten, das man selbst nicht ganz versteht. Es ist gängige Praxis, und es ist der direkte Vorläufer von Etappe 26, wo `pytest` genau das automatisch tut.
 
 ---
 
@@ -379,6 +445,8 @@ def teile_mit_rest(a, b):
 ganz, rest = teile_mit_rest(17, 5)
 ```
 
+*(`//` und `%` kennst du aus Etappe 3c — hier stehen sie nur als Beispiel, das zwei Ergebnisse hat.)*
+
 Das Komma macht daraus ein **Tuple** — die Komma-Falle aus Etappe 6, jetzt von der nützlichen Seite. Und das Auspacken links vom `=` ist das Tuple-Unpacking aus derselben Etappe.
 
 **Wofür du das brauchst:** Eine Funktion, die nur den Schaden zurückgibt, zwingt den Aufrufer zum Raten — *war die 0 ein Fehlschlag oder ein Treffer auf schwere Panzerung?* Zwei Rückgabewerte beantworten das, ohne dass irgendwo ein `print` stehen muss.
@@ -409,6 +477,12 @@ assert trinkgeld >= 0
 
 **Der schwerste Teil dieser Etappe ist nicht das Tippen, sondern das Aushalten.** Du baust stundenlang um und hast am Ende ein Spiel, das sich exakt wie vorher verhält. Das fühlt sich nach nichts an — und ist die Arbeit, die Etappe 9 bis 28 überhaupt erst möglich macht.
 
+⚠️ **Und weil diese Etappe sonst kein Ende hat: Das hier ist die vollständige Liste.**
+
+> **Sechs Funktionen in 7a, die Zeichenfunktionen in 7b. Das ist der Auftrag. Wenn die stehen, bist du fertig — auch wenn in `spiel.py` noch Blöcke liegen, die man theoretisch auslagern könnte.**
+
+Es gibt keine Zeilenzahl, die du erreichen musst. Ziel sind die **größten und offensichtlichsten** Blöcke, nicht ein durchsortiertes Programm. Alles, was dir zusätzlich auffällt, gehört in `GELERNT.md` und nicht in den heutigen Abend — dort steht auch die Stopp-Regel aus Konzept 8, falls du in Versuchung gerätst.
+
 Nach **jeder einzelnen** herausgelösten Funktion ausführen. Nicht nach fünf.
 
 ---
@@ -438,6 +512,35 @@ python spiel.py < befehle.txt > vorher.txt
 **So prüfst du es:** Programm ausführen, `status` tippen. Die Ausgabe muss **zeichengenau** dieselbe sein wie vorher.
 
 *(Fang mit dieser an, weil sie nichts verändert — sie gibt nur aus. Wenn hier etwas schiefgeht, liegt es am Umbau und nicht an der Logik.)*
+
+⭐ **Und jetzt mach absichtlich einen Fehler, bevor du ihn korrigierst.**
+
+Gib `zeige_status()` beim ersten Versuch **jeden** Wert als Parameter, den sie irgendwie berühren könnte — Kernintegrität, Schrott, Munition, Sektor, Wellennummer, Gegnerliste, Freischaltungen, den Spielernamen. Auch die, die sie gar nicht braucht.
+
+Dann sieh dir die erste Zeile an:
+
+```python
+def zeige_status(kern, schrott, munition, sektor, welle, gegner, freigeschaltet, name):
+```
+
+**Beantworte zwei Fragen ehrlich, bevor du etwas änderst:**
+
+1. Könntest du diese Zeile jemandem vorlesen, ohne den Faden zu verlieren?
+2. Wenn morgen ein neunter Wert dazukommt — wie viele Stellen im Programm musst du anfassen?
+
+**Danach wirf raus, was die Funktion nicht anfasst**, und lass den Rest stehen, auch wenn es immer noch fünf oder sechs sind.
+
+⚠️ *Das Unbehagen, das gerade entstanden ist, sollst du behalten. Es ist der Grund für Etappe 9 — und wer es nicht hatte, hält `self` dort für Zeremonie. Schreib einen Satz dazu in `GELERNT.md`.*
+
+**⏸ Checkpoint — hier hältst du an.** Erst weiter, wenn alle fünf Punkte stimmen:
+
+- [ ] Das Spiel läuft.
+- [ ] `zeige_status()` ist herausgelöst, der `status`-Zweig ist ein einziger Aufruf.
+- [ ] Die Ausgabe ist zeichengenau unverändert.
+- [ ] Du kannst sagen, **warum jeder einzelne Parameter** in der Liste steht.
+- [ ] Du kannst sagen, warum die Funktion **keine** äußeren Werte direkt liest.
+
+Das kostet zwei Minuten und erspart dir die Lage, in der du eine Stunde später nicht mehr weißt, wann es kaputtgegangen ist.
 
 ---
 
@@ -479,6 +582,8 @@ python spiel.py < befehle.txt > vorher.txt
 
 **So prüfst du es:** Alle Befehle durchprobieren, auch die Fehlerfälle. Deine `while`-Schleife sollte jetzt in einen Bildschirm passen.
 
+⚠️ **Und ein Satz gegen die falsche Lehre, die man hier ziehen kann:** `verarbeite_befehl()` ist danach ein großer Block, und das ist heute in Ordnung — aber **nicht**, weil eine Funktion beliebig groß sein darf, sobald sie einen Namen hat. Sie ist groß, weil du sie heute nur **verschiebst**. Zerlegt wird sie in Etappe 23a, wenn du das Werkzeug dafür hast.
+
 *(Damit ist die Schuld aus Etappe 3b eingelöst — die Kette, die seit vier Etappen wächst, hat endlich einen eigenen Ort. Sie stirbt in Etappe 23a ganz.)*
 
 ---
@@ -487,10 +592,11 @@ python spiel.py < befehle.txt > vorher.txt
 
 ```bash
 python spiel.py < befehle.txt > nachher.txt
-diff vorher.txt nachher.txt
 ```
 
-**`diff` muss schweigen.** Gibt es Unterschiede, hast du beim Umbauen etwas verändert — such es, bevor du weitermachst.
+Dann vergleichen — im Editor nebeneinander oder mit `diff vorher.txt nachher.txt`, wie in Konzept 11 beschrieben.
+
+**Die beiden Dateien müssen identisch sein**, Zeile für Zeile. Gibt es einen Unterschied, hast du beim Umbauen etwas verändert — such ihn, bevor du weitermachst.
 
 ⚠️ **Nicht „das ist bestimmt egal".** Ein Unterschied ist ein Verhaltensunterschied, und heute darf es keinen geben.
 
@@ -658,6 +764,7 @@ Ohne Nachschlagen, in eigenen Worten.
 9. Was ist ein Charakterisierungstest, und was beweist er — was beweist er **nicht**?
 10. Warum sind mehr Funktionen nicht automatisch besser? Nenn den Preis.
 11. Was darf eine Zeichenfunktion nicht tun?
+12. Was ist ein Seiteneffekt? Nenn eine Funktion aus deinem eigenen Spiel, die einen hat.
 
 **Frage 7 ist die wichtigste.** Alles andere ist Werkzeugwissen, und Werkzeugwissen holt man nach. Frage 7 ist die Brücke zu Etappe 9: Wer versteht, dass eine lange Parameterliste auf zusammengehörige Daten hindeutet, lernt dort nicht *was* `self` ist, sondern *warum* es das gibt.
 
@@ -733,6 +840,9 @@ Alles in `GELERNT.md`, mit einem Satz dazu: **woran du es erkannt hättest.**
 | Eine äußere Liste ändert sich, obwohl du das nicht wolltest | *mutable* — der Inhalt lässt sich von innen ändern | Konzept 5, Warnkasten |
 | `SyntaxError: non-default argument follows default argument` | Standardwert steht vor einem Parameter ohne | Standardwerte nach hinten |
 | `IndentationError` direkt nach `def` | Der Körper ist nicht eingerückt | Die Zeile unter `def` |
+| `UnboundLocalError: local variable 'x' referenced before assignment` | Irgendwo im Körper steht eine Zuweisung an `x` — damit gilt `x` ab der ersten Zeile als lokal | Konzept 5, Warnkasten |
+| Nach `python spiel.py < befehle.txt > vorher.txt` erscheint nichts auf dem Bildschirm | Richtig so — die Ausgabe liegt in der Datei | `vorher.txt` öffnen |
+| Das Programm bricht mitten im Durchlauf ab | `befehle.txt` hat weniger Zeilen als das Spiel `input()`-Aufrufe hat | Eine Eingabe ergänzen, Auftragsschritt 1 |
 | Nichts passiert beim Ausführen | Die Funktion ist definiert, aber nie aufgerufen | `def` legt an, es tut nichts |
 | `diff` zeigt Unterschiede, obwohl du nur verschoben hast | Beim Verschieben eine Zeile verändert oder verloren | Die zuletzt herausgelöste Funktion — nur die |
 | `diff` zeigt Unterschiede in Leerzeilen | Ein `print()` zu viel oder zu wenig beim Verschieben | Zeichengenau vergleichen, nicht ungefähr |
@@ -819,4 +929,4 @@ Das ist der beste Zusatz hier, weil er dir eine Antwort auf Frage 10 der Lernzie
 
 ---
 
-> **Nächste Etappe:** [Etappe 8 — Bug-Jagd I](etappe-08-bug-jagd.md) · Debugger, Traceback, Fehlertypen, Halbieren
+> **Nächste Etappe:** Etappe 8 — Bug-Jagd I · Debugger, Traceback, Fehlertypen, Halbieren

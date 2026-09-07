@@ -1,7 +1,10 @@
 # Projekt-Lehrplan: Vorposten
 
-**Begleitend zu Boot.dev — Python lernen, indem die Verteidigung wächst**
-*Fassung 3 — 30 Etappen in 38 Portionen. Portiert aus dem Dorf-RPG-Lehrplan (Fassung 5); alle Python-Themen sind 1:1 erhalten.*
+*v2.1.0 · 2026-09-02*
+
+**Python lernen, indem die Verteidigung wächst — 30 Etappen in 38 Portionen**
+
+Dieses Tutorial ist selbsttragend. Es setzt keinen Kurs, kein Buch und kein Vorwissen über Python voraus: Jedes Zeichen und jeder Aufruf, den eine Aufgabe braucht, wird vorher in einem Etappen-Guide erklärt. Welches Werkzeug ab wann zur Verfügung steht, führt [`SYNTAX.md`](SYNTAX.md) Buch.
 
 ---
 
@@ -61,7 +64,7 @@ Im Code existieren ab Etappe 11 alle vier Klassen gleichzeitig.
 
 ## Warum dieses Setting — ehrlich eingeordnet
 
-Dieser Plan ist die Portierung eines Dorf-RPGs. Der Grund für den Umzug war nicht, dass das RPG schlecht war, sondern dass es **Schreibarbeit erzwang**: Dialoge, Ortsbeschreibungen, Motive, ein Rätsel, das aufgehen muss. Wer 25 Minuten am Tag hat, verbringt davon schnell fünfzehn mit Prosa und zehn mit Python.
+Ein Verteidigungsspiel ist als Lernvehikel aus einem Grund gewählt, der nichts mit Geschmack zu tun hat: **Es erzwingt keine Schreibarbeit.** Ein Rollenspiel verlangt Dialoge, Ortsbeschreibungen, Motive und ein Rätsel, das aufgehen muss. Wer 25 Minuten am Tag hat, verbringt davon schnell fünfzehn mit Prosa und zehn mit Python.
 
 **Was du gewinnst:**
 
@@ -187,7 +190,7 @@ Und wenn deine Vorhersage stimmt: auch gut. Dann hast du in fünf Sekunden best�
 
 ## Die Struktur jeder Etappe
 
-1. **Boot.dev** — was du dort lernst
+1. **Neue Syntax** — welche Zeichen und Aufrufe heute dazukommen
 2. **Was du baust** — die Anwendung im Spiel
 3. **Lernziele** — was du danach *ohne Hilfe erklären* können musst
 4. **Entweder Transferaufgabe oder Leseübung** — 5–15 Minuten
@@ -348,7 +351,7 @@ Zu fast jeder Design-Entscheidung im Plan gehört eine Gegenfrage. Sie steht in 
 | 12 | Die Welt tickt | Warum tickt nicht jede Einheit selbst? |
 | 14 | Raster fürs Vorfeld | Warum kein Dictionary wie bei den Sektoren? |
 | 19 | `pathlib` | Warum nicht einfach Strings zusammenbauen? |
-| 22 | Baupläne als Daten | Wann wäre eine Klasse besser? |
+| 22 | Fähigkeiten, Turmstufen und Söldner als Daten | Wann wäre eine Klasse besser? |
 | 23 | Funktionen im Dictionary | Warum nicht weiter `if`/`elif`? |
 | 24 | Mehrere Module | Warum nicht alles in einer Datei? |
 | 25 | JSON als Content | Warum nicht Python-Dateien mit Daten? |
@@ -589,14 +592,17 @@ Ein Abend, kein Python. Repo auf GitHub, lokal klonen, `README.md`, `GELERNT.md`
 
 # BLOCK 1 — Fundament
 
-*Boot.dev: „Learn to Code in Python", erste Kapitel*
 
 ## Etappe 1 — Der Abwurf
 
-**Boot.dev:** Variablen, Strings, f-Strings, `print()`, `input()`, Typumwandlung
+**Neue Syntax:** Variablen und `=` · Kommentare · die Typen `str` `int` `float` · `type()` · Strings, auch mehrzeilig · `+` `-` `*` an Zahlen · f-Strings · `print()` · `input()` · `int()` `float()` `str()` · den Traceback lesen
 
 **Was du baust:**
-`spiel.py`. Der Spieler gibt seinen Namen ein und wählt per Zahl eine der vier Klassen. Variablen für `kern_integritaet`, `schrott`, `munition`, `wellen_bis_evakuierung`, `letzte_meldung` — und mindestens drei f-Strings, die daraus ein Lagebriefing bauen. Dann meldest du dich per Funk. Die Antwort ist eine Wiederholung derselben aufgezeichneten Durchsage.
+`spiel.py`. Der Spieler gibt seinen Namen ein und wählt per Zahl eine der vier Klassen. Variablen für `kern_integritaet`, `trefferpunkte`, `schrott`, `munition`, `wellen_bis_evakuierung`, `letzte_meldung` — und mindestens drei f-Strings, die daraus ein Lagebriefing bauen. Dann meldest du dich per Funk. Die Antwort ist eine Wiederholung derselben aufgezeichneten Durchsage.
+
+⚠️ **Zwei Gesundheitswerte, und sie bedeuten Verschiedenes.** `kern_integritaet` ist der Reaktor, den du verteidigst. `trefferpunkte` ist dein eigener Marine. Beide können auf null fallen, und beide beenden den Lauf — der eine, weil die Basis fällt, der andere, weil du fällst. Das ist keine Doppelung, sondern die Prämisse des Spiels: Du bist eine Figur im Gefecht, kein Bauherr über der Karte.
+
+Die Verwechslungsgefahr ist Absicht. Sie ist die beste Übung dafür, dass ein Name Bedeutung trägt — und in Etappe 5 bekommst du dazu eine Regel.
 
 **Auflage als Autor: Nirgends darf wörtlich stehen, dass die Lage aussichtslos ist. Die Zahlen zeigen es.** Rekruten verfügbar: 0. Verstärkung in: 20 Wellen. Munition: 40. Das ist die ganze Atmosphäre, die du brauchst — und sie kostet dich vier Zeilen statt vier Absätzen. Merk dir dieses Verhältnis; es ist der Grund, warum dieses Setting existiert.
 
@@ -635,7 +641,7 @@ Deine übrigen Werte — `kern_integritaet`, `munition`, `schrott` — schreibst
 
 ## Etappe 2 — Der erste Kontakt
 
-**Boot.dev:** `if` / `elif` / `else`, Vergleiche, Booleans, `and` / `or` / `not`
+**Neue Syntax:** `if` / `elif` / `else` · Doppelpunkt und Einrückung · `==` `!=` `<` `>` `<=` `>=` · `True` / `False` · `and` / `or` / `not` · `.strip()`
 
 **Was du baust:**
 Zwei Dinge, die zusammengehören.
@@ -675,7 +681,7 @@ Dazu ein Boolean, der sich etwas merkt: Beim ersten Kontakt siehst du etwas — 
 
 ## Etappe 3 — Die Wellenschleife ⭐
 
-**Boot.dev:** `while`, `for`, `range()`, `break`, `continue`
+**Neue Syntax:** `while` · `+=` und `-=` · `for` mit `range()` · `break` · `while True:` · `.lower()` · `/` `//` `%` · `round()` · Text mal Zahl · 👀 `continue` · 👀 Formatangaben im f-String
 
 **Die einzige Etappe mit drei Portionen.** Hier wird aus einem Skript ein Spiel — und dabei kommt mehr zusammen, als an einem Abend ankommt. Nach jeder Portion ein Commit.
 
@@ -700,7 +706,9 @@ Zwei Ebenen, zwei Schleifenarten:
 
 **⭐ Und ein Konzept gehört ausdrücklich in 3a und nicht später: Wo lebt welche Variable?** Verschachtelte Schleifen erzeugen drei Ebenen — vor den Schleifen, pro Welle, pro Runde —, und die Zuordnung ist schon für die Gegnerzahl in 3a nötig. Der Guide gibt dafür eine Tabelle mit den konkreten Spielvariablen.
 
-**Zwei Altlasten aus Etappe 2 werden hier eingeordnet:** Der Einzelschuss vom Ende wird ausgeklammert und kehrt in 3c als Befehl zurück. Und die Abbruchbedingung ist **`kern_integritaet`, nicht `trefferpunkte`** — die Gegner greifen die Anlage an, nicht den Marine.
+**Zwei Altlasten aus Etappe 2 werden hier eingeordnet:** Der Einzelschuss vom Ende wird ausgeklammert und kehrt in 3c als Befehl zurück. Und die Wellenschleife bekommt **zwei** Abbruchbedingungen, nicht eine: `kern_integritaet <= 0` beendet den Lauf, weil die Anlage fällt — `trefferpunkte <= 0` beendet ihn, weil du fällst.
+
+**Zwei Prüfungen, zwei Meldungen, ein Ausstieg.** Das ist heute etwas mehr Arbeit als eine einzelne Bedingung und es ist der Grund, warum der Lernende in Etappe 13 sofort versteht, warum nur eine der beiden einen Respawn-Zähler bekommt.
 
 **Dazu zwei Kleinigkeiten, die hier zum ersten Mal gebraucht werden:** `Strg + C` als Notausgang aus der Endlosschleife — einmal absichtlich herbeiführen — und die Regel, dass `break` immer nur *eine* Schleife verlässt.
 
@@ -740,6 +748,10 @@ Mehr als diese Beobachtung braucht es heute nicht. **Der Fachbegriff — Scope �
 
 ⚠️ **Die Stelle, an der hier fast jeder hängenbleibt, ist nicht die Rechnung, sondern ihr Zeitpunkt:** Wer die Balkenlänge einmal oben bei den Startwerten ausrechnet, bekommt einen Balken, der sich nie ändert — ohne Fehlermeldung. Die Rechnung gehört in den `status`-Befehl. Derselbe Gedanke trägt in Etappe 4 die Anmarschbahn: **Was aus Zustand entsteht, wird beim Anzeigen erzeugt, nicht aufbewahrt.**
 
+**Und ein Zähler kommt dazu, der heute nichts tut:** `erfahrung` steigt bei jedem erledigten Gegner und steht im `status`. Keine Stufen, keine Wirkung, keine Belohnung — nur eine Zahl, die wächst.
+
+Das ist dieselbe Bauweise wie `kern_integritaet` in Etappe 1: erst sichtbar, viel später wirksam. Die Stufenschwellen kommen in Etappe 5, die Attribute in 9a, und erst in **Etappe 18** zahlt eine Stufe einen Skillpunkt aus. **Wer hier schon Fähigkeiten freischaltet, nimmt Etappe 18 ihren Gegenstand** — technisch ist es ein `+=`, und mehr soll es heute auch nicht sein.
+
 **Nachladen schließt eine Schuld aus Etappe 2:** `nachladen_noetig` bekommt hier zum ersten Mal einen Wert — und die Beobachtung, dass zwei Variablen dasselbe aussagen können, wird als Vorgriff auf Etappe 18 notiert.
 
 **3c endet mit einem Aufräumschritt:** Entwicklerbefehle raus, Debugzeilen raus, toter Code aus Etappe 2 raus. Das große Aufräumen — Funktionen — bleibt Etappe 7a.
@@ -768,7 +780,7 @@ Mehr als diese Beobachtung braucht es heute nicht. **Der Fachbegriff — Scope �
 
 ## Etappe 4 — Ausrüstung und Beute
 
-**Boot.dev:** Listen, `append()`, `remove()`, `len()`, Indexing
+**Neue Syntax:** Listen · Index lesen **und schreiben** · `len()` · `range(len(...))` · `append()` · `remove()` · `in` · `for` über eine Liste · `.copy()` · `.split()` · `.join()` · `dir()` und `help()` · 👀 Slicing
 
 | 🔨 Bauen | 🧠 Verstehen | 👀 Nur erkennen |
 |---|---|---|
@@ -859,7 +871,7 @@ Wenn du diese beiden Blöcke wirklich verstehst, hast du dir Wochen Fehlersuche 
 
 ## Etappe 5 — Der Vorposten und das Depot
 
-**Boot.dev:** Dictionaries, verschachtelte Dictionaries, `keys()` / `values()` / `items()`
+**Neue Syntax:** Dictionaries · Schlüsselzugriff lesend und schreibend · `.get()` · `in` beim Dictionary · Verschachtelung · `for` über ein Dictionary · `.items()` · `del` · 👀 `.keys()` / `.values()`
 
 | 🔨 Bauen | 🧠 Verstehen | 👀 Nur erkennen |
 |---|---|---|
@@ -951,7 +963,7 @@ Beide Entscheidungen kommen in `GELERNT.md`.
 
 ## Etappe 6 — Liste, Dictionary, Set, Tuple
 
-**Boot.dev:** Sets, Tuples, Mengenoperationen
+**Neue Syntax:** `.pop(i)` und `del liste[i]` · eine Liste über den Index aufbauen · Sets · `.add()` / `.discard()` · Tuples · die Komma-Falle · Tuple-Unpacking · 👀 Mengenoperationen
 
 | 🔨 Bauen | 🧠 Verstehen | 👀 Nur erkennen |
 |---|---|---|
@@ -1054,7 +1066,7 @@ Dreimal dasselbe Wort, dreimal etwas anderes.
 
 ## Etappe 7 — Aufräumen
 
-**Boot.dev:** Funktionen, Parameter, Rückgabewerte, Scope
+**Neue Syntax:** `def` · Parameter und Argumente · `return`, auch mehrfach · Standardargumente · Docstrings · Scope · 👀 `global` · 👀 `assert`
 
 **Geteilt, und diesmal aus einem inhaltlichen Grund.** 7a ist eine Programmieretappe: Du lernst Funktionen und baust dein Spiel um. 7b ist eine Denketappe: Du trennst zwei Dinge voneinander, die bisher vermischt waren. Beides an einem Abend geht — beides an einem Abend *ankommen* nicht.
 
@@ -1152,14 +1164,14 @@ assert trinkgeld >= 0
 
 ## Etappe 8 — Bug-Jagd I ⭐
 
-**Kein neues Boot.dev-Thema. Eine eigenständige Fähigkeit.**
+**Keine neue Syntax. Eine eigenständige Fähigkeit.**
 
 **Was du baust:**
 Kein Spielfeature, sondern zwei Dokumente: dein eigenes **Debugging-Protokoll** und ein **Fehlertagebuch** mit der wichtigsten Zeile — *wie gefunden*, nicht *was war*.
 
 Davor die Werkzeuge, in dieser Reihenfolge: die drei Fehlertypen als Denkraster, Tracebacks von unten nach oben lesen, Ursache von Symptom trennen, Halbieren statt Durchsuchen, `print()` mit Präfix und `!r`, und der **Debugger** — Breakpoints, Step Over/Into/Out, Variablen-Ansicht, bedingte Breakpoints. Dazu `git diff` als Suchraum-Verkleinerer.
 
-**Warum bedingte Breakpoints hier besonders zahlen:** Dein Spiel läuft zwanzig Wellen mit hunderten Runden. „Halt an, wenn `welle == 7` und `gegner.hp < 0`" ist der Unterschied zwischen zwei Minuten und einer halben Stunde.
+**Warum bedingte Breakpoints hier besonders zahlen:** Dein Spiel läuft zwanzig Wellen mit hunderten Runden. „Halt an, wenn `welle == 7` und `gegner.trefferpunkte < 0`" ist der Unterschied zwischen zwei Minuten und einer halben Stunde.
 
 Erst wenn die Werkzeuge sitzen, kommt die Jagd: Der Mentor gibt manipulierten Code zurück, ohne zu sagen wie viele Fehler und wo. Ab hier läuft sie unregelmäßig weiter. **Ohne Mentor** funktioniert die Zeitversatz-Variante: zehn Sabotagen aufschreiben, zwei Tage warten, drei davon blind anwenden.
 
@@ -1191,12 +1203,11 @@ Damit ist Block 1 abgeschlossen.
 
 # BLOCK 2 — Einheiten und Zeit
 
-*Boot.dev: „Learn Object Oriented Programming in Python"*
 *Ab hier kommen Leseübungen dazu.*
 
 ## Etappe 9 — Alles wird zum Objekt
 
-**Boot.dev:** Klassen, `__init__`, Methoden, Attribute
+**Neue Syntax:** Klassen, `__init__`, Methoden, Attribute
 
 **Die erste OOP-Etappe, und deshalb geteilt.** `self` ist der Begriff, an dem die meisten Anfänger zum ersten Mal wirklich hängenbleiben — nicht weil er schwer ist, sondern weil er überall steht. Der bekommt 9a für sich allein.
 
@@ -1210,9 +1221,9 @@ Damit ist Block 1 abgeschlossen.
 ### 9a — Klassen
 
 **Was du baust:**
-Klasse `Marine` mit `name`, `hp`, `panzerung`, `schaden`, `sektor`, `munition`. Deine losen Variablen wandern hinein — und die siebenstellige Parameterliste aus Etappe 7 schrumpft auf `self`.
+Klasse `Marine` mit `name`, `trefferpunkte`, `panzerung`, `schaden`, `sektor`, `munition`. Deine losen Variablen wandern hinein — und die siebenstellige Parameterliste aus Etappe 7 schrumpft auf `self`.
 
-Dazu `Gegner` mit `hp`, `schaden`, `entfernung`. Zwei Klassen, nicht eine — weil du in Etappe 11 die Frage stellen wirst, was sie gemeinsam haben.
+Dazu `Gegner` mit `trefferpunkte`, `schaden`, `entfernung`. Zwei Klassen, nicht eine — weil du in Etappe 11 die Frage stellen wirst, was sie gemeinsam haben.
 
 **Commit dazwischen:** `Etappe 9a: Alles wird zum Objekt`
 
@@ -1224,7 +1235,7 @@ Dazu `Gegner` mit `hp`, `schaden`, `entfernung`. Zwei Klassen, nicht eine — we
 
 ```python
 def __repr__(self):
-    return f"Marine(name={self.name!r}, hp={self.hp}, sektor={self.sektor!r})"
+    return f"Marine(name={self.name!r}, trefferpunkte={self.trefferpunkte}, sektor={self.sektor!r})"
 ```
 
 Ohne sie zeigt `print(marine)` etwas wie `<__main__.Marine object at 0x7f3a...>` — die nutzloseste Ausgabe der Sprache. Mit ihr siehst du im Debugger aus Etappe 8 sofort, was im Objekt steckt. Und ab Etappe 12, wenn zwanzig Gegner gleichzeitig existieren, ist eine lesbare Liste von Objekten kein Komfort mehr, sondern Voraussetzung.
@@ -1273,7 +1284,7 @@ Du schreibst nichts. Du beantwortest: Was ist `einheit`? Woher kommt `moral`? Wa
 
 ## Etappe 10 — Komposition
 
-**Boot.dev:** Objekte in Objekten, Komposition
+**Neue Syntax:** Objekte in Objekten, Komposition
 
 **Was du baust:**
 Nicht Vererbung — **Komposition.** Ein Marine *hat* Dinge:
@@ -1335,13 +1346,19 @@ Und `if waffe is None:` — nicht `== None`. Kein Stil, echter Unterschied; frag
 
 ## Etappe 11 — Vererbung — und die Frage, ob wir sie brauchen
 
-**Boot.dev:** Vererbung, `super()`, Methoden überschreiben
+**Neue Syntax:** Vererbung, `super()`, Methoden überschreiben
 
 **Diese Etappe ist voll, deshalb vorab die Gewichtung:**
 
 | 🔨 Bauen | 🧠 Verstehen | 👀 Nur erkennen |
 |---|---|---|
-| Die Hierarchien, `super()`, `faehigkeit_einsetzen()` überschreiben | Wann Vererbung passt und wann nicht — schriftlich beantwortet | `__len__`, `__contains__`, `__iter__`, `@property` |
+| Die Hierarchien, `super()`, `faehigkeit_einsetzen()` überschreiben | Wann Vererbung passt und wann nicht — schriftlich beantwortet · Held ↔ Kamerad auf einer Basisklasse | `__len__`, `__contains__`, `__iter__`, `@property` |
+
+**⭐ Hier entsteht der Trupp — und mit ihm die Prämisse des Spiels.** Vier Marines stehen nebeneinander. **Einen davon steuerst du**, das ist der aus Etappe 1 gewählte. Die anderen drei kämpfen mit und entscheiden selbst.
+
+Für die Vererbung ist das der Glücksfall: Alle vier sind Marines, alle vier haben dieselben Werte und dieselbe Basisklasse — der Unterschied liegt allein darin, **woher der Befehl kommt**. Beim Helden aus `input()`, bei den anderen aus `update()`. Genau deshalb steht in Etappe 12 die Unterscheidung *gesteuert ↔ autonom*.
+
+**Und der zweite Unterschied zwischen den Unterklassen ist ab hier ihre Fähigkeit**, nicht mehr nur ihr Wertesatz. Der Engineer stellt einen mobilen Geschützturm auf, der Medic heilt, der Heavy hält aus. Ausgebaut wird das in Etappe 18 — heute genügt eine Methode pro Klasse, die etwas ausgibt.
 
 **Die dritte Spalte ist ausdrücklich keine Aufgabe.** Keine Implementierung, keine Transferübung, keine Prüfung außer einer einzigen Verständnisfrage. Du sollst nicht lernen, `__iter__` zu schreiben — du sollst beim Lesen fremden Codes wissen, *warum* dort `for x in trupp:` steht, obwohl `trupp` keine Liste ist. Ein Satz dazu, und die Spalte ist erledigt.
 
@@ -1377,7 +1394,7 @@ Hier stirbt die `if`/`elif`-Kette aus Etappe 2. Die Klassenwerte stehen nicht me
 
 > Zehn Minuten, schriftlich: *Brauchen wir hier Vererbung überhaupt?*
 
-Und in diesem Setting hat die Frage besonders scharfe Zähne. Deine vier Marine-Klassen unterscheiden sich vor allem durch **Zahlen**. Zahlen sind Daten. Man könnte sie in ein Dictionary schreiben und hätte vier Zeilen statt vier Klassen — genau das machst du in Etappe 22 mit den Bauplänen.
+Und in diesem Setting hat die Frage besonders scharfe Zähne. Deine vier Marine-Klassen unterscheiden sich vor allem durch **Zahlen**. Zahlen sind Daten. Man könnte sie in ein Dictionary schreiben und hätte vier Zeilen statt vier Klassen — genau das machst du in Etappe 22 mit den Tabellen.
 
 Also: Wo liegt die Grenze? Wann ist ein Unterschied ein Datensatz und wann eine Klasse? Es gibt keine richtige Antwort, die ich dir vorsagen könnte. Aber die Frage zu stellen ist der Unterschied zwischen jemandem, der Syntax kann, und jemandem, der Entscheidungen trifft.
 
@@ -1389,7 +1406,7 @@ Also: Wo liegt die Grenze? Wann ist ein Unterschied ein Datensatz und wann eine 
 
 Die eigentliche Lektion dieser Etappe lautet deshalb nicht *„unterschiedliches Verhalten → Vererbung"*, sondern: **Vererbung ist eine von mehreren Modellierungsentscheidungen — nicht die automatische Folge davon, dass Objekte sich unterschiedlich verhalten.**
 
-**Schreib deine Antwort in `GELERNT.md` — als Entscheidung mit Datum und Begründung, nicht als Notiz.** Du liest sie in Etappe 22 wieder, wenn Baupläne zeigen, wie gut sich Verhalten als Daten ausdrücken lässt, und noch einmal in Etappe 25, wenn du versuchst, deine Klassen nach JSON zu bringen. Dann bewertest du dieselbe Frage mit zwei Monaten Erfahrung neu.
+**Schreib deine Antwort in `GELERNT.md` — als Entscheidung mit Datum und Begründung, nicht als Notiz.** Du liest sie in Etappe 22 wieder, wenn die Tabellen zeigen, wie gut sich Verhalten als Daten ausdrücken lässt, und noch einmal in Etappe 25, wenn du versuchst, deine Klassen nach JSON zu bringen. Dann bewertest du dieselbe Frage mit zwei Monaten Erfahrung neu.
 
 Dieser Ablauf — **Entscheidung → Erfahrung → Gegenprobe → Revision** — ist der Kern dessen, was Softwareentwicklung von Syntaxkenntnis unterscheidet. Er funktioniert nur, wenn die ursprüngliche Entscheidung aufgeschrieben ist. Aus dem Gedächtnis rekonstruiert man immer die Entscheidung, die man heute treffen würde.
 
@@ -1413,7 +1430,7 @@ Dazu `@property` — eine Methode, die sich wie ein Attribut liest:
 ```python
 @property
 def am_leben(self):
-    return self.hp > 0
+    return self.trefferpunkte > 0
 
 # Aufruf: gegner.am_leben   (ohne Klammern!)
 ```
@@ -1438,7 +1455,7 @@ def am_leben(self):
 
 ## Etappe 12 — DER TICK ⭐
 
-**Boot.dev:** Objekte in Schleifen, Zustand über Zeit
+**Neue Syntax:** Objekte in Schleifen, Zustand über Zeit
 
 | 🔨 Bauen | 🧠 Verstehen | 👀 Nur erkennen |
 |---|---|---|
@@ -1495,35 +1512,40 @@ Dein Marine und die drei anderen sind derselbe Typ, unterscheiden sich aber gena
 
 ---
 
-## Etappe 13 — Bauzeit und Nachschub ⭐
+## Etappe 13 — Abklingzeiten und Nachschub ⭐
 
-**Boot.dev:** Objektzustand über Zeit, Weltzustand zur Laufzeit ändern
+**Neue Syntax:** Objektzustand über Zeit, Weltzustand zur Laufzeit ändern
 
 | 🔨 Bauen | 🧠 Verstehen | 👀 Nur erkennen |
 |---|---|---|
-| Bauzeit, Nachschubzähler, Räumzeit — dreimal dasselbe Muster | Zustand gegen Ereignis: *soll das gelten oder soll das passieren?* | Der Begriff *Scheduler* |
+| Abklingzeit, Respawn, Nachschub, Erfahrungsschwelle — viermal dasselbe Muster | Zustand gegen Ereignis: *soll das gelten oder soll das passieren?* | Der Begriff *Scheduler* |
 
 **Das ist eine kleine, freundliche Etappe** — ein Zähler, ein `if`, und ein Spielmoment, den du nicht mehr vergisst. Genau deshalb steht sie direkt hinter dem Tick.
 
 ```python
-class Geschuetz:
+class Faehigkeit:
     def update(self, welt):
-        self.alter += 1
-        if self.alter >= self.bauzeit and not self.aktiv:
-            self.aktiv = True
-            welt.melde(f"{self.name} ist online.")
+        if self.restzeit > 0:
+            self.restzeit -= 1
+            if self.restzeit == 0:
+                welt.melde(f"{self.name} ist wieder bereit.")
 ```
 
-Du gibst den Bauauftrag, gehst zum anderen Tor, kämpfst — und irgendwann feuert hinter dir etwas, das vorher nicht da war. Der einfachste mögliche Beweis, dass dein Tick-System funktioniert.
+Du zündest die Fähigkeit, kämpfst weiter, vergisst sie — und irgendwann meldet sie sich zurück. Der einfachste mögliche Beweis, dass dein Tick-System funktioniert.
 
-**Drei Systeme, ein Muster.** Das ist der eigentliche Lernstoff dieser Etappe:
+**Vier Systeme, ein Muster.** Das ist der eigentliche Lernstoff dieser Etappe:
 
 | System | Zähler läuft | Am Ende passiert |
 |---|---|---|
-| Geschütz im Bau | `bauzeit` | Es wird aktiv |
+| **Gezündete Fähigkeit** | `restzeit` | Sie ist wieder bereit |
+| **Der eigene Ausfall** | `respawnzeit` | Du stehst wieder da — mit Restmunition, nicht mit voller |
 | Gefallener Rekrut | `nachschubzaehler` | Ein neuer steht da |
-| Verschütteter Osttunnel | `raeumzeit` | Der Sektor wird erreichbar |
-| **Ausgefallener Trupp-Marine** | `ausfallzeit` | Er steht wieder auf |
+| Ausgefallener Kamerad | `ausfallzeit` | Er steht wieder auf |
+| Engineer-Turret im Aufbau | `aufstellzeit` | Er beginnt zu feuern |
+
+⚠️ **Der Unterschied zwischen Held und Kamerad wird hier zum ersten Mal spürbar.** Fällt ein Kamerad, läuft das Spiel weiter und du kämpfst zu dritt. Fällt **dein** Marine, wartest du. Das ist derselbe Zähler und ein völlig anderes Spielgefühl — und eine der Stellen, an denen dir auffällt, dass dieselbe Technik zwei verschiedene Dinge bedeuten kann.
+
+**Und ein fünfter Zähler, der keiner zu sein scheint:** die Erfahrung bis zur nächsten Stufe. Sie läuft nach oben statt nach unten, sonst ist sie dasselbe — Schwelle prüfen, Ereignis auslösen. Wenn du das siehst, hast du das Muster verstanden.
 
 Viermal derselbe Ablauf mit anderen Namen. Wenn du das siehst, hast du den wichtigsten Reflex dieser Etappe: **Wiederholung im Muster ist ein Hinweis, kein Zufall.** Ob du daraus schon eine gemeinsame Basisklasse machst oder erst später, ist deine Entscheidung — aber du sollst sie bewusst treffen.
 
@@ -1570,7 +1592,7 @@ Irgendwann wirst du fragen: *Warum muss das Geschütz eigentlich die ganze Welt 
 
 ## Etappe 14 — Das Vorfeld ⭐
 
-**Boot.dev:** Verschachtelte Listen, 2D-Raster, `range()` über Koordinaten
+**Neue Syntax:** Verschachtelte Listen, 2D-Raster, `range()` über Koordinaten
 
 **Die am stärksten geteilte Etappe des Plans — und sie war vorher die überladenste.** 14a ist reine Python-Arbeit an einer Datenstruktur. 14b baut darauf Spielmechanik. Wer beides mischt, lernt weder das eine noch das andere.
 
@@ -1696,7 +1718,7 @@ Technisch ist die Zone dieselbe Randprüfung wie die des Rasters, nur mit andere
 
 ## Etappe 15 — Was die Brut hinterlässt
 
-**Boot.dev:** Suchen in Datenstrukturen, Zustandsverwaltung
+**Neue Syntax:** Suchen in Datenstrukturen, Zustandsverwaltung
 
 | 🔨 Bauen | 🧠 Verstehen | 👀 Nur erkennen |
 |---|---|---|
@@ -1805,7 +1827,7 @@ Das dritte Wort ist das schwerste: **nur diese.** Wer drei Dinge gleichzeitig ä
 
 ## Etappe 17 — Der Wellengenerator ⭐
 
-**Boot.dev:** `random`, gewichtete Wahrscheinlichkeiten
+**Neue Syntax:** `random`, gewichtete Wahrscheinlichkeiten
 
 **Geteilt.** 17a ist Zufall — ein handliches, sofort belohnendes Thema. 17b ist alles, was der Zufall nach sich zieht, und das ist mehr, als es aussieht.
 
@@ -1898,17 +1920,25 @@ Die Variable, die du am ersten Tag angelegt und nie benutzt hast, bekommt heute 
 
 ---
 
-## Etappe 18 — Fähigkeiten, Freischaltungen, Statuseffekte
+## Etappe 18 — Fähigkeiten, Skillpunkte, Statuseffekte
 
-**Boot.dev:** Zustandsverwaltung, Sets, komplexere Boolean-Logik
+**Neue Syntax:** Zustandsverwaltung, Sets, komplexere Boolean-Logik
 
 | 🔨 Bauen | 🧠 Verstehen | 👀 Nur erkennen |
 |---|---|---|
-| Statuseffekte mit Dauer · Voraussetzungen für Fähigkeiten | Zustand, der weder dauerhaft noch einmalig ist | `and`/`or` als Rückgabewerte |
+| Statuseffekte mit Dauer · Skillpunkte · Voraussetzungen für Fähigkeiten | Zustand, der weder dauerhaft noch einmalig ist | `and`/`or` als Rückgabewerte |
 
-**Die Reihenfolge ist nicht beliebig:** Erst die Statuseffekte — das ist der eigentliche Stoff und die schwerste Sorte Zustand. Dann die Voraussetzungen. Die dritte Spalte ist Lesestoff und darf ausfallen.
+**Die Reihenfolge ist nicht beliebig:** Erst die Statuseffekte — das ist der eigentliche Stoff und die schwerste Sorte Zustand. Dann die Skillpunkte und Voraussetzungen. Die dritte Spalte ist Lesestoff und darf ausfallen.
 
-Ein zentraler `flags`-Speicher (ein Set — jetzt weißt du, warum). Fähigkeiten haben Voraussetzungen: eine bestimmte Freischaltung, eine Mindestwellennummer, genug Schrott, die richtige Klasse. Das ist eine verknüpfte Bedingung, und sie ist erwachsen geworden seit Etappe 2.
+**Hier zahlt sich die Erfahrung aus, die seit Etappe 3c mitgezählt hat.** Jede Stufe gibt einen Skillpunkt, und der Spieler entscheidet, wohin er ihn setzt. Damit hat die Zahl, die fünfzehn Etappen lang nur dastand, endlich eine Wirkung.
+
+Ein zentraler `flags`-Speicher (ein Set — jetzt weißt du, warum). Fähigkeiten haben Voraussetzungen: eine Mindeststufe, eine bestimmte Freischaltung, genug Schrott, die richtige Klasse. Das ist eine verknüpfte Bedingung, und sie ist erwachsen geworden seit Etappe 2.
+
+**Eine aktive Fähigkeit besteht aus drei Teilen, und alle drei hast du schon:** einer Voraussetzung (das Set aus Etappe 6 plus `level`), einer Abklingzeit (der Zähler aus Etappe 13) und einer Wirkung (ein Statuseffekt oder Schaden). Nichts davon ist heute neu — neu ist, dass sie zusammenkommen.
+
+**Passive gehören dazu und sind der einfachere Fall:** Sie haben keinen Auslöser. Statt dass der Spieler etwas drückt, fragt die Rechnung nach — *hat dieser Marine das Kopfschuss-Passiv?*. Das ist eine Zeile mehr in Etappe 21a und sonst nichts.
+
+**Und jede Klasse hat ihre eigene.** Der Engineer stellt einen mobilen Geschützturm auf — **eine Fähigkeit mit Abklingzeit, kein Gebäude**, und höchstens einer gleichzeitig. Er landet in derselben Einheitenliste wie der Trupp und tickt mit.
 
 Dazu **Statuseffekte** mit Dauer: brennend, geschockt, überladen, abgeschirmt. Sie hängen an Einheiten, sie zählen im Tick herunter, sie verändern Werte, solange sie laufen. Damit hast du zum ersten Mal Zustand, der weder dauerhaft noch einmalig ist — die Sorte, die am schwersten sauber zu modellieren ist.
 
@@ -1947,7 +1977,7 @@ Bisher laufen deine drei Marines zum nächsten Gegner und schießen. Ab heute se
 
 ## Etappe 19 — Speichern und Laden
 
-**Boot.dev:** Datei-I/O, `json`, `pathlib`
+**Neue Syntax:** Datei-I/O, `json`, `pathlib`
 
 | 🔨 Bauen | 🧠 Verstehen | 👀 Nur erkennen |
 |---|---|---|
@@ -1990,7 +2020,7 @@ Python weiß beim Laden nicht mehr, dass da mal ein Tuple stand. Das ist keine S
 
 Eine Versionsnummer im Spielstand. Heute völlig überflüssig — du hast genau ein Format.
 
-In Etappe 22 änderst du deine Baupläne, in 25 kommt der Content aus JSON, und plötzlich passt ein Spielstand von letzter Woche nicht mehr zum Programm von heute. Ohne Versionsnummer bekommst du dann einen `KeyError` mitten im Laden und weißt nicht, ob dein Code kaputt ist oder die Datei alt. Mit Versionsnummer bekommst du: *„Dieser Spielstand ist Version 1, ich verstehe Version 2."*
+In Etappe 22 änderst du deine Tabellen, in 25 kommt der Content aus JSON, und plötzlich passt ein Spielstand von letzter Woche nicht mehr zum Programm von heute. Ohne Versionsnummer bekommst du dann einen `KeyError` mitten im Laden und weißt nicht, ob dein Code kaputt ist oder die Datei alt. Mit Versionsnummer bekommst du: *„Dieser Spielstand ist Version 1, ich verstehe Version 2."*
 
 Das ist kein Lehrbuchproblem. **Das ist das häufigste Problem, das Software mit gespeicherten Daten überhaupt hat**, und du löst es heute mit einer Zeile. Ob du später auch migrierst — alte Stände umrechnen statt abweisen — kannst du dann entscheiden. Erkennen musst du das Problem, bevor es dich trifft.
 
@@ -2034,7 +2064,7 @@ Das heißt *atomares Schreiben*, es steckt in jedem ernsthaften Programm, das Da
 
 ## Etappe 20 — Wenn der Spieler Unsinn eingibt
 
-**Boot.dev:** `try` / `except`, eigene Exceptions, Validierung
+**Neue Syntax:** `try` / `except`, eigene Exceptions, Validierung
 
 | 🔨 Bauen | 🧠 Verstehen | 👀 Nur erkennen |
 |---|---|---|
@@ -2130,7 +2160,7 @@ Der Unterschied zu `print()` ist der Schalter: Ein Log lässt sich **abstellen, 
 
 ## Etappe 21 — Kampf, richtig gerechnet
 
-**Boot.dev:** Mehrere Rückgabewerte, Zahlenlogik — plus `Enum`
+**Neue Syntax:** Mehrere Rückgabewerte, Zahlenlogik — plus `Enum`
 
 **Geteilt, und zwar an einer klaren Naht.** 21a ist die Rechnung. 21b ist alles, was man auf eine funktionierende Rechnung obendrauf setzen kann — und obendrauf heißt: erst wenn sie funktioniert.
 
@@ -2217,30 +2247,43 @@ Das ist der erste Moment in diesem ganzen Projekt, in dem ein Branch einen echte
 
 ---
 
-## Etappe 22 — Baupläne und Ausbaustufen
+## Etappe 22 — Ausbaustufen und Tabellen
 
-**Boot.dev:** Datengetriebenes Design, Listen von Dictionaries
+**Neue Syntax:** Datengetriebenes Design, Listen von Dictionaries
 
 | 🔨 Bauen | 🧠 Verstehen | 👀 Nur erkennen |
 |---|---|---|
-| Baupläne als Dictionary, neuer Geschütztyp ohne Logikänderung | Was Daten sind und was Verhalten ist | Komposition als dritter Weg |
+| Fähigkeiten, Turmstufen und Söldner als Tabellen — neue Stufe ohne Logikänderung | Was Daten sind und was Verhalten ist | Komposition als dritter Weg |
+
+Bis heute stehen deine Zahlen im Code verstreut: Schaden einer Fähigkeit im `if`, Abklingzeit im Konstruktor, Kosten in der Kaufprüfung. Heute wandern sie alle an einen Ort.
 
 ```python
-baupläne = {
-    "mg_turm": {"kosten": {"schrott": 120}, "bauzeit": 8, "voraussetzung": None},
-    "plasmaturm": {"kosten": {"schrott": 300}, "bauzeit": 20, "voraussetzung": "energiezelle"},
+FAEHIGKEITEN = {
+    "geschuetzturm": {"klasse": "engineer", "stufe": 1, "abklingzeit": 30, "kosten": {"schrott": 40}},
+    "kopfschuss":    {"klasse": "soldat",   "stufe": 5, "passiv": True,    "bonus": 15},
+}
+
+BASISTURM = {
+    1: {"schaden": 10, "reichweite": 3, "kosten": {"schrott": 120}, "voraussetzung": None},
+    2: {"schaden": 18, "reichweite": 4, "kosten": {"schrott": 300}, "voraussetzung": "energiezelle"},
 }
 ```
 
-Geschütztypen, Waffen, Module, Fähigkeiten — alles bekommt Kosten, Bauzeit und Voraussetzungen. Und die Voraussetzung ist einfach ein Eintrag:
+⚠️ **Sieh dir die zweite Tabelle genau an: Das sind Stufen desselben Turms, keine verschiedenen Turmtypen.** Es gibt genau **einen** Turm in der Basis, und du baust ihn aus. Freies Bauen beliebig vieler Geschütze gehört ausdrücklich nicht in dieses Spiel — es ist ein Hero-Survival, kein Tower Defense. Der Turm ist eine Beigabe zu deiner eigenen Figur, keine Mechanik, die sie ersetzt.
 
-> *Der Plasmaturm braucht die Energiezelle. Also darf er erst gebaut werden, wenn die Energiezelle freigeschaltet ist.*
+Und die Voraussetzung ist einfach ein Eintrag:
 
-Ein Feld im Dictionary, eine Prüfung beim Bauen. Das ist alles — und es ist trotzdem der Moment, in dem dein Spiel einen Ausbaubaum bekommt, ohne dass du einen programmiert hättest.
+> *Stufe 2 braucht die Energiezelle. Also lässt sie sich erst ausbauen, wenn die Energiezelle freigeschaltet ist.*
 
-**Fast geschenkt:** Bauzeiten, Nachschubzähler, Statuseffekte und Ereignisse laufen alle auf demselben Takt aus Etappe 12.
+Ein Feld im Dictionary, eine Prüfung beim Ausbauen. Das ist alles — und es ist trotzdem der Moment, in dem dein Spiel einen Ausbaubaum bekommt, ohne dass du einen programmiert hättest.
 
-**Erweitern ohne zu zerstören:** Neuen Geschütztyp hinzufügen, ohne eine einzige Zeile Logik zu ändern. Wenn das klappt, hast du datengetriebenes Design verstanden. Wenn nicht, siehst du genau, an welcher Stelle deine Logik etwas über ihre Daten weiß, das sie nicht wissen sollte.
+**Söldner kommen aus derselben Sorte Tabelle:** Kosten, Vertragsdauer, Werte. Sie brauchen keine neue Mechanik — die Einheitenliste aus Etappe 12 nimmt sie auf, und die Vertragsdauer ist der Zähler aus Etappe 13.
+
+**Fast geschenkt:** Abklingzeiten, Nachschubzähler, Statuseffekte und Ereignisse laufen alle auf demselben Takt aus Etappe 12.
+
+**Erweitern ohne zu zerstören:** Eine neue Fähigkeit oder eine sechste Turmstufe hinzufügen, ohne eine einzige Zeile Logik zu ändern. Wenn das klappt, hast du datengetriebenes Design verstanden. Wenn nicht, siehst du genau, an welcher Stelle deine Logik etwas über ihre Daten weiß, das sie nicht wissen sollte.
+
+**Und eine Entscheidung, die hier bewusst offenbleibt:** Ein ausbaubarer **Stützpunkt** — mehr Nachschub, mehr Lagerplatz, bessere Reparatur — ist heute nicht Teil des Spiels. Der natürliche Ort dafür wäre genau diese Etappe: Sobald die Turmstufen als Tabelle stehen, ist ein zweites ausbaubares Objekt eine zweite Tabelle und keine neue Mechanik. Wer ihn will, baut ihn nach Etappe 27 in einem Abend nach. Wer ihn nicht will, verliert nichts.
 
 **Warum Daten und nicht Klassen — und wann wäre eine Klasse besser?**
 
@@ -2270,7 +2313,7 @@ Kein `Medic` als Unterklasse — ein Marine, dem ein Fähigkeitsobjekt beiliegt.
 
 **Das ist die Trennung, die dir heute klar wird und die viele nie sauber sehen:** Der Bauplan ist das Rezept, das Geschütz ist der Kuchen. Beide beschreiben dasselbe Ding und gehören trotzdem in verschiedene Strukturen.
 
-**Und jetzt kommt die Frage aus Etappe 11 zurück:** Deine vier Marine-Klassen unterscheiden sich durch Zahlen. Baupläne sind Zahlen. Könntest du die Klassen genauso behandeln? Solltest du? Das ist keine rhetorische Frage — beantworte sie schriftlich, und vergleich sie mit dem, was du in Etappe 11 aufgeschrieben hast.
+**Und jetzt kommt die Frage aus Etappe 11 zurück:** Deine vier Marine-Klassen unterscheiden sich durch Zahlen. Die Tabellen sind Zahlen. Könntest du die Klassen genauso behandeln? Solltest du? Das ist keine rhetorische Frage — beantworte sie schriftlich, und vergleich sie mit dem, was du in Etappe 11 aufgeschrieben hast.
 
 **Und wenn deine beiden Antworten sich widersprechen, hast du alles richtig gemacht.** Der Widerspruch ist nicht peinlich, sondern der Beleg dafür, dass zwischen den beiden Einträgen echte Erfahrung liegt. Genau dieser Ablauf — **Entscheidung → Erfahrung → Gegenprobe → Revision** — ist das, was in keinem Kurs vorkommt, weil Kurse zu kurz dafür sind.
 
@@ -2282,7 +2325,7 @@ Kein `Medic` als Unterklasse — ein Marine, dem ein Fähigkeitsobjekt beiliegt.
 
 ## Etappe 23 — Python wird pythonisch ⭐
 
-**Boot.dev:** Comprehensions, `dataclass`, Typannotationen
+**Neue Syntax:** Comprehensions, `dataclass`, Typannotationen
 
 Keine neue Spielfunktion. **Und trotzdem die Etappe, die deinem eigentlichen Ziel am direktesten dient.**
 
@@ -2316,7 +2359,7 @@ Die letzte Spalte schreibst du in diesem Projekt nie selbst. Du liest sie in jed
 
 **Comprehensions:**
 ```python
-lebende = [g for g in self.gegner if g.hp > 0]
+lebende = [g for g in self.gegner if g.trefferpunkte > 0]
 nach_typ = {g.typ: g for g in self.gegner}
 ```
 *Warnung:* Eine Ebene, nie verschachtelt. Wenn die Comprehension schwerer zu lesen ist als die Schleife, hast du verloren.
@@ -2369,7 +2412,7 @@ from dataclasses import dataclass
 @dataclass
 class Gegnertyp:
     name: str
-    hp: int
+    trefferpunkte: int
     schaden: int
     kosten: int
 ```
@@ -2414,7 +2457,7 @@ Du brauchst dafür keine Architekturtheorie. Du brauchst nur die Fähigkeit, irg
 
 ## Etappe 24 — Das Projekt wird zum Projekt (Code + Git)
 
-**Boot.dev:** Module, Imports, Paketstruktur
+**Neue Syntax:** Module, Imports, Paketstruktur
 
 | 🔨 Bauen | 🧠 Verstehen | 👀 Nur erkennen |
 |---|---|---|
@@ -2521,7 +2564,7 @@ Branches, Merges, Merge-Konflikte — und wie man einen absichtlich herbeiführt
 
 ## Etappe 25 — Inhalt raus aus dem Code ⭐
 
-**Boot.dev:** JSON als Content-Format, Laden zur Laufzeit
+**Neue Syntax:** JSON als Content-Format, Laden zur Laufzeit
 
 | 🔨 Bauen | 🧠 Verstehen | 👀 Nur erkennen |
 |---|---|---|
@@ -2533,9 +2576,9 @@ Branches, Merges, Merge-Konflikte — und wie man einen absichtlich herbeiführt
 
 Wenn das klappt, hast du datengetriebenes Design nicht nur verstanden, sondern es benutzt.
 
-Gegnertypen, Wellenrezepte, Waren, Baupläne, Fähigkeiten, Ereignisse, Vorfeld-Karten — alles wandert nach `content/`. Der Code lädt es beim Start.
+Gegnertypen, Wellenrezepte, Waren, Turmstufen, Fähigkeiten, Söldner, Ereignisse, Vorfeld-Karten — alles wandert nach `content/`. Der Code lädt es beim Start.
 
-**Neu und wichtig: Daten von außen sind nie vertrauenswürdig.** Ein Tippfehler in deinem JSON darf keinen unverständlichen Traceback erzeugen, sondern eine klare Meldung: *„content/gegner.json, Eintrag 3: Feld 'hp' fehlt."* Schreib eine kleine Prüffunktion, die die geladenen Daten kontrolliert, bevor das Spiel startet.
+**Neu und wichtig: Daten von außen sind nie vertrauenswürdig.** Ein Tippfehler in deinem JSON darf keinen unverständlichen Traceback erzeugen, sondern eine klare Meldung: *„content/gegner.json, Eintrag 3: Feld 'trefferpunkte' fehlt."* Schreib eine kleine Prüffunktion, die die geladenen Daten kontrolliert, bevor das Spiel startet.
 
 Das ist dieselbe Fehlerklasse wie in Etappe 8 — der Fehler steckt in den Daten, nicht im Code. Nur dass er jetzt aus einer Datei kommt, die du beim Schreiben nicht im Blick hattest.
 
@@ -2557,10 +2600,10 @@ Spiel starten
 Der Fall, an dem der Unterschied kippt:
 
 ```json
-{ "name": "Brecher", "hp": "sehr viel", "kosten": -30 }
+{ "name": "Brecher", "trefferpunkte": "sehr viel", "kosten": -30 }
 ```
 
-**Das ist einwandfreies JSON.** Stufe 1 ist zufrieden. Stufe 2 findet den ersten Fehler: `hp` sollte eine Zahl sein und ist Text. Stufe 3 findet den zweiten: `kosten` ist zwar eine Zahl, aber eine negative — und ein Gegner, der dem Wellenbudget Geld *zurückgibt*, erzeugt in Etappe 17 eine Welle aus tausend Krabblern.
+**Das ist einwandfreies JSON.** Stufe 1 ist zufrieden. Stufe 2 findet den ersten Fehler: `trefferpunkte` sollte eine Zahl sein und ist Text. Stufe 3 findet den zweiten: `kosten` ist zwar eine Zahl, aber eine negative — und ein Gegner, der dem Wellenbudget Geld *zurückgibt*, erzeugt in Etappe 17 eine Welle aus tausend Krabblern.
 
 **Und genau das ist deine Fehlertypen-Skala von Etappe 8, eine Ebene höher gespiegelt:** Stufe 1 knallt sofort (Typ 1). Stufe 2 knallt irgendwann, an einer ganz anderen Stelle (Typ 2). Stufe 3 knallt nie und macht dein Spiel kaputt (Typ 3). **Je später die Stufe, desto teurer der Fehler** — und desto wichtiger, dass die Prüfung stattfindet, bevor das Spiel startet, und nicht mitten in Welle 9.
 
@@ -2592,7 +2635,7 @@ Notier dir beim Bauen jeden Fall, den deine Prüfung abfangen soll — fehlendes
 
 ## Etappe 26 — Tests
 
-**Boot.dev:** `pytest`
+**Neue Syntax:** `pytest`
 
 | 🔨 Bauen | 🧠 Verstehen | 👀 Nur erkennen |
 |---|---|---|
@@ -2795,63 +2838,3 @@ Ich gebe Hinweise, Erklärungen, Reviews. Wenn du nach fertigem Code fragst, fra
 
 An Tagen ohne Energie: `GELERNT.md` öffnen, die letzten drei Einträge lesen. Das zählt auch.
 
----
-
-## Was sich in Fassung 3 geändert hat
-
-Keine Etappe wurde hinzugefügt, keine gestrichen, keine umnummeriert — die Themenliste und alle Verweise sind unverändert. Geändert wurde die **Belastungssteuerung**.
-
-**Das neue tragende Prinzip: die drei Anspruchsstufen.** 🔨 Bauen · 🧠 Verstehen · 👀 Nur erkennen. Fast jede Etappe beginnt jetzt mit dieser Tabelle. Sie ist das Mittel gegen den einen Fehler, an dem Selbstlernprojekte scheitern: alles gleich wichtig zu nehmen.
-
-**Sieben Etappen sind geteilt**, mit Commit dazwischen — 3, 7, 9, 14, 17, 21, 23. **Etappe 3 dreifach** (Schleife / Befehle / Kampf und Anzeige), die übrigen zweifach. Aus 30 Etappen werden 38 Portionen, ohne dass eine einzige Nummer sich verschiebt.
-
-**Herabgestuft auf „nur erkennen":** `continue` (3a) · `__str__` (9b) · Dunder-Methoden und `@property` (11) · der Begriff *Zustandsautomat* und die Tick-Reihenfolge (12) · *Scheduler* (13) · `enumerate()` (14a) · *Kopplung* (15) · `and`/`or` als Rückgabewerte (18) · atomares Schreiben (19) · Exception-Hierarchien und `finally` (20) · Schadenstypen (21b) · Komposition (22).
-
-**Entlastet und neu geordnet:**
-
-| Was | Wo |
-|---|---|
-| `int()` als Dreisatz statt als Klassen-Stats-Kopplung | 1 |
-| Nur noch die **gewählte** Klasse wird gesetzt — der Trupp kommt in 11 | 2 |
-| Anmarschbahn in drei Schritten: ein Gegner → mehrere → entfernen | 4 |
-| Dictionary zuerst an einem Nicht-Spiel-Beispiel erklärt | 5 |
-| Tuple ohne Koordinaten-Vorgriff begründet | 6 |
-| `assert` ist Ausblick, nicht Testeinstieg | 7b |
-| Objektidentität („zwei Namen, ein Objekt") explizit gemacht | 10 |
-| Zustandsautomat auf zwei Zeilen mit String reduziert | 12 |
-| Wegfindung ausdrücklich ausgeschlossen | 14a |
-| Sensorabdeckung als Kür markiert | 14b |
-| Set-Muster (merken → abfragen) als Kern herausgestellt | 15 |
-| Ereignisse und Seed von der Zufallsmechanik getrennt | 17b |
-| Eine Exception-Klasse statt einer Hierarchie | 20 |
-| Ausbaubaum als Voraussetzungsfeld statt als „Graph" | 22 |
-| Die Spielschleife als eigentlicher Umbruch, nicht die Grafik | 28 |
-
-**Nicht übernommen:** eine Umnummerierung von 24–30 (bricht sämtliche Vorausverweise, den Bogen und alle bestehenden Guides, ohne didaktischen Gewinn — die a/b-Teilung leistet dasselbe) und jede Form von zusätzlichem Python-Stoff. Der Plan sollte lernbarer werden, nicht länger.
-
----
-
-## Was sich in Fassung 2 geändert hat
-
-Für alle, die Fassung 1 kennen. Keine Etappe wurde hinzugefügt, keine gestrichen, keine umnummeriert — die Themenliste ist unverändert. Geändert wurde die Didaktik:
-
-| Neu | Wo |
-|---|---|
-| Lesehinweis und Mindestsitzung | ganz vorne |
-| Meilensteine und „an Tagen, an denen nichts geht" | Zeitrahmen |
-| 🧠 Die Entwicklerfrage — eine echte Entscheidungsfrage je Etappe | Rahmenteil, eingelöst in 17–27 |
-| Beobachtung → Hypothese → Experiment als Debugging-Formular | Bug-Jagd, angewandt in 16 |
-| Anspruchsstufen für überladene Etappen | 11, 18, 23 |
-| Etappe 23 in zwei Hälften (23a lesen / 23b modellieren) mit Commit dazwischen | 23 |
-| Tick-Reihenfolge als bewusste Entscheidung, nicht als Zufall | 12, eingelöst in 16 |
-| Komposition als dritte Option neben Daten und Vererbung | 11 angekündigt, 22 ausgeführt |
-| Riegel gegen Wegfindung | 14 |
-| Kopplungs-Zeichnung als eigene Übung | 15, wiederholt in 23 |
-| Seed als sichtbare Entwicklerfunktion | 17 |
-| Serialisierung als Abbildung — und die Frage, ob sie verlustfrei ist | 19 |
-| Drei Stufen der Gültigkeit (syntaktisch / strukturell / inhaltlich) | 25 |
-| Commit-Zeile für jede Etappe | durchgehend |
-
-**Entschärft** wurden absolute Formulierungen an sechs Stellen — beim Objektzähler gegen Scheduler (13), bei Vererbung gegen Komposition (11), bei `Enum` gegen String (21) und bei `finally` (20), das eben *nicht* immer läuft. **Gestrichen** wurden Pull Requests als Pflichtstoff (24).
-
-**Was bewusst nicht übernommen wurde:** eine Rubrik „Am Ende kannst du…" je Etappe (Selbstbild statt Prüfung — siehe *Die Struktur jeder Etappe*) und jede Form von zusätzlichem Python-Stoff. Der Plan sollte tiefer werden, nicht länger.

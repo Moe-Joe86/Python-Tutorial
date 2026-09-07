@@ -1,9 +1,13 @@
 # Etappe 5 — Der Vorposten und das Depot
 
+*v1.2.0 · 2026-09-02*
+
 > **Block 1: Fundament** · Etappe 5 von 30 · [← Etappe 4](etappe-04-ausruestung-und-beute.md) · [Lehrplan](../Vorposten_Lehrplan.md) · [Etappe 6 →](etappe-06-datenstrukturen.md)
 
-**Boot.dev:** Dictionaries, verschachtelte Dictionaries, `.keys()` / `.values()` / `.items()`
-**Zeitaufwand:** 4–6 Sitzungen à 20–30 Minuten
+**Neue Syntax heute:** `{"schluessel": wert}` · `d["schluessel"]` lesen und schreiben · `.get()` mit und ohne Ersatzwert · `in` beim Dictionary · `d[a][b]` · `for name in d` · `.items()` · `del d[key]` · Zahlen als Schlüssel · 👀 `.keys()` und `.values()`
+
+**Zeitaufwand:** 5–7 Sitzungen à 20–30 Minuten. Rund 45 Minuten davon sind Lesestoff — also gut anderthalb Sitzungen, bevor du tippst.
+
 **Voraussetzung:** Etappe 4 abgeschlossen, Selbsttest grün
 
 | 🔨 Bauen | 🧠 Verstehen | 👀 Nur erkennen |
@@ -248,6 +252,16 @@ for name in gewuerze:
     del gewuerze[name]                    # nicht in Ordnung
 ```
 
+**`del` ist neu** — es löscht einen Eintrag vollständig aus dem Dictionary, Schlüssel und Wert:
+
+```python
+gewuerze = {"kuemmel": 40, "anis": 12}
+del gewuerze["anis"]
+print(gewuerze)          # {'kuemmel': 40}
+```
+
+Es ist kein Aufruf mit Klammern, sondern ein Schlüsselwort wie `if` — deshalb steht kein Punkt davor. Außerhalb einer Schleife ist es völlig in Ordnung; nur eben nicht *während* du über dasselbe Dictionary läufst.
+
 Bei einem Dictionary ist Python dabei strenger als bei einer Liste: Es bricht mit `RuntimeError: dictionary changed size during iteration` ab. Eine Liste lässt dich gewähren und liefert danach ein falsches Ergebnis.
 
 **Der Abbruch ist ein Geschenk**, auch wenn er sich nicht so anfühlt — du vergleichst beides im Kaputtmach-Teil.
@@ -430,6 +444,30 @@ Was aus den Daten kommt, ist nur die **Markierung**: welcher Sektor gerade dran 
 **Diese Etappe ist groß.** Schritt 1 und Schritt 11 sind die aufwendigsten — bei Schritt 1 entstehen zwei Verschachtelungsebenen auf einmal, bei Schritt 11 vier Prüfungen in der richtigen Reihenfolge. Beide dürfen dich länger beschäftigen als der Rest zusammen.
 
 Nach jedem Schritt ausführen, vorher sagen, was passieren wird.
+
+---
+
+### 15. Zahlen als Schlüssel — und wozu das gut ist
+
+Bisher waren alle deine Schlüssel Wörter. Sie müssen es nicht sein:
+
+```python
+portionen = {1: "Espresso", 2: "Doppelter", 3: "Kanne"}
+print(portionen[2])          # Doppelter
+```
+
+**Eine Zahl als Schlüssel ist kein Index.** `portionen[2]` fragt nach dem *Schlüssel* 2, nicht nach der zweiten Stelle — es gibt hier keine Stelle 0, und das ist auch kein Fehler. Bei einer Liste wäre `liste[2]` das dritte Element; hier ist es einfach der Eintrag, der unter 2 abgelegt wurde.
+
+**Wofür du das brauchst:** eine Tabelle, die eine Schwelle nachschlägt.
+
+```python
+# fremdes Beispiel: ab wie vielen Bestellungen welcher Rabatt gilt
+rabatte = {1: 0, 2: 5, 3: 12, 4: 20}
+```
+
+Das liest sich als: Stufe 1 gibt keinen Rabatt, Stufe 4 gibt zwanzig Prozent. Vier Zeilen Daten statt einer `elif`-Kette mit vier Zweigen — und derselbe Gedanke wie in Konzept 8: **nachschlagen statt abfragen.**
+
+⚠️ **Die Grenze davon** siehst du gleich beim Auftrag: Ein Dictionary beantwortet die Frage *„was gilt für Stufe 3?"* sofort. Die umgekehrte Frage — *„welche Stufe gilt bei 250 Erfahrung?"* — beantwortet es **nicht** von selbst. Dafür musst du die Einträge durchlaufen und vergleichen. Das ist eine der nützlichsten Beobachtungen dieser Etappe: Eine Datenstruktur ist immer nur für **eine** Richtung der Frage gebaut.
 
 ---
 
@@ -620,6 +658,24 @@ Damit läuft zum ersten Mal ein Kreislauf: Gegner fallen → Schrott → Munitio
 
 ---
 
+### 14b. ⭐ Bau die Stufentabelle
+
+Deine `erfahrung` aus Etappe 3c zählt seit zwei Etappen hoch und tut nichts. Heute bekommt sie eine Bedeutung — aber noch keine Wirkung.
+
+- Leg eine Tabelle an, die zu jeder Stufe sagt, **ab wie viel Erfahrung** sie gilt. Fünf Stufen genügen. Nimm glatte Zahlen, die du dir merken kannst.
+- Schreib eine Stelle im Code, die aus der aktuellen Erfahrung die aktuelle Stufe **ermittelt**.
+- Zeig die Stufe im `status` an, neben der Erfahrung.
+
+⚠️ **Der Teil, an dem du kurz nachdenken musst:** Die Tabelle beantwortet die Frage *„ab wann gilt Stufe 3?"* — du brauchst aber die Gegenrichtung, *„welche Stufe gilt bei 250?"*. Konzept 15 sagt dir, warum das nicht dasselbe ist. Mit `.items()` aus Konzept 6 und einem Vergleich kommst du hin; es gibt mehr als einen richtigen Weg.
+
+**So prüfst du es:** Setz `erfahrung` von Hand auf 0, auf einen Wert genau **auf** einer Schwelle und auf einen knapp darunter. Alle drei müssen die Stufe liefern, die du erwartest. Der Wert genau auf der Schwelle ist der, bei dem sich Off-by-One-Fehler zeigen.
+
+> ⛔ **Und hier ist der Riegel: Die Stufe tut heute nichts.** Sie erhöht keine Werte, sie schaltet nichts frei, sie gibt keine Punkte. Sie steht da. Das fühlt sich unfertig an und ist es auch — **Etappe 18** ist die Etappe, in der Stufen Skillpunkte auszahlen und Fähigkeiten freischalten. Wer das heute vorbaut, nimmt sich dort das Erfolgserlebnis und sich hier die Konzentration.
+
+*(Warum die Schwellen glatt sein sollen: Sobald sie krumm sind, fängst du an zu balancieren, und Balancing frisst Abende. Etappe 21b ist der Ort dafür, und dort bekommt es einen eigenen Branch.)*
+
+---
+
 ### 15. Der Rückwärtsgang
 
 Spiel drei volle Wellen. Prüf der Reihe nach: Feuern, Nachladen, Status, Balken, Wellenende, Gegner auf der Bahn.
@@ -695,6 +751,8 @@ Prüft den Zustand deines Programms, nicht dein Gefühl. Führ jeden Punkt tats�
 - [ ] Feuern senkt weiterhin die Munition, der Balken aus Etappe 3c stimmt weiterhin
 - [ ] **Drei volle Wellen** lassen sich spielen — inklusive mindestens eines Kaufs und eines aufgesammelten Schrotts — ohne dass etwas abstürzt
 - [ ] Im Grundriss ist der aktuelle Sektor markiert und wandert beim Gehen mit
+- [ ] Der `status` zeigt Erfahrung **und** Stufe, und die Stufe stimmt bei einem Wert genau auf einer Schwelle
+- [ ] Die Stufe hat **keine** Wirkung — sie verändert keinen einzigen anderen Wert
 
 ---
 
@@ -710,6 +768,9 @@ Ohne Nachschlagen, in eigenen Worten. Dein Mentor fragt sie ab.
 6. Was bekommst du, wenn du direkt über ein Dictionary iterierst? Und was liefert `.items()`?
 7. Warum ist `sektoren` verschachtelt und `waren` flach? Nenn die Frage, mit der du das entscheidest.
 8. Warum kann eine Liste kein Dictionary-Schlüssel sein? *(Ein Satz genügt — 👀.)*
+8b. Was macht `del d["name"]`, und warum steht davor kein Punkt?
+8c. Warum ist `portionen[2]` bei einem Dictionary etwas anderes als `liste[2]` bei einer Liste?
+8d. Deine Stufentabelle sagt, ab welcher Erfahrung eine Stufe gilt. Warum kannst du die Stufe zu einer Erfahrung nicht einfach nachschlagen?
 9. **Warum kommt in deiner Kauflogik kein einziger Warenname vor — und was wäre der Preis dafür, wenn doch?**
 10. Warum ist Schrott jetzt ein Dictionary-Eintrag und ein Medkit weiterhin ein Listeneintrag?
 11. Was wird in deinem Programm verglichen und was angezeigt — und warum sollten das nicht dieselben Wörter sein?
@@ -717,7 +778,7 @@ Ohne Nachschlagen, in eigenen Worten. Dein Mentor fragt sie ab.
 13. Welche deiner Werte ändern sich zur Laufzeit **und sollen nach dem Laden noch so sein**? *(Die Frage kommt in Etappe 19 wieder.)*
 14. Nenn drei Bedingungen, die bei deinen Sektordaten immer stimmen müssen. *(Deine Invarianten aus Konzept 13.)*
 
-**Frage 9 ist die wichtigste.** Die anderen sind Werkzeugwissen, und Werkzeugwissen holt man nach. Frage 8 ist der Übergang von *„ich schreibe Code, der Werte kennt"* zu *„ich schreibe Code, der Werte nachschlägt"* — und das ist der Gedanke, aus dem Etappe 22 und Etappe 25 vollständig bestehen. Wer ihn heute an drei Waren begriffen hat, versteht dort in zehn Minuten, warum dreißig Gegnertypen in eine Textdatei gehören.
+**Frage 9 ist die wichtigste.** Die anderen sind Werkzeugwissen, und Werkzeugwissen holt man nach. Frage 9 ist der Übergang von *„ich schreibe Code, der Werte kennt"* zu *„ich schreibe Code, der Werte nachschlägt"* — und das ist der Gedanke, aus dem Etappe 22 und Etappe 25 vollständig bestehen. Wer ihn heute an drei Waren begriffen hat, versteht dort in zehn Minuten, warum dreißig Gegnertypen in eine Textdatei gehören.
 
 ---
 

@@ -1,14 +1,18 @@
 # Etappe 6 — Liste, Dictionary, Set, Tuple
 
+*v1.1.0 · 2026-09-02*
+
 > **Block 1: Fundament** · Etappe 6 von 30 · [← Etappe 5](etappe-05-vorposten-und-depot.md) · [Lehrplan](../Vorposten_Lehrplan.md) · [Etappe 7 →](etappe-07-aufraeumen.md)
 
-**Boot.dev:** Sets, Tuples, Mengenoperationen
-**Zeitaufwand:** 4–5 Sitzungen à 20–30 Minuten
+**Neue Syntax heute:** `.pop(i)` · `del liste[i]` · eine Liste über den Index aufbauen · `{a, b}` und `set()` · `.add()` · `.discard()` · `in` beim Set · `(a, b)` Tuple · die Komma-Falle `(5,)` · Tuple-Unpacking · 👀 `&` `|` `-`
+
+**Zeitaufwand:** 5–7 Sitzungen à 20–30 Minuten. Knapp eine Stunde davon ist Lesestoff — das ist die zweitlängste Etappe des Fundaments.
+
 **Voraussetzung:** Etappe 5 abgeschlossen, Selbsttest grün
 
 | 🔨 Bauen | 🧠 Verstehen | 👀 Nur erkennen |
 |---|---|---|
-| `KLASSEN` als Tuple · zwei Sets · Freischaltungen · **Gegnertypen als zweite Liste** · Bestiarium | Warum ein Set die Regel *ist* statt sie zu prüfen · **warum zwei parallele Listen unangenehm sind** · die vier Fragen der Strukturwahl | Mengenoperationen · warum `in` beim Set schneller ist · Sets und Tuples in JSON |
+| `KLASSEN` als Tuple · zwei Sets · Freischaltungen · **Gegnertypen als zweite Liste** · Bestiarium · `.pop(i)` | Warum ein Set die Regel *ist* statt sie zu prüfen · **warum zwei parallele Listen unangenehm sind** · die vier Fragen der Strukturwahl | Mengenoperationen · warum `in` beim Set schneller ist · Sets und Tuples in JSON |
 
 ---
 
@@ -88,9 +92,11 @@ Bisher hast du `remove()` benutzt: „nimm den Eintrag mit diesem Wert raus". Da
 | | Über den Index | Neu aufbauen |
 |---|---|---|
 | Wie | Position des Gefallenen merken, aus **beiden** Listen an dieser Stelle entfernen | Beide Listen neu erzeugen, ohne die gefallenen Einträge |
-| Werkzeug | `pop(i)` oder `del` | eine Schleife, die überträgt |
+| Werkzeug | `pop(i)` oder `del liste[i]` — **Konzept 0** | eine Schleife, die überträgt |
 | Falle | Beim Entfernen während einer Schleife verschieben sich alle Indizes dahinter | keine — deshalb ist es die sicherere Variante |
 | Aufwand | weniger Code | etwas mehr Code |
+
+*(Beide Werkzeuge der linken Spalte sind neu. Sie stehen in Konzept 0, gleich am Anfang des nächsten Abschnitts — lies den, bevor du dich entscheidest.)*
 
 **Ich empfehle dir keine Variante, und das ist ausnahmsweise Absicht.** Beide funktionieren, beide sind in echtem Code verbreitet, und die Falle bei der ersten ist genau die aus Etappe 4 — nur diesmal mit zwei Listen statt einer.
 
@@ -158,9 +164,69 @@ Das klingt nach Geschmack und ist es nicht ganz. In Etappe 18 bekommen Fähigkei
 Alle Beispiele laufen **außerhalb** deines Spiels. Und wie in 4 und 5: Die Struktur kann dir selbst sagen, was sie kann.
 
 ```python
-dir(set())           # alles, was ein Set kann
+print(dir(set()))    # alles, was ein Set kann
 help(set().add)      # was eine Methode tut
 ```
+
+### 0. Zwei Listenwerkzeuge, die du heute brauchst
+
+Bevor es um Sets und Tuples geht, zwei Dinge an der Liste. Beide brauchst du im Auftrag, und beide sind neu.
+
+**Erstens: einen Eintrag über seine Position entfernen.**
+
+Bisher kanntest du `.remove(wert)` aus Etappe 4 — *„nimm den Eintrag mit diesem Inhalt raus"*. Heute brauchst du die andere Frage: *„nimm den Eintrag an dieser Stelle raus"*, egal was drinsteht.
+
+```python
+werkzeuge = ["hammer", "zange", "feile", "saege"]
+
+weg = werkzeuge.pop(1)
+print(weg)             # zange   ← pop() gibt den entfernten Eintrag zurück
+print(werkzeuge)       # ['hammer', 'feile', 'saege']
+```
+
+**`.pop(i)` tut zwei Dinge auf einmal:** Es entfernt den Eintrag an Stelle `i` **und** liefert ihn zurück. Wenn du ihn nicht brauchst, ignorier den Rückgabewert einfach — `werkzeuge.pop(1)` allein in einer Zeile ist völlig in Ordnung.
+
+Ohne Zahl in den Klammern nimmt `.pop()` den **letzten** Eintrag. Das brauchst du heute nicht, aber du liest es ständig in fremdem Code.
+
+**Es gibt ein zweites Werkzeug für dieselbe Aufgabe** — `del`, das du aus Etappe 5 kennst. Bei Listen funktioniert es genauso:
+
+```python
+del werkzeuge[1]       # entfernt Stelle 1, gibt nichts zurück
+```
+
+Die drei nebeneinander, weil sie leicht durcheinandergehen:
+
+| | Frage | Gibt zurück |
+|---|---|---|
+| `liste.remove("zange")` | *Welcher Inhalt soll weg?* | nichts |
+| `liste.pop(1)` | *Welche Stelle soll weg?* | den entfernten Eintrag |
+| `del liste[1]` | *Welche Stelle soll weg?* | nichts |
+
+⚠️ **`.pop(i)` und `del` scheitern mit `IndexError`, wenn es die Stelle nicht gibt** — dieselbe Fehlermeldung wie beim Lesen in Etappe 4. Und wie dort gilt: Die Liste wird nach dem Entfernen **kürzer**, alles dahinter rutscht eine Stelle nach vorn. Genau das ist die Falle aus Entscheidung 1.
+
+**Zweitens: eine Liste bauen, bei der die Position eine Rolle spielt.**
+
+Bisher hast du Listen mit `.append()` gefüllt, und jeder Eintrag sah aus wie der nächste. Heute brauchst du eine Regel der Sorte *„der erste ist anders als der Rest"* — und dafür musst du beim Bauen wissen, an welcher Stelle du gerade bist.
+
+```python
+# fremdes Beispiel: Tischkarten für sechs Gäste,
+# der erste Platz ist der Ehrenplatz
+karten = []
+
+for i in range(6):
+    if i == 0:
+        karten.append("Ehrenplatz")
+    else:
+        karten.append("Gast")
+
+print(karten)   # ['Ehrenplatz', 'Gast', 'Gast', 'Gast', 'Gast', 'Gast']
+```
+
+**Der Trick ist, dass `i` doppelt arbeitet:** Es zählt die Durchläufe *und* es ist die Nummer des Eintrags, der gerade entsteht. `range(6)` liefert `0, 1, 2, 3, 4, 5` — genau die Stellen, die die fertige Liste haben wird.
+
+Das ist derselbe Gedanke wie in Etappe 4, Konzept 3b, nur von der anderen Seite: Dort hast du eine bestehende Liste über den Index verändert, hier baust du eine neue über den Index auf.
+
+*(Alles, was du dafür brauchst — `range()`, `if`/`else`, `.append()` — kennst du seit Etappe 4. Neu ist nur, dass du `i` als Positionsangabe liest statt als Zähler.)*
 
 ### 1. Warum es überhaupt vier gibt
 
@@ -629,6 +695,8 @@ gegner_typen = ["kriecher", "kriecher", "speier"]
 
 - Bau beide Listen **immer gemeinsam** auf — zu Wellenbeginn, für jeden Gegner ein Eintrag.
 
+⚠️ *Die Regel unten unterscheidet nach der **Stelle** in der Liste, nicht nach dem Inhalt. Du musst beim Bauen also wissen, den wievielten Gegner du gerade anlegst — das Muster dafür steht in **Konzept 0**, zweiter Teil.*
+
 **Die Verteilung gibt der Guide heute vor**, damit du nicht nebenbei noch ein Datenmodell entwerfen musst. Eine feste Regel, direkt aus der Wellennummer:
 
 | Welle | Wer entsteht |
@@ -820,6 +888,8 @@ Ohne Nachschlagen, in eigenen Worten. Dein Mentor fragt sie ab.
 9. Was macht `{}` — und wie schreibt man ein leeres Set?
 10. Nenn die zwei Sorten Nein an einem Beispiel aus deinem eigenen Spiel.
 11. Warum ist `KLASSEN` ein Tuple und nicht einfach eine Liste? *(Was gewinnst du, was verlierst du?)*
+12. Was ist der Unterschied zwischen `liste.remove("zange")`, `liste.pop(1)` und `del liste[1]`? Welches der drei gibt dir etwas zurück?
+13. Beim Bauen der Typenliste unterscheidest du den ersten Eintrag von den übrigen. Woher weiß dein Code, dass er gerade beim ersten ist?
 
 **Frage 1 ist die wichtigste.** Alles andere ist Werkzeugwissen, und Werkzeugwissen holt man nach. Der Unterschied zwischen einer Regel, die im Code steht, und einer Regel, die in der Struktur steht, ist dagegen ein Denkwerkzeug — es entscheidet, ob ein Programm mit jeder neuen Stelle unsicherer wird oder nicht. Und der zweite Halbsatz gehört dazu: Wer nur die halbe Regel gelernt hat, baut den Kaufvorgang, der zweimal abbucht.
 
@@ -868,6 +938,10 @@ Jetzt such einen Fall, in dem **`len(gegner)` und `len(gegner_typen)` gleich ble
 *(Ein Weg: aus beiden Listen entfernen, aber an unterschiedlichen Stellen — etwa vorne aus der einen, hinten aus der anderen.)*
 
 Spiel damit eine Welle und sieh dir die Anmarschbahn an. **Es stürzt nichts ab. Es kommt keine Meldung. Deine Längenprüfung ist zufrieden.** Nur steht der Speier plötzlich da, wo der Kriecher war.
+
+**5c. Entfern in der falschen Reihenfolge.** Nimm den gefallenen Gegner erst aus `gegner` heraus und **berechne den Index für `gegner_typen` erst danach**. Spiel eine Welle mit vier Gegnern.
+
+*Sag vorher, ab dem wievielten Schuss es schiefgeht und warum. Die Antwort steht in Konzept 0: Nach dem ersten `.pop(i)` ist die Liste kürzer, und alles dahinter hat eine neue Nummer bekommen.*
 
 **Beantworte danach in `GELERNT.md`:**
 
@@ -924,6 +998,10 @@ Die folgenden drei sind Kür.
 | `IndexError` beim Zeichnen der Bahn, mitten in der Welle | `gegner` und `gegner_typen` sind auseinandergelaufen | Nicht die Zeichenfunktion — die Stelle, an der entfernt wird |
 | Auf der Bahn steht der falsche Typ | Dieselbe Ursache, nur noch ohne Absturz | `len()` beider Listen ausgeben, Schritt 9b |
 | `gegner_typen.remove(typ)` entfernt den falschen Gegner | `remove()` sucht nach Wert, nicht nach Stelle | Entscheidung 1 — über den Index gehen |
+| `IndexError` bei `.pop(i)` | Die Stelle gibt es nicht — meist, weil aus der ersten Liste schon entfernt wurde | Konzept 0 — Position **vor** dem ersten Entfernen merken |
+| Nach `.pop(i)` fehlt in der anderen Liste der Eintrag daneben | Nur eine der beiden Listen behandelt | Beide Zeilen stehen direkt untereinander, ohne etwas dazwischen |
+| Alle Gegner haben denselben Typ, obwohl der erste anders sein sollte | Beim Bauen wird nicht nach der Stelle unterschieden | Konzept 0, zweiter Teil — `i` als Positionsangabe lesen |
+| `TypeError: pop() takes no keyword arguments` oder ein leerer Rückgabewert | `.pop()` ohne Zahl nimmt den letzten, nicht den gemeinten | Konzept 0 — die Stelle gehört in die Klammern |
 
 **Der Debugging-Reflex dieser Etappe: „Welche Struktur ist das eigentlich?"**
 

@@ -1,9 +1,13 @@
 # Etappe 1 — Der Abwurf
 
+*v1.2.0 · 2026-09-02*
+
 > **Block 1: Fundament** · Etappe 1 von 30 · [← Etappe 0](../Vorposten_Lehrplan.md#etappe-0--das-repo) · [Lehrplan](../Vorposten_Lehrplan.md) · [Etappe 2 →](etappe-02-der-erste-kontakt.md)
 
-**Boot.dev:** Variablen, Strings, f-Strings, `print()`, `input()`, Typumwandlung
-**Zeitaufwand:** 2–3 Sitzungen à 20–30 Minuten
+**Neue Syntax heute:** `=` · `#` · die Typen `str` `int` `float` · `type()` · `'...'` und `"..."` · `"""..."""` · `+` `-` `*` an Zahlen · `+` an Strings · `f"...{}"` · `print()` · `input()` · `int()` `float()` `str()` · den Traceback lesen
+
+**Zeitaufwand:** 3–4 Sitzungen à 20–30 Minuten. Die Konzepte allein sind rund eine halbe Stunde Lesestoff — plan sie als eigene Sitzung ein, bevor du tippst.
+
 **Voraussetzung:** Etappe 0 abgeschlossen — Repo steht, venv läuft, ein Commit ist gemacht
 
 ---
@@ -28,7 +32,8 @@ Das ist die ganze Etappe. Alles andere ist Syntax.
 
 | Was heute entsteht | Wo es wieder auftaucht |
 |---|---|
-| `kern_integritaet` | **3** — Abbruchbedingung der Wellenschleife · **17** — Vergleich mit dem Startwert |
+| `kern_integritaet` | **3** — eine der beiden Abbruchbedingungen · **17** — Vergleich mit dem Startwert |
+| `trefferpunkte` — deine eigene Gesundheit | **3** — die zweite Abbruchbedingung · **9** — wandert in den Marine, während `kern_integritaet` bei der Welt bleibt · **13** — dein Ausfall bekommt einen Zähler |
 | `wellen_bis_evakuierung` | **3** — `range(1, 21)` · **17** — der Wellengenerator skaliert daran |
 | `letzte_meldung` | **17** — die Rückblende, vier Monate später |
 | Die Klassenwahl als Zahl aus `input()` | **2** — bestimmt die Startwerte · **11** — wird zur Klassenhierarchie |
@@ -54,6 +59,8 @@ Zwei Fragen. Beide sehen aus wie Geschmack und sind es nicht.
 **Erstens: In welcher Sprache heißen deine Variablen?**
 
 `kern_integritaet` oder `core_integrity`. Beides ist vertretbar. Was nicht vertretbar ist: heute das eine, in Etappe 14 das andere. Ein Programm mit `gegner_liste` neben `enemy_count` ist mühsam zu lesen, und du wirst es zwanzig Wochen lang lesen.
+
+**Dieser Guide entscheidet sich für Deutsch**, und du siehst das gleich an den Werten unten: `trefferpunkte`, nicht `hp`. Das ist keine Empfehlung gegen Englisch — es ist eine Entscheidung, die einmal fällt und dann steht. Der kürzere Name wäre bequemer und stünde als einziger englischer Brocken zwischen zwanzig deutschen. Wenn du dich für Englisch entscheidest, dann bitte für alle.
 
 Zwei Dinge, die du wissen solltest, bevor du wählst: Python selbst ist englisch (`print`, `len`, `input`) — bei deutschen Namen steht also immer beides nebeneinander. Und in Etappe 25 werden deine Variablennamen zu Schlüsseln in JSON-Dateien. Deutsche Umlaute darin sind erlaubt, aber unangenehm; `integritaet` statt `integrität` ist die übliche Lösung.
 
@@ -129,6 +136,42 @@ print(type(0.75))     # <class 'float'>
 Lies die Ausgabe als *„das ist ein `int`"* — der Rest (`<class ...>`) ist Beiwerk.
 
 `print(type(x))` ist die nützlichste Zeile dieser Etappe. Sie kostet dich fünf Sekunden und beantwortet die Frage, aus der heute fast jeder Fehler entsteht. In Abschnitt 8 machen wir daraus einen Reflex.
+
+### 3b. Rechnen — die drei Zeichen, die du heute brauchst
+
+```python
+munition = 10
+
+print(munition + 5)     # 15
+print(munition - 3)     # 7
+print(munition * 2)     # 20
+```
+
+Mehr ist es nicht. Die Zeichen heißen dieselben wie auf dem Papier, und Python hält sich an Punkt vor Strich: `2 + 3 * 4` ergibt 14, nicht 20. Klammern funktionieren wie erwartet — `(2 + 3) * 4` ergibt 20.
+
+⚠️ **Was du dabei nicht vergessen darfst: Diese Zeilen ändern `munition` nicht.** Sie *rechnen* nur und geben das Ergebnis aus. Der Wert bleibt 10.
+
+```python
+munition = 10
+munition + 5            # rechnet 15 aus und wirft es weg
+print(munition)         # 10 — unverändert
+
+munition = munition + 5 # rechnet 15 aus und legt es zurück
+print(munition)         # 15
+```
+
+**Der Unterschied ist das `=`.** Rechnen erzeugt einen neuen Wert; erst die Zuweisung merkt ihn sich. Das ist derselbe Punkt wie in Abschnitt 2, nur von der Seite, an der Anfänger am häufigsten hängenbleiben.
+
+**Und `+` bedeutet bei Text etwas anderes:**
+
+```python
+print("Vas" + "quez")   # Vasquez — aneinandergehängt, nicht addiert
+print("40" + 5)         # TypeError
+```
+
+Dasselbe Zeichen, zwei Bedeutungen, je nach Typ. Genau deshalb steht `type()` einen Abschnitt weiter oben.
+
+*(Teilen fehlt hier mit Absicht — `/` bringt eine Komplikation mit, die heute nur stören würde. Du bekommst es in Etappe 3c zusammen mit `//` und `%`, wenn du es für die Statusbalken brauchst.)*
 
 ### 4. Strings, und wie man mehrere Zeilen schreibt
 
@@ -342,19 +385,26 @@ Nach jedem Schritt ausführen. Nicht alles schreiben und dann testen — das ist
 
 2. **Frag den Namen ab** und begrüße den Spieler mit einem f-String, der den Namen enthält. Setz danach einmal `print(type(name))` darunter und schau nach, was `input()` geliefert hat. Dann lösch die Zeile wieder.
 
-3. **Leg die Lagewerte an.** Diese fünf, mit genau diesen Startwerten:
+3. **Leg die Lagewerte an.** Diese sechs, mit genau diesen Startwerten:
 
    | Variable | Wert | Was sie bedeutet |
    |---|---|---|
-   | `kern_integritaet` | `100` | Prozent. Fällt sie auf 0, ist das Spiel vorbei. |
+   | `kern_integritaet` | `100` | Prozent. Der Reaktor, den du verteidigst. Fällt er auf 0, ist das Spiel vorbei. |
+   | `trefferpunkte` | `100` | Deine eigene Gesundheit. Fällt **sie** auf 0, ist das Spiel auch vorbei. In Etappe 2 setzt deine Klassenwahl diesen Wert. |
    | `munition` | `40` | Schuss. Wenig — das ist Absicht. |
    | `schrott` | `0` | Deine Währung. Du hast noch nichts eingesammelt. |
    | `rekruten_verfuegbar` | `0` | Niemand da, der ein Tor halten könnte. |
    | `wellen_bis_evakuierung` | `20` | So lange musst du durchhalten. |
 
+   ⚠️ **Die ersten beiden sehen gleich aus und bedeuten Verschiedenes. Das ist Absicht.**
+
+   `kern_integritaet` ist die Anlage. `trefferpunkte` bist du. Es gibt zwei Wege zu verlieren, und du wirst sie ab Etappe 3 beide prüfen müssen. Der Grund dahinter ist die Prämisse des ganzen Spiels: **Du bist eine Figur im Gefecht, kein Bauherr über der Karte.** Wer nur die Anlage verteidigt, spielt ein anderes Spiel.
+
+   Der praktische Nutzen ist ein anderer: Zwei Zahlen mit derselben Einheit und verschiedener Bedeutung sind die beste Übung dafür, dass ein Name etwas trägt. Wenn du gleich `trefferpunkte` in eine Ausgabe setzt, wo `kern_integritaet` hingehört, merkt Python davon nichts — nur du.
+
    **Die Werte sind nicht beliebig, und du sollst sie heute genau so übernehmen.** Sie sind aufeinander abgestimmt: 100 ist ein Prozentwert, an dem sich ab Etappe 3 ein Balken ablesen lässt. 20 Wellen werden in Etappe 3 zu `range(1, 21)`. Und 40 Schuss bei 20 Wellen ist die Zahl, aus der die ganze Atmosphäre entsteht — das rechnet sich der Spieler selbst aus.
 
-   Später darfst du an allen fünf drehen. Heute nicht: Du hast noch kein Spiel, an dem du merken würdest, ob eine Änderung es besser oder unspielbar macht.
+   Später darfst du an allen sechs drehen. Heute nicht: Du hast noch kein Spiel, an dem du merken würdest, ob eine Änderung es besser oder unspielbar macht.
 
    **Alles Zahlen, keine Texte.** Kein `munition = "40"`. Noch keine Ausgabe.
 
@@ -410,6 +460,7 @@ Prüft den Zustand des Programms, nicht dein Selbstbild. Alles muss beobachtbar 
 - [ ] Der eingegebene Name taucht in der Ausgabe auf
 - [ ] Keine einzige Lagezahl steht wörtlich im ausgegebenen Text — alle kommen aus Variablen
 - [ ] Wenn du `kern_integritaet` im Code auf `40` änderst und neu startest, ändert sich die Ausgabe an **allen** Stellen
+- [ ] `kern_integritaet` und `trefferpunkte` stehen beide im Briefing, und zwar so, dass ein Fremder sofort erkennt, welche Zahl die Anlage meint und welche dich
 - [ ] Die gewählte Klasse wird bestätigt und steht danach in einer Variable
 - [ ] `letzte_meldung` existiert als Variable und wird zweimal ausgegeben — bei der Durchsage und beim Funkspruch
 - [ ] Alle fünf Lagewerte existieren als Variablen mit den vorgegebenen Startwerten
@@ -435,6 +486,7 @@ Ohne Nachschlagen, in eigenen Worten. Dein Mentor fragt sie ab, bevor er „fert
 8. **Warum reicht es nicht, eine Zahl einfach auszugeben?**
 9. In welcher Richtung liest man einen Traceback, und was steht in der letzten Zeile?
 10. Wie findest du heraus, welchen Typ ein Wert gerade hat — und warum reicht `type(x)` allein nicht?
+11. Warum ändert die Zeile `munition + 5` den Wert von `munition` nicht? Was müsste dastehen, damit sie es tut?
 
 **Frage 8 ist die wichtigste.** Die anderen acht sind Syntax — die schlägt man notfalls nach, und in vier Wochen sitzen sie ohnehin. Frage 8 ist das Prinzip, auf dem die Etappen 3, 12, 13 und 19 stehen. Wer sie nur mit „damit man sie später ändern kann" beantwortet, hat sie halb verstanden; sag dazu, *was* dein Programm mit einem gespeicherten Wert tun kann, das es mit einem gedruckten nicht kann.
 
@@ -466,6 +518,8 @@ Nummerierte Experimente. **Schreib bei jedem zuerst auf, was du erwartest**, dan
 
 8. **Setz `print(type(...))` an fünf verschiedene Stellen** — hinter `input()`, hinter `int()`, bei einer Lagevariable, bei einem f-String-Ergebnis, bei `letzte_meldung`. Sag **vorher** bei jeder Stelle, was herauskommen wird. Wie viele hast du richtig geraten?
 
+9. **Schreib `munition - 3` in eine eigene Zeile**, ohne `=`, und gib `munition` danach aus. Es passiert nichts, und es kommt auch keine Fehlermeldung. Sag in einem Satz, wohin die 7 verschwunden ist.
+
 **Experiment 5 und 7 sind die eigentlichen.** Beide laufen fehlerfrei durch und liefern Unsinn — bei 5 steht `777` statt `21`, bei 7 spielst du eine Klasse, die nicht existiert. Das ist der **Fehler vom Typ 3**, und er ist der gefährlichste, weil er die schädlichste Anfängerüberzeugung bestätigt: *„Wenn Python nicht meckert, stimmt mein Programm."* Das ist falsch, und je früher du es körperlich spürst, desto besser. Notier beide in `GELERNT.md`.
 
 ---
@@ -484,6 +538,8 @@ Nummerierte Experimente. **Schreib bei jedem zuerst auf, was du erwartest**, dan
 | `IndentationError: unexpected indent` | Führendes Leerzeichen vor einer Zeile | Genannte Zeile ganz nach links |
 | Der ASCII-Kopf ist nach rechts verschoben oder ausgefranst | Einrückung innerhalb des dreifachen Strings | Alle Zeilen im `"""`-Block ganz nach links |
 | `type(x)` gibt nichts aus | `print()` fehlt drumherum — `type()` liefert nur | Die Zeile: `print(type(x))` |
+| Eine Rechnung wirkt sich nicht aus | `munition + 5` statt `munition = munition + 5` | Konzept 3b — steht links vom `=` ein Name? |
+| `2 + 3 * 4` ergibt 14 statt 20 | Punkt vor Strich, wie auf dem Papier | Klammern setzen |
 
 **Dein Debugging-Reflex für diese Etappe** — die eine Frage, die hier am schnellsten zum Ziel führt:
 
@@ -497,7 +553,7 @@ Nicht raten. Nachsehen: `print(type(antwort))` an die fragliche Stelle. Fast jed
 
 **Etappe 2** gibt deiner Klassenwahl Folgen. Die Zahl, die heute nur bestätigt wird, bestimmt dort Panzerung, Schaden und Trefferpunkte — und du lernst `if`, das Werkzeug, das dir heute an drei Stellen gefehlt hat.
 
-**Etappe 3** macht aus dem Skript ein Spiel. `wellen_bis_evakuierung` wird zu `range(1, 21)`, `kern_integritaet` zur Abbruchbedingung. Ab dort wartet dein Programm auf dich, statt einmal durchzulaufen.
+**Etappe 3** macht aus dem Skript ein Spiel. `wellen_bis_evakuierung` wird zu `range(1, 21)`, `kern_integritaet` und `trefferpunkte` werden zu den beiden Abbruchbedingungen. Ab dort wartet dein Programm auf dich, statt einmal durchzulaufen.
 
 **Etappe 12** ist der Punkt, an dem sich das heutige Prinzip auszahlt oder rächt. Der Tick verändert bei jedem Spielerbefehl den Weltzustand. Alles, was du heute nur gedruckt hast, musst du dort nachrüsten.
 

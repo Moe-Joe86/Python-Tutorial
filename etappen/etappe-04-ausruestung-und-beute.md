@@ -1,16 +1,20 @@
 # Etappe 4 — Ausrüstung und Beute
 
+*v1.1.0 · 2026-09-02*
+
 > **Block 1: Fundament** · Etappe 4 von 30 · [← Etappe 3](etappe-03-die-wellenschleife.md) · [Lehrplan](../Vorposten_Lehrplan.md) · [Etappe 5 →](etappe-05-vorposten-und-depot.md)
 
-**Boot.dev:** Listen, `append()`, `remove()`, `len()`, Indexing
-**Zeitaufwand:** 4–6 Sitzungen à 20–30 Minuten — **die bisher größte Etappe.** Auftragsschritt 2 und 9 sind die schweren; wenn du daran länger sitzt als am ganzen Rest, ist das der Normalfall und kein Rückstand.
+**Neue Syntax heute:** `[...]` und `[]` · `liste[0]` lesen · `liste[i] = wert` schreiben · `liste[-1]` · `len()` · `range(len(...))` · `.append()` · `.remove()` · `in` · `for ding in liste` · `.copy()` · `.split()` · `["."] * 8` · `"".join(...)` · `dir()` und `help()` · 👀 Slicing
+
+**Zeitaufwand:** 6–8 Sitzungen à 20–30 Minuten — **die bisher größte Etappe.** Allein die Konzepte zu lesen kostet knapp eine Stunde, also ein bis zwei ganze Sitzungen, bevor du eine Zeile tippst. Auftragsschritt 2 und 9 sind die schweren; für Schritt 2 ist eine volle Stunde normal.
+
 **Voraussetzung:** Etappe 3c abgeschlossen, Selbsttest grün
 
 | 🔨 Bauen | 🧠 Verstehen | 👀 Nur erkennen |
 |---|---|---|
-| Inventar, Gegnerliste, `.split()`, die Anmarschbahn · **`dir()` und `help()` aktiv benutzen** | Warum `append()` nichts zurückgibt · zwei Namen, ein Objekt · Zustand gegen Darstellung | Der Begriff *mutable* · Slicing |
+| Inventar, Gegnerliste, `.split()`, die Anmarschbahn · schreibender Indexzugriff · `.join()` · **`dir()` und `help()` aktiv benutzen** | Warum `append()` nichts zurückgibt · zwei Namen, ein Objekt · Zustand gegen Darstellung | Der Begriff *mutable* · Slicing |
 
-*(`dir()` und `help()` stehen bewusst in der ersten Spalte: Du sollst sie heute **benutzen**, nicht nur kennen. In Konzept 14 findest du `.join()` damit selbst.)*
+*(`dir()` und `help()` stehen bewusst in der ersten Spalte: Du sollst sie heute **benutzen**, nicht nur kennen. In Konzept 14 bekommst du eine Frage, die du damit selbst beantwortest.)*
 
 ---
 
@@ -110,6 +114,8 @@ Die dritte Zeile ist die kürzeste und die einzige, bei der du wirklich aufpasse
 | Obergrenze von zehn Gegenständen | **20** — „Inventar voll" wird ein sauber abgefangener Fall |
 | `remove()` scheitert an einem fehlenden Element | **20** — daraus wird `try` / `except` |
 | Index ab 0, `len()` | **14a** — `vorfeld[y][x]` und `range(len(vorfeld))` |
+| **Einen Eintrag über den Index ersetzen** | **6** — dasselbe an zwei parallelen Listen; **14a** — jedes Feld des Rasters |
+| `"".join(...)` | **7b** — lebt in `zeichne_bahn()`; **14a** — jede Rasterzeile entsteht so |
 | `in` bei einer Liste | **6** — Gegenüberstellung Liste / Set / Dictionary |
 | **Die Frage: Menge oder mehrere Dinge?** (Munition bleibt eine Zahl) | **6** — dieselbe Frage für vier Strukturen; **25** — welche Inhalte werden JSON |
 | `for` über eine Liste statt über `range()` | **12** — der Tick läuft über die Einheitenliste; **14a** — dieselbe Schleife über ein Raster |
@@ -189,12 +195,33 @@ In Etappe 14a wird aus der Zeile ein Raster, in Etappe 12 tickt jeder Gegner, in
 
 Alle Beispiele hier laufen absichtlich **außerhalb** deines Spiels. Tipp sie in eine Wegwerf-Datei, wenn du sie ausprobieren willst — was in `spiel.py` entsteht, schreibst du selbst.
 
-**Und eine Bitte für diese Etappe im Besonderen:** Listen sind das erste Thema, bei dem du die Antwort selbst finden *kannst*. Wenn du hier gleich liest „diese Methode hängt etwas an" — probier es vorher. Eine Liste ist ein Objekt, und ein Objekt kann man fragen, was es kann:
+**Und eine Bitte für diese Etappe im Besonderen:** Listen sind das erste Thema, bei dem du die Antwort selbst finden *kannst*. Eine Liste ist ein Objekt, und ein Objekt kann man fragen, was es kann:
 
 ```python
-dir([])          # alles, was eine Liste kann
-help([].append)  # was eine bestimmte Methode tut
+print(dir([]))          # alles, was eine Liste kann
+help([].append)         # was eine bestimmte Methode tut
 ```
+
+⚠️ **Zwei Dinge, damit das nicht gleich beim ersten Versuch schiefgeht.**
+
+**Erstens: `print()` gehört drumherum.** `dir([])` allein *liefert* eine Liste zurück, es gibt sie nicht aus — dasselbe Muster wie bei `type()` in Etappe 1. In einer Datei siehst du sonst gar nichts.
+
+**Zweitens: Die Ausgabe ist lang und zur Hälfte Kulisse.** Bei einer Liste kommen über sechzig Einträge, und die vorderen sehen so aus:
+
+```
+['__add__', '__class__', '__contains__', ... , 'append', 'clear', 'copy', 'count',
+ 'extend', 'index', 'insert', 'pop', 'remove', 'reverse', 'sort']
+```
+
+**Alles mit zwei Unterstrichen vorn und hinten überspringst du.** Das sind Python-Interna, die Sonderzeichen wie `+` und `in` bedienen; du siehst sie in Etappe 9b wieder und brauchst sie bis dahin nicht. **Interessant ist nur der hintere Teil ohne Unterstriche** — das sind die Methoden, die du selbst aufrufen kannst.
+
+Wenn dich davon eine interessiert, frag nach:
+
+```python
+help([].count)
+```
+
+`help()` gibt eine kurze Beschreibung aus und meistens ein Beispiel. Bei einigen Methoden ist die Beschreibung knapp bis kryptisch — dann ist das Beispiel am Ende die eigentliche Auskunft.
 
 Dreißig Sekunden, und du hast dieselbe Information selbst geholt statt sie gelesen zu haben. Der Unterschied klingt nach nichts und ist der ganze Punkt dieses Projekts: Eine Erklärung *wiederzuerkennen* fühlt sich an wie sie zu *wissen*, und der Unterschied fällt erst auf, wenn niemand da ist, den man fragen kann.
 
@@ -246,9 +273,50 @@ In Etappe 3a hast du gesehen, dass `range(5)` die Zahlen 0, 1, 2, 3, 4 liefert �
 
 **Der praktische Nutzen dieser Sichtweise:** `range(len(werkzeuge))` liefert genau die gültigen Indizes und keinen darüber hinaus. Das ist kein Zufall, sondern derselbe Gedanke zweimal. In Etappe 14a läuft dein gesamtes Raster über diese Konstruktion.
 
-⚠️ **Das heißt aber nicht, dass du normalerweise so über Listen laufen solltest.** Wenn du nur die Elemente brauchst, ist `for ding in liste:` die passende Form — kürzer, lesbarer, und du kannst dich nicht verzählen. `range(len(...))` brauchst du dann, wenn du wirklich mit **Indizes** arbeitest: wenn du die Position kennen musst oder einen Eintrag an einer bestimmten Stelle ersetzt.
+⚠️ **Das heißt aber nicht, dass du normalerweise so über Listen laufen solltest.** Wenn du nur die Elemente brauchst, ist `for ding in liste:` die passende Form — kürzer, lesbarer, und du kannst dich nicht verzählen. `range(len(...))` brauchst du dann, wenn du wirklich mit **Indizes** arbeitest: wenn du die Position kennen musst oder einen Eintrag an einer bestimmten Stelle **ersetzt**.
 
 Der Reflex `for i in range(len(inventar)): print(inventar[i])` ist einer der häufigsten Anfänger-Umwege überhaupt. Wenn du ihn bei dir siehst, frag: *Brauche ich hier die Nummer, oder nur das Ding?*
+
+**Merk dir die Frage — heute lautet die Antwort zweimal „nur das Ding" und einmal „die Nummer".** Wann welches, klärt der nächste Abschnitt.
+
+### 3b. Einen Eintrag ersetzen — der Index von der anderen Seite ⭐
+
+Bisher hast du eckige Klammern nur zum **Lesen** benutzt. Sie können auch die andere Richtung:
+
+```python
+werkzeuge = ["hammer", "zange", "feile"]
+
+werkzeuge[1] = "beitel"      # ersetzt den Eintrag an Stelle 1
+print(werkzeuge)             # ['hammer', 'beitel', 'feile']
+```
+
+**Links vom `=` steht eine Stelle, rechts der neue Wert.** Die Liste bleibt dieselbe Liste — sie wird nicht neu gebaut, nur ein Platz darin bekommt einen anderen Inhalt. Ihre Länge ändert sich dabei nicht: Ersetzen ist etwas anderes als Hinzufügen.
+
+Der alte Wert an dieser Stelle ist danach weg. Wenn du ihn noch brauchst, lies ihn vorher.
+
+**Und jetzt der Grund, warum das hier steht und nicht in einem Nebensatz.** Genau so verändert man **alle** Einträge einer Liste. Der Weg dorthin sind zwei Schritte, die du beide kennst — `range(len(...))` aus dem letzten Abschnitt und die Zuweisung von oben:
+
+```python
+# fremdes Beispiel: alle Preise um eins erhöhen
+preise = [3, 7, 2]
+
+for i in range(len(preise)):
+    preise[i] = preise[i] + 1
+
+print(preise)          # [4, 8, 3]
+```
+
+**Lies die mittlere Zeile langsam.** Rechts steht der alte Wert an Stelle `i`, links dieselbe Stelle. Sie holt sich also ihren eigenen Wert, rechnet damit und legt das Ergebnis zurück. Dasselbe kürzer geschrieben — mit dem `+=`, das du aus Etappe 3 kennst:
+
+```python
+    preise[i] += 1
+```
+
+**Warum es nicht ohne den Index geht:** Die Form `for preis in preise:` gibt dir zwar jeden Wert, aber `preis` ist nur ein Name für den aktuellen Eintrag, keine Verbindung zur Liste. Ihm etwas zuzuweisen ändert die Liste nicht — das ist der Punkt aus Konzept 8, und du probierst ihn im Kaputtmach-Teil aus. Wenn du einen Eintrag **ersetzen** willst, musst du sagen, **welchen** — und dafür brauchst du seine Nummer.
+
+**Es gibt auch einen zweiten Weg**, der ohne Indizes auskommt: eine neue leere Liste anlegen, in einer Schleife die veränderten Werte hineinhängen und die alte am Ende überschreiben. Auch das kannst du mit dem, was du kennst. Beide Wege sind richtig; der mit dem Index ist kürzer, der mit der neuen Liste ist schwerer kaputtzumachen.
+
+*(In Etappe 14a läuft dein gesamtes Raster über diese Konstruktion, und in Etappe 23a lernst du eine dritte Schreibweise für denselben Gedanken.)*
 
 ### 4. `len()`, der Blick von hinten — und der `IndexError`
 
@@ -351,6 +419,13 @@ for ding in werkzeuge:
 ```
 
 Der Name zeigt danach woanders hin — die Liste merkt davon nichts. Das ist derselbe Gedanke wie in Konzept 5, und du probierst ihn im Kaputtmach-Teil aus.
+
+**Wenn du die Einträge wirklich ändern willst, brauchst du den Weg aus Konzept 3b** — über den Index, oder über eine neue Liste. Merk dir die Gegenüberstellung, sie ist eine der nützlichsten dieser Etappe:
+
+```
+for ding in liste:       →  ich will jeden Eintrag ANSEHEN
+for i in range(len(liste)):  →  ich will jeden Eintrag ERSETZEN
+```
 
 *(Die Feinheit dazu, für später: Wenn ein Listeneintrag selbst ein veränderbares Objekt ist, kannst du ihn über die Schleifenvariable sehr wohl verändern — `ding.append(...)` fasst das Objekt an, auf das beide zeigen. Bei Strings und Zahlen geht das nicht, deshalb spielt es heute noch keine Rolle. Ab Etappe 11, wenn deine Liste Objekte enthält, schon.)*
 
@@ -508,11 +583,11 @@ Und: Gehört `.lower()` vor oder nach `.split()`? Probier beides. *(Tipp: Eines 
 Das ist der berühmteste Anfängerfehler dieser Etappe und der einzige, der **nicht abstürzt**.
 
 ```python
-zahlen = [1, 2, 3, 4, 5, 6]
-for z in zahlen:
-    if z % 2 == 0:
-        zahlen.remove(z)
-print(zahlen)          # Vorhersage aufschreiben. Dann ausführen.
+werkzeuge = ["hammer", "zange", "feile", "saege", "beitel", "raspel"]
+for w in werkzeuge:
+    if len(w) == 5:
+        werkzeuge.remove(w)
+print(werkzeuge)       # Vorhersage aufschreiben. Dann ausführen.
 ```
 
 Wenn dein Ergebnis nicht das ist, was du erwartet hast: Das ist der Punkt. Python merkt sich beim Durchlaufen, an welcher **Stelle** es gerade ist. Entfernst du etwas, rutscht alles dahinter eine Position nach vorn — und der nächste Schritt landet eine Stelle zu weit.
@@ -532,14 +607,48 @@ Die Darstellung ist eine Liste fester Länge mit einem Zeichen pro Feld:
 buchten = [".", ".", "A", ".", ".", "A", ".", "."]
 ```
 
-Mehr Datenstruktur ist das nicht. Was daraus eine Anzeige macht, sind zwei Schritte, und beide sollst du selbst finden:
+Mehr Datenstruktur ist das nicht. Was daraus eine Anzeige macht, sind zwei Schritte.
 
-1. **Von den Zuständen zum Bild.** Du hast `gegner = [7, 4]` — zwei Zahlen. Du brauchst eine Liste aus Punkten, in der an den Stellen 7 und 4 ein Zeichen steht. Ein Weg beginnt mit einer Liste aus lauter Punkten in der richtigen Länge — schau dir an, was `["."] * 8` liefert.
+**Schritt 1 — von den Zuständen zum Bild. Den findest du selbst.**
 
-   **Und die Bahn wird jede Runde neu gebaut, nicht verändert.** Das klingt nach Verschwendung und ist die einfachere Bauweise: Du musst nie ein altes `K` wieder wegräumen.
-2. **Von der Liste zur Zeile.** Du hast eine Liste aus Zeichen und willst eine einzige Zeile. Das geht mit einer Schleife, die aneinanderhängt — und es geht mit einer eingebauten String-Methode, die genau das tut. **Such sie:** `dir("")` zeigt dir alles, was ein String kann, `help("".join)` erklärt eines davon. Nimm dir zwei Minuten für die Suche, bevor du die Schleife baust.
+Du hast `gegner = [7, 4]` — zwei Zahlen. Du brauchst eine Liste aus Punkten, in der an den Stellen 7 und 4 ein Zeichen steht. Zwei Werkzeuge dafür kennst du bereits:
 
-Punkt 2 ist keine Schikane. *Woher weiß ich, was dieses Objekt kann?* ist eine der Fähigkeiten, um die es in diesem ganzen Projekt geht, und `dir()` und `help()` sind die zwei Werkzeuge dafür. In Etappe 27 stehst du vor einem fremden Repo und hast genau diese beiden.
+```python
+print(["."] * 8)      # probier das aus. Was kommt heraus?
+```
+
+Ein Text mal einer Zahl kennst du aus Etappe 3c — die Balken sind so entstanden. Bei einer Liste tut `*` dasselbe: Sie wird so oft hintereinandergehängt. Und wie du danach an einer bestimmten Stelle ein anderes Zeichen unterbringst, steht in Konzept 3b.
+
+**Und die Bahn wird jede Runde neu gebaut, nicht verändert.** Das klingt nach Verschwendung und ist die einfachere Bauweise: Du musst nie ein altes `K` wieder wegräumen.
+
+**Schritt 2 — von der Liste zur Zeile. Das Werkzeug dafür ist neu.**
+
+Du hast eine Liste aus einzelnen Zeichen und willst eine einzige Zeile daraus. Mit einer Schleife, die Stück für Stück aneinanderhängt, geht das — es gibt aber eine String-Methode, die genau das in einem Aufruf tut:
+
+```python
+# fremdes Beispiel: eine Einkaufsliste als Fließtext
+zutaten = ["mehl", "hefe", "salz"]
+
+print(", ".join(zutaten))     # mehl, hefe, salz
+print(" - ".join(zutaten))    # mehl - hefe - salz
+print("".join(zutaten))       # mehlhefesalz
+```
+
+⚠️ **Die Schreibweise ist gewöhnungsbedürftig, und daran hängen fast alle Fehler damit.** Man liest sie leicht falsch herum. Deshalb der Satz zum Merken:
+
+> **Das Trennzeichen steht vorn und ruft die Methode auf. Die Liste steht in den Klammern.**
+
+Nicht `zutaten.join(", ")` — das ist die naheliegende und falsche Reihenfolge, und sie scheitert mit `AttributeError: 'list' object has no attribute 'join'`. Der Grund dahinter: `join()` ist eine Methode von **Strings**, nicht von Listen. Der String, auf dem du sie aufrufst, ist genau das, was zwischen die Teile gesetzt wird.
+
+**Zweite Falle:** In der Liste dürfen nur Strings stehen. `", ".join([1, 2, 3])` scheitert mit `TypeError`. Für die Anmarschbahn ist das kein Problem — dort stehen Zeichen. Es wird eins, sobald du Zahlen zusammenfügen willst.
+
+**Und jetzt die Frage, die du selbst beantwortest — mit `dir()` und `help()` aus dem Vorspann, nicht mit einer Suchmaschine:**
+
+> Eine Liste hat eine Methode, die zählt, wie oft ein bestimmter Wert darin vorkommt. Wie heißt sie, und was gibt sie zurück, wenn der Wert gar nicht vorkommt?
+
+Zwei Minuten. Du brauchst die Antwort heute nirgends — genau deshalb steht sie hier. *Woher weiß ich, was dieses Objekt kann?* ist eine der Fähigkeiten, um die es in diesem ganzen Projekt geht, und `dir()` und `help()` sind die zwei Werkzeuge dafür. In Etappe 27 stehst du vor einem fremden Repo und hast genau diese beiden.
+
+*(Schreib die Antwort in `GELERNT.md`. In Etappe 6 brauchst du sie zufällig doch — und dann hast du sie selbst gefunden.)*
 
 **Der Riegel dazu:** Zehn Minuten, ganz am Schluss, wenn alles andere läuft. Bahnbreite, Rahmenzeichen und hübschere Symbole sind ein Rabbit Hole von derselben Sorte wie das Balancing, und sie fühlen sich genauso nach Arbeit an.
 
@@ -674,10 +783,10 @@ Setz `gegner = [7]`. Erhöh die Zahl am Ende jeder Runde um eins. Zeichne die Ba
 
 **9.2 — Mehrere bewegen sich.**
 Setz `gegner = [7, 4, 9]`. Alle rücken pro Runde ein Feld vor.
-⚠️ *Die Schleifenvariable zu ändern reicht nicht — du musst die Liste selbst ändern. Konzept 8.*
+⚠️ *Die Schleifenvariable zu ändern reicht nicht — du musst die Einträge selbst ersetzen. **Konzept 3b** zeigt beide Wege dafür; nimm einen davon.*
 
 **9.3 — Die Bahn entsteht aus den Positionen.**
-Erzeug eine Bahn aus lauter Punkten, setz an den Positionen ein Zeichen, füg alles zu einer Zeile zusammen. Konzept 14 nennt dir die zwei Werkzeuge dafür.
+Erzeug eine Bahn aus lauter Punkten (`["."] * n`), setz an den Positionen ein Zeichen (Konzept 3b), füg alles mit `.join()` zu einer Zeile zusammen (Konzept 14).
 **Die Gegnerliste bleibt unangetastet** — die Bahn wird jede Runde neu gebaut.
 
 **9.4 — Getroffene verschwinden.**
@@ -743,6 +852,9 @@ Prüft den Zustand deines Programms, nicht dein Gefühl. Führ jeden Punkt tats�
 - [ ] Die Bahn ist bei jeder Runde gleich lang — Spawnpunkt links, Tor rechts, dazwischen der Rest
 - [ ] Eine komplette Welle lässt sich von Anfang bis Ende spielen, ohne dass etwas abstürzt
 - [ ] ⭐ **Such in `spiel.py` nach der alten Gegnerzahl.** Es gibt sie nirgends mehr — keine Variable, die zählt, wie viele Gegner übrig sind. Die Liste *ist* der Zustand, die Anzahl liest du mit `len()` daraus ab. Damit ist der Satz eingelöst, den du nach Etappe 3 in `GELERNT.md` geschrieben hast: *„Gegner sind heute eine Zahl. Ab Etappe 4 eine Liste."*
+- [ ] Alle Gegner rücken pro Runde ein Feld vor — nachgezählt über drei Runden, nicht angenommen
+- [ ] Die Bahn ist **ein einziger String**, nicht eine Liste, die als Liste ausgegeben wird — keine eckigen Klammern und keine Anführungszeichen auf dem Bildschirm
+- [ ] Du kannst in einer Wegwerf-Zeile einen Listeneintrag ersetzen, ohne dass sich `len()` ändert
 - [ ] Munition ist dabei **keine** Liste geworden und steht immer noch als Zahl da
 
 ---
@@ -753,6 +865,8 @@ Ohne Nachschlagen, in eigenen Worten. Dein Mentor fragt sie ab, und das Erkläre
 
 1. Warum ist der erste Index 0? Was hat das mit `range()` aus Etappe 3a zu tun?
 2. Was macht `liste[-1]`, und wie schreibt man dasselbe umständlich?
+2b. **Was ist der Unterschied zwischen `liste[1]` links und rechts vom `=`?** Und warum ändert sich die Länge der Liste beim Ersetzen nicht?
+2c. Warum reicht `for ding in liste:` nicht, wenn du jeden Eintrag verändern willst — und welche zwei Wege gibt es stattdessen?
 3. Was passiert bei `liste[99]`, wenn drei Einträge drin sind — und warum ist dieser Fehler ein *angenehmer*?
 4. **Was verändert `append()` — die Liste selbst, oder gibt es eine neue zurück? Was steht danach in `x`, wenn du `x = x.append(3)` schreibst?**
 5. Was ist der Unterschied zwischen `b = a` und `b = a.copy()`? An welchem der beiden Beispiele aus Konzept 9 sieht man ihn, und warum am anderen nicht?
@@ -764,6 +878,7 @@ Ohne Nachschlagen, in eigenen Worten. Dein Mentor fragt sie ab, und das Erkläre
 10. Warum ist `if inventar:` dasselbe wie `if len(inventar) > 0:` — und bei welcher Art von Variable wäre dieselbe Kurzform gefährlich?
 11. **Warum ist Munition keine Liste geworden, das Inventar aber schon?** Nenn die Frage, mit der du das entscheidest.
 12. Was hat sich an `for` geändert, seit du es in Etappe 3 benutzt hast — und was nicht?
+13. Wie baut man aus `["a", "b", "c"]` die Zeile `a|b|c`? Wer ruft dabei wen auf?
 
 **Frage 8 ist die wichtigste.** Die anderen neun sind Werkzeugwissen, und Werkzeugwissen holt man nach. Frage 8 ist eine Frage über *Modellierung*: Sie unterscheidet den Zustand deiner Welt von seiner Darstellung. Wenn diese Trennung heute sitzt, sind Etappe 12 (der Tick), Etappe 14a (das Raster), Etappe 19 (Speichern) und Etappe 28 (Pygame) Erweiterungen. Wenn sie nicht sitzt, sind es Umbauten.
 
@@ -778,17 +893,19 @@ Eine Liste mit drei Namen. Dann der Reihe nach:
 1. Gib den zweiten aus.
 2. Gib den letzten aus — **ohne** `len()` zu benutzen.
 3. Häng einen vierten an.
-4. Entferne den ersten.
-5. Gib die Länge aus.
+4. **Ersetz den ersten durch einen anderen Namen.** Gib die Länge vorher und nachher aus — sie muss gleich bleiben.
+5. Entferne den ersten.
+6. **Häng alle Namen zu einer Zeile zusammen, getrennt durch ` und `.**
+7. Gib die Länge aus.
 
 Und jetzt der eigentliche Punkt der Aufgabe:
 
-6. Weis die Liste einer zweiten Variablen zu.
-7. Entferne über die **zweite** Variable jemanden.
-8. Gib die **erste** aus. **Vorher aufschreiben, was du erwartest.**
-9. Mach dasselbe noch einmal, aber mit `.copy()` bei Schritt 6. Was ist jetzt anders?
+8. Weis die Liste einer zweiten Variablen zu.
+9. Entferne über die **zweite** Variable jemanden.
+10. Gib die **erste** aus. **Vorher aufschreiben, was du erwartest.**
+11. Mach dasselbe noch einmal, aber mit `.copy()` bei Schritt 8. Was ist jetzt anders?
 
-Wenn die Schritte 8 und 9 dich nicht überrascht haben, hast du Konzept 9 verstanden. Wenn doch: gut — genau dafür ist die Aufgabe da, und du hast dir gerade Wochen Fehlersuche gespart.
+Wenn die Schritte 10 und 11 dich nicht überrascht haben, hast du Konzept 9 verstanden. Wenn doch: gut — genau dafür ist die Aufgabe da, und du hast dir gerade Wochen Fehlersuche gespart.
 
 ---
 
@@ -806,7 +923,9 @@ Wenn die Schritte 8 und 9 dich nicht überrascht haben, hast du Konzept 9 versta
 8. **Bau Munition testweise als Liste** aus vierzig gleichen Einträgen. Lass das Spiel eine Welle laufen. Was wird umständlicher? Danach zurückbauen — das ist der Sinn der Übung. **Eine Struktur zu verstehen heißt auch, sie einmal am falschen Problem benutzt zu haben.**
 9. **Ändere die Schleifenvariable** in einem `for`-Durchlauf über deine Beute (`ding = "kaugummi"`) und gib die Liste danach aus. Was hast du geändert — den Eintrag oder nur den Namen?
 
-10. **Versuch, alle Gegner mit derselben Methode zu bewegen:** `for pos in gegner: pos += 1`. Gib `gegner` danach aus. **Nichts hat sich bewegt** — und das ist derselbe Grund wie in Experiment 9. Wie musst du es stattdessen bauen, wenn du die Liste wirklich ändern willst?
+10. **Versuch, alle Gegner mit derselben Methode zu bewegen:** `for pos in gegner: pos += 1`. Gib `gegner` danach aus. **Nichts hat sich bewegt** — und das ist derselbe Grund wie in Experiment 9. Bau es danach mit Konzept 3b richtig und vergleich die zwei Fassungen nebeneinander.
+11. **Vertausch bei `.join()` die Reihenfolge:** `bahn.join("")` statt `"".join(bahn)`. Lies die Fehlermeldung. Welches Wort darin sagt dir, wem `join` eigentlich gehört?
+12. **Schreib in Konzept 3b rechts vom `=` eine feste Zahl** statt `preise[i]`. Was steht danach in der Liste, und warum ist das genau das, was du hingeschrieben hast?
 
 Experiment 5 ist das wichtigste dieser Etappe. Experiment 6 ist das unterschätzteste: Es ist deine erste Begegnung mit der Frage, in welcher **Reihenfolge** Dinge innerhalb einer Runde passieren. In Etappe 16 wird daraus eine eigene Bug-Jagd.
 
@@ -816,6 +935,11 @@ Experiment 5 ist das wichtigste dieser Etappe. Experiment 6 ist das unterschätz
 
 | Symptom | Ursache | Wo du suchst |
 |---|---|---|
+| `AttributeError: 'list' object has no attribute 'join'` | `liste.join(", ")` statt `", ".join(liste)` | Konzept 14 — Trennzeichen vorn, Liste in die Klammern |
+| `TypeError: sequence item 0: expected str instance, int found` | `.join()` auf einer Liste mit Zahlen | Alle Einträge müssen Strings sein |
+| `IndexError` beim Zuweisen (`liste[i] = ...`) | Der Index ist größer als die Liste lang ist | Ersetzen legt **nichts** an. Was es noch nicht gibt, kann man nicht ersetzen |
+| Kein Fehler, aber die Liste bleibt unverändert | Der Schleifenvariablen zugewiesen statt dem Eintrag | Konzept 3b — steht links vom `=` eine Stelle in der Liste? |
+| Alle Einträge haben denselben Wert | Rechts vom `=` steht nicht `liste[i]`, sondern etwas Festes | Die Zeile langsam lesen: rechts der alte Wert *dieser* Stelle |
 | `IndexError: list index out of range` | Zugriff auf eine Stelle, die es nicht gibt | Die Stelle, an der du rechnest, *welchen* Index du willst — nicht die Zeile mit den eckigen Klammern |
 | `ValueError: list.remove(x): x not in list` | Entfernt wird etwas, das nicht drin ist | Wurde es vorher schon entfernt? Steht dort eine andere Schreibweise? |
 | `AttributeError: 'NoneType' object has no attribute 'append'` | Irgendwo steht `liste = liste.append(...)` | Such nach `= ` und `.append` in derselben Zeile |

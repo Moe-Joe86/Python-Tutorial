@@ -1,18 +1,22 @@
 # Etappe 3 — Die Wellenschleife ⭐
 
+*v1.2.0 · 2026-09-02*
+
 > **Block 1: Fundament** · Etappe 3 von 30 · [← Etappe 2](etappe-02-der-erste-kontakt.md) · [Lehrplan](../Vorposten_Lehrplan.md) · [Etappe 4 →](etappe-04-ausruestung-und-beute.md)
 
-**Boot.dev:** `while`, `for`, `range()`, `break`, `continue`
-**Zeitaufwand:** 3a: 2 Sitzungen · 3b: 2 Sitzungen · 3c: 2 Sitzungen, à 20–30 Minuten
+**Neue Syntax heute:** `while` · `+=` und `-=` · `for x in range(...)` · `range()` in drei Formen · `break` · `while True:` · `.lower()` · `/` `//` `%` · `round()` · `"#" * 7` · 👀 `continue` · 👀 `_` · 👀 `f"{wert:.0%}"`
+
+**Zeitaufwand:** 3a: 2–3 Sitzungen · 3b: 2 Sitzungen · 3c: 3 Sitzungen, à 20–30 Minuten. Die Konzepte aller drei Portionen zusammen sind rund vierzig Minuten Lesestoff — lies jeweils nur die Portion, an der du gerade sitzt.
+
 **Voraussetzung:** Etappe 2 abgeschlossen, Selbsttest grün
 
 **Diese Etappe hat drei Portionen** — die einzige im ganzen Plan, die so weit aufgeteilt ist. Hier wird aus einem Skript ein Spiel, und dabei kommt mehr zusammen, als an einem Abend ankommt. Nach jeder Portion steht ein Commit.
 
 | | Thema | 🔨 Bauen | 👀 Nur erkennen |
 |---|---|---|---|
-| **3a** | Die Schleife | `for` außen, `while` innen, `range()`, `break`, **wo Variablen leben** | `continue`, `_` |
-| **3b** | Die Befehle | Befehlskette, `.lower()`, Rundenzähler | — |
-| **3c** | Kampf und Anzeige | Gegner, Feuern, Nachladen, Balken | Formatangaben im f-String |
+| **3a** | Die Schleife | `for` außen, `while` innen, `range()`, `+=`, `break`, `while True:`, **wo Variablen leben** | `continue`, `_` |
+| **3b** | Die Befehle | Befehlskette, `.lower()`, Rundenzähler | Die zwei Bauformen für Schleifen |
+| **3c** | Kampf und Anzeige | Gegner, Feuern, Nachladen, Rechnen mit `/` `//` `%` `round()`, Balken | Formatangaben im f-String |
 
 **Nach 3a wartet dein Programm auf dich. Nach 3b kannst du mit ihm reden. Nach 3c kannst du verlieren.**
 
@@ -141,6 +145,47 @@ Nimm die Zeile weg, und `tassen` bleibt für immer 3. Das ist die **Endlosschlei
 
 > **`Strg + C` im Terminal bricht ab.** Merk dir das jetzt, nicht erst, wenn du es brauchst.
 
+### 1b. `-=` und `+=` — die Zeile, die den Zähler bewegt
+
+Im Beispiel oben steht eine Schreibweise, die du noch nicht kennst:
+
+```python
+tassen -= 1
+```
+
+**Das ist eine Abkürzung, mehr nicht.** Ausgeschrieben lautet dieselbe Zeile:
+
+```python
+tassen = tassen - 1
+```
+
+Lies sie in der Reihenfolge, in der Python sie ausführt: Rechts wird gerechnet — der aktuelle Wert von `tassen`, minus eins. Das Ergebnis bekommt links `tassen`. Der alte Wert ist danach weg.
+
+**Es gibt die Abkürzung für alle Grundrechenarten:**
+
+```python
+punkte = 10
+
+punkte += 5      # punkte = punkte + 5    → 15
+punkte -= 3      # punkte = punkte - 3    → 12
+punkte *= 2      # punkte = punkte * 2    → 24
+```
+
+`+=` und `-=` wirst du täglich benutzen, die anderen selten. **Beide Schreibweisen sind gleichwertig** — nimm die kurze, weil du sie in jedem fremden Python-Programm liest.
+
+⚠️ **Zwei Dinge, an denen es hakt:**
+
+**Die Variable muss vorher existieren.** `zaehler += 1` ohne vorheriges `zaehler = 0` gibt einen `NameError` — logisch, denn Python kann zu etwas, das es nicht gibt, nichts dazuzählen. Der Zähler wird **vor** der Schleife angelegt, nicht darin.
+
+**`+=` funktioniert auch bei Strings**, und dann hängt es an statt zu addieren:
+
+```python
+text = "Hallo"
+text += " Welt"      # "Hallo Welt"
+```
+
+Dasselbe Zeichen, zwei Bedeutungen — je nachdem, welchen Typ der Wert hat. Das ist derselbe Punkt wie `"40" + 5` aus Etappe 1, nur von der freundlichen Seite. In Etappe 4 begegnet dir dieses Verhalten noch einmal, und dort ist es der Kern einer ganzen Lektion.
+
 ### 2. `for` und `range()` — wiederholen, wie oft du sagst
 
 ```python
@@ -180,11 +225,12 @@ Zwei Beispiele aus einer Bäckerei:
 ```python
 # Ich weiß: zwölf Bleche. → for
 for blech in range(12):
-    backe(blech)
+    print(f"Blech {blech} kommt in den Ofen.")
 
 # Ich weiß nicht, wie viele Kunden kommen. Nur: bis 18 Uhr. → while
 while uhrzeit < 18:
-    bediene_kunden()
+    print("Nächster Kunde.")
+    uhrzeit += 1
 ```
 
 **Und warum das keine Geschmacksfrage ist:** Ein `while` mit fester Anzahl braucht einen Zähler, den du selbst anlegst, hochzählst und prüfst. Drei Stellen, an denen etwas schiefgehen kann. `for` hat sie gar nicht erst.
@@ -247,11 +293,13 @@ for durchgang in range(3):
 ### 6. `break` — vorzeitig raus
 
 ```python
+brote_uebrig = 3
 for kunde in range(50):
     if brote_uebrig == 0:
         print("Ausverkauft.")
         break
-    verkaufe_brot()
+    print(f"Kunde {kunde} bekommt ein Brot.")
+    brote_uebrig -= 1
 ```
 
 `break` verlässt die Schleife sofort — auch mitten im Durchlauf.
@@ -261,6 +309,32 @@ for kunde in range(50):
 > **`break` verlässt immer nur die Schleife, in der es direkt steht.**
 
 Bei zwei Ebenen heißt das: Ein `break` in der inneren Schleife beendet den inneren Durchlauf. Die äußere macht weiter. Heute noch harmlos — in Auftragsschritt 6 wird daraus die Knobelstelle.
+
+### 6b. `while True:` — die Schleife, die nur von innen endet
+
+Bisher hatte jede `while`-Schleife eine Bedingung, die irgendwann falsch wurde. Manchmal gibt es die nicht.
+
+Denk an eine Kasse: Sie fragt nach dem nächsten Artikel, wieder und wieder, und hört auf, wenn jemand *fertig* eingibt. **Wie oft das ist, weiß beim Start niemand — und es gibt keinen Zähler, der herunterläuft.** Es gibt nur ein Ereignis, das irgendwann eintritt.
+
+Dafür gibt es diese Form:
+
+```python
+while True:
+    artikel = input("Artikel: ")
+    if artikel == "fertig":
+        break
+    print(f"{artikel} gebucht.")
+
+print("Kassenbon wird gedruckt.")
+```
+
+**`True` ist keine Bedingung, sondern eine Feststellung** — der Boolean aus Etappe 2, unverändert. Er ist immer wahr, also läuft die Schleife immer weiter. Sie ist damit absichtlich eine Endlosschleife, und das einzige, was sie beendet, ist das `break` in ihrem Inneren.
+
+⚠️ **Die Gefahr steht direkt daneben, und sie ist real:** Vergisst du das `break` oder ist seine Bedingung nie erfüllt, läuft dein Programm für immer. Deshalb hast du `Strg + C` aus Konzept 1 gelernt, bevor du hier ankommst.
+
+**Die Regel dazu, und sie ist streng:** Bevor du `while True:` tippst, schreib das `break` mit hin — und erst danach den Rest. Ein `while True:` ohne sichtbares `break` in demselben Block ist ein Fehler, auch wenn Python nichts sagt.
+
+*(Es gibt noch eine zweite Bauform für dieselbe Aufgabe. Sie kommt in 3b, und zwar mit Absicht erst dann — du sollst vorher an einer Stelle selbst nachdenken.)*
 
 ### 7. 👀 `continue` und `_`
 
@@ -293,7 +367,11 @@ Dein Programm aus Etappe 2 läuft einmal von oben nach unten. Zwei Dinge daran m
 - **Der einzelne Schuss am Ende** — die `if`-Bedingung mit `and`, die genau einmal feuert. Sie wandert in 3c als Befehl `feuern` in die Schleife. **Kommentier sie vorerst aus, statt sie zu löschen** — du willst sie dort wieder ansehen.
 - **Die Erzählung davor** — Klassenwahl, Briefing, Funkspruch. Die bleibt, wo sie ist: **vor** der Schleife, damit sie genau einmal läuft.
 
-**Und eine Entscheidung, die jetzt fällig ist:** In Etappe 2 hast du `trefferpunkte` (dein Marine) und `kern_integritaet` (die Anlage) getrennt. Heute brauchst du eine Abbruchbedingung für das Spiel — **und das ist die Kernintegrität, nicht dein Marine.** Die Gegner greifen die Anlage an. Dass dein Marine ausfallen kann, ohne dass das Spiel vorbei ist, wird erst in Etappe 13 zum Thema.
+**Und eine Entscheidung, die jetzt fällig ist:** Seit Etappe 1 trägst du zwei Gesundheitswerte mit dir herum — `trefferpunkte` (dein Marine) und `kern_integritaet` (die Anlage). Heute bekommen **beide** eine Wirkung, und zwar dieselbe:
+
+> **Das Spiel endet, wenn die Kernintegrität auf 0 fällt — oder wenn du fällst.**
+
+Zwei Prüfungen, zwei Meldungen, ein Ausstieg. Das ist etwas mehr Arbeit als eine einzelne Bedingung und es ist der Grund, warum du in Etappe 13 sofort verstehst, warum nur eine der beiden einen Respawn-Zähler bekommt: Fällt die Anlage, ist es endgültig. Fällst du, wäre eine Wartezeit denkbar — heute noch nicht.
 
 Falls bei dir beides noch dieselbe Variable ist: Trenn sie jetzt. Später sind es zehn Stellen statt zwei.
 
@@ -305,7 +383,9 @@ Falls bei dir beides noch dieselbe Variable ist: Trenn sie jetzt. Später sind e
 
 Benutz dafür `wellen_bis_evakuierung` aus Etappe 1. Finde selbst heraus, welche `range()`-Form genau die Zahlen 1 bis 20 liefert — Konzept 2 hat die Tabelle dazu.
 
-**2. Bau die innere Schleife.** Schreib eine `while`-Schleife **innerhalb** der äußeren. Sie soll eine Eingabe abfragen und laufen, solange die Welle nicht vorbei ist.
+**2. Bau die innere Schleife.** Schreib eine `while`-Schleife **innerhalb** der äußeren. Sie soll eine Eingabe abfragen und laufen, bis die Welle vorbei ist.
+
+Wie lange das ist, weißt du beim Start der Welle noch nicht — also ist das die Form aus Konzept 6b: `while True:` mit einem `break` darin.
 
 Implementiere zunächst nur den Befehl `beenden` — er beendet die Welle. Jede andere Eingabe soll eine Meldung ausgeben und erneut fragen. Die übrigen Befehle kommen in 3b.
 
@@ -332,6 +412,8 @@ Du sollst den Notausgang einmal benutzt haben, bevor du ihn brauchst.
 Sorge dafür, dass das Spiel endet, wenn `kern_integritaet` auf 0 oder darunter fällt — **auch mitten in Welle 7**.
 
 Zum Testen: Setz `kern_integritaet = 5` und lass sie in jeder Runde um 2 sinken.
+
+**Und danach dasselbe für `trefferpunkte`.** Die zweite Bedingung ist keine zweite Knobelei — wenn die erste steht, ist sie eine Zeile. Achte nur darauf, dass die **Meldungen sich unterscheiden**: Der Spieler muss erkennen können, ob die Anlage gefallen ist oder er selbst.
 
 Du weißt aus Konzept 6, dass `break` nur die innere Schleife verlässt. Die äußere läuft weiter, und Welle 8 beginnt trotzdem.
 
@@ -367,6 +449,7 @@ git commit -m "Etappe 3a: Die Wellenschleife läuft"
 - [ ] Klassenwahl und Lagebriefing erscheinen **einmal**, nicht pro Welle
 - [ ] Eine Welle endet von selbst, wenn kein Gegner mehr steht
 - [ ] Bei `kern_integritaet = 0` endet das **ganze** Spiel, auch mitten in einer Welle
+- [ ] Bei `trefferpunkte = 0` ebenfalls — mit einer **anderen** Meldung
 - [ ] `Strg + C` bricht dein Programm ab, ohne dass du das Terminal schließen musst
 
 ---
@@ -418,11 +501,11 @@ Technisch ist das ein `if` — der Zähler wird nicht mehr bedingungslos erhöht
 
 *(In Etappe 12 kommt genau diese Frage wieder, dann unter anderem Namen: Welche Spieleraktion löst einen Tick aus? Deine heutige Antwort ist die erste Fassung davon.)*
 
-### 11. 👀 Zwei Bauformen für Schleifen — welche hast du gebaut?
+### 11. 👀 Die zweite Bauform — und welche du gebaut hast
 
 **Erst weiterlesen, wenn die Knobelstelle aus 3a gelöst ist.** Hier bekommt das, was du dort selbst gefunden hast, seinen Namen.
 
-Es gibt zwei verbreitete Formen, eine Schleife zu beenden. Beide sind richtig, du solltest beide erkennen:
+In 3a hast du `while True:` mit `break` benutzt. Es gibt eine zweite Form, die dasselbe leistet, und du solltest beide erkennen:
 
 ```python
 # Variante A — mit einer Zustandsvariablen
@@ -432,18 +515,20 @@ while laeuft:
     if befehl == "beenden":
         laeuft = False
 
-# Variante B — mit break
+# Variante B — mit break (die aus Konzept 6b)
 while True:
     befehl = input("> ")
     if befehl == "beenden":
         break
 ```
 
-**A** liest sich selbsterklärend — die Bedingung oben sagt, worum es geht — und die Variable lässt sich von überall setzen, auch aus einer inneren Schleife heraus. **B** ist kürzer und macht den Ausstieg an genau einer Stelle sichtbar.
+**A** liest sich selbsterklärend — die Bedingung oben sagt, worum es geht — und die Variable lässt sich **von überall setzen, auch aus einer inneren Schleife heraus.** Genau das ist der Unterschied, der bei der Knobelstelle zählte: Ein `break` kommt nur aus einer Schleife heraus, eine Variable wirkt über beide Ebenen.
 
-**Welche hast du in 3a gebaut?** Wenn du für den Abbruch von innen nach außen eine Variable angelegt hast, war es A. Wenn du es anders gelöst hast, ist das auch in Ordnung — sag nur, wie.
+**B** ist kürzer und macht den Ausstieg an genau einer Stelle sichtbar.
 
-*(Für dieses Projekt passt A etwas besser, weil eine Zustandsvariable genau das Muster ist, das ab Etappe 12 dein ganzes Spiel trägt. Bau deswegen aber nichts um, was funktioniert.)*
+**Welche hast du in 3a für den Abbruch von innen nach außen gebaut?** Wenn du eine Variable angelegt hast, war es der Gedanke hinter A. Wenn du es anders gelöst hast, ist das auch in Ordnung — sag nur, wie.
+
+*(Für dieses Projekt passt A auf Dauer etwas besser, weil eine Zustandsvariable genau das Muster ist, das ab Etappe 12 dein ganzes Spiel trägt. Bau deswegen aber nichts um, was funktioniert.)*
 
 ### 12. Der Rundenzähler — die Entscheidung aus Konzept 5
 
@@ -539,6 +624,53 @@ Keine Trefferchance, keine Panzerung, keine kritischen Treffer. **Das ist kein P
 
 Was sich falsch anfühlt, wird **notiert statt geändert**. Die Liste ist deine Grundlage für Etappe 21a.
 
+### 13b. Rechnen — vier Werkzeuge, die du gleich brauchst
+
+Bis hierher hast du mit `+`, `-` und `*` gerechnet. Für den Balken im nächsten Abschnitt kommen vier Dinge dazu. Probier alle vier in `uebung.py` aus, bevor du weiterliest.
+
+**Teilen mit `/`:**
+
+```python
+print(350 / 500)      # 0.7
+print(10 / 2)         # 5.0   ← eine Kommazahl, kein int
+```
+
+⚠️ **`/` liefert immer eine Kommazahl**, auch wenn die Rechnung glatt aufgeht. Aus `10 / 2` wird `5.0`, nicht `5`. Das ist die Ursache einer ganzen Sorte Fehler, weil `5.0` an manchen Stellen nicht funktioniert, wo `5` funktioniert — du siehst das gleich beim Balken.
+
+**Ganzzahlig teilen mit `//`:**
+
+```python
+print(17 // 5)        # 3     — wie oft passt die 5 ganz hinein?
+print(10 // 2)        # 5     — hier ein int, keine Kommazahl
+```
+
+Zwei Schrägstriche teilen und werfen den Rest weg. Das Ergebnis ist eine Ganzzahl.
+
+**Den Rest holen mit `%`:**
+
+```python
+print(17 % 5)         # 2     — was bleibt übrig?
+print(10 % 2)         # 0     — geht glatt auf
+```
+
+Das Prozentzeichen bedeutet hier **nicht** Prozent, sondern *Rest bei der Division*. `17 // 5` und `17 % 5` sind die zwei Hälften derselben Rechnung: dreimal passt die 5 hinein, 2 bleiben liegen.
+
+Du brauchst `%` heute nicht. Es steht hier, weil es zu `//` gehört und weil es in fremdem Code ständig auftaucht — meistens in der Form `zahl % 2 == 0`, die prüft, ob eine Zahl gerade ist.
+
+**Runden mit `round()`:**
+
+```python
+print(round(7.6))     # 8
+print(round(7.4))     # 7
+print(int(7.6))       # 7     ← schneidet ab, rundet nicht
+```
+
+⚠️ **`round()` und `int()` sind nicht dasselbe, und der Unterschied kostet Anfänger regelmäßig eine Stunde.** `int()` aus Etappe 1 schneidet die Nachkommastellen einfach ab — aus `7.9` wird `7`. `round()` rundet kaufmännisch — aus `7.9` wird `8`.
+
+Beide sind richtig. Welches du willst, hängt von der Frage ab, und beim Balken stellst du sie gleich zum ersten Mal.
+
+*(Bei `round(2.5)` kommt übrigens `2` heraus, nicht `3`. Python rundet bei genau einem halben zur geraden Zahl. Das ist eine Kuriosität, die du nur kennen musst, damit sie dich nicht erschreckt.)*
+
 ### 14. Die Balken
 
 Dein `status`-Befehl zeigt Zahlen. Ab heute zusätzlich einen Balken:
@@ -581,7 +713,7 @@ Bau das **zuerst in `uebung.py`** mit festen Zahlen, nicht im Spiel.
 
 ⚠️ **Ein Hinweis, damit du an der richtigen Stelle stutzt:** Bei Schritt 2 bekommst du eine Kommazahl heraus, und `"#" * 7.0` funktioniert nicht — Python kann einen Text nicht siebenkommanull-mal wiederholen. Die Fehlermeldung sagt dir das auch.
 
-Es gibt **zwei** Werkzeuge, die aus einer Kommazahl eine Ganzzahl machen, und sie tun nicht dasselbe. Eines kennst du aus Etappe 1, Abschnitt 8; das andere rundet kaufmännisch. Probier beide mit `7.6` und mit `9.9` aus und entscheide dich bewusst.
+Die zwei Werkzeuge dagegen stehen in Konzept 13b: `int()` schneidet ab, `round()` rundet. **Sie tun nicht dasselbe.** Probier beide mit `7.6` und mit `9.9` aus und entscheide dich bewusst für eines.
 
 *(Die Entscheidungsfrage: Was soll dein Balken bei 99 % zeigen — zehn volle Zeichen oder neun? Beides ist vertretbar. Nur nicht beides gleichzeitig an verschiedenen Stellen.)*
 
@@ -618,6 +750,12 @@ Deine Anzeige ist ab heute ein Messgerät. Das ist der Anfang des Fadens, der im
 
 Die Bedingung dafür schreibst du wie in Etappe 2 — eine Prüfung vor der Aktion. Danach kannst du den `test`-Befehl aus Schritt 3 löschen.
 
+**15b. Zähl die Erfahrung mit.** Leg vor den Schleifen `erfahrung = 0` an. Jedes Mal, wenn `feuern` einen Gegner erledigt, steigt sie um 10.
+
+**Mehr nicht.** Keine Stufen, keine Belohnung, keine Freischaltung — nur eine Zahl, die wächst und die du in Schritt 19 mit anzeigst.
+
+*(Das ist dieselbe Bauweise wie `kern_integritaet` in Etappe 1: erst sichtbar, viel später wirksam. Die Stufenschwellen kommen in Etappe 5, und erst in Etappe 18 zahlt eine Stufe etwas aus. **Bau heute nichts davon vor** — wer hier schon Fähigkeiten freischaltet, nimmt Etappe 18 ihren Gegenstand und sich selbst das Erfolgserlebnis dort.)*
+
 **16. Gib `nachladen` Wirkung.** Der Befehl soll `munition` auf den Startwert 40 zurücksetzen — und dabei eine Runde kosten, wie in Schritt 10 festgelegt.
 
 **Und hier fällt eine Schuld aus Etappe 2 an:** Dort hast du `nachladen_noetig` angelegt, und es stand nie auf `True`. Setz es jetzt, sobald die Munition auf 0 fällt, und beim Nachladen zurück auf `False`. Deine Feuerbedingung aus Etappe 2 prüft es bereits — sie funktioniert ab heute zum ersten Mal vollständig.
@@ -626,7 +764,9 @@ Die Bedingung dafür schreibst du wie in Etappe 2 — eine Prüfung vor der Akti
 
 **Genau hier zahlt sich die Unterscheidung aus Konzept 10 aus:** Weil `status` nichts kostet und `nachladen` schon, steht der Spieler zum ersten Mal vor einer echten Wahl.
 
-**17. Lass die Gegner zurückschlagen.** Senk `kern_integritaet` um einen festen Wert, solange noch Gegner stehen.
+**17. Lass die Gegner zurückschlagen.** Senk `kern_integritaet` um einen festen Wert, solange noch Gegner stehen — und `trefferpunkte` um einen kleineren, weil du selbst mit im Gefecht stehst.
+
+**So prüfst du es:** Beide Werte müssen sinken, und die zwei Abbruchbedingungen aus Schritt 6 müssen jetzt tatsächlich auslösen können. Spiel einmal so, dass die Anlage zuerst fällt, und einmal so, dass du zuerst fällst. Die Meldungen müssen sich unterscheiden.
 
 ⚠️ **Und hier passiert der häufigste Fehler dieser ganzen Etappe.** Die naheliegende Stelle für diese Zeile ist das Ende des Schleifenkörpers — unterhalb der ganzen `if`/`elif`-Kette, auf Höhe der `while`-Schleife eingerückt. Dort läuft sie bei **jedem** Durchlauf.
 
@@ -651,8 +791,11 @@ Arbeite in dieser Reihenfolge:
 1. **Zuerst in `uebung.py`**, mit festen Zahlen statt Variablen. Die drei Rechenschritte stehen als Fragen in Konzept 14.
    *(Und beachte den Warnkasten dort: Die Rechnung gehört später **in** den `status`-Befehl, nicht an den Programmanfang.)*
 2. **Prüf ihn mit drei Werten:** voll, halb, leer. Sieht er bei allen dreien richtig aus?
-3. **Dann ins Spiel übernehmen**, in den `status`-Befehl. Zweimal: für Kernintegrität (Obergrenze 100) und Munition (Obergrenze 40).
-4. **Den ASCII-Kopf aus Etappe 1 nicht anfassen.** Die Balken gehören zum Status.
+3. **Dann ins Spiel übernehmen**, in den `status`-Befehl. Dreimal: für Kernintegrität (Obergrenze 100), deine eigene `trefferpunkte` (Obergrenze 100) und Munition (Obergrenze 40).
+4. **Schreib die Erfahrung als schlichte Zahl dazu** — kein Balken, weil es keine Obergrenze gibt, gegen die man sie messen könnte. Genau das ändert sich in Etappe 5.
+5. **Den ASCII-Kopf aus Etappe 1 nicht anfassen.** Die Balken gehören zum Status.
+
+⚠️ *Zwei Balken mit derselben Obergrenze nebeneinander sind eine Verwechslungsfalle. Beschrifte sie so, dass ein Fremder auf einen Blick sieht, welcher die Anlage meint und welcher dich.*
 
 **20. Der Test, der zeigt, wofür der Balken da ist.** Setz `kern_integritaet = 150`, ruf `status` auf und sieh dir den Balken an. Dann dasselbe mit `-20`.
 
@@ -686,6 +829,8 @@ Danach: einmal von vorne durchspielen, zwanzig Wellen, ohne zu debuggen. Das ist
 - [ ] Nachladen kostet eine Runde, in der die Gegner Schaden machen
 - [ ] Zehnmal `status` hintereinander kostet **keine** Kernintegrität und **keine** Runde
 - [ ] Der Balken verändert sich, wenn die Kernintegrität sinkt — er zeigt nicht dauerhaft den Startwert
+- [ ] Es gibt getrennte Balken für Anlage und eigene Gesundheit, und man verwechselt sie nicht
+- [ ] Die Erfahrung steigt bei jedem erledigten Gegner und steht im `status` — ohne dass sie sonst irgendetwas tut
 - [ ] Nach dem Aufräumen gibt es keinen `test`-Befehl mehr und keine `###`-Zeilen
 - [ ] Du kannst das Spiel verlieren — und es endet dann tatsächlich
 - [ ] Spätere Wellen haben mehr Gegner als frühe
@@ -729,6 +874,10 @@ Ohne Nachschlagen, in eigenen Worten.
 5. Wie entsteht eine Endlosschleife, und wie kommst du wieder heraus?
 6. **Was passiert mit deinem Rundenzähler, wenn er innerhalb statt außerhalb der Wellenschleife angelegt wird?**
 7. Was bewirkt `"#" * 7`, und warum funktioniert `"#" * 7.0` nicht?
+7b. **Was ist der Unterschied zwischen `zaehler = zaehler + 1` und `zaehler += 1`?** Und was passiert, wenn `zaehler` vorher nicht existiert?
+7c. Was liefert `17 / 5`, was `17 // 5`, was `17 % 5`? Und warum ist `10 / 2` nicht dasselbe wie `10 // 2`?
+7d. Wann nimmst du `int()`, wann `round()`? Nenn eine Zahl, bei der beide dasselbe liefern, und eine, bei der sie sich unterscheiden.
+7e. Warum braucht eine `while True:`-Schleife zwingend ein `break` — und was ist die Alternative dazu?
 8. Warum brauchst du jetzt `.lower()`, obwohl Etappe 2 ohne auskam?
 9. Welche deiner Befehle kosten eine Runde und welche nicht — und was wäre kaputt, wenn alle eine kosten würden?
 
@@ -764,6 +913,10 @@ Beide funktionieren. Schreib in einem Satz auf, welche Variante du beim Lesen fr
 4. **Setz den Rundenzähler an die andere Stelle.** Spiel bis Welle 3 und lies ab.
 5. **Rück eine Zeile aus der inneren Schleife um vier Leerzeichen nach links.** Läuft es? Was passiert jetzt wann?
 6. **Setz `kern_integritaet = 150`** und lass dir den Balken anzeigen.
+7. **Ersetz `/` durch `//`** in deiner Anteilsrechnung. Der Balken ist danach immer leer oder immer voll — sag vorher, welches von beidem, und begründe es.
+8. **Tausch `int()` gegen `round()`** in der Balkenrechnung. Setz die Kernintegrität auf 96 und dann auf 94. Bei welchem der beiden Werte unterscheiden sich die zwei Fassungen?
+9. **Leg einen Zähler erst innerhalb der Schleife an** und erhöh ihn dort mit `+=`. Lies die Fehlermeldung — oder überleg, warum keine kommt.
+10. **Nimm das `break` aus deiner `while True:`-Schleife.** Brich mit `Strg + C` ab. Das ist der Grund, warum Konzept 6b sagt, dass man das `break` zuerst tippt.
 
 **Die eigentlichen sind 3, 4 und 5** — alle drei laufen ohne eine einzige Fehlermeldung durch und tun das Falsche:
 
@@ -789,8 +942,11 @@ Alle drei in `GELERNT.md`, mit einem Satz dazu: **woran du sie erkannt hättest.
 | Nach dem Wellenende läuft die nächste trotzdem | `break` beendet nur die innere Schleife | Knobelstelle, Auftragsschritt 6 |
 | Immer dieselbe Eingabe wird verarbeitet | `input()` steht außerhalb der Schleife | Ins Innere der `while`-Schleife |
 | `NameError: name 'runde' is not defined` | Variable erst in der Schleife angelegt, außerhalb gelesen | Konzept 5 |
-| `TypeError: can't multiply sequence by non-int of type 'float'` | `"#" * 7.0` — die Anzahl ist eine Kommazahl | Etappe 1, Abschnitt 8 |
-| Balken ist immer leer | Ganzzahldivision `//` statt `/` | Die Anteilsrechnung |
+| `TypeError: can't multiply sequence by non-int of type 'float'` | `"#" * 7.0` — die Anzahl ist eine Kommazahl | Konzept 13b — `int()` oder `round()` |
+| Balken ist immer leer oder immer voll | `//` statt `/` bei der Anteilsrechnung — dann kommt 0 oder 1 heraus | Konzept 13b, erster und zweiter Abschnitt |
+| `NameError` beim ersten `+=` | Der Zähler wurde nicht vor der Schleife angelegt | Konzept 1b, Warnkasten |
+| Zwei Zahlen werden aneinandergehängt statt addiert | Eine davon ist ein String — `+=` hängt dann an | Konzept 1b, letzter Abschnitt; `print(type(x))` aus Etappe 1 |
+| Programm läuft für immer, obwohl ein `break` da ist | Die Bedingung des `break` wird nie wahr | Konzept 6b — schreib das `break` zuerst, dann den Rest |
 | **Balken zeigt immer denselben Stand** | Die Länge wird einmal oben berechnet statt beim Anzeigen | Konzept 14, Warnkasten — die Rechnung gehört in `status` |
 | Kernintegrität sinkt auch bei `status` | Die Schadenszeile steht am Ende des Schleifenkörpers statt in den zeitkostenden Zweigen | Auftragsschritt 17 |
 | Prozentzahl zeigt `7000%` | `anteil` war schon mit 100 multipliziert | `:.0%` erwartet die Zahl zwischen 0 und 1 |

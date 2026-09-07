@@ -1,9 +1,13 @@
 # Etappe 2 — Der erste Kontakt
 
+*v1.2.0 · 2026-09-02*
+
 > **Block 1: Fundament** · Etappe 2 von 30 · [← Etappe 1](etappe-01-der-abwurf.md) · [Lehrplan](../Vorposten_Lehrplan.md) · [Etappe 3 →](etappe-03-die-wellenschleife.md)
 
-**Boot.dev:** `if` / `elif` / `else`, Vergleiche, Booleans, `and` / `or` / `not`
-**Zeitaufwand:** 3 Sitzungen à 20–30 Minuten
+**Neue Syntax heute:** `if` · `elif` · `else` · der Doppelpunkt und die Einrückung · `==` `!=` `<` `>` `<=` `>=` · `True` und `False` · `and` `or` `not` · Klammern in Bedingungen · `.strip()` · Wahrheitswerte in Variablen speichern
+
+**Zeitaufwand:** 3–4 Sitzungen à 20–30 Minuten. Rund eine halbe Stunde davon ist Lesestoff.
+
 **Voraussetzung:** Etappe 1 abgeschlossen — `spiel.py` läuft, Klassenwahl wird eingelesen und bestätigt
 
 | 🔨 Bauen | 🧠 Verstehen | 👀 Nur erkennen |
@@ -91,7 +95,7 @@ Der Soldat hat **100 Trefferpunkte**. Die Kernintegrität aus Etappe 1 steht bei
 
 | Variable | Gehört zu | Woher | Fällt sie auf 0 |
 |---|---|---|---|
-| `trefferpunkte` | **deinem Marine** | heute, aus der Tabelle | dein Marine fällt aus |
+| `trefferpunkte` | **deinem Marine** | in **1** angelegt, heute aus der Tabelle gesetzt | dein Marine fällt aus — und damit endet der Lauf |
 | `kern_integritaet` | **der Anlage** | Etappe 1 | das Spiel ist verloren |
 
 Wer beides in eine Variable schreibt, hat ein Spiel, in dem der Soldat stirbt, sobald die Anlage getroffen wird — und in Etappe 11, wenn *jeder* der vier Marines eigene Trefferpunkte hat, ist der Umbau ungleich teurer als heute.
@@ -298,7 +302,7 @@ Python lässt in einem `if` nicht nur Booleans zu, sondern jeden Wert. Und behan
 
 ```python
 if munition:        # bedeutet: wenn munition nicht 0 ist
-    schiessen()
+    print("Feuer frei.")
 ```
 
 Das ist bequem, funktioniert hier sogar, und es ist trotzdem der Anfang eines Fehlers, der dich später erwischt. Denn `0` heißt nicht immer „nichts da":
@@ -408,7 +412,7 @@ Panzerung:     10
 
 Dieselben f-Strings, dieselbe `print()`-Technik, nur mehr Variablen darin. **Der ASCII-Kopf von gestern wird heute nicht angefasst** — er bleibt, wie er ist, und die neuen Zeilen kommen darunter zum übrigen Briefing.
 
-Das ist Absicht: Die Darstellung wächst nur, wenn das jeweilige Python-Thema das Werkzeug dafür mitbringt. Heute lernst du Verzweigungen. Der nächste sichtbare Schritt ist Etappe 3b, wo aus Zahlen Balken werden.
+Das ist Absicht: Die Darstellung wächst nur, wenn das jeweilige Python-Thema das Werkzeug dafür mitbringt. Heute lernst du Verzweigungen. Der nächste sichtbare Schritt ist Etappe 3c, wo aus Zahlen Balken werden.
 
 **5. Führ alle fünf Fälle durch** — `1`, `2`, `3`, `4` und `9`. Notier dir, welche Werte jeweils herauskommen. Wenn zwei Eingaben dieselben Werte liefern, hast du einen Fehler gefunden, bevor er dich gefunden hat.
 

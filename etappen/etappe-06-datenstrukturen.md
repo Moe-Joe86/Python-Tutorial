@@ -1,6 +1,6 @@
 # Etappe 6 — Liste, Dictionary, Set, Tuple
 
-*v1.1.0 · 2026-09-02*
+*v1.2.0 · 2026-09-07*
 
 > **Block 1: Fundament** · Etappe 6 von 30 · [← Etappe 5](etappe-05-vorposten-und-depot.md) · [Lehrplan](../Vorposten_Lehrplan.md) · [Etappe 7 →](etappe-07-aufraeumen.md)
 
@@ -589,7 +589,7 @@ Zwei Fälle, je nachdem wie du die Klasse speicherst:
 
 ### 4. Bau den Katalog `AUSBAUTEN`
 
-Ein Dictionary, Name → Preis in Schrott:
+Ein Dictionary, Name → Preis in Vaporium:
 
 | Kennung | Preis | Wirkung |
 |---|---|---|
@@ -619,15 +619,15 @@ Dieselbe Prüfreihenfolge wie beim Kauf in Etappe 5, mit einer Prüfung mehr:
 ```
 Gibt es die Kennung in AUSBAUTEN?      →  nein: Meldung, Ende
 Steht sie schon in freigeschaltet?     →  ja:   Meldung, Ende
-Reicht der Schrott?                    →  nein: Meldung, Ende
+Reicht das Vaporium?                    →  nein: Meldung, Ende
 ── ab hier wird verändert ──
-Schrott abbuchen
+Vaporium abbuchen
 Kennung ins Set aufnehmen
 ```
 
 ⚠️ *Die zweite Prüfung ist der Punkt von Konzept 4: Das Set verhindert den doppelten Eintrag von selbst — es verhindert nicht, dass du zweimal abbuchst. Genau dafür steht sie da.*
 
-**So prüfst du es:** `zielhilfe` freischalten, dann noch einmal. Der Schrott darf beim zweiten Mal nicht sinken. Dann `schalte frei tarnkappe` — Meldung, kein Absturz.
+**So prüfst du es:** `zielhilfe` freischalten, dann noch einmal. Das Vaporium darf beim zweiten Mal nicht sinken. Dann `schalte frei tarnkappe` — Meldung, kein Absturz.
 
 > **⏸ Guter Schnitt.** Freischaltungen laufen. Commit: `Etappe 6: Freischaltungen als Set`. Das Bestiarium ist der zweite Abend.
 
@@ -806,7 +806,7 @@ Zwei neue Zeilen, nur aufschreiben, nicht prüfen:
 
 ### 15. Der Rückwärtsgang
 
-Spiel drei volle Wellen — mit Bewegung, einem Kauf, einer Freischaltung, mindestens einem Bestiariumsaufruf. Kampf, Balken, Munition, Schrott, Anmarschbahn: alles muss sich verhalten wie nach Etappe 5.
+Spiel drei volle Wellen — mit Bewegung, einem Kauf, einer Freischaltung, mindestens einem Bestiariumsaufruf. Kampf, Balken, Munition, Vaporium, Anmarschbahn: alles muss sich verhalten wie nach Etappe 5.
 
 ---
 
@@ -854,10 +854,10 @@ Prüft den Zustand deines Programms, nicht dein Gefühl. Führ jeden Punkt tats�
 - [ ] `ausbauten` zeigt alle drei Einträge mit Preis, freigeschaltete sind markiert
 - [ ] ⭐ Ein vierter Eintrag in `AUSBAUTEN` erscheint in der Liste, **ohne dass du die Anzeige anfasst**
 - [ ] `ausbauten` außerhalb des Depots meldet, wo das Depot ist
-- [ ] `schalte frei zielhilfe` funktioniert einmal und bucht Schrott ab
-- [ ] ⭐ **Beim zweiten Mal sinkt der Schrott nicht** — und `freigeschaltet` enthält den Eintrag genau einmal
+- [ ] `schalte frei zielhilfe` funktioniert einmal und bucht Vaporium ab
+- [ ] ⭐ **Beim zweiten Mal sinkt das Vaporium nicht** — und `freigeschaltet` enthält den Eintrag genau einmal
 - [ ] `schalte frei tarnkappe` meldet, dass es das nicht gibt, und stürzt nicht ab
-- [ ] Freischalten mit zu wenig Schrott meldet das — und bucht **nichts** ab
+- [ ] Freischalten mit zu wenig Vaporium meldet das — und bucht **nichts** ab
 - [ ] Der Panzerbrecher verändert deinen Schaden pro Schuss nachweisbar
 - [ ] ⭐ **`len(gegner)` und `len(gegner_typen)` sind nach jedem Schuss gleich** — über drei volle Wellen geprüft, nicht angenommen
 - [ ] Auf der Anmarschbahn haben verschiedene Typen verschiedene Zeichen
@@ -921,7 +921,7 @@ Schritt 5 ist der Grund, warum diese Aufgabe existiert. Wenn du je Ausgaben aus 
 
 **4. Schreib in Schritt 6 die zweite Prüfung weg** („steht sie schon in `freigeschaltet`?"). Schalt dieselbe Ausbaute dreimal frei.
 
-⭐ **Das ist der Typ-3-Fehler dieser Etappe:** Kein Absturz, keine Meldung, `freigeschaltet` sieht danach vollkommen korrekt aus — genau ein Eintrag, wie es sein soll. Nur der Schrott ist dreimal weg. **Die Datenstruktur ist sauber und das Spiel ist kaputt.** Das ist Konzept 4 von der unangenehmen Seite, und es ist der Grund, warum dort der Zusatz steht.
+⭐ **Das ist der Typ-3-Fehler dieser Etappe:** Kein Absturz, keine Meldung, `freigeschaltet` sieht danach vollkommen korrekt aus — genau ein Eintrag, wie es sein soll. Nur das Vaporium ist dreimal weg. **Die Datenstruktur ist sauber und das Spiel ist kaputt.** Das ist Konzept 4 von der unangenehmen Seite, und es ist der Grund, warum dort der Zusatz steht.
 
 **5. ⭐ Brich die Invariante aus Entscheidung 1 — in zwei Stufen.**
 
@@ -992,7 +992,7 @@ Die folgenden drei sind Kür.
 | Die Reihenfolge der Ausgabe ändert sich zwischen zwei Läufen | Sets haben keine Reihenfolge | Beim **Ausgeben** sortieren, nicht beim Speichern |
 | Der lange Bestiariumstext erscheint nie | `add()` läuft vor der Prüfung | Auftragsschritt 10, Reihenfolge |
 | Der lange Text erscheint **jedes Mal** | Der Typ wird nie ins Set aufgenommen | Dieselbe Stelle, andere Hälfte |
-| Kein Fehler, aber Schrott verschwindet mehrfach | Die „schon freigeschaltet?"-Prüfung fehlt | Auftragsschritt 6 |
+| Kein Fehler, aber Vaporium verschwindet mehrfach | Die „schon freigeschaltet?"-Prüfung fehlt | Auftragsschritt 6 |
 | `a, b = paar` scheitert mit „too many values to unpack" | Links stehen weniger Namen als rechts Werte | Was liefert die rechte Seite wirklich? |
 | Zwei Gegner, aber nur einer auf der Bahn | Positionen in ein Set gelegt, Duplikat verschluckt | Kaputtmach-Experiment 6 |
 | `IndexError` beim Zeichnen der Bahn, mitten in der Welle | `gegner` und `gegner_typen` sind auseinandergelaufen | Nicht die Zeichenfunktion — die Stelle, an der entfernt wird |
@@ -1109,7 +1109,7 @@ Erst bei grünem Selbsttest. Alles hier ist freiwillig.
 
 **Die Ausbautenliste sortiert nach Preis.** `sorted()` mit dem passenden Schlüssel — und du merkst, dass ein Dictionary sich sortiert ausgeben lässt, ohne dass sich am Dictionary etwas ändert. Zwei Zeilen, und die Vorarbeit für den `lambda`-Sortierschlüssel aus Etappe 23a.
 
-**Ein Ausbau, der Schrott zurückgibt.** Ein Eintrag, den man wieder abgeben kann: `discard()` statt `add()`, halber Preis zurück. Kostet fünf Minuten und zeigt, dass ein Set in beide Richtungen funktioniert.
+**Ein Ausbau, das Vaporium zurückgibt.** Ein Eintrag, den man wieder abgeben kann: `discard()` statt `add()`, halber Preis zurück. Kostet fünf Minuten und zeigt, dass ein Set in beide Richtungen funktioniert.
 
 **Ein Zähler neben dem Set.** Wie oft ist dir jeder Typ begegnet? Das ist ausdrücklich **kein** Set — es ist ein Dictionary Typ → Anzahl, und der Punkt der Übung ist, dass du beide nebeneinander hast und an jeder Stelle weißt, welches du gerade brauchst.
 

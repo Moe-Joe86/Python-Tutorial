@@ -1,8 +1,8 @@
 # Etappe 8 — Die Bug-Jagd I
 
-*v1.1.0 · 2026-09-07*
+*v1.2.0 · 2026-09-07*
 
-> **Block 1: Fundament** · Etappe 8 von 30 · [← Etappe 7](etappe-07-aufraeumen.md) · [Lehrplan](../Vorposten_Lehrplan.md) · Etappe 9 →
+> **Block 1: Fundament** · Etappe 8 von 30 · [← Etappe 7](etappe-07-aufraeumen.md) · [Lehrplan](../Vorposten_Lehrplan.md) · [Etappe 9 →](etappe-09-alles-wird-zum-objekt.md)
 
 **Neue Syntax heute:** `breakpoint()` · die Debugger-Befehle `n` `s` `r` `c` `p` `l` `q` · der bedingte Breakpoint `if bedingung: breakpoint()` · `f"{wert!r}"` — die `!r`-Form im f-String · 👀 `repr()` als Funktion
 
@@ -170,7 +170,7 @@ Bevor der Debugger kommt, ein letzter Schliff an deinem alten Werkzeug. Zwei Kle
 **Erstens ein Präfix**, damit du deine Debug-Zeilen in der Ausgabe wiederfindest und hinterher sicher löschst:
 
 ```python
-print("### schrott jetzt:", schrott)
+print("### vaporium jetzt:", vaporium)
 ```
 
 Das `###` kennst du aus den letzten Etappen. Es hat einen zweiten Zweck: Vor dem Commit suchst du nach `###` und weißt, dass **jede** solche Zeile raus muss.
@@ -203,7 +203,7 @@ Wo du sie einfügst, hält das Programm an, sobald es dort ankommt, und du lande
 
 | Befehl | Kurz für | Was er tut |
 |---|---|---|
-| `p name` | *print* | Druckt den Wert einer Variablen. `p schrott` |
+| `p name` | *print* | Druckt den Wert einer Variablen. `p vaporium` |
 | `n` | *next* | Führt die aktuelle Zeile aus und geht zur nächsten — **über** Funktionsaufrufe hinweg |
 | `s` | *step* | Wie `n`, aber springt **in** einen Funktionsaufruf hinein |
 | `r` | *return* | Läuft bis zum Ende der aktuellen Funktion und hält dort |
@@ -291,7 +291,7 @@ Die Funktion ist fehlerfrei — **solange ihre Annahme stimmt**, dass sie einen 
 
 > **Wenn es knallt, prüf nicht nur die Zeile, sondern auch die Annahme, mit der sie aufgerufen wurde.** Das ist Konzept 4 noch einmal, aus einem anderen Winkel.
 
-Und noch subtiler ist die stille Variante aus Etappe 5: Ein Tippfehler **links** vom `=` stürzt nicht ab. `vorrat["srott"] = 40` legt klammheimlich einen neuen Eintrag `"srott"` an, während dein `"schrott"` unverändert bei null bleibt. Kein Traceback, keine Meldung — ein lupenreiner **Typ 3**.
+Und noch subtiler ist die stille Variante aus Etappe 5: Ein Tippfehler **links** vom `=` stürzt nicht ab. `vorrat["vaporum"] = 40` legt klammheimlich einen neuen Eintrag `"vaporum"` an, während dein `"vaporium"` unverändert bei null bleibt. Kein Traceback, keine Meldung — ein lupenreiner **Typ 3**.
 
 > **Wenn der Code stimmt und trotzdem etwas schiefgeht, verdächtige die Daten.** Diese Fehlerklasse kommt in Etappe 25 groß zurück, wenn deine Daten aus fremden Dateien stammen, die du beim Schreiben nicht im Blick hattest.
 
@@ -343,7 +343,7 @@ Anders als sonst baust du heute kein Spielfeature. Du legst **zwei Dokumente** a
 ### 1. Leg das Fehlertagebuch an
 
 - Erstell im Repo eine Datei `FEHLERTAGEBUCH.md`.
-- Jeder Eintrag ist **eine Zeile aus zwei Teilen**: das Symptom, dann — und das ist der wichtige Teil — **wie du den Fehler gefunden hast**. Etwa: *„Schrott blieb nach dem Kauf unverändert — mit `p schrott` vor und nach dem Kauf gefunden."*
+- Jeder Eintrag ist **eine Zeile aus zwei Teilen**: das Symptom, dann — und das ist der wichtige Teil — **wie du den Fehler gefunden hast**. Etwa: *„Vaporium blieb nach dem Kauf unverändert — mit `p vaporium` vor und nach dem Kauf gefunden."*
 - Schreib als ersten Eintrag den letzten echten Fehler hinein, an den du dich aus einer früheren Etappe erinnerst.
 
 *(Warum der Fundweg der wichtige Teil ist: Der Fehler selbst kommt nie wieder. Das Verfahren, mit dem du ihn gefunden hast, schon. Das Symptom steht nur deshalb daneben, weil du in Etappe 26 aus jedem dieser Einträge einen Test baust — und dafür musst du wissen, **was** falsch war, nicht nur wie du es gemerkt hast. Zwei knappe Halbsätze reichen; das hier soll kein Fehlerbericht werden.)*
@@ -367,7 +367,7 @@ Ordne jeden der drei **beiden** Landkarten zu (klassisch **und** Typ 1/2/3).
 
 - Setz ein `breakpoint()` an eine Stelle in deiner Hauptschleife, an der eine Runde abgehandelt wird.
 - Starte das Spiel. Wenn `(Pdb)` erscheint, tipp zuerst `l` — wo genau stehst du gerade?
-- Sieh dir mit `p` drei Variablen an — etwa `p schrott`, `p munition`, und was bei dir gerade interessant ist. **Achte darauf, bei welchen davon Anführungszeichen erscheinen.** Das ist die repr-Form aus Konzept 5, und sie sagt dir auf einen Blick, was ein String ist und was eine Zahl.
+- Sieh dir mit `p` drei Variablen an — etwa `p vaporium`, `p munition`, und was bei dir gerade interessant ist. **Achte darauf, bei welchen davon Anführungszeichen erscheinen.** Das ist die repr-Form aus Konzept 5, und sie sagt dir auf einen Blick, was ein String ist und was eine Zahl.
 - Geh mit `n` ein paar Zeilen weiter. Steig mit `s` einmal **in** eine deiner Funktionen hinein und mit `r` wieder heraus.
 - Beende mit `c` oder `q`. **Nimm das `breakpoint()` danach wieder heraus.**
 
@@ -517,7 +517,7 @@ Acht Trainingsbugs — einer je Fehlertyp, dazu die klassischen Fallen:
 
 **6. Der Fehler in den Daten, nicht im Code.** Frag einen Nachbar-Sektor ab, den es nicht gibt — einen Namen, der in deiner Karte fehlt. Der Code ist korrekt, der `KeyError` kommt trotzdem. Woran erkennst du, dass die Ursache in den Daten liegt und nicht in der Funktion?
 
-**7. Der stille Tippfehler links vom `=`.** Verschreib dich beim Anlegen eines Vorrats-Schlüssels (`vorrat["srott"]` statt `"schrott"`). Kein Absturz. Was passiert stattdessen mit deinem echten Schrott, und wie findest du es? *(Reiner Typ 3, aus Etappe 5.)*
+**7. Der stille Tippfehler links vom `=`.** Verschreib dich beim Anlegen eines Vorrats-Schlüssels (`vorrat["vaporum"]` statt `"vaporium"`). Kein Absturz. Was passiert stattdessen mit deinem echten Vaporium, und wie findest du es? *(Reiner Typ 3, aus Etappe 5.)*
 
 **8. Zwei Fehler gleichzeitig.** Bau zwei der obigen zusammen ein. Jetzt zählt das Halbieren: Kannst du sie **einzeln** einkreisen, statt beide auf einmal zu suchen?
 

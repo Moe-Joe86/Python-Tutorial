@@ -1,6 +1,6 @@
 # Das Syntaxregister — welches Werkzeug ab wann zur Verfügung steht
 
-*v1.4.0 · 2026-09-07*
+*v1.6.0 · 2026-09-07*
 
 > Verbindlicher Anhang zum [Lehrplan](Vorposten_Lehrplan.md). Diese Datei ist die einzige Quelle der Wahrheit darüber, was ein Lernender an einem bestimmten Punkt kennt.
 
@@ -162,6 +162,9 @@ Kein Python. Terminal, Git, virtuelle Umgebung, `pip`. Steht im Lehrplan, nicht 
 | `", ".join(liste)` — Trennzeichen ruft auf, Liste in die Klammern | 14 | 🔨 |
 | `AttributeError` bei vertauschter Reihenfolge | 14 | 🧠 |
 | `print(dir(x))` und `help(x.methode)` — Ausgabe lesen, Dunder überspringen | Vorspann | 🔨 |
+| *(Kür)* `import random` — nur als Gebrauchsanweisung, erklärt wird er in **24** | Kür | 🔨 |
+| *(Kür)* `random.choice(liste)` — ein zufälliger Eintrag, **gleichverteilt** | Kür | 🔨 |
+| ⚠️ Gewichte (`random.choices` mit `weights=`) gehören **nicht** hierher — Zahltag ist **17a** | — | ⛔ |
 
 ---
 
@@ -252,11 +255,36 @@ Kein Python. Terminal, Git, virtuelle Umgebung, `pip`. Steht im Lehrplan, nicht 
 
 ---
 
+## Etappe 9 — Alles wird zum Objekt
+
+| Werkzeug | Konzept | Stufe |
+|---|---|---|
+| `class Name:` — der Bauplan | 2 | 🔨 |
+| `def __init__(self, ...)` — richtet das neu erzeugte Objekt ein | 2 | 🔨 |
+| `self` als erster Parameter jeder Methode | 3 | 🔨 |
+| `self.attribut = wert` — Wert am Objekt festmachen | 2 | 🔨 |
+| `objekt = Klasse(...)` — ein Objekt erzeugen | 2 | 🔨 |
+| `objekt.attribut` lesen und schreiben | 6 | 🔨 |
+| `def methode(self):` und `objekt.methode()` | 5 | 🔨 |
+| `objekt.attribut["schluessel"]` — Punkt und Klammer hintereinander | 6 | 🔨 |
+| `def __repr__(self)` — die Entwicklerdarstellung, mit `return` | 9 | 🔨 |
+| `repr(objekt)` löst `__repr__` aus (aus Etappe 8, jetzt an eigenen Klassen) | 10 | 🔨 |
+| `TypeError: … takes 0 positional arguments` — `self` vergessen | 4 | 🧠 |
+| `AttributeError: object has no attribute` | 6 | 🧠 |
+| Fehlendes `self.` erzeugt still eine lokale Variable — Typ 3 | 4 | 🧠 |
+| `__str__` und der Rückfall von `print()` auf `__repr__` | 11 | 👀 |
+| Dunder-Methoden als Begriff — Python löst sie über normale Syntax aus | 10 | 👀 |
+| `RecursionError`, wenn `__repr__` sich selbst einsetzt | Kaputtmachen | 👀 |
+
+*(`dir()` und `help()` stehen seit Etappe 4 auf 🔨 und werden hier nur an eigenen Klassen wiederholt — kein neuer Eintrag. Vererbung, `super()` und weitere Dunder gehören zu **11**.)*
+
+---
+
 ## Offene Lücken
 
 Werkzeuge, die eine Aufgabe braucht und die kein Guide erklärt. **Jede solche Zeile blockiert einen Lernenden, der keine zweite Quelle hat.**
 
-> **Für die Etappen 1 bis 8: keine.** Alle Werkzeuge, die ein Auftragsschritt dort verlangt, sind vorher erklärt.
+> **Für die Etappen 1 bis 9: keine.** Alle Werkzeuge, die ein Auftragsschritt dort verlangt, sind vorher erklärt.
 
 **Diese Tabelle bleibt trotzdem stehen**, weil sie beim Schreiben jeder weiteren Etappe wieder gebraucht wird. Findest du eine Lücke, trag sie hier ein — mit der Etappe, die sie braucht, und der Etappe, in die die Erklärung gehört.
 

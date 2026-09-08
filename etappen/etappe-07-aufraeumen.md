@@ -1,8 +1,8 @@
 # Etappe 7 — Aufräumen
 
-*v1.1.0 · 2026-09-02*
+*v1.2.1 · 2026-09-07*
 
-> **Block 1: Fundament** · Etappe 7 von 30 · [← Etappe 6](etappe-06-datenstrukturen.md) · [Lehrplan](../Vorposten_Lehrplan.md) · Etappe 8 →
+> **Block 1: Fundament** · Etappe 7 von 30 · [← Etappe 6](etappe-06-datenstrukturen.md) · [Lehrplan](../Vorposten_Lehrplan.md) · [Etappe 8 →](etappe-08-die-bug-jagd.md)
 
 **Neue Syntax heute:** `def` · Parameter und Argumente · `return`, auch mehrfach im selben Körper · `return a, b` · Standardargumente · Docstrings · Scope · 👀 `global` · 👀 `assert`
 
@@ -57,7 +57,7 @@ Das Ritual seit Etappe 4 — und heute ist es wichtiger als je zuvor, weil du **
 
 ### Wie kommt Zustand in deine Funktionen? ⭐
 
-Deine Funktionen brauchen Werte, die außerhalb von ihnen liegen — Munition, Schrott, Kernintegrität, die Gegnerliste. Es gibt drei Wege, und du musst dich heute entscheiden.
+Deine Funktionen brauchen Werte, die außerhalb von ihnen liegen — Munition, Vaporium, Kernintegrität, die Gegnerliste. Es gibt drei Wege, und du musst dich heute entscheiden.
 
 | | Alles als Parameter | `global` | Ein Dictionary „Spielzustand" |
 |---|---|---|---|
@@ -348,7 +348,7 @@ Wenn du beim Auslagern merkst, dass `kaufe()` eigentlich auch eine Mengenprüfun
 
 **Der Umbau bekommt einen Beweis, keine Hoffnung.**
 
-Bevor du irgendetwas anfasst, schreib eine Befehlsfolge von fünfzehn bis zwanzig Zeilen auf, die dein Spiel gründlich durchgeht. **Gerade die Fälle, die schiefgehen, gehören dazu** — leere Eingabe, unbekannter Befehl, Kauf ohne Schrott, `nimm` ohne zweites Wort.
+Bevor du irgendetwas anfasst, schreib eine Befehlsfolge von fünfzehn bis zwanzig Zeilen auf, die dein Spiel gründlich durchgeht. **Gerade die Fälle, die schiefgehen, gehören dazu** — leere Eingabe, unbekannter Befehl, Kauf ohne Vaporium, `nimm` ohne zweites Wort.
 
 Dann brauchst du einen Weg, dein Programm zweimal **exakt gleich** zu bedienen — von Hand tippst du dich sonst irgendwann selbst in einen Unterschied hinein. Dafür gibt es zwei Zeichen im Terminal, die du hier zum ersten Mal siehst:
 
@@ -490,7 +490,7 @@ Nach **jeder einzelnen** herausgelösten Funktion ausführen. Nicht nach fünf.
 ### 1. Schreib die Befehlsfolge für den Beweis
 
 - Eine Textdatei `befehle.txt` mit fünfzehn bis zwanzig Zeilen, eine Eingabe pro Zeile.
-- Deck alles ab: gültige Befehle, Kauf, Freischaltung, Bewegung, Bestiarium — **und die Fehlerfälle**: leere Zeile, unbekannter Befehl, `nimm` ohne Ziel, Kauf ohne Schrott.
+- Deck alles ab: gültige Befehle, Kauf, Freischaltung, Bewegung, Bestiarium — **und die Fehlerfälle**: leere Zeile, unbekannter Befehl, `nimm` ohne Ziel, Kauf ohne Vaporium.
 - Am Ende `beenden`.
 
 ```bash
@@ -515,12 +515,12 @@ python spiel.py < befehle.txt > vorher.txt
 
 ⭐ **Und jetzt mach absichtlich einen Fehler, bevor du ihn korrigierst.**
 
-Gib `zeige_status()` beim ersten Versuch **jeden** Wert als Parameter, den sie irgendwie berühren könnte — Kernintegrität, Schrott, Munition, Sektor, Wellennummer, Gegnerliste, Freischaltungen, den Spielernamen. Auch die, die sie gar nicht braucht.
+Gib `zeige_status()` beim ersten Versuch **jeden** Wert als Parameter, den sie irgendwie berühren könnte — Kernintegrität, Vaporium, Munition, Sektor, Wellennummer, Gegnerliste, Freischaltungen, den Spielernamen. Auch die, die sie gar nicht braucht.
 
 Dann sieh dir die erste Zeile an:
 
 ```python
-def zeige_status(kern, schrott, munition, sektor, welle, gegner, freigeschaltet, name):
+def zeige_status(kern, vaporium, munition, sektor, welle, gegner, freigeschaltet, name):
 ```
 
 **Beantworte zwei Fragen ehrlich, bevor du etwas änderst:**
@@ -561,7 +561,7 @@ Das kostet zwei Minuten und erspart dir die Lage, in der du eine Stunde später 
 - Die Reihenfolge bleibt exakt wie sie war: **erst alle Prüfungen, dann verändern.**
 - Nutz die frühe Abfahrt aus Konzept 4, wenn es die Verschachtelung flacher macht.
 
-**So prüfst du es:** Kauf mit zu wenig Schrott, Kauf bei vollem Inventar, `kaufe hubschrauber`, doppeltes Freischalten. Alle vier Meldungen müssen wortgleich sein.
+**So prüfst du es:** Kauf mit zu wenig Vaporium, Kauf bei vollem Inventar, `kaufe hubschrauber`, doppeltes Freischalten. Alle vier Meldungen müssen wortgleich sein.
 
 ---
 
@@ -813,9 +813,9 @@ Die folgenden drei sind Kür.
 
 **5. Setz einen Standardwert nach vorn:** `def f(a=1, b)`. Lies die Fehlermeldung und überleg, warum Python das nicht zulassen kann.
 
-**6. Bau `global` ein.** Nimm es in einer Funktion, um `schrott` direkt zu verändern, und lösch den entsprechenden Parameter. Es funktioniert — und ist kürzer.
+**6. Bau `global` ein.** Nimm es in einer Funktion, um `vaporium` direkt zu verändern, und lösch den entsprechenden Parameter. Es funktioniert — und ist kürzer.
 
-**Und jetzt die Frage, um die es geht:** Wie viele Zeilen musst du lesen, um herauszufinden, welche Funktionen deinen Schrott verändern? Vorher stand es in jeder Signatur. Danach zurückbauen.
+**Und jetzt die Frage, um die es geht:** Wie viele Zeilen musst du lesen, um herauszufinden, welche Funktionen dein Vaporium verändern? Vorher stand es in jeder Signatur. Danach zurückbauen.
 
 **7. Ruf eine Funktion auf, bevor sie definiert ist.** Schieb einen Aufruf über die `def`-Zeile. Lies die Fehlermeldung — sie erklärt dir, was `def` eigentlich tut.
 
@@ -861,7 +861,7 @@ def berechne_schaden(waffe, ziel):
 
 Zwei Zeilen an den **Grenzen** der Funktion. Damit findest du in einer Minute heraus, ob eine Funktion falsch rechnet oder falsch gefüttert wird — und das sind zwei völlig verschiedene Fehler an zwei völlig verschiedenen Stellen.
 
-**Nachsehen schlägt Vermuten**, seit Etappe 1. In Etappe 8 löst der Debugger alle sechs `print`-Reflexe ab.
+**Nachsehen schlägt Vermuten**, seit Etappe 1. In Etappe 8 löst **ein** `breakpoint()` alle bisherigen `print`-Reflexe auf einmal ab.
 
 *(Und vor dem Commit: alle `###`-Zeilen raus.)*
 

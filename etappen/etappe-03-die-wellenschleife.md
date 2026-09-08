@@ -1,6 +1,6 @@
 # Etappe 3 — Die Wellenschleife ⭐
 
-*v1.2.0 · 2026-09-02*
+*v1.3.0 · 2026-09-07*
 
 > **Block 1: Fundament** · Etappe 3 von 30 · [← Etappe 2](etappe-02-der-erste-kontakt.md) · [Lehrplan](../Vorposten_Lehrplan.md) · [Etappe 4 →](etappe-04-ausruestung-und-beute.md)
 
@@ -85,7 +85,7 @@ Bei Schleifen zahlt das ab heute doppelt: Der häufigste Schleifenfehler ist nic
 |---|---|
 | **Die Hauptschleife selbst** | **12** — jeder Durchlauf löst einen Tick aus · **28** — sie wird zur Pygame-Loop |
 | **Die `elif`-Kette der Befehle** | **7a** — wandert in eine Funktion · **23a** — stirbt durch ein Befehls-Dictionary |
-| **Deine Befehlssprache** | **4** — `nimm schrott` · **5** — `kaufe medkit` |
+| **Deine Befehlssprache** | **4** — `nimm vaporium` · **5** — `kaufe medkit` |
 | **Die Platzhalter-Kampfformel** | **21a** — wird zur echten Trefferrechnung |
 
 ---
@@ -96,7 +96,7 @@ Bei Schleifen zahlt das ab heute doppelt: Der häufigste Schleifenfehler ist nic
 
 **A — ein Wort:** `feuern`, `status`, `nachladen`, `beenden`. Der Vergleich ist ein simples `==`, genau wie in Etappe 2.
 
-**B — Verb und Ziel:** `feuern nordtor`, `nimm schrott`, `kaufe medkit`. Braucht ein Werkzeug, das die Eingabe zerlegt — das ist Etappe 4.
+**B — Verb und Ziel:** `feuern nordtor`, `nimm vaporium`, `kaufe medkit`. Braucht ein Werkzeug, das die Eingabe zerlegt — das ist Etappe 4.
 
 **Bau heute A.** Und schreib in `GELERNT.md`:
 
@@ -564,7 +564,7 @@ Führ aus und tippe ` BEENDEN ` — mit Leerzeichen davor und dahinter, in Groß
 
 | Befehl | Was er heute tut | Kostet eine Runde? |
 |---|---|---|
-| `status` | Gibt Kernintegrität, Munition und Schrott aus — die Zahlen, die du seit Etappe 1 hast | **nein** |
+| `status` | Gibt Kernintegrität, Munition und Vaporium aus — die Zahlen, die du seit Etappe 1 hast | **nein** |
 | `feuern` | Gibt vorerst nur eine Meldung aus | ja |
 | `nachladen` | Gibt vorerst nur eine Meldung aus | ja |
 | `beenden` | Beendet die Welle (hast du in 3a gebaut) | — |

@@ -1,6 +1,6 @@
 # Etappe 4 — Ausrüstung und Beute
 
-*v1.2.0 · 2026-09-07*
+*v1.4.0 · 2026-09-07*
 
 > **Block 1: Fundament** · Etappe 4 von 30 · [← Etappe 3](etappe-03-die-wellenschleife.md) · [Lehrplan](../Vorposten_Lehrplan.md) · [Etappe 5 →](etappe-05-vorposten-und-depot.md)
 
@@ -28,7 +28,7 @@ Sieh dir an, was in deinem Programm gerade einen Gegner darstellt: eine Variable
 
 Das kannst du nicht beantworten. Nicht weil dir Python fehlt, sondern weil in deinem Programm gar keine einzelnen Gegner existieren. Es gibt eine Anzahl. Eine Anzahl hat keine Position, keinen Zustand und keine Reihenfolge. Man kann sie hochzählen und runterzählen, mehr nicht.
 
-Dasselbe von der anderen Seite: Nach einer Welle liegt Zeug im Vorfeld. Schrott, ein Munitionskasten, irgendein Ding von der Brut. Mit Einzelvariablen könntest du das aufheben — `hat_schrott = True`, `hat_kasten = True` — und beim dritten Fundstück merkst du, dass du eine Variable pro möglichem Gegenstand brauchst und beim vierten wieder den Code anfassen musst.
+Dasselbe von der anderen Seite: Nach einer Welle liegt Zeug im Vorfeld. Ein Chitinpanzer, ein Organ, irgendein Ding von der Brut. Mit Einzelvariablen könntest du das aufheben — `hat_vaporium = True`, `hat_kasten = True` — und beim dritten Fundstück merkst du, dass du eine Variable pro möglichem Gegenstand brauchst und beim vierten wieder den Code anfassen musst.
 
 **Beides ist dasselbe Problem, und es hat einen Namen, unter dem diese ganze Etappe steht:**
 
@@ -121,7 +121,7 @@ Die dritte Zeile ist die kürzeste und die einzige, bei der du wirklich aufpasse
 | `for` über eine Liste statt über `range()` | **12** — der Tick läuft über die Einheitenliste; **14a** — dieselbe Schleife über ein Raster |
 | Zwei identische Gegenstände sind nicht unterscheidbar | **11** — genau deshalb werden aus Strings Objekte |
 | `.split()` für Zwei-Wort-Befehle | **5** — `kaufe medkit`; **7a** — `verarbeite_befehl()` |
-| Schrott als Währung | **5** — der Kaufvorgang; **22** — Kosten in Bauplänen |
+| Vaporium als Währung | **5** — der Kaufvorgang; **22** — Kosten in Bauplänen |
 | Der Datenkern der Brut (heute nutzlos) | **15** — er wird zur ersten Erkenntnis |
 | **Die Anmarschbahn als eine Zeile** ⭐ | **14a** — aus einer Zeile wird ein Raster; **7b** — sie wandert in `zeichne_bahn()` |
 | Position eines Gegners ↔ Zeichen an dieser Stelle | **14a** — Position als Tuple, Zeichen aus dem Raster |
@@ -134,7 +134,7 @@ Die dritte Zeile ist die kürzeste und die einzige, bei der du wirklich aufpasse
 |---|---|---|
 | **1** | „Ein Name zeigt auf einen Wert" statt „eine Variable ist ein Behälter" | Konzept 9 — zwei Namen, ein Objekt |
 | **2** | Truthy und Falsy, besonders die `0` | Konzept 11 — die leere Liste ist falsy |
-| **2** | `.strip()` auf Eingaben | Konzept 12 — beim Zerlegen von `nimm  schrott` |
+| **2** | `.strip()` auf Eingaben | Konzept 12 — beim Zerlegen von `nimm  vaporium` |
 | **3a** | `range()` zählt ab 0, die zweite Zahl ist nicht dabei | Konzept 3 — derselbe Grund, warum der erste Index 0 ist |
 | **3b** | `.lower()` auf der Eingabe | Konzept 12 — dieselbe Kette, jetzt mit `.split()` |
 | **3b** | Die einwortige Befehlssprache, bewusst gewählt | Konzept 12 — heute wird sie umgebaut, und du merkst, was das kostet |
@@ -154,7 +154,7 @@ Was steht in deiner Liste?
 
 | | Kennung | Anzeigename |
 |---|---|---|
-| Sieht so aus | `"munitionskasten"` | `"Munitionskasten (halbvoll)"` |
+| Sieht so aus | `"chitinpanzer"` | `"Chitinpanzer (rissig)"` |
 | Der Spieler tippt | genau das | irgendetwas anderes, du musst übersetzen |
 | Beim Vergleichen | ein direkter Vergleich | Groß-/Kleinschreibung, Leerzeichen, Klammern |
 | Beim Anzeigen | sieht karg aus | sieht gut aus |
@@ -247,7 +247,7 @@ Sieh dir an, was in deinem Programm steht, und beantworte für jeden Wert eine e
 |---|---|---|
 | Kernintegrität | eine Menge | Zahl |
 | **Munition** | **eine Menge** | **Zahl — bleibt eine Zahl** |
-| Schrott | eine Menge | Zahl |
+| Vaporium | eine Menge | Zahl |
 | Gegner der Welle | mehrere unterscheidbare Dinge | Liste |
 | Was du bei dir trägst | mehrere unterscheidbare Dinge | Liste |
 
@@ -255,11 +255,13 @@ Sieh dir an, was in deinem Programm steht, und beantworte für jeden Wert eine e
 
 **Warum das hier so viel Gewicht bekommt und nicht in einem Nebensatz steht:** *„Welche Struktur beschreibt dieses Problem?"* ist die Frage, um die es in Etappe 6 vollständig geht und die dich bis Etappe 25 begleitet. Heute triffst du sie zum ersten Mal — und zwar als Frage, die man auch falsch beantworten kann. Wer nach dieser Etappe alles zu Listen macht, hat Listen gelernt und Modellieren verlernt.
 
-Ein Sonderfall, der dir gleich begegnen wird: **Was ist Schrott im Inventar?**
+Ein Sonderfall, der dir gleich begegnen wird: **Was ist ein Chitinpanzer im Inventar?**
 
-Er ist eine Menge — und trotzdem landet er heute in der Liste, weil du noch nichts anderes hast. **Ja, du wirst zweimal `"schrott"` untereinander stehen haben. Das ist Absicht, und es ist keine gute Mengenverwaltung.**
+Er ist eine **Menge** — fünf erlegte Kreaturen hinterlassen fünf Panzerstücke, und die sind untereinander nicht zu unterscheiden. Trotzdem landet jedes einzeln in der Liste, weil du noch nichts anderes hast. **Ja, du wirst fünfmal `"chitinpanzer"` untereinander stehen haben. Das ist Absicht, und es ist keine gute Mengenverwaltung.**
 
 Bei zwei Stück ist das komisch, bei fünfzig lächerlich. Sag es dir laut, wenn es passiert — dann verstehst du in Etappe 5 in der ersten Minute, wozu die dritte Struktur da ist.
+
+**Der Datenkern dagegen ist ein Einzelstück** — es gibt genau einen, er ist nicht zählbar, er gehört in eine Liste. **Zwei Sorten Ding in derselben Liste, und nur eine davon liegt dort richtig.** Genau diese Unterscheidung ist der Gegenstand von Etappe 6.
 
 ### 3. Der Index fängt bei 0 an — und du weißt schon, warum
 
@@ -372,7 +374,7 @@ Zwei Eigenschaften, die man kennen muss:
 
 Und daran hängt eine Frage, die heute noch harmlos aussieht: Du trägst zwei Medkits. Du benutzt eines. **Welches?** Die ehrliche Antwort lautet heute: egal, sie sind identisch — es steht zweimal dasselbe Wort in der Liste, und zwischen zwei gleichen Wörtern gibt es nichts zu unterscheiden.
 
-Behalt diese Frage. Sobald zwei Medkits *nicht* mehr identisch sind — eines halb verbraucht, eines abgelaufen —, hört die Antwort auf zu funktionieren, und dann brauchst du etwas, das mehr ist als ein Wort. Das ist Etappe 11, und du hast gerade selbst den Grund dafür gefunden. Das wird dir bei Schrott begegnen, sobald du mehrere Stücke davon hast — und es ist der erste Hinweis darauf, dass Listen für *Mengen* das falsche Werkzeug sind. In Etappe 5 löst ein Dictionary das.
+Behalt diese Frage. Sobald zwei Medkits *nicht* mehr identisch sind — eines halb verbraucht, eines abgelaufen —, hört die Antwort auf zu funktionieren, und dann brauchst du etwas, das mehr ist als ein Wort. Das ist Etappe 11, und du hast gerade selbst den Grund dafür gefunden. Das wird dir bei den Chitinpanzern begegnen, sobald du mehrere davon hast — und es ist der erste Hinweis darauf, dass Listen für *Mengen* das falsche Werkzeug sind. In Etappe 5 löst ein Dictionary das.
 
 **Und es scheitert laut**, wenn nichts zu entfernen ist:
 
@@ -569,7 +571,7 @@ Das ist keine Stilfrage. In Etappe 5 kommen `gehe`, `depot` und `kaufe` dazu, in
 **Zwei Dinge, die du selbst ausprobieren sollst**, bevor du baust:
 
 ```python
-"  NIMM   Schrott  ".strip().lower().split()
+"  NIMM   Vaporium  ".strip().lower().split()
 ```
 
 Sag vorher, was nach jedem der drei Schritte dasteht. Dann ausführen. **Das ist die Eingabezeile, die dein Spiel von hier bis Etappe 25 benutzt.**
@@ -713,8 +715,10 @@ Das Muster steht in Konzept 12. Halt dich an die Reihenfolge dort.
 ### 3. Leg das Vorfeld an
 
 - Eine zweite Liste mit dem, was nach einer Welle draußen liegt.
-- Vier Gegenstände: `"schrott"`, `"munitionskasten"`, `"panzerplatte"`, `"datenkern"`.
+- Vier Gegenstände: `"chitinpanzer"`, `"organ"`, `"panzerplatte"`, `"datenkern"`.
 - Zeig sie an — entweder als eigener Befehl oder am Ende jeder Welle.
+
+**Woher das kommt:** Was die Brut hinterlässt, ist die Brut selbst — Panzerstücke und Organe. Die Forschung nimmt beides ab und zahlt in **Vaporium**. **Deshalb liegt hier weder Vaporium noch Munition:** Vaporium ist Währung und fällt nicht vom Himmel, Munition wird gekauft und nicht von Insekten getragen. Beides bekommst du in Etappe 5, indem du dein Material verkaufst.
 
 *(Der Datenkern tut heute nichts. Das ist Absicht — er wird in Etappe 15 eingelöst.)*
 
@@ -726,7 +730,7 @@ Das Muster steht in Konzept 12. Halt dich an die Reihenfolge dort.
 - `ablege` bewegt ihn zurück.
 - **Prüf zuerst, ob der Gegenstand überhaupt da ist.** Erst danach entfernen und hinzufügen.
 
-**So prüfst du es:** `nimm schrott`, dann `inventar`, dann `nimm schrott` noch einmal. Beim zweiten Mal muss eine Meldung kommen, dass dort nichts mehr liegt.
+**So prüfst du es:** `nimm vaporium`, dann `inventar`, dann `nimm vaporium` noch einmal. Beim zweiten Mal muss eine Meldung kommen, dass dort nichts mehr liegt.
 
 *(Warum erst prüfen: Konzept 10. Wer zuerst entfernt und dann merkt, dass es nicht geht, hat den Gegenstand gelöscht statt bewegt.)*
 
@@ -816,16 +820,16 @@ Wenn etwas davon nicht mehr geht, hast du nicht erweitert, sondern umgebaut.
 ## Was NICHT in diese Etappe gehört
 
 - ❌ **Gegenstände als Objekte mit Eigenschaften** (Gewicht, Schaden, Haltbarkeit) → Etappe 11
-- ❌ **Mengen und Stapel** („3× Schrott" statt dreimal `"schrott"`) → Etappe 5, mit einem Dictionary
+- ❌ **Mengen und Stapel** („3× Chitinpanzer" statt dreimal `"chitinpanzer"`) → Etappe 5, mit einem Dictionary
 - ❌ **Kaufen, Verkaufen, ein Depot** → Etappe 5
 - ❌ **Gegner mit eigenen Trefferpunkten und Typen** → Etappe 11 und 17a
 - ❌ **`try` / `except` beim Entfernen** → Etappe 20
 - ❌ **Ein zweidimensionales Vorfeld** → Etappe 14a
 - ❌ **Zeichenfunktionen, die als eigene Schicht leben** → Etappe 7b
 - ❌ **Wegfindung, Ausweichen, Gegner, die um etwas herumlaufen** → notieren, frühestens nach 27
-- ❌ **Balancing** (wie viel Schrott, wie viele Gegner) → notieren, Etappe 21a
+- ❌ **Balancing** (wie viel Vaporium, wie viele Gegner) → notieren, Etappe 21a
 
-**Der verlockendste Punkt ist der erste, und das Gefühl dahinter ist völlig richtig.** Es *stimmt*, dass ein Munitionskasten mehr ist als das Wort `"munitionskasten"` — er hat einen Inhalt, ein Gewicht, vielleicht einen Zustand. Und du wirst heute mehrfach an eine Stelle kommen, an der ein String zu wenig ist.
+**Der verlockendste Punkt ist der erste, und das Gefühl dahinter ist völlig richtig.** Es *stimmt*, dass ein Chitinpanzer mehr ist als das Wort `"chitinpanzer"` — er hat eine Größe, einen Zustand, vielleicht einen Wert. Und du wirst heute mehrfach an eine Stelle kommen, an der ein String zu wenig ist.
 
 Bau es trotzdem nicht. Nicht weil es falsch wäre, sondern wegen der Reihenfolge: **Der Grund, warum eine Klasse besser ist als ein String, ist der Schmerz, den ein String macht.** Wer heute Objekte baut, lernt in Etappe 11 die Syntax und hält sie für Zeremonie. Wer heute mit Strings arbeitet und dabei dreimal denkt „hier fehlt was", weiß in Etappe 11 in der ersten Minute, wozu Klassen da sind.
 
@@ -838,12 +842,12 @@ Notier diese Momente. Jedes Mal, wenn dir heute ein String zu dünn vorkommt, sc
 Prüft den Zustand deines Programms, nicht dein Gefühl. Führ jeden Punkt tatsächlich aus.
 
 - [ ] `inventar` bei leerem Inventar sagt etwas anderes als bei vollem — und stürzt nicht ab
-- [ ] `nimm schrott` funktioniert, `NIMM  Schrott` mit Großbuchstaben und zwei Leerzeichen auch
+- [ ] `nimm vaporium` funktioniert, `NIMM  Vaporium` mit Großbuchstaben und zwei Leerzeichen auch
 - [ ] `nimm` allein tippen führt nicht zum Absturz
 - [ ] Enter drücken, ohne etwas zu tippen, führt nicht zum Absturz
 - [ ] `nimm hubschrauber` sagt, dass hier so etwas nicht liegt
 - [ ] Ein genommener Gegenstand liegt danach **nicht mehr** im Vorfeld — und `nimm` desselben Dings ein zweites Mal meldet, dass da nichts mehr ist
-- [ ] `ablege schrott` legt ihn zurück; danach kannst du ihn erneut nehmen
+- [ ] `ablege vaporium` legt ihn zurück; danach kannst du ihn erneut nehmen
 - [ ] Beim elften Gegenstand kommt eine Meldung, und der Gegenstand bleibt liegen, wo er lag
 - [ ] Alle Befehle aus Etappe 3b (`feuern`, `status`, `nachladen`, `beenden`) tun genau das, was sie vorher taten
 - [ ] In `gegner` stehen **Zahlen, keine Zeichen** — such nach `"K"` in deiner Gegnerliste; es darf dort nicht vorkommen
@@ -974,7 +978,7 @@ Alle vier Reflexe folgen demselben Grundsatz, und er ist der eigentliche Ertrag 
 
 ## Ein Blick nach vorne
 
-**Etappe 5** braucht `.split()` sofort wieder, für `kaufe medkit`. Und dort merkst du, warum eine Liste für Mengen das falsche Werkzeug ist: Drei Stück Schrott dreimal einzeln einzutragen ist die Sorte Lösung, die bei fünfzig Stück lächerlich wird. Ein Dictionary löst das.
+**Etappe 5** braucht `.split()` sofort wieder, für `kaufe medkit`. Und dort merkst du, warum eine Liste für Mengen das falsche Werkzeug ist: Drei Stück Vaporium dreimal einzeln einzutragen ist die Sorte Lösung, die bei fünfzig Stück lächerlich wird. Ein Dictionary löst das.
 
 **Etappe 6** stellt Liste, Dictionary, Set und Tuple nebeneinander — und beantwortet die Frage aus Konzept 2 für alle vier auf einmal. Dann verstehst du rückwirkend, welche Eigenschaft einer Liste du heute eigentlich benutzt hast — und an welchen zwei Stellen sie dir im Weg war.
 
@@ -1035,6 +1039,21 @@ Wenn du zwischendurch schon committet hast: gut. Vier kleine Commits sind besser
 Erst bei grünem Selbsttest. Alles hier ist freiwillig und nichts davon wird später vorausgesetzt.
 
 **Beute per Nummer nehmen.** Zeig, was im Vorfeld liegt, als nummerierte Liste (1, 2, 3) und lass `nimm 2` funktionieren. Das ist zwei Zeilen Arbeit und macht den Index körperlich: Der Spieler tippt 2, dein Programm braucht Stelle 1. Diese Verschiebung um genau eins ist derselbe Off-by-One, der dir in Etappe 8 als eigene Fehlerkategorie begegnet — und hier merkst du zum ersten Mal, dass die Zählweise des Menschen und die der Maschine nicht dieselbe ist.
+
+**Zufällige Beute — ein Vorgriff, ausdrücklich als solcher.** Bisher liegt nach jeder Welle dasselbe im Vorfeld. Das ist langweilig, und du kannst es mit drei Zeilen ändern:
+
+```python
+import random                                  # ganz oben in der Datei
+
+beutetabelle = ["chitinpanzer", "organ", "datenkern"]
+vorfeld.append(random.choice(beutetabelle))    # ein zufälliger Eintrag daraus
+```
+
+`random.choice(liste)` liefert einen zufälligen Eintrag. `import random` holt das Werkzeug — was ein Import genau ist, baust du in Etappe 24 selbst; heute reicht *„damit hole ich mir etwas, das nicht in meiner Datei steht."*
+
+⚠️ **Und jetzt die Frage, die du dabei stellen wirst und die heute unbeantwortet bleibt:** Ein Datenkern droppt damit genauso oft wie ein Chitinpanzer. Das ist offensichtlich falsch — seltene Dinge sollen selten sein. **Schreib die Frage in `GELERNT.md` und lass sie stehen.**
+
+Die Antwort heißt *gewichtete Auswahl* und kommt in **Etappe 17a**. Dort geht es nicht um die eine Zeile, die das kann, sondern um die schwierigere Frage dahinter: **Wie erzeugt man kontrollierte Unvorhersehbarkeit** — überraschend, aber nicht unfair? Wer sich die Antwort heute schon holt, bekommt eine Zeile und verpasst den Gedanken.
 
 **`ablege` ohne Ziel** legt den zuletzt aufgenommenen Gegenstand ab. Zwei Zeichen Code (`[-1]`), und du merkst sofort, dass eine Liste eine Reihenfolge hat und ein Haufen nicht.
 

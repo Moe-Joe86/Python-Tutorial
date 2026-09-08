@@ -1,6 +1,6 @@
 # Etappe 1 — Der Abwurf
 
-*v1.2.0 · 2026-09-02*
+*v1.3.0 · 2026-09-07*
 
 > **Block 1: Fundament** · Etappe 1 von 30 · [← Etappe 0](../Vorposten_Lehrplan.md#etappe-0--das-repo) · [Lehrplan](../Vorposten_Lehrplan.md) · [Etappe 2 →](etappe-02-der-erste-kontakt.md)
 
@@ -392,7 +392,7 @@ Nach jedem Schritt ausführen. Nicht alles schreiben und dann testen — das ist
    | `kern_integritaet` | `100` | Prozent. Der Reaktor, den du verteidigst. Fällt er auf 0, ist das Spiel vorbei. |
    | `trefferpunkte` | `100` | Deine eigene Gesundheit. Fällt **sie** auf 0, ist das Spiel auch vorbei. In Etappe 2 setzt deine Klassenwahl diesen Wert. |
    | `munition` | `40` | Schuss. Wenig — das ist Absicht. |
-   | `schrott` | `0` | Deine Währung. Du hast noch nichts eingesammelt. |
+   | `vaporium` | `0` | Deine Währung — ein raffinierter Stoff, mit dem im Depot bezahlt wird. Du hast noch nichts. |
    | `rekruten_verfuegbar` | `0` | Niemand da, der ein Tor halten könnte. |
    | `wellen_bis_evakuierung` | `20` | So lange musst du durchhalten. |
 

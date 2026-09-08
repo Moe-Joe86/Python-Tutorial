@@ -1,6 +1,6 @@
 # Projekt-Lehrplan: Vorposten
 
-*v2.2.0 · 2026-09-07*
+*v2.5.1 · 2026-09-07*
 
 **Python lernen, indem die Verteidigung wächst — 30 Etappen in 38 Portionen**
 
@@ -56,7 +56,7 @@ Im Code existieren ab Etappe 11 alle vier Klassen gleichzeitig.
 
 **Die Zusatzregel dazu:** Fällt ein Trupp-Marine, ist er nicht tot, sondern *ausgefallen* — und kommt nach einem Zähler zurück, genau wie ein Rekrut. Fällt **dein** Marine, ist das Spiel vorbei. Der Unterschied ist die ganze Spannung.
 
-**Was du dazwischen tust:** Wellen überstehen, Schrott einsammeln, im Depot kaufen — Waffen, Module, Fähigkeiten, Geschütze. Und **Rekruten**. Ein Rekrut hält ein Tor, das du gerade nicht halten kannst. Wenn er fällt, läuft ein Nachschubzähler; irgendwann steht ein neuer da. Du kaufst dir also kein Leben, sondern eine **Stelle**, die dauerhaft besetzt wird. Genau diese Unterscheidung ist später eine der schöneren Modellierungsfragen im Code.
+**Was du dazwischen tust:** Wellen überstehen, Brut-Material bergen und verkaufen, im Depot kaufen — Waffen, Module, Fähigkeiten, Geschütze. Und **Rekruten**. Ein Rekrut hält ein Tor, das du gerade nicht halten kannst. Wenn er fällt, läuft ein Nachschubzähler; irgendwann steht ein neuer da. Du kaufst dir also kein Leben, sondern eine **Stelle**, die dauerhaft besetzt wird. Genau diese Unterscheidung ist später eine der schöneren Modellierungsfragen im Code.
 
 **Namen sind deine Baustelle.** Vorposten, Kern, Brut, Rekrut — das sind Platzhalter. Wie deine Gegner heißen und wie deine Klassen heißen, entscheidest du. Die Struktur nicht.
 
@@ -269,13 +269,13 @@ Ein Verteidigungsspiel ist eine Maschine mit Stellschrauben. Sobald sie läuft, 
 
 ## Die zwei Machtquellen ⚠️⭐
 
-Ab Etappe 18 wird der Spieler auf zwei Wegen stärker: durch **Erfahrung** und durch **Schrott**. Wenn beide dasselbe tun, kippt das Spiel — und wichtiger: Dann lernst du am Entwurf nichts, weil zwei Systeme dieselbe Aufgabe erledigen und keines von beiden eine erkennbare Rolle hat.
+Ab Etappe 18 wird der Spieler auf zwei Wegen stärker: durch **Erfahrung** und durch **Vaporium**. Wenn beide dasselbe tun, kippt das Spiel — und wichtiger: Dann lernst du am Entwurf nichts, weil zwei Systeme dieselbe Aufgabe erledigen und keines von beiden eine erkennbare Rolle hat.
 
 **Die Regel, die den ganzen Plan trägt:**
 
-> **Erfahrung entscheidet, *was du kannst*. Schrott entscheidet, *womit du es tust*.**
+> **Erfahrung entscheidet, *was du kannst*. Vaporium entscheidet, *womit du es tust*.**
 
-| | Erfahrung / Stufe | Schrott |
+| | Erfahrung / Stufe | Vaporium |
 |---|---|---|
 | Wirkt | **qualitativ** — neue Optionen | **quantitativ** — größere Zahlen |
 | Gibt | Fähigkeiten, Freischaltungen, Stufenzugang | Munition, Verbrauchsgüter, Basisausbau, Ausrüstungsteile |
@@ -285,7 +285,7 @@ Ab Etappe 18 wird der Spieler auf zwei Wegen stärker: durch **Erfahrung** und d
 **Drei Verbote, die aus dieser Regel folgen:**
 
 1. **Eine Stufe erhöht nie direkt eine Grundzahl.** Kein „Stufe 4 gibt +10 Trefferpunkte". Eine Stufe schaltet frei; sie beziffert nicht.
-2. **Schrott schaltet nie eine Fähigkeit frei.** Er bezahlt ihren Einsatz, ihre Munition, ihre Reichweite — nie ihr Vorhandensein.
+2. **Vaporium schaltet nie eine Fähigkeit frei.** Er bezahlt ihren Einsatz, ihre Munition, ihre Reichweite — nie ihr Vorhandensein.
 3. **Kein Wert hängt an beiden.** Findest du beim Bauen einen, der von Stufe *und* Kaufentscheidung abhängt, hast du eine Stellschraube zu viel gebaut.
 
 **Und die dritte Quelle, die keine ist: das Klassengerät.** Jede Klasse bringt aus Etappe 2 ihr eigenes Gerät mit — Sturmgewehr, schweres MG, Multiwerkzeug, Bio-Injektor. Das ist **Identität, nicht Fortschritt**: nicht kaufbar, nicht verlierbar, bei allen gleich stark zu Beginn. Es entscheidet nur, *welcher Fähigkeitenbaum* dir überhaupt offensteht. Wer es im Depot verkaufen ließe, machte die Klassenwahl aus Etappe 1 zu einer Kaufentscheidung — und damit die ganze erste Etappe bedeutungslos.
@@ -625,9 +625,11 @@ Ein Abend, kein Python. Repo auf GitHub, lokal klonen, `README.md`, `GELERNT.md`
 **Neue Syntax:** Variablen und `=` · Kommentare · die Typen `str` `int` `float` · `type()` · Strings, auch mehrzeilig · `+` `-` `*` an Zahlen · f-Strings · `print()` · `input()` · `int()` `float()` `str()` · den Traceback lesen
 
 **Was du baust:**
-`spiel.py`. Der Spieler gibt seinen Namen ein und wählt per Zahl eine der vier Klassen. Variablen für `kern_integritaet`, `trefferpunkte`, `schrott`, `munition`, `wellen_bis_evakuierung`, `letzte_meldung` — und mindestens drei f-Strings, die daraus ein Lagebriefing bauen. Dann meldest du dich per Funk. Die Antwort ist eine Wiederholung derselben aufgezeichneten Durchsage.
+`spiel.py`. Der Spieler gibt seinen Namen ein und wählt per Zahl eine der vier Klassen. Variablen für `kern_integritaet`, `trefferpunkte`, `vaporium`, `munition`, `wellen_bis_evakuierung`, `letzte_meldung` — und mindestens drei f-Strings, die daraus ein Lagebriefing bauen. Dann meldest du dich per Funk. Die Antwort ist eine Wiederholung derselben aufgezeichneten Durchsage.
 
 ⚠️ **Zwei Gesundheitswerte, und sie bedeuten Verschiedenes.** `kern_integritaet` ist der Reaktor, den du verteidigst. `trefferpunkte` ist dein eigener Marine. Beide können auf null fallen, und beide beenden den Lauf — der eine, weil die Basis fällt, der andere, weil du fällst. Das ist keine Doppelung, sondern die Prämisse des Spiels: Du bist eine Figur im Gefecht, kein Bauherr über der Karte.
+
+*(In Etappe 5 kommt ein dritter Wert dazu, der ebenfalls bei 100 startet: die `integritaet` eines einzelnen Sektors — eine Wand, kein Leben. Dort wird die Unterscheidung noch einmal geschärft, und dort gilt auch: Der Sektor `"kern"` bekommt **keine** eigene Integrität, weil `kern_integritaet` sie schon trägt.)*
 
 Die Verwechslungsgefahr ist Absicht. Sie ist die beste Übung dafür, dass ein Name Bedeutung trägt — und in Etappe 5 bekommst du dazu eine Regel.
 
@@ -643,7 +645,7 @@ Mehr ist es nicht, und es ist trotzdem der erste Kontakt mit dem Thema, das dich
 
 *(Die Klassenwahl ist heute nur die Stelle, an der du das übst. Was die gewählte Zahl **bewirkt**, ist Etappe 2. Heute merkst du sie dir nur.)*
 
-Deine übrigen Werte — `kern_integritaet`, `munition`, `schrott` — schreibst du direkt als Zahlen hin. Die kommen nicht aus `input()` und brauchen kein `int()`. Genau dieser Unterschied ist der Lernstoff: **Woher ein Wert kommt, bestimmt, was du mit ihm tun musst, bevor du ihn benutzt.**
+Deine übrigen Werte — `kern_integritaet`, `munition`, `vaporium` — schreibst du direkt als Zahlen hin. Die kommen nicht aus `input()` und brauchen kein `int()`. Genau dieser Unterschied ist der Lernstoff: **Woher ein Wert kommt, bestimmt, was du mit ihm tun musst, bevor du ihn benutzt.**
 
 **Und schon heute siehst du etwas.** Ein mehrzeiliger String als Kopf — eine grobe Skizze der Kuppel, darunter die Lagewerte per f-String. Das ist `print()` mit `"""` und sonst nichts. Zehn Minuten, ganz am Schluss, wenn der Rest steht. Es ist die erste Zeile einer Darstellung, die bis Etappe 29 wächst.
 
@@ -679,7 +681,7 @@ Erstens: Die Klassenwahl aus Etappe 1 bekommt Folgen. Je nach Klasse andere Star
 
 **Warum nicht `ausruestung`:** In Etappe 10 bekommt der Marine ein Ausrüstungs-Objekt für **gekaufte** Teile. Zwei verschiedene Dinge dürfen nicht denselben Namen tragen; das eine würde das andere überschreiben, und zwar lautlos.
 
-**Warum es überhaupt getrennt bleiben muss:** Das Klassengerät ist Identität, kein Besitz. Es steht in keinem Depot, kostet keinen Schrott und lässt sich nicht verlieren — siehe *Die zwei Machtquellen*.
+**Warum es überhaupt getrennt bleiben muss:** Das Klassengerät ist Identität, kein Besitz. Es steht in keinem Depot, kostet kein Vaporium und lässt sich nicht verlieren — siehe *Die zwei Machtquellen*.
 
 | Klasse | `klassengeraet` | Wird in Etappe 18 zu |
 |---|---|---|
@@ -766,7 +768,7 @@ Zwei Ebenen, zwei Schleifenarten:
 
 Befehle: `feuern`, `status`, `nachladen`, `beenden`, plus `else` für Unbekanntes. Die `if`/`elif`-Kette aus Etappe 2, nur mit Wörtern statt Zahlen — und **jetzt** wird `.lower()` gebraucht, das in Etappe 2 bewusst vertagt wurde.
 
-**Die Design-Entscheidung dieser Etappe ist die Befehlssprache.** Ein Wort pro Befehl (`feuern`) oder Verb plus Ziel (`nimm schrott`)? Heute wird bewusst einwortig gebaut; Etappe 4 erzwingt den Umbau. Der kostet zehn Minuten und lehrt, wie sich eine frühe Entscheidung anfühlt, die später Arbeit macht — hier ist diese Erfahrung billig zu haben.
+**Die Design-Entscheidung dieser Etappe ist die Befehlssprache.** Ein Wort pro Befehl (`feuern`) oder Verb plus Ziel (`nimm vaporium`)? Heute wird bewusst einwortig gebaut; Etappe 4 erzwingt den Umbau. Der kostet zehn Minuten und lehrt, wie sich eine frühe Entscheidung anfühlt, die später Arbeit macht — hier ist diese Erfahrung billig zu haben.
 
 **Dazu eine zweite Design-Entscheidung, die erst beim Spielen auffällt: Welche Befehle kosten eine Runde?** Wenn der Zähler bei jedem Schleifendurchlauf hochzählt, kostet auch `status` Zeit — der Spieler schaut auf seine Munition, und die Gegner rücken auf. Auskunft sollte nichts kosten, Handlung schon. Technisch ein `if`, didaktisch die erste Fassung der Frage, die in Etappe 12 lautet: Welche Spieleraktion löst einen Tick aus?
 
@@ -837,7 +839,13 @@ Das ist dieselbe Bauweise wie `kern_integritaet` in Etappe 1: erst sichtbar, vie
 
 Dazu `ablege <ding>` und eine zweite Liste mit dem, was nach einer Welle im Vorfeld liegt — ein Gegenstand wandert von der einen in die andere. Und `.split()`, damit Zwei-Wort-Befehle überhaupt möglich werden; in Etappe 5 trägt dasselbe Werkzeug `kaufe medkit`.
 
-**Erste Fundstücke:** Schrott (deine Währung), ein Munitionskasten, eine verbeulte Panzerplatte, ein Datenkern der Brut, mit dem heute noch niemand etwas anfangen kann. Der Datenkern ist der Köder Richtung Etappe 15.
+**Erste Fundstücke:** ein Chitinpanzer, ein Organ, eine verbeulte Panzerplatte, ein Datenkern der Brut, mit dem heute noch niemand etwas anfangen kann. Der Datenkern ist der Köder Richtung Etappe 15.
+
+⚠️ **Was hier ausdrücklich *nicht* liegt: Vaporium und Munition.** Was die Brut hinterlässt, ist die Brut selbst; Vaporium ist Währung und Munition wird gekauft. Beides bekommt der Lernende in Etappe 5, indem er sein Material verkauft — **so entsteht dort ein Kreislauf statt einer Einbahnstraße.**
+
+**Und der geplante Schmerz sitzt jetzt im Material:** Fünf erlegte Kreaturen hinterlassen fünfmal `"chitinpanzer"` untereinander in der Liste. Das ist die erlebte Not, die Etappe 5 auflöst — natürlicher als fünfmal `"vaporium"`, weil identische Panzerstücke einleuchten. **Daneben liegt der Datenkern als Einzelstück in derselben Liste**, und damit hat der Lernende beide Sorten Ding nebeneinander, bevor Etappe 6 sie trennt.
+
+*(Kür am Ende: zufällige Beute mit `random.choice`. Ausdrücklich als Vorgriff markiert — die interessante Frage, warum ein Datenkern nicht so oft fallen darf wie ein Panzerstück, bleibt **offen** und wird in 17a beantwortet. Wer die Gewichte hier vorwegnimmt, nimmt 17a den Gegenstand.)*
 
 **⚠️ Und der wichtigste Riegel: Nicht alles wird eine Liste.** Munition bleibt eine Zahl. Vierzig Schuss als Liste aus vierzig gleichen Einträgen wäre technisch möglich und wäre falsch — man kann sie nicht unterscheiden, man tut nichts an einem einzelnen, und die einzige Frage lautet „wie viele noch?".
 
@@ -847,7 +855,7 @@ Die Frage dahinter — **Menge oder mehrere unterscheidbare Dinge?** — ist die
 
 **Zwei Design-Entscheidungen, beide mit Folgen:**
 
-**1. Kennung oder Anzeigename?** Steht `"munitionskasten"` in der Liste oder `"Munitionskasten (halbvoll)"`? Die Kennung braucht eine zweite Stelle, an der steht, wie sie schön heißt — und die wird in Etappe 5 das Depot und in Etappe 25 eine JSON-Datei. Der Anzeigename spart das heute und kostet es in Etappe 11.
+**1. Kennung oder Anzeigename?** Steht `"chitinpanzer"` in der Liste oder `"Chitinpanzer (rissig)"`? Die Kennung braucht eine zweite Stelle, an der steht, wie sie schön heißt — und die wird in Etappe 5 das Depot und in Etappe 25 eine JSON-Datei. Der Anzeigename spart das heute und kostet es in Etappe 11.
 
 **2. Ist die Anmarschbahn der Zustand oder nur sein Bild?** ⭐ Das ist die wichtigere und die unauffälligere. Ein `"K"` an Stelle 7 *ist* der Gegner — oder jeder Gegner hat eine Zahl, und die Bahn wird daraus jedes Mal neu gebaut. Der zweite Weg ist etwas mehr Arbeit und der, den dieser Plan meint:
 
@@ -945,10 +953,22 @@ sektoren = {
         "integritaet": 100,
         "nachbarn": {"sueden": "kern", "osten": "osttor"}
     },
+    "kern": {                      # kein "integritaet" — die steht in kern_integritaet
+        "beschreibung": "...",
+        "nachbarn": {"norden": "nordtor", "westen": "depot"}
+    },
 }
 ```
 
 Fünf bis sechs Sektoren: Nordtor, Osttor, Kern, Depot, Werkstatt, Landeplattform. Dazu `aktueller_sektor` als Zustandsvariable (wird in Etappe 9 zu `marine.sektor`).
+
+⚠️⭐ **Hier wechselt der Kern seine Rolle, und das muss ausdrücklich behandelt werden.** Seit Etappe 1 ist der Kern **eine Zahl** — `kern_integritaet`, die Verlustbedingung. Ab Etappe 5 ist er **zusätzlich ein Ort**, ein Sektor, den man betritt. Beides gleichzeitig, wie Serverraum und Server: Man geht in den Raum, kaputt geht das Gerät darin.
+
+⚠️ **Daraus folgt eine harte Regel: Der Sektor `"kern"` bekommt keine eigene `integritaet`.** Sonst stünden zwei Zahlen für denselben Reaktor nebeneinander — `sektoren["kern"]["integritaet"]` und `kern_integritaet`, beide bei 100 —, und irgendwann sinkt die eine, während die andere stehen bleibt. Das ist exakt die Doppelung, vor der dieselbe Etappe beim Vaporium warnt.
+
+**Und das ist kein Schönheitsfehler, sondern ein Gewinn:** Ein Sektor mit anderen Schlüsseln als die übrigen ist der erste echte Anlass für `.get()`. Wer in `umsehen` blind `sektor["integritaet"]` schreibt, bekommt im Kern einen `KeyError` — ein Typ-1-Fehler, der sich sofort zeigt, statt eines Typ-3-Fehlers, den man in Welle zwölf bemerkt. **Ungleichmäßige Daten sind der Normalfall, nicht die Ausnahme**, und Etappe 25 besteht später zu großen Teilen daraus.
+
+*(`kern_integritaet` wandert deshalb auch nicht in den Sektor: Sie gehört nicht dem Ort, sondern dem Spiel. In 9a bleibt sie draußen, wenn die Werte in den Marine ziehen; in 12 bekommt sie ihr Zuhause in der `Welt`.)*
 
 **Das Depot** — flach, weil ein Preis nur eine Zahl ist:
 
@@ -960,7 +980,11 @@ Zwei Formen desselben Werkzeugs in einer Etappe. Das ist Absicht: Verschachtelun
 
 Dazu **Bewegung**: `umsehen` liest Beschreibung und Ausgänge aus den Daten, `gehe <richtung>` schlägt in `nachbarn` nach. Und `kaufe` funktioniert nur im Depot — der erste Befehl, der vom **Ort** abhängt statt nur von Werten.
 
-Damit läuft ab heute die Wirtschaft: Gegner fallen → Schrott → `kaufe <ware>`. Der Kaufvorgang prüft drei Dinge (gibt es die Ware, reicht der Schrott, ist Platz im Inventar) und ist damit dein erstes Stück Logik, das mehr als eine Bedingung braucht. Die Mengenabfrage (*„wie viele?"*) löst dabei die `int()`-Schuld aus Etappe 1 ein.
+Damit läuft ab heute die Wirtschaft, und sie ist **ein Kreislauf mit vier Stationen**: Brut fällt → **Material** (Chitinpanzer, Organe) → `verkaufe` → Vaporium → `kaufe <ware>` → Munition → Brut fällt.
+
+⚠️ **Weder Vaporium noch Munition sind Beute.** Vaporium ist Währung und entsteht ausschließlich durch Verkaufen; Munition wird gekauft. Ein Gegner, der Munition fallen lässt, finanziert das eigene Erlegen und macht das Depot überflüssig, bevor es gebaut ist — und in Etappe 21a gibt es dann nichts mehr zu balancieren. Was die Brut hinterlässt, ist die Brut selbst.
+
+**Der Verkauf ist deshalb kein Beiwerk, sondern trägt.** Er braucht eine **zweite flache Tabelle** (`verkaufswerte`) und übt damit die Kernlektion dieser Etappe ein zweites Mal: In der Verkaufslogik darf kein Materialname vorkommen. *(Frühere Fassungen führten Verkaufen als „bringt nichts Neues" — das galt, solange Gegner Vaporium fallen ließen.)* Der Kaufvorgang prüft drei Dinge (gibt es die Ware, reicht das Vaporium, ist Platz im Inventar) und ist damit dein erstes Stück Logik, das mehr als eine Bedingung braucht. Die Mengenabfrage (*„wie viele?"*) löst dabei die `int()`-Schuld aus Etappe 1 ein.
 
 **⭐ Und hier steckt der eigentliche Ertrag der Etappe, nicht bei den Dictionaries selbst:** In der Kauflogik darf **kein Warenname vorkommen**. Der Preis wird nachgeschlagen, nicht abgefragt. Eine vierte Ware ist dann eine Zeile in den Daten und keine Zeile im Code — und genau das ist die Prüfung, die im Selbsttest steht.
 
@@ -974,7 +998,7 @@ Das ist der Anfang des Fadens, aus dem Etappe 22 und 25 vollständig bestehen. D
 
 **Und drei kleinere Dinge, die hier zum ersten Mal auftauchen und weit tragen:** die Unterscheidung *Richtung ≠ Ziel ≠ Standort* (sonst landet `"osten"` in `aktueller_sektor`); der Kauf als **Transaktion** — erst alle Prüfungen, dann verändern; und die Frage nach **Invarianten**: Welche Bedingungen müssen bei den Sektordaten immer stimmen? Aufgeschrieben, nicht geprüft — der Prüfer kommt in Etappe 26.
 
-**Zwei Einlösungen aus Etappe 4 kommen hier an.** Erstens die **Mengen**: Schrott und Munition wandern in ein `vorrat`-Dictionary (Name → Anzahl), Einzelstücke bleiben in der Liste — die Frage *Menge oder mehrere Dinge?* bekommt ihre zweite Struktur. Zweitens **Kennung oder Anzeigename**: Das Depot ist die zweite Stelle, von der in Etappe 4 die Rede war, und wer sich damals für Anzeigenamen entschieden hat, merkt hier zum ersten Mal, was das kostet.
+**Zwei Einlösungen aus Etappe 4 kommen hier an.** Erstens die **Mengen**: Vaporium und Munition wandern in ein `vorrat`-Dictionary (Name → Anzahl), Einzelstücke bleiben in der Liste — die Frage *Menge oder mehrere Dinge?* bekommt ihre zweite Struktur. Zweitens **Kennung oder Anzeigename**: Das Depot ist die zweite Stelle, von der in Etappe 4 die Rede war, und wer sich damals für Anzeigenamen entschieden hat, merkt hier zum ersten Mal, was das kostet.
 
 **Zwei Design-Entscheidungen, die weit tragen:**
 
@@ -995,13 +1019,13 @@ Beide Entscheidungen kommen in `GELERNT.md`.
 - Was bekommst du beim Iterieren über ein Dictionary?
 - Warum ist das eine Dictionary verschachtelt und das andere nicht?
 - **Warum kommt in deiner Kauflogik kein einziger Warenname vor — und was wäre der Preis dafür, wenn doch?** ← die wichtigste
-- Warum ist Schrott jetzt ein Dictionary-Eintrag und ein Medkit weiterhin ein Listeneintrag?
+- Warum ist Vaporium jetzt ein Dictionary-Eintrag und ein Medkit weiterhin ein Listeneintrag?
 - Was wird verglichen und was angezeigt — und warum sollten das nicht dieselben Wörter sein?
 - Was ist ein *inkonsistenter Datenfehler* (ein Nachbar zeigt ins Leere), und warum findet ihn kein Blick in die Bewegungslogik?
 
 **Transferaufgabe (15 Min):** Dictionary mit drei Waren und Preisen. Frag einen Namen per `input()` ab und gib den Preis aus — und reagier sauber, wenn es die Ware nicht gibt. Probier beide Wege: eckige Klammern und `.get()`. (Noch ohne Funktion; die kommt in Etappe 7.)
 
-**Kaputtmachen:** Mach aus `nachbarn` eine Liste. Lösch einen Sektor, auf den ein Nachbar zeigt. Schreib beim Kaufen `schrott - preis` statt `schrott -= preis` und kauf dreimal hintereinander dasselbe — **der Typ-3-Fehler dieser Etappe: unendlich Geld ohne jede Meldung.** Verschreib dich beim Zuweisen eines Schlüssels und sieh nach, wo der Wert gelandet ist. Und lösch einen Eintrag, während du über das Dictionary läufst: Python knallt hier, wo es bei einer Liste in Etappe 4 still das Falsche tat.
+**Kaputtmachen:** Mach aus `nachbarn` eine Liste. Lösch einen Sektor, auf den ein Nachbar zeigt. Schreib beim Kaufen `vaporium - preis` statt `vaporium -= preis` und kauf dreimal hintereinander dasselbe — **der Typ-3-Fehler dieser Etappe: unendlich Geld ohne jede Meldung.** Verschreib dich beim Zuweisen eines Schlüssels und sieh nach, wo der Wert gelandet ist. Und lösch einen Eintrag, während du über das Dictionary läufst: Python knallt hier, wo es bei einer Liste in Etappe 4 still das Falsche tat.
 
 **Commit:** `Etappe 5: Vorposten, Depot und Wirtschaft`
 
@@ -1202,7 +1226,7 @@ assert trinkgeld >= 0
 
 **Drei Zeilen, mehr nicht — und dann ist das Thema für heute erledigt.** Du fängst jetzt nicht an zu testen. Du hast einmal gesehen, dass man eine Annahme hinschreiben kann und dass sie knallt, wenn sie bricht. Beim Lesen fremden Codes hast du ab jetzt eine Frage, die fast alles über eine Funktion verrät: **Welche Annahmen macht sie eigentlich — und prüft sie eine davon?** Alles Weitere wartet bis Etappe 26.
 
-**Kaputtmachen:** Das entscheidende Paar ist *Zahl gegen Liste* — einer äußeren Zahl in einer Funktion etwas zuweisen (wirkt nicht nach außen) gegen `append()` auf einer äußeren Liste (wirkt sehr wohl). Dieselbe Regel von zwei Seiten; wer nur eines macht, lernt die halbe Wahrheit. Dazu: `return` vergessen und sehen, wo es knallt. `global` einbauen und danach zählen, wie viele Zeilen man lesen muss, um zu wissen, wer den Schrott verändert. **Und ein Feature einbauen, während man umbaut** — dann zeigt `diff` einen Unterschied, und man weiß immerhin, dass er von einem selbst kommt.
+**Kaputtmachen:** Das entscheidende Paar ist *Zahl gegen Liste* — einer äußeren Zahl in einer Funktion etwas zuweisen (wirkt nicht nach außen) gegen `append()` auf einer äußeren Liste (wirkt sehr wohl). Dieselbe Regel von zwei Seiten; wer nur eines macht, lernt die halbe Wahrheit. Dazu: `return` vergessen und sehen, wo es knallt. `global` einbauen und danach zählen, wie viele Zeilen man lesen muss, um zu wissen, wer das Vaporium verändert. **Und ein Feature einbauen, während man umbaut** — dann zeigt `diff` einen Unterschied, und man weiß immerhin, dass er von einem selbst kommt.
 
 **Commit:** `Etappe 7b: Logik und Darstellung getrennt`
 
@@ -1751,7 +1775,7 @@ Technisch ist die Zone dieselbe Randprüfung wie die des Rasters, nur mit andere
 
 ### Die Barrikade — der erste Gegenstand, der auf dem Raster steht
 
-Sobald es Felder gibt, gibt es etwas, das man auf sie stellen kann. **Die Barrikade ist eine Ware aus dem Depot** (Etappe 5, unverändert): gekauft für Schrott, auf ein Feld gesetzt, blockiert es.
+Sobald es Felder gibt, gibt es etwas, das man auf sie stellen kann. **Die Barrikade ist eine Ware aus dem Depot** (Etappe 5, unverändert): gekauft für Vaporium, auf ein Feld gesetzt, blockiert es.
 
 **Der Reiz liegt nicht im Blockieren, sondern im Umlenken.** Ein Gegner, der geradeaus nicht weiterkommt, weicht aus — und läuft dabei durch die Zone eines Marines oder in den Feuerbereich des Turms. Damit trifft der Spieler zum ersten Mal eine **räumliche** Entscheidung statt einer Zahlenentscheidung.
 
@@ -1803,7 +1827,7 @@ if "chitinprobe" in erkenntnisse:
 
 Etwas passiert einmal. Es wird gemerkt. Es wird später abgefragt. Damit hat dein Spiel zum ersten Mal ein Gedächtnis, das über eine Welle hinausreicht.
 
-Gefallene Gegner hinterlassen mehr als Schrott: Chitinproben, einen halb geschmolzenen Datenkern, Sporen, die auf etwas hindeuten, das noch nicht gekommen ist. Jeder Fund setzt ein Flag in `erkenntnisse`.
+Gefallene Gegner hinterlassen mehr als Vaporium: Chitinproben, einen halb geschmolzenen Datenkern, Sporen, die auf etwas hindeuten, das noch nicht gekommen ist. Jeder Fund setzt ein Flag in `erkenntnisse`.
 
 **Und Erkenntnisse tun etwas.** Wer die Chitinprobe analysiert hat, sieht in der Gegnerübersicht den Schwachpunkt und macht mehr Schaden. Wer den Datenkern hat, bekommt im Depot eine Ware angeboten, die vorher nicht im Sortiment war. Wer die Sporen gefunden hat, weiß, welcher Typ in Welle 12 kommt — und kann vorbauen.
 
@@ -1937,6 +1961,8 @@ Deshalb das Budget. Es trennt zwei Dinge, die Anfänger meist vermischen: **Wie 
 
 **Warum nicht einfach `anzahl = welle * 2`?** Weil dann jede Welle gleich aussieht, nur länger. Und warum nicht rein zufällig? Weil Welle 3 dann irgendwann drei Brecher enthält und du ohne Chance verlierst.
 
+**Die Beutetabelle aus Etappe 4 wird hier fällig.** Wer dort die Kür gebaut hat, hat eine Liste, aus der `random.choice` gleichverteilt zieht — ein Datenkern so oft wie ein Chitinpanzer. Das ist dieselbe Struktur wie bei den Gegnertypen und wird hier mit denselben Gewichten gelöst. **Zwei Anwendungsfelder, ein Werkzeug** — und der Lernende bringt die Frage seit dreizehn Etappen mit.
+
 👀 **Nur erkennen: Gewichte.** Mit `random.choices(typen, weights=gewichte)` kommen manche Gegner häufiger als andere. Eine Zeile, sofort einsetzbar — aber wenn dich die Frage „Gewicht gegen Wahrscheinlichkeit" gerade nicht interessiert, bau sie einfach ein und geh weiter. Sie funktioniert auch ohne Theorie.
 
 **Kaputtmachen:** Setz alle Gewichte gleich und spiel fünf Wellen. Dann setz ein Gewicht auf das Hundertfache. Beobachte, ob dein Budget-System das abfängt oder ob Welle 3 unspielbar wird.
@@ -2001,7 +2027,7 @@ Die Variable, die du am ersten Tag angelegt und nie benutzt hast, bekommt heute 
 
 ⚠️ **Ein Skillpunkt kauft eine Fähigkeit oder eine Stufe davon — nie eine größere Grundzahl.** Kein „+10 Trefferpunkte", kein „+2 Schaden". Größere Zahlen kommen aus dem Depot, Können kommt aus Erfahrung. Das ist die Regel aus *Die zwei Machtquellen*, und sie wird genau hier verletzt, wenn man nicht aufpasst — weil ein Bonus auf eine Zahl der bequemste Skillpunkt ist, den man vergeben kann.
 
-Ein zentraler `flags`-Speicher (ein Set — jetzt weißt du, warum). Fähigkeiten haben Voraussetzungen: eine Mindeststufe, eine bestimmte Freischaltung, genug Schrott, die richtige Klasse. Das ist eine verknüpfte Bedingung, und sie ist erwachsen geworden seit Etappe 2.
+Ein zentraler `flags`-Speicher (ein Set — jetzt weißt du, warum). Fähigkeiten haben Voraussetzungen: eine Mindeststufe, eine bestimmte Freischaltung, genug Vaporium, die richtige Klasse. Das ist eine verknüpfte Bedingung, und sie ist erwachsen geworden seit Etappe 2.
 
 **Eine aktive Fähigkeit besteht aus drei Teilen, und alle drei hast du schon:** einer Voraussetzung (das Set aus Etappe 6 plus `level`), einer Abklingzeit (der Zähler aus Etappe 13) und einer Wirkung (ein Statuseffekt oder Schaden). Nichts davon ist heute neu — neu ist, dass sie zusammenkommen.
 
@@ -2164,7 +2190,7 @@ Das heißt *atomares Schreiben*, es steckt in jedem ernsthaften Programm, das Da
 |---|---|---|
 | `try`/`except` an den richtigen Stellen · **eine** eigene Exception-Klasse | Wann prüfen (`if`), wann fangen (`try`) | Exception-Hierarchien · `finally` · `logging` |
 
-Kein Absturz mehr. Unbekannte Befehle, zu wenig Schrott, volles Inventar, ein Bauplatz, auf dem schon etwas steht, ein Sektor, der nicht mehr existiert — alles wird abgefangen und erklärt.
+Kein Absturz mehr. Unbekannte Befehle, zu wenig Vaporium, volles Inventar, ein Bauplatz, auf dem schon etwas steht, ein Sektor, der nicht mehr existiert — alles wird abgefangen und erklärt.
 
 **Wichtige Abgrenzung:** Das hier ist Fehler*behandlung*. Debugging (Etappe 8, 16) ist etwas anderes. Fehlerbehandlung heißt: das Programm bleibt stehen statt abzustürzen. Debugging heißt: du findest heraus, warum es sich falsch verhält. Verwechsle die beiden nie.
 
@@ -2175,9 +2201,9 @@ class SpielFehler(Exception):
     pass
 ```
 
-Drei Wörter, und du hast einen Fehlertyp, der nur dir gehört. `raise SpielFehler("Dafür reicht dein Schrott nicht")` an der Stelle, wo es auffällt — `except SpielFehler` an der Stelle, wo du damit umgehen willst. Dazwischen darf beliebig viel Code liegen, und du musst keinen Rückgabewert durchreichen.
+Drei Wörter, und du hast einen Fehlertyp, der nur dir gehört. `raise SpielFehler("Dafür reicht dein Vaporium nicht")` an der Stelle, wo es auffällt — `except SpielFehler` an der Stelle, wo du damit umgehen willst. Dazwischen darf beliebig viel Code liegen, und du musst keinen Rückgabewert durchreichen.
 
-👀 **Nur erkennen — Hierarchien.** Man kann davon Unterklassen bilden (`class NichtGenugSchrott(SpielFehler)`) und dann wahlweise einen einzelnen Fall oder die ganze Familie fangen. Jede ernsthafte Bibliothek macht das, und es ist der Grund, warum du in fremdem Code `except json.JSONDecodeError` liest. **Bauen musst du heute genau eine Klasse.** Wenn dein Spiel später mehr Unterscheidung braucht, merkst du das — und dann kostet es zwei Zeilen.
+👀 **Nur erkennen — Hierarchien.** Man kann davon Unterklassen bilden (`class NichtGenugVaporium(SpielFehler)`) und dann wahlweise einen einzelnen Fall oder die ganze Familie fangen. Jede ernsthafte Bibliothek macht das, und es ist der Grund, warum du in fremdem Code `except json.JSONDecodeError` liest. **Bauen musst du heute genau eine Klasse.** Wenn dein Spiel später mehr Unterscheidung braucht, merkst du das — und dann kostet es zwei Zeilen.
 
 👀 **Nur erkennen: `finally`.** Du sollst es nicht einbauen — du sollst wissen, was es tut, wenn es dir begegnet:
 
@@ -2224,7 +2250,7 @@ KI-generierter Code produziert dieses Muster besonders gern, weil es defensiv wi
 
 Ein sauberes `except` nennt seinen Fehler. Wenn du wirklich alles fangen musst, dann gib wenigstens `e` mit aus, oder lös den Fehler mit `raise` wieder aus, nachdem du dein Aufräumen erledigt hast.
 
-**Die Unterscheidung, die dieses Spiel besonders braucht:** „Das ist kein Befehl" ist etwas anderes als „Das geht hier gerade nicht". `baue geschuetz` ist ein gültiger Befehl — nur nicht mitten in einer Welle und nicht ohne Schrott und nicht auf einem besetzten Feld. Drei verschiedene Fehler, drei verschiedene Meldungen. Wer sie zusammenwirft, baut ein Spiel, das der Spieler nicht versteht.
+**Die Unterscheidung, die dieses Spiel besonders braucht:** „Das ist kein Befehl" ist etwas anderes als „Das geht hier gerade nicht". `baue geschuetz` ist ein gültiger Befehl — nur nicht mitten in einer Welle und nicht ohne Vaporium und nicht auf einem besetzten Feld. Drei verschiedene Fehler, drei verschiedene Meldungen. Wer sie zusammenwirft, baut ein Spiel, das der Spieler nicht versteht.
 
 **Zehn Minuten Leseeinheit: `print()` gegen `logging`.** Du baust heute kein Logging-System — du sollst nur eines lesen können. In fremdem Code stehen Zeilen wie `logger.warning(...)`, und die Frage ist nicht, wie man das schreibt, sondern was es bedeutet:
 
@@ -2246,7 +2272,7 @@ Der Unterschied zu `print()` ist der Schalter: Ein Log lässt sich **abstellen, 
 
 **Kaputtmachen:** Fang alles mit `except:` ab. Merke, warum das eine schlechte Idee ist — es verwandelt Fehler vom Typ 1 in Fehler vom Typ 3.
 
-**🧠 Entwicklerfrage:** *Welchen Fehler zeige ich dem Spieler, und welchen dem Entwickler?* „Dafür reicht dein Schrott nicht" gehört ins Spiel. Ein `KeyError` in der Wellenlogik gehört nicht ins Spiel — aber verschwinden darf er auch nicht. Wohin damit?
+**🧠 Entwicklerfrage:** *Welchen Fehler zeige ich dem Spieler, und welchen dem Entwickler?* „Dafür reicht dein Vaporium nicht" gehört ins Spiel. Ein `KeyError` in der Wellenlogik gehört nicht ins Spiel — aber verschwinden darf er auch nicht. Wohin damit?
 
 **Commit:** `Etappe 20: Kein Absturz mehr`
 
@@ -2367,12 +2393,12 @@ FAEHIGKEITEN = {
 }
 
 BASISTURM = {
-    1: {"schaden": 10, "reichweite": 3, "kosten": {"schrott": 120}, "voraussetzung": None},
-    2: {"schaden": 18, "reichweite": 4, "kosten": {"schrott": 300}, "voraussetzung": "energiezelle"},
+    1: {"schaden": 10, "reichweite": 3, "kosten": {"vaporium": 120}, "voraussetzung": None},
+    2: {"schaden": 18, "reichweite": 4, "kosten": {"vaporium": 300}, "voraussetzung": "energiezelle"},
 }
 ```
 
-⚠️ **Sieh dir die erste Tabelle noch einmal an — sie ist der Beweis für *Die zwei Machtquellen*.** In jeder Zeile steht `stufe` **und** `kosten`, und sie tun verschiedene Dinge: `stufe` entscheidet, **ob** die Fähigkeit existiert, `kosten` entscheidet, **wie oft** sie einsetzbar ist. Erfahrung und Schrott stehen nebeneinander, ohne sich zu überschneiden. **Wäre die Regel verletzt, sähe man es hier sofort** — etwa an einem Eintrag `{"stufe": 3, "bonus_schaden": 5}`, der eine Stufe in eine Zahl übersetzt.
+⚠️ **Sieh dir die erste Tabelle noch einmal an — sie ist der Beweis für *Die zwei Machtquellen*.** In jeder Zeile steht `stufe` **und** `kosten`, und sie tun verschiedene Dinge: `stufe` entscheidet, **ob** die Fähigkeit existiert, `kosten` entscheidet, **wie oft** sie einsetzbar ist. Erfahrung und Vaporium stehen nebeneinander, ohne sich zu überschneiden. **Wäre die Regel verletzt, sähe man es hier sofort** — etwa an einem Eintrag `{"stufe": 3, "bonus_schaden": 5}`, der eine Stufe in eine Zahl übersetzt.
 
 **Und das Klassengerät steht in keiner dieser Tabellen.** Es hat keinen Preis und keine Stufe; es ist die Spalte `klasse`, nach der gefiltert wird. Aus dem String von Etappe 2 ist eine Zugangsbedingung geworden, ohne dass er je etwas anderes war als ein String.
 
@@ -2750,7 +2776,7 @@ Notier dir beim Bauen jeden Fall, den deine Prüfung abfangen soll — fehlendes
 
 **Und die gute Nachricht vorweg:** Das hier ist kein neues Konzept. Du sollst nicht „eine professionelle Test-Suite bauen". Du sollst deinem Programm eine Frage stellen und es sich selbst überprüfen lassen — mit genau den `assert`-Zeilen, die du seit Etappe 7b kennst. Neu ist nur der Rahmen: eine eigene Datei und ein Befehl, der alle Prüfungen auf einmal laufen lässt.
 
-Jetzt formalisierst du, was du seit Etappe 7 nebenbei gemacht hast. Tests für das, was stillschweigend kaputtgeht: Schadensberechnung, Wellenbudget, Kaufvorgang bei zu wenig Schrott, Inventar-Obergrenze, Nachschubzähler, Speichern/Laden, Reichweitenberechnung.
+Jetzt formalisierst du, was du seit Etappe 7 nebenbei gemacht hast. Tests für das, was stillschweigend kaputtgeht: Schadensberechnung, Wellenbudget, Kaufvorgang bei zu wenig Vaporium, Inventar-Obergrenze, Nachschubzähler, Speichern/Laden, Reichweitenberechnung.
 
 **Zwei Werkzeuge, die du gleich mitnimmst:**
 

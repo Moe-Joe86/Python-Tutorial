@@ -1,6 +1,6 @@
 # Etappe 4 — Ausrüstung und Beute
 
-*v1.1.0 · 2026-09-02*
+*v1.2.0 · 2026-09-07*
 
 > **Block 1: Fundament** · Etappe 4 von 30 · [← Etappe 3](etappe-03-die-wellenschleife.md) · [Lehrplan](../Vorposten_Lehrplan.md) · [Etappe 5 →](etappe-05-vorposten-und-depot.md)
 
@@ -686,6 +686,8 @@ Nach jedem Schritt ausführen. Committen ist nach 4, 7 und 9 sinnvoll.
 - Eine leere Liste für die Gegenstände, die du trägst.
 - Bau den Befehl `inventar`, der ihren Inhalt zeigt.
 - Ist sie leer, kommt eine eigene Meldung — nicht eine leere Zeile.
+
+⚠️ **Dein `klassengeraet` aus Etappe 2 gehört nicht in diese Liste.** Es ist keine Beute, kein Fund, nichts, das im Inventar auftaucht oder verloren gehen könnte — es ist Identität. Die Liste hier ist für das, was du **aufsammelst**.
 
 **So prüfst du es:** `inventar` direkt nach dem Start eingeben. Es muss etwas Lesbares erscheinen.
 

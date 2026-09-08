@@ -1,6 +1,6 @@
 # Der Bogen — Register aller Vorausverweise
 
-*v2.1.0 · 2026-09-02*
+*v2.4.0 · 2026-09-07*
 
 > Verbindlicher Anhang zum [Lehrplan](Vorposten_Lehrplan.md). Das Gegenstück dazu ist [`SYNTAX.md`](SYNTAX.md), das Register der Werkzeuge: Der Bogen führt Buch über Versprechen zwischen Etappen, das Syntaxregister darüber, welches Werkzeug ab wann zur Verfügung steht. Diese Datei ist die einzige Quelle der Wahrheit für alles, was eine frühe Etappe verspricht und eine späte einlösen muss.
 
@@ -80,6 +80,8 @@ Chronologisch nach Etappe. Spalte „Status": `offen` = noch nicht eingelöst, `
 | Truthy/Falsy — besonders `0` (**eine Regel, nicht die volle Liste**) | **4** — `if inventar:`, die leere Liste ist falsy ✓; **10** — `None` ≠ `0`; **18** — als Gefahr bei Munition und Zählern | **teilweise eingelöst** ✓ (4) |
 | 👀 `and`/`or` geben mehr zurück als `True`/`False` (zwei Zeilen im Terminal, kein Bauauftrag) | **18** — dort als Lesestoff eingelöst; **23b** — in fremdem Code | offen |
 | ⚠️ **`trefferpunkte` (Marine) und `kern_integritaet` (Anlage) sind zwei Werte** — beide 100, deshalb die häufigste Verwechslung des Fundaments | **3c** — die Gegner schlagen auf die Anlage, nicht auf den Marine; **11** — jeder der vier Marines bekommt eigene Trefferpunkte; **12** — beide ticken unabhängig | offen |
+| **`klassengeraet`** — ein String pro Klasse (Sturmgewehr, Schweres MG, Multiwerkzeug, Bio-Injektor), der angezeigt und nie abgefragt wird | **18** — wird zur Wurzel der Klassenfähigkeit; **22** — wird zur Spalte `klasse` in der Fähigkeitentabelle. **Sperren: 4 ✓, 5 ✓, 10 (Datei noch ungeschrieben), 13 (Datei noch ungeschrieben)** | offen |
+| ⚠️ **Das Klassengerät ist Identität, kein Besitz** — steht in keinem Depot, kostet keinen Schrott | **4** — gehört nicht ins Inventar ✓; **5** — die Warentabelle führt es ausdrücklich nicht, mit Begründung ✓; **10** — das Ausrüstungs-Objekt ist etwas anderes und heißt anders | **eingelöst** ✓ (4, 5) |
 | **Die Klassentabelle mit markiertem Bezugsfall** (Soldat als Anker, drei Klassen relativ dazu) | **11** — wird zu vier Python-Klassen; **21a** — der Bezugsfall wird balanciert, die anderen relativ nachgezogen; **22** — sind das nicht eigentlich Daten? | offen |
 | `nachladen_noetig` / `ziel_in_sicht` als echte Booleans, in **einer** `and`-Bedingung | **12** — Einheiten bekommen eigene Zustände; **18** — gehen in der Voraussetzungsprüfung auf | offen |
 | **Erkenntnis: eine verknüpfte Bedingung sagt nicht, welcher Teil scheiterte** | **20** — die ganze Etappe über brauchbare Fehlermeldungen | offen |
@@ -89,7 +91,7 @@ Chronologisch nach Etappe. Spalte „Status": `offen` = noch nicht eingelöst, `
 | 👀 Punkt-Schreibweise (`wert.methode()`) — ein Satz: *gehört zu* | **9a** — `einheit.melde()` bei eigenen Objekten | offen |
 | Die vier Klassen als festes Personal (erzählerisch, noch nicht im Code) | **11** — Klassenhierarchie; **22** — die Frage, ob sie Daten sein sollten | offen |
 | **Nur die gewählte Klasse bekommt Werte** — die `if`/`elif`-Kette wählt genau einen Zweig | **11** — dort entstehen alle vier Objekte gleichzeitig | offen |
-| `print()`-Debugging als Reflex | **8** — der Debugger als bessere Variante | offen |
+| `print()`-Debugging als Reflex | **8** — der Debugger als bessere Variante | **eingelöst** ✓ |
 | Design-Entscheidung: welche Klasse ist der Bezugsfall | **21** — gegen sie wird balanciert | offen |
 
 ### Etappe 3 — Die Wellenschleife ⭐  *(3a Schleife · 3b Befehle · 3c Kampf und Anzeige)*
@@ -100,12 +102,12 @@ Chronologisch nach Etappe. Spalte „Status": `offen` = noch nicht eingelöst, `
 | **3a: Die Hauptschleife selbst** | **28** — wird zur Pygame-Loop mit 60 fps | offen |
 | **3a:** Zwei Schleifenebenen, also zwei Einrückungstiefen | **14a** — die Doppelschleife über das Raster | offen |
 | **3a:** `range()` | **14a** — Schleifen über das Vorfeldraster | offen |
-| **3a:** `range()` zählt ab 0, die zweite Zahl ist ausgeschlossen | **4** — derselbe Grund, warum der erste Listenindex 0 ist ✓; **8** — Off-by-One als eigene Fehlerkategorie | **teilweise eingelöst** ✓ (4) |
+| **3a:** `range()` zählt ab 0, die zweite Zahl ist ausgeschlossen | **4** — derselbe Grund, warum der erste Listenindex 0 ist ✓; **8** — Off-by-One als eigene Fehlerkategorie | **eingelöst** ✓ |
 | **3a:** `break` beim Wellenende | **20** — die Abbruchbedingungen werden validiert | offen |
 | ⭐ **3a: Knobelstelle — Abbruch von innen nach außen** (erste Aufgabe ohne gezeigtes Verfahren) | **12** — dieselbe Frage beim Beenden des Ticks; **19** — dort wird vor dem Beenden gespeichert | offen |
 | **3a:** `while True:` mit `break` als Bauform für Schleifen ohne bekannte Länge | **3b** — die zweite Bauform mit Zustandsvariable wird danebengestellt ✓; **12** — die Zustandsvariable trägt ab dort die Hauptschleife | **teilweise eingelöst** ✓ (3b) |
 | **3c:** `//` und `%` (heute ungebraucht, neben `/` eingeführt) | **7b** — im Beispiel zu mehreren Rückgabewerten; **14a** — Zeile und Spalte aus einem Index | offen |
-| **3a:** `Strg + C` als Notausgang, einmal absichtlich benutzt | **8** — gehört zum Werkzeugkasten der Bug-Jagd | offen |
+| **3a:** `Strg + C` als Notausgang, einmal absichtlich benutzt | **8** — gehört zum Werkzeugkasten der Bug-Jagd | **eingelöst** ✓ |
 | 👀 **3a:** `continue` und `_` (im Wegwerf-Skript gesehen, nicht im Spiel gebaut) | **23a** — dieselben Denkfiguren in Comprehensions | offen |
 | **3b:** `.lower()` auf der Eingabe — Einlösung aus **2** | **4** — mit `.split()` ✓; **7a** — wohnt in `verarbeite_befehl()` ✓ | **eingelöst** ✓ |
 | **3b:** Lange `elif`-Kette der Befehle (bewusst ertragen) | **7a** — wandert in `verarbeite_befehl()` ✓; **23a** — stirbt durch das Befehls-Dictionary | **teilweise eingelöst** ✓ (7a) |
@@ -115,7 +117,7 @@ Chronologisch nach Etappe. Spalte „Status": `offen` = noch nicht eingelöst, `
 | **3b: Design-Entscheidung — welche Befehle kosten eine Runde?** (Auskunft kostet nichts, Handlung schon) | **12** — dieselbe Frage als „welche Spieleraktion löst einen Tick aus?"; **13** — Bauzeit läuft nur bei vergehender Zeit; **21a** — erst dadurch wird Nachladen eine echte Wahl | offen |
 | **3a: Drei Ebenen für Variablen** (vor den Schleifen · pro Welle · pro Runde) ⭐ | **7a** — dort heißt das Verhalten *Scope* ✓; **12** — Weltzustand gehört der Welt | **teilweise eingelöst** ✓ (7a) |
 | **3a: Zwei Abbruchbedingungen — `kern_integritaet` *und* `trefferpunkte`** — Einlösung aus **1** und **2** | **13** — nur eine der beiden bekommt einen Respawn-Zähler | offen |
-| **3a: Entwicklerbefehle sind erlaubt und werden am Ende entfernt** | **3c** — eigener Aufräumschritt; **8** — sie wären sonst Verdächtige bei der Fehlersuche | offen |
+| **3a: Entwicklerbefehle sind erlaubt und werden am Ende entfernt** | **3c** — eigener Aufräumschritt; **8** — sie wären sonst Verdächtige bei der Fehlersuche | **eingelöst** ✓ |
 | **3c: `nachladen_noetig` bekommt endlich einen Wert** — Einlösung aus **2** | **18** — zwei Werte, die dasselbe sagen, sind eine Fehlerquelle | offen |
 | ⭐ **3c: `erfahrung` — ein Zähler, der beim Kill steigt** (heute nur eine Zahl in der Anzeige, ohne Wirkung) | **5** — die Stufenschwellen kommen als Dictionary dazu; **9a** — wird Attribut des Marine; **13** — „Erfahrung bis zur nächsten Stufe" ist dasselbe Zählermuster wie ein Cooldown; **18** — Stufen zahlen Skillpunkte aus | offen |
 | **3c: Zwei Werte für dieselbe Aussage** (`munition > 0` und `nachladen_noetig`) | **18** — Zustandsverwaltung; **16** — Kandidat für die Bug-Jagd | offen |
@@ -127,7 +129,7 @@ Chronologisch nach Etappe. Spalte „Status": `offen` = noch nicht eingelöst, `
 | **3c:** Nachladen kostet eine Runde, Nachschauen nicht (erste echte Spielentscheidung) | **13** — dasselbe Muster als Bauzeit; **21a** — Teil des Balancings | offen |
 | **3c:** Notizliste „was fühlt sich falsch an" | **21a** — Grundlage des Balancings | offen |
 | **3c: Darstellung: Balken statt Zahlen** | **4** — die Anmarschbahn kommt daneben ✓; **7b** — wandert in `zeichne_balken()` | **teilweise eingelöst** ✓ (4) |
-| **3c:** Balken zeigt ungültige Werte sichtbar an — **und soll sie nicht begrenzen** | **8** — Typ-3-Fehler an der Darstellung erkennen | offen |
+| **3c:** Balken zeigt ungültige Werte sichtbar an — **und soll sie nicht begrenzen** | **8** — Typ-3-Fehler an der Darstellung erkennen | **eingelöst** ✓ |
 | 👀 **3c:** Formatangabe im f-String (`:.0%`) | **9b** — `__repr__` formatiert Objekte; durchgehend beim Lesen | offen |
 
 ### Etappe 4 — Ausrüstung und Beute
@@ -164,12 +166,12 @@ Chronologisch nach Etappe. Spalte „Status": `offen` = noch nicht eingelöst, `
 | ⭐ *(Kür)* Der untersuchbare Datenkern — eine Zeile, die nichts auflöst | **15** — dort wird sie aufgelöst. *Entfällt, wenn die Kür entfällt.* | offen |
 | **Darstellung: die Anmarschbahn als eine Zeile** ⭐ | **7b** — wandert in `zeichne_bahn()` ✓; **14a** — wird zum Raster aus vielen Zeilen | **teilweise eingelöst** ✓ (7b) |
 | Gegnerposition ↔ Zeichen an dieser Stelle (zwei Dinge) | **14a** — Position als Tuple, Zeichen aus dem Raster | offen |
-| Darstellung als Debugging-Werkzeug | **8** — sichtbare Fehler statt gelesener; **16** — Reihenfolgefehler im Tick | offen |
+| Darstellung als Debugging-Werkzeug | **8** — sichtbare Fehler statt gelesener; **16** — Reihenfolgefehler im Tick | **teilweise eingelöst** ✓ (8) |
 | **Reihenfolge: zeichnen vor oder nach dem Bewegen?** (Kaputtmach-Experiment 6) | **16** — daraus wird eine eigene Bug-Jagd; **12** — die Tick-Phasen | offen |
-| **Baureihenfolge: ein Gegner → mehrere → entfernen** (drei Schritte, nicht einer) | **8** — genau dieses Halbieren ist das Suchverfahren; **14a** — dieselbe Staffelung beim Raster | offen |
+| **Baureihenfolge: ein Gegner → mehrere → entfernen** (drei Schritte, nicht einer) | **8** — genau dieses Halbieren ist das Suchverfahren; **14a** — dieselbe Staffelung beim Raster | **teilweise eingelöst** ✓ (8) |
 | 👀 **`dir()` und `help()` — ein Objekt selbst befragen** (in **4** an `.count()` geübt, ohne dass die Lösung daran hängt) | **9b** — dieselbe Technik an eigenen Klassen; **24** — eine fremde Bibliotheks-API lesen; **27** — die zwei Werkzeuge vor einem fremden Repo | offen |
 | `.join()` — Liste zu einer Zeile | **7b** — lebt jetzt in `zeichne_bahn()` ✓; **14a** — jede Rasterzeile entsteht so | **teilweise eingelöst** ✓ (7b) |
-| ⭐ *(Kür)* Beute per Nummer nehmen — der Spieler zählt ab 1, Python ab 0 | **8** — Off-by-One als eigene Fehlerkategorie | offen |
+| ⭐ *(Kür)* Beute per Nummer nehmen — der Spieler zählt ab 1, Python ab 0 | **8** — Off-by-One als eigene Fehlerkategorie | **eingelöst** ✓ |
 
 ### Etappe 5 — Der Vorposten und das Depot
 
@@ -188,7 +190,7 @@ Chronologisch nach Etappe. Spalte „Status": `offen` = noch nicht eingelöst, `
 | Verschachtelte Struktur (Dict im Dict) | **19** — genau diese Form ist JSON; **25** — Content-Format | offen |
 | Schlüssel müssen immutable sein | **6** — warum ein Set keine Listen aufnimmt | offen |
 | `.get()` für sicheren Zugriff — **eckige Klammern, wenn Fehlen ein Bug wäre; `.get()`, wenn es der Normalfall ist** | **20** — die leichtere Alternative zu `try` / `except` | offen |
-| Tippfehler **links vom `=`** legt still einen Eintrag an; Tippfehler beim **Lesen** stürzt ab | **8** — Typ-3-Fehler erkennen; **25** — Schlüssel aus fremden Dateien | offen |
+| Tippfehler **links vom `=`** legt still einen Eintrag an; Tippfehler beim **Lesen** stürzt ab | **8** — Typ-3-Fehler erkennen; **25** — Schlüssel aus fremden Dateien | **teilweise eingelöst** ✓ (8) |
 | `.items()` zum Iterieren | **12** — über alle Einheiten laufen | offen |
 | Zuweisung ändert die Karte zur Laufzeit | **13** — `welt.raeume_frei()` ist genau diese Zeile | offen |
 | Der Kaufvorgang prüft drei Bedingungen | **20** — drei Bedingungen werden drei Exceptions | offen |
@@ -295,7 +297,7 @@ Chronologisch nach Etappe. Spalte „Status": `offen` = noch nicht eingelöst, `
 | **7b: Reinheitsprüfung der Zeichenfunktionen** (rechnet nichts, entscheidet nichts, kennt die Welt nicht) | **28** — nur reine Zeichenfunktionen lassen sich austauschen; **29** — Kacheln statt Zeichen | offen |
 | **7b:** Die Balkenrechnung wohnt in der Zeichenfunktion — Einlösung aus **3c** | **14a** — dasselbe für das Raster | offen |
 | **7b:** Genau **ein** `assert` im Spielcode (`schaden >= 0`) | **13** — Zähler-Invarianten; **26** — wird zum Test | offen |
-| 👀 **7a:** Der Aufrufstapel (Kür) | **8** — genau den liest man in jedem Traceback | offen |
+| 👀 **7a:** Der Aufrufstapel (Kür) | **8** — genau den liest man in jedem Traceback | **eingelöst** ✓ |
 
 ### Etappe 8 — Bug-Jagd I ⭐
 
@@ -309,12 +311,15 @@ Chronologisch nach Etappe. Spalte „Status": `offen` = noch nicht eingelöst, `
 | **Beobachtung → Hypothese → Experiment** (als Denkform angelegt) | **16** — wird zum verbindlichen Dreizeiler; **27** — dieselbe Form ohne Änderungserlaubnis | offen |
 | Halbieren als Suchverfahren | **24** — welches Modul ist schuld | offen |
 | Das schriftliche Debugging-Protokoll | **16** — wird nachgelesen und geschärft | offen |
-| Das Fehlertagebuch | **26** — jeder Eintrag ist ein Testkandidat | offen |
+| Das Fehlertagebuch — **eine Zeile aus zwei Teilen: Symptom, dann der Fundweg** | **26** — jeder Eintrag ist ein Testkandidat; das Symptom ist dort das Material, der Fundweg bleibt der Schwerpunkt | offen |
 | Einen Fehler präzise beschreiben (vier Punkte) | **23** — dieselbe Fähigkeit bei fremdem Code | offen |
 | `git diff` / `git log` als Debugging-Werkzeug | **24** — dort zusammen mit Branches | offen |
 | Abgrenzung Debugging ↔ Fehlerbehandlung | **20** — warum nacktes `except:` gefährlich ist | offen |
 | Fehler in den **Daten** statt im Code | **16** — manipulierter Speicherstand; **25** — bei externem Content die häufigste Sorte | offen |
+| **Die Funktion, die ihren eigenen Docstring bricht** (Transferaufgabe: verändert die übergebene Liste, obwohl sie das Gegenteil zusagt) | **15** — dieselbe Sorte, dann als stille Annahme in fremdem Code; **20** — Zusagen an Funktionsgrenzen prüfen | offen |
 | Die Darstellung als Fehleranzeiger benutzen | **16** — Reihenfolgefehler im Tick werden sichtbar | offen |
+| **Die repr-Form** (`!r` im f-String, und `p` im Debugger zeigt sie von selbst) | **9b** — `__repr__` macht dasselbe für eigene Objekte; ohne heute fehlt dort der Anlass | offen |
+| **Der bewusste Verzicht auf `try`/`except`** — ein Absturz beim Entwickeln ist ein Fund, kein Ärgernis | **20** — dort erst die Fehlerbehandlung, samt der Warnung vor nacktem `except:` | offen |
 
 ### Etappe 9 — Alles wird zum Objekt  *(9a Klassen · 9b `__repr__`)*
 
@@ -556,6 +561,7 @@ Umgekehrte Richtung. Vor jeder dieser Etappen prüfen, ob die Voraussetzung wirk
 | **6** (Datenstrukturen) | **4**, **5** | Mutable/immutable, `in` bei Liste und Dictionary, doppelte Käufe als Problem, **die Frage „Menge oder mehrere Dinge?" — in 4 einmal gestellt, hier für vier Strukturen beantwortet**, **die Gegnerliste als Positionszahlen und der Kaufvorgang, an den sich `AUSBAUTEN` anlehnt** |
 | **7a** (Funktionen) | 3, 4, 5, **6** | Die Platzhalterformel, die gewachsene `elif`-Kette, **die Prüfketten aus 5 und 6**, die Zustandsübersicht aus 5 |
 | **7b** (Trennung) | **7a**, 1, 3c, 4, 5, **6** | Funktionen als Bausteine **und** die Zeichenschnipsel aus 1 (Kopf), 3c (Balken), 4 (Bahn), 5 (Grundriss), 6 (Typzeichen) |
+| **8** (Bug-Jagd I) | 1, **3a**, **3c**, **4**, 5, **7a**, **7b** | Der `print`-Reflex aus allen Fundament-Etappen · `Strg + C` und die Entwicklerbefehle aus 3a · der nicht kappende Balken aus 3c · die Anmarschbahn als Messgerät aus 4 · der stille Schlüssel-Tippfehler aus 5 · **das dreischrittige Bauen aus 4, aus dem Halbieren wird** · der Aufrufstapel aus 7a · **ein Programm, das aus Funktionen besteht, die man einzeln verdächtigen kann** |
 | **9a** (Objekte) | **7a** | Die lange Parameterliste **und die Notiz, welche Werte immer gemeinsam auftreten** — ohne den Schmerz wirkt `self` willkürlich |
 | **9b** (`__repr__`) | **9a**, 8 | Klassen **und** der Debugger, sonst fehlt der Anlass |
 | **10** (Komposition) | **4**, 9a | Mutable vs. immutable, Aliasing bei Objekten, `__init__` mit Standardwerten |
@@ -618,6 +624,12 @@ Der Faden liegt bis 23b vollständig auf Stufe 👀. Das ist Absicht: Kopplung i
 
 **Der Held ist genau einer** — das ist die Prämisse des Spiels und keine Vereinfachung, die später fällt. Der Spieler steuert eine Figur; die anderen drei kämpfen mit, entscheiden aber selbst. Daran hängt, warum Etappe 11 zwei Steuerungsquellen auf einer Basisklasse braucht und warum Etappe 12 überhaupt zwischen *gesteuert* und *autonom* unterscheidet.
 
+**Das Klassengerät → die Klassenfähigkeit** ⭐ — der Faden, der die Klassenwahl aus Etappe 1 bis zum Ende trägt: **2 (`klassengeraet` als String pro Klasse — angezeigt, nie abgefragt)** → 4 (Sperre: es gehört nicht ins Inventar) → **5 (Sperre: es steht in keiner Warentabelle — das Depot verkauft keine Identität)** → 10 (Sperre: das Ausrüstungs-Objekt für *gekaufte* Teile ist etwas anderes und heißt deshalb anders) → 13 (Sperre: hier wird eine erfundene Fähigkeit geübt, nicht die echte) → **18 (Zahltag: Granatwerfer, Durchschlag, Mine und Turm, Heilung und Aura)** → **22 (wird zur Spalte `klasse` in der Fähigkeitentabelle)**.
+
+⚠️ **Vier Sperren auf sechzehn Etappen — genauso viele wie beim Erfahrungszähler.** Das ist kein Zufall: Beide Fäden sind sichtbare Werte ohne Wirkung, und beide werden an jeder Etappe, an der sie „fast fertig" aussehen, ausdrücklich stillgelegt.
+
+**Die zwei Machtquellen** ⭐ — die Entwurfsregel, die ab Etappe 5 mitläuft und in 18 geprüft wird: **Erfahrung entscheidet, *was du kannst*; Schrott entscheidet, *womit du es tust*.** → 5 (Schrott kauft Verbrauchsgüter, keine Fähigkeiten) → 13 (die Abklingzeit begrenzt den Einsatz, nicht den Zugang) → 14b (die Barrikade ist gekauft, also Schrott — sie schaltet nichts frei) → **18 (Skillpunkte kaufen Können, schwere Munition bezahlt den Einsatz)** → **22 (in der Fähigkeitentabelle stehen `stufe` und `kosten` nebeneinander — dort wird die Regel sichtbar oder verletzt)** → 21b (erst dann wird balanciert).
+
 **Fortschritt der eigenen Figur** ⭐ — der Faden, der das Spiel zu einem Hero-Survival macht: **3c (`erfahrung` steigt beim Kill — eine Zahl, noch ohne Wirkung)** → **5 (die Stufentabelle als Dictionary: ab welcher Erfahrung welche Stufe?)** → **9a (`erfahrung` und `level` werden Attribute des Marine)** → **13 (Erfahrung bis zur nächsten Stufe ist derselbe Zähler wie eine Abklingzeit)** → **18 (jede Stufe zahlt einen Skillpunkt aus; Fähigkeiten haben Voraussetzungen und eigene Stufen)** → 19 (vergebene Punkte gehören in den Spielstand) → 21b (jetzt erst wird balanciert) → **22 (alle Zahlen wandern in Tabellen)** → 25 (und von dort nach `content/`).
 
 **Wichtig für die Buchführung:** Zwischen 3c und 18 hat die Erfahrung fünfzehn Etappen lang **keine Wirkung** — sie ist eine Zahl auf dem Bildschirm. Das ist Absicht und dieselbe Bauweise wie bei `kern_integritaet` in Etappe 1: Der Lernende sieht früh, dass etwas mitgezählt wird, und erlebt später, wozu. Wer in 5 oder 9 schon Fähigkeiten freischaltet, nimmt Etappe 18 ihren Gegenstand.
@@ -679,11 +691,11 @@ Der Plan baut mehrfach etwas Funktionierendes um. **Diese Übergänge müssen fe
 
 **Refactoring als eigene Tätigkeit** ⭐ — umbauen, ohne das Verhalten zu ändern: **7a** (der erste bewusste Umbau, mit `diff` als Beweis und der Regel *nie Refactoring und neue Features im selben Schritt*) → **9** (Funktionen werden Methoden) → **11** (zwei Listen werden eine) → **22** (Code wird Daten) → **23a** (die `elif`-Kette stirbt) → **24** (eine Datei wird viele). **Der Charakterisierungstest aus 7a ist bei jedem dieser Umbauten das Werkzeug** — in 26 wird er automatisch.
 
-**Die drei Debugging-Reflexe** — je einer pro Fundament-Etappe, alle nach demselben Grundsatz *Nachsehen schlägt Vermuten*: Etappe 1 *welchen Typ hat dieser Wert?* (`print(type(x))`) → Etappe 2 *welcher Zweig läuft?* (`### ZWEIG`) → **Etappe 3 *wie oft läuft das?* (`### RUNDE n`)** → **Etappe 4 *was steht da gerade wirklich drin?* (`### VOR`/`### NACH` mit Inhalt **und** `len()`)** → **Etappe 5 *unter welchem Namen?* (`.keys()`)** → **Etappe 6 *welche Struktur ist das eigentlich?* (`type()` und Inhalt)** → **Etappe 7 *was geht rein, was kommt raus?* (zwei `print` an den Funktionsgrenzen — trennt „rechnet falsch" von „wird falsch gefüttert")** → **8** (der Debugger löst alle vier `print`-Varianten ab, der Reflex bleibt). Gemeinsamer Grundsatz: **Nachsehen schlägt Vermuten.**
+**Die drei Debugging-Reflexe** — je einer pro Fundament-Etappe, alle nach demselben Grundsatz *Nachsehen schlägt Vermuten*: Etappe 1 *welchen Typ hat dieser Wert?* (`print(type(x))`) → Etappe 2 *welcher Zweig läuft?* (`### ZWEIG`) → **Etappe 3 *wie oft läuft das?* (`### RUNDE n`)** → **Etappe 4 *was steht da gerade wirklich drin?* (`### VOR`/`### NACH` mit Inhalt **und** `len()`)** → **Etappe 5 *unter welchem Namen?* (`.keys()`)** → **Etappe 6 *welche Struktur ist das eigentlich?* (`type()` und Inhalt)** → **Etappe 7 *was geht rein, was kommt raus?* (zwei `print` an den Funktionsgrenzen — trennt „rechnet falsch" von „wird falsch gefüttert")** → **8** *„halt an und sieh nach"* (**ein `breakpoint()` löst alle sieben `print`-Reflexe auf einmal ab; der Reflex selbst bleibt**). Gemeinsamer Grundsatz: **Nachsehen schlägt Vermuten.**
 
 **Werkzeuge selbst befragen** 👀 — statt nachzuschlagen: **4** (`dir([])`, `help([].append)`, und `.join()` wird ausdrücklich selbst gesucht) → **5** (`dir({})`, `help({}.get)`; `.keys()` wird zum Debugwerkzeug) → **9b** (dieselbe Technik an eigenen Klassen) → **24** (eine fremde Bibliotheks-API lesen) → **27** (vor einem fremden Repo sind das die zwei Werkzeuge, die man immer hat). Zweck: Eine Erklärung *wiederzuerkennen* fühlt sich an wie sie zu *wissen* — der Unterschied fällt erst auf, wenn niemand da ist, den man fragen kann.
 
-**Die Bug-Jagd** — Etappe 8 (erste Runde, Werkzeuge und Protokoll) → 16 (subtilere Fehler; dort auch **Reihenfolgefehler im Tick** und ein **manipulierter Speicherstand**, sobald Etappe 19 ihn möglich macht) → 26 (umgekehrt: erst Test, dann Fix). Dazwischen unregelmäßig und unangekündigt.
+**Die Bug-Jagd** — Etappe 8 (erste Runde, Werkzeuge und Protokoll; **ohne Mentor die Zeitversatz-Variante — die Wartezeit ist der Mechanismus, nicht Zierde, denn wer die Sabotagen selbst geschrieben hat, weiß ohne Abstand, wo sie sitzen. Und in beiden Varianten gilt: kein `git diff` während der Jagd, es verrät alle eingebauten Fehler auf einen Schlag**) → 16 (subtilere Fehler; dort auch **Reihenfolgefehler im Tick** und ein **manipulierter Speicherstand**, sobald Etappe 19 ihn möglich macht) → 26 (umgekehrt: erst Test, dann Fix). Dazwischen unregelmäßig und unangekündigt.
 
 **Das Formular dazu** — *Beobachtung → Hypothese → Experiment*, in 8 als Denkform angelegt, in **16** zum verbindlichen Dreizeiler gemacht, in **27** ohne Änderungserlaubnis angewandt. Es ist das Gegenstück zum Ritual *Vorhersagen → Ausführen → Vergleichen → Erklären*: Das eine gilt für Code, den du neu schreibst, das andere für Code, der sich falsch verhält.
 

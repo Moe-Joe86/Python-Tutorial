@@ -1,6 +1,6 @@
 # Projekt-Lehrplan: Vorposten
 
-*v2.1.0 · 2026-09-02*
+*v2.2.0 · 2026-09-07*
 
 **Python lernen, indem die Verteidigung wächst — 30 Etappen in 38 Portionen**
 
@@ -264,6 +264,33 @@ Ein Verteidigungsspiel ist eine Maschine mit Stellschrauben. Sobald sie läuft, 
 3. **Eine langweilige Welle, die läuft, schlägt eine spannende Welle, die abstürzt.** Balance ist die letzte Schicht, nicht die erste.
 
 **Der Test, ob du in der Falle sitzt:** Wenn du bei der letzten Sitzung nur Zahlen geändert hast und keine Zeile Struktur — dreimal hintereinander — dann steckst du fest. Das ist keine Schande, sondern ein Signal: Weiter zur nächsten Etappe, die Zahlen laufen dir nicht weg.
+
+---
+
+## Die zwei Machtquellen ⚠️⭐
+
+Ab Etappe 18 wird der Spieler auf zwei Wegen stärker: durch **Erfahrung** und durch **Schrott**. Wenn beide dasselbe tun, kippt das Spiel — und wichtiger: Dann lernst du am Entwurf nichts, weil zwei Systeme dieselbe Aufgabe erledigen und keines von beiden eine erkennbare Rolle hat.
+
+**Die Regel, die den ganzen Plan trägt:**
+
+> **Erfahrung entscheidet, *was du kannst*. Schrott entscheidet, *womit du es tust*.**
+
+| | Erfahrung / Stufe | Schrott |
+|---|---|---|
+| Wirkt | **qualitativ** — neue Optionen | **quantitativ** — größere Zahlen |
+| Gibt | Fähigkeiten, Freischaltungen, Stufenzugang | Munition, Verbrauchsgüter, Basisausbau, Ausrüstungsteile |
+| Ist | verdient, unverlierbar, nicht kaufbar | ausgegeben, verbraucht, nachwachsend |
+| Beispiel | *Der Engineer kann ab Stufe 3 Minen legen* | *Eine Mine kostet 15 schwere Munition* |
+
+**Drei Verbote, die aus dieser Regel folgen:**
+
+1. **Eine Stufe erhöht nie direkt eine Grundzahl.** Kein „Stufe 4 gibt +10 Trefferpunkte". Eine Stufe schaltet frei; sie beziffert nicht.
+2. **Schrott schaltet nie eine Fähigkeit frei.** Er bezahlt ihren Einsatz, ihre Munition, ihre Reichweite — nie ihr Vorhandensein.
+3. **Kein Wert hängt an beiden.** Findest du beim Bauen einen, der von Stufe *und* Kaufentscheidung abhängt, hast du eine Stellschraube zu viel gebaut.
+
+**Und die dritte Quelle, die keine ist: das Klassengerät.** Jede Klasse bringt aus Etappe 2 ihr eigenes Gerät mit — Sturmgewehr, schweres MG, Multiwerkzeug, Bio-Injektor. Das ist **Identität, nicht Fortschritt**: nicht kaufbar, nicht verlierbar, bei allen gleich stark zu Beginn. Es entscheidet nur, *welcher Fähigkeitenbaum* dir überhaupt offensteht. Wer es im Depot verkaufen ließe, machte die Klassenwahl aus Etappe 1 zu einer Kaufentscheidung — und damit die ganze erste Etappe bedeutungslos.
+
+**Warum das hier steht und nicht in Etappe 18:** Weil es eine Entwurfsregel ist, keine Mechanik. Sie muss beim Bauen von Etappe 5, 13, 14 und 22 schon gelten, sonst reißt sie in 18 nicht mehr zusammen, was vorher auseinandergelaufen ist. **Das ist dieselbe Sorte Regel wie „Anzeige und Logik trennen" — sie kostet nichts, solange man sie von Anfang an einhält, und sehr viel, sobald man sie nachträglich einführen will.**
 
 ---
 
@@ -646,7 +673,24 @@ Deine übrigen Werte — `kern_integritaet`, `munition`, `schrott` — schreibst
 **Was du baust:**
 Zwei Dinge, die zusammengehören.
 
-Erstens: Die Klassenwahl aus Etappe 1 bekommt Folgen. Je nach Klasse andere Startwerte — Panzerung, Schaden, Trefferpunkte, Startausrüstung. Das ist eine `if`/`elif`-Kette, und sie ist an dieser Stelle genau richtig, auch wenn sie hässlich wird. Sie stirbt in Etappe 11.
+Erstens: Die Klassenwahl aus Etappe 1 bekommt Folgen. Je nach Klasse andere Startwerte — Panzerung, Schaden, Trefferpunkte, Klassengerät. Das ist eine `if`/`elif`-Kette, und sie ist an dieser Stelle genau richtig, auch wenn sie hässlich wird. Sie stirbt in Etappe 11.
+
+⚠️ **Das Klassengerät heißt `klassengeraet`, nicht `ausruestung`** — und beide Hälften dieser Regel haben einen Grund.
+
+**Warum nicht `ausruestung`:** In Etappe 10 bekommt der Marine ein Ausrüstungs-Objekt für **gekaufte** Teile. Zwei verschiedene Dinge dürfen nicht denselben Namen tragen; das eine würde das andere überschreiben, und zwar lautlos.
+
+**Warum es überhaupt getrennt bleiben muss:** Das Klassengerät ist Identität, kein Besitz. Es steht in keinem Depot, kostet keinen Schrott und lässt sich nicht verlieren — siehe *Die zwei Machtquellen*.
+
+| Klasse | `klassengeraet` | Wird in Etappe 18 zu |
+|---|---|---|
+| Soldat | `"Sturmgewehr"` | Unterlauf-Granatwerfer — Flächenschaden |
+| Heavy | `"Schweres MG"` | Durchschlag — ein Schuss trifft mehrere Gegner in einer Reihe |
+| Engineer | `"Multiwerkzeug"` | Minen, Fallen, mobiler Geschützturm |
+| Medic | `"Bio-Injektor"` | Heilung, später eine Unterstützungsaura |
+
+⚠️ **Heute ist das ein String und sonst nichts.** Er wird angezeigt und nicht abgefragt. Keine Fähigkeit, kein Effekt, keine Sonderregel — die `if`/`elif`-Kette wählt ihn aus, mehr passiert nicht. **Das ist derselbe geplante Leerlauf wie beim Erfahrungszähler aus 3c:** Ein Wert liegt sichtbar herum, bis das Werkzeug da ist, mit dem er etwas tun kann. Wer ihm heute schon Wirkung gibt, braucht dafür Fähigkeiten, Abklingzeiten und ein Freischaltsystem — also den Stoff von zehn Etappen auf einmal.
+
+*(Der Zahltag ist Etappe 18. Sperren dagegen stehen in 4, 5, 10 und 13.)*
 
 Zweitens: Der erste Schuss. Ob du feuern kannst, hängt an mehr als einer Sache — und **genau so soll es aussehen**, nicht als Turm aus verschachtelten `if`:
 
@@ -871,7 +915,9 @@ Wenn du diese beiden Blöcke wirklich verstehst, hast du dir Wochen Fehlersuche 
 
 ## Etappe 5 — Der Vorposten und das Depot
 
-**Neue Syntax:** Dictionaries · Schlüsselzugriff lesend und schreibend · `.get()` · `in` beim Dictionary · Verschachtelung · `for` über ein Dictionary · `.items()` · `del` · 👀 `.keys()` / `.values()`
+**Neue Syntax:** Dictionaries · Schlüsselzugriff lesend und schreibend · `.get()` · `in` beim Dictionary · Verschachtelung · **der Zugriff im f-String (`f"{d['key']}"`)** · `for` über ein Dictionary · `.items()` · `del` · 👀 `.keys()` / `.values()`
+
+⚠️ **Was das Depot nicht führt: das Klassengerät.** Sturmgewehr, schweres MG, Multiwerkzeug und Bio-Injektor stehen in keiner Warentabelle und haben keinen Preis. Das Depot verkauft **Verbrauchsgüter** (Munition, Medkits) und **Ausrüstungsteile** (Panzerplatte) — Dinge, die jeder Klasse nützen. Ein Medkit im Depot ist ein Einwegverband, den auch der Heavy anlegen kann; der Bio-Injektor des Medics ist etwas anderes und bleibt es. **Wären beide dasselbe, wäre die Klassenwahl aus Etappe 1 eine Kaufentscheidung** — siehe *Die zwei Machtquellen*.
 
 | 🔨 Bauen | 🧠 Verstehen | 👀 Nur erkennen |
 |---|---|---|
@@ -1164,16 +1210,16 @@ assert trinkgeld >= 0
 
 ## Etappe 8 — Bug-Jagd I ⭐
 
-**Keine neue Syntax. Eine eigenständige Fähigkeit.**
+**Keine neue Spielsyntax — aber Werkzeuge:** `breakpoint()` · die Debugger-Befehle `n` `s` `r` `c` `p` `l` `q` · der bedingte Breakpoint · `f"{wert!r}"` · 👀 `repr()`
 
 **Was du baust:**
-Kein Spielfeature, sondern zwei Dokumente: dein eigenes **Debugging-Protokoll** und ein **Fehlertagebuch** mit der wichtigsten Zeile — *wie gefunden*, nicht *was war*.
+Kein Spielfeature, sondern zwei Dokumente: dein eigenes **Debugging-Protokoll** und ein **Fehlertagebuch**. Ein Eintrag ist eine Zeile aus zwei Teilen — das Symptom, und dann die wichtigere Hälfte: *wie gefunden*. Das Symptom steht nur deshalb daneben, weil Etappe 26 aus jedem Eintrag einen Test baut und dafür wissen muss, **was** falsch war.
 
 Davor die Werkzeuge, in dieser Reihenfolge: die drei Fehlertypen als Denkraster, Tracebacks von unten nach oben lesen, Ursache von Symptom trennen, Halbieren statt Durchsuchen, `print()` mit Präfix und `!r`, und der **Debugger** — Breakpoints, Step Over/Into/Out, Variablen-Ansicht, bedingte Breakpoints. Dazu `git diff` als Suchraum-Verkleinerer.
 
 **Warum bedingte Breakpoints hier besonders zahlen:** Dein Spiel läuft zwanzig Wellen mit hunderten Runden. „Halt an, wenn `welle == 7` und `gegner.trefferpunkte < 0`" ist der Unterschied zwischen zwei Minuten und einer halben Stunde.
 
-Erst wenn die Werkzeuge sitzen, kommt die Jagd: Der Mentor gibt manipulierten Code zurück, ohne zu sagen wie viele Fehler und wo. Ab hier läuft sie unregelmäßig weiter. **Ohne Mentor** funktioniert die Zeitversatz-Variante: zehn Sabotagen aufschreiben, zwei Tage warten, drei davon blind anwenden.
+Erst wenn die Werkzeuge sitzen, kommt die Jagd: Der Mentor gibt manipulierten Code zurück, ohne zu sagen wie viele Fehler und wo. Ab hier läuft sie unregelmäßig weiter. **Ohne Mentor** funktioniert die Zeitversatz-Variante: zehn Sabotagen aufschreiben, zwei Tage warten, drei davon blind anwenden. **Der Abstand ist der Mechanismus** — wer die zehn selbst geschrieben hat, weiß ohne ihn bei jeder sofort, wo sie sitzt. Die Etappe blockiert das nicht: Alles andere wird fertig, die Jagd wird nachgeholt.
 
 **Warum das zählt:** Debugging wird in fast keinem Kurs unterrichtet, ist aber die Fähigkeit, die bei fremdem Code als einzige trägt. Und Typ 3 zerstört die schädlichste Anfängerüberzeugung: *„Wenn Python keinen Fehler zeigt, ist mein Programm richtig."*
 
@@ -1187,7 +1233,7 @@ Erst wenn die Werkzeuge sitzen, kommt die Jagd: Der Mentor gibt manipulierten Co
 - Welche vier Angaben gehören in eine gute Fehlerbeschreibung?
 - Warum ist „ich habe etwas geändert und jetzt geht es" ein schlechtes Ergebnis?
 
-**Transferaufgabe (10–15 Min):** Ein fremdes Programm mit einem Typ-3-Fehler — eine Funktion verändert die übergebene Liste, obwohl ihr Docstring das nicht ankündigt. Mit dem Debugger finden, erklären, reparieren. Verbindet mutable Objekte aus Etappe 4 mit „Abhängigkeiten sichtbar machen" aus Etappe 7.
+**Transferaufgabe (10–15 Min):** Ein fremdes Programm mit einem Typ-3-Fehler — eine Funktion verändert die übergebene Liste, obwohl ihr Docstring ausdrücklich zusagt, das nicht zu tun. Der Vertrag steht da, damit nichts zu erraten bleibt. Mit dem Debugger finden, erklären, reparieren. Verbindet mutable Objekte aus Etappe 4 mit „Abhängigkeiten sichtbar machen" aus Etappe 7.
 
 **Kaputtmachen:** Acht Trainingsbugs, selbst eingebaut — einer je Fehlertyp, dazu der fast richtige Vergleich (`>=` statt `>` beim Wellenende), das vergessene `return` in `berechne_schaden()`, der Fehler in den *Daten* statt im Code (ein Nachbar-Sektor, den es nicht gibt), und zwei Fehler gleichzeitig.
 
@@ -1293,12 +1339,17 @@ Nicht Vererbung — **Komposition.** Ein Marine *hat* Dinge:
 class Marine:
     def __init__(self, name):
         self.name = name
+        self.klassengeraet = "Sturmgewehr"   # aus Etappe 2 — ein String, unverändert
         self.inventar = Inventar()
         self.ausruestung = Ausruestung()
         self.position = (0, 0)
 ```
 
 `Ausruestung` verwaltet die Slots: `{"waffe": None, "panzerung": None, "modul": None}`
+
+⚠️ **Zwei Namen, die sich ähneln und nichts miteinander zu tun haben — sieh genau hin.** `klassengeraet` ist der String aus Etappe 2: Identität, unveränderlich, nicht kaufbar. `ausruestung` ist das neue Objekt: die Slots für **gekaufte** Teile, die man an- und ablegt. **Das Klassengerät belegt keinen Slot** — der Medic legt seinen Bio-Injektor nicht ab, um eine Panzerplatte anzuziehen.
+
+**Das ist die Sorte Verwechslung, die dich Stunden kostet**, weil beide Namen mit einem Punkt am selben Objekt hängen und in der Statusanzeige nebeneinander stehen. Wenn du an einer Stelle nicht sicher bist, welches gemeint ist, ist das die Frage aus Etappe 9: **Wem gehört dieser Wert — und was tut er?**
 
 | 🔨 Bauen | 🧠 Verstehen | 👀 Nur erkennen |
 |---|---|---|
@@ -1533,6 +1584,10 @@ class Faehigkeit:
 
 Du zündest die Fähigkeit, kämpfst weiter, vergisst sie — und irgendwann meldet sie sich zurück. Der einfachste mögliche Beweis, dass dein Tick-System funktioniert.
 
+⚠️ **Nimm heute genau *eine* Fähigkeit, und zwar eine erfundene.** Ein Knopf, eine Abklingzeit, eine Meldung — mehr nicht. **Keine Klassenbindung, keine Voraussetzung, keine Kosten, keine Wirkung auf Gegner.** Das echte Fähigkeitensystem ist Etappe 18, und es braucht Sets, Statuseffekte und das Freischaltraster; wer es hier vorwegnimmt, baut es zweimal. Heute geht es allein darum, dass ein Zähler im Tick herunterläuft und sich am Ende meldet.
+
+*(Dein `klassengeraet` aus Etappe 2 bleibt auch heute ein String. Die Versuchung, es endlich anzuschließen, ist an dieser Stelle am größten — es sieht nach nur noch einem Schritt aus. Es sind fünf.)*
+
 **Vier Systeme, ein Muster.** Das ist der eigentliche Lernstoff dieser Etappe:
 
 | System | Zähler läuft | Am Ende passiert |
@@ -1693,6 +1748,18 @@ Die drei autonomen Marines bekommen zwei Regeln, mehr nicht:
 Die Zone ist der Punkt, an dem das eine Spielmechanik wird statt einer Spielerei: Jeder Marine hat einen Bereich, den er hält. Damit rennt dir nicht der ganze Trupp hinter einem einzelnen Krabbler her, während am anderen Tor die Wand fällt.
 
 Technisch ist die Zone dieselbe Randprüfung wie die des Rasters, nur mit anderen Grenzen. Du schreibst dieselbe Art Bedingung zweimal an einem Tag und siehst dabei, dass „liegt das noch drauf?" und „darf der da hin?" dieselbe Form haben.
+
+### Die Barrikade — der erste Gegenstand, der auf dem Raster steht
+
+Sobald es Felder gibt, gibt es etwas, das man auf sie stellen kann. **Die Barrikade ist eine Ware aus dem Depot** (Etappe 5, unverändert): gekauft für Schrott, auf ein Feld gesetzt, blockiert es.
+
+**Der Reiz liegt nicht im Blockieren, sondern im Umlenken.** Ein Gegner, der geradeaus nicht weiterkommt, weicht aus — und läuft dabei durch die Zone eines Marines oder in den Feuerbereich des Turms. Damit trifft der Spieler zum ersten Mal eine **räumliche** Entscheidung statt einer Zahlenentscheidung.
+
+**Technisch ist es ein drittes Mal dieselbe Prüfung.** „Liegt das Feld auf dem Raster?", „darf der Marine dahin?", „ist das Feld frei?" — drei Fragen, eine Form. Genau deshalb steht die Barrikade hier und nicht in einer eigenen Etappe: **Sie kostet keine neue Technik, sondern zeigt, dass du eine bereits beherrschst.**
+
+⚠️ **Eine Barrikade ist kein Geschütz.** Sie schießt nicht, sie hat keine Stufen, sie tickt nicht. Sie steht im Weg und hält ein paar Treffer aus. Wer ihr Schaden gibt, baut Tower Defense — und das ist ausdrücklich nicht dieses Spiel (siehe Etappe 22).
+
+*(Wer 14b für einen Abend zu voll findet: Die Barrikade darf nach 14c rutschen oder ganz entfallen. Sie ist die einzige Zutat dieser Etappe, die nichts Neues lehrt.)*
 
 **Warum die Trupp-KI genau hier und nicht früher:** Vorher gab es keine Positionen. „Geh zum nächsten Gegner" setzt voraus, dass es ein *nächster* sein kann — und das setzt Abstände voraus, also Koordinaten.
 
@@ -1932,13 +1999,40 @@ Die Variable, die du am ersten Tag angelegt und nie benutzt hast, bekommt heute 
 
 **Hier zahlt sich die Erfahrung aus, die seit Etappe 3c mitgezählt hat.** Jede Stufe gibt einen Skillpunkt, und der Spieler entscheidet, wohin er ihn setzt. Damit hat die Zahl, die fünfzehn Etappen lang nur dastand, endlich eine Wirkung.
 
+⚠️ **Ein Skillpunkt kauft eine Fähigkeit oder eine Stufe davon — nie eine größere Grundzahl.** Kein „+10 Trefferpunkte", kein „+2 Schaden". Größere Zahlen kommen aus dem Depot, Können kommt aus Erfahrung. Das ist die Regel aus *Die zwei Machtquellen*, und sie wird genau hier verletzt, wenn man nicht aufpasst — weil ein Bonus auf eine Zahl der bequemste Skillpunkt ist, den man vergeben kann.
+
 Ein zentraler `flags`-Speicher (ein Set — jetzt weißt du, warum). Fähigkeiten haben Voraussetzungen: eine Mindeststufe, eine bestimmte Freischaltung, genug Schrott, die richtige Klasse. Das ist eine verknüpfte Bedingung, und sie ist erwachsen geworden seit Etappe 2.
 
 **Eine aktive Fähigkeit besteht aus drei Teilen, und alle drei hast du schon:** einer Voraussetzung (das Set aus Etappe 6 plus `level`), einer Abklingzeit (der Zähler aus Etappe 13) und einer Wirkung (ein Statuseffekt oder Schaden). Nichts davon ist heute neu — neu ist, dass sie zusammenkommen.
 
 **Passive gehören dazu und sind der einfachere Fall:** Sie haben keinen Auslöser. Statt dass der Spieler etwas drückt, fragt die Rechnung nach — *hat dieser Marine das Kopfschuss-Passiv?*. Das ist eine Zeile mehr in Etappe 21a und sonst nichts.
 
-**Und jede Klasse hat ihre eigene.** Der Engineer stellt einen mobilen Geschützturm auf — **eine Fähigkeit mit Abklingzeit, kein Gebäude**, und höchstens einer gleichzeitig. Er landet in derselben Einheitenliste wie der Trupp und tickt mit.
+**Und jede Klasse hat ihre eigene — und zwar genau die, die ihr Klassengerät aus Etappe 2 verspricht.** Sechzehn Etappen lang war `klassengeraet` ein String, der angezeigt und nie abgefragt wurde. Heute wird er zur Wurzel eines kleinen Fähigkeitenbaums:
+
+| Klasse | Klassengerät (Etappe 2) | Fähigkeit | Was daran neu ist |
+|---|---|---|---|
+| **Soldat** | Sturmgewehr | **Unterlauf-Granatwerfer** — Flächenschaden auf ein Feld und seine Nachbarn | Erste Fähigkeit, die *mehrere* Ziele trifft. Braucht das Raster aus 14a. |
+| **Heavy** | Schweres MG | **Durchschlag** — ein Schuss trifft alle Gegner in einer Reihe hintereinander | Braucht keine neue Struktur: Die Anmarschbahn aus Etappe 4 **ist** die Reihe. |
+| **Engineer** | Multiwerkzeug | **Mine** (liegt, bis jemand darauftritt) und **mobiler Geschützturm** (tickt mit, höchstens einer) | Zwei Sorten Zustand: einer wartet auf ein Ereignis, einer handelt selbst. |
+| **Medic** | Bio-Injektor | **Heilung** auf ein Ziel; ab höherer Stufe eine **Unterstützungsaura**, die im Umkreis wirkt, solange sie läuft | Der Übergang von Einmalwirkung zu Statuseffekt mit Dauer — der eigentliche Stoff dieser Etappe. |
+
+⚠️ **Bau sie in dieser Reihenfolge, und nicht alle an einem Abend.** Heilung zuerst (ein Ziel, sofortige Wirkung), dann Durchschlag (mehrere Ziele, vorhandene Struktur), dann Granatwerfer (mehrere Ziele, Raster), dann Mine und Turm (Zustand über Zeit). **Wer mit dem Geschützturm anfängt, baut sich die schwerste Sorte zuerst.**
+
+**Die Aura ist die einzige, die etwas wirklich Neues verlangt** — sie ist weder ein Ereignis noch ein dauerhafter Wert, sondern ein Effekt mit Ablaufdatum an mehreren Einheiten gleichzeitig. Genau dafür sind die Statuseffekte da, und deshalb steht sie am Ende.
+
+### Schwere und leichte Munition — Kosten, die man spürt
+
+Bis heute hat dein Vorrat **eine** Sorte Munition. Ab heute zwei, und der Unterschied ist keine Zierde:
+
+| | Leichte Munition | Schwere Munition |
+|---|---|---|
+| Wofür | Normales Feuern | Granaten, Minen, Durchschlagssalven |
+| Preis im Depot | günstig | deutlich teurer |
+| Nachschub | regelmäßig (Etappe 13) | selten |
+
+**Das kostet dich technisch nichts** — es ist ein zweiter Schlüssel in dem `vorrat`-Dictionary, das seit Etappe 5 steht. **Didaktisch leistet es zweierlei.** Erstens bekommen Fähigkeiten einen Preis, der nicht aus dem Nichts kommt: Eine Fähigkeit, die nur eine Abklingzeit hat, ist umsonst und wird stumpf gedrückt. Zweitens wird die Regel aus *Die zwei Machtquellen* am Objekt sichtbar: **Die Stufe entscheidet, ob du Minen legen *kannst*. Die schwere Munition entscheidet, wie oft.**
+
+⚠️ **Das ist ausdrücklich keine Traglast.** Es gibt keine Gewichtsgrenze und keine Rucksackverwaltung — das wäre ein eigenes System und lehrt nichts, was hier nicht schon steht.
 
 Dazu **Statuseffekte** mit Dauer: brennend, geschockt, überladen, abgeschirmt. Sie hängen an Einheiten, sie zählen im Tick herunter, sie verändern Werte, solange sie laufen. Damit hast du zum ersten Mal Zustand, der weder dauerhaft noch einmalig ist — die Sorte, die am schwersten sauber zu modellieren ist.
 
@@ -2259,8 +2353,17 @@ Bis heute stehen deine Zahlen im Code verstreut: Schaden einer Fähigkeit im `if
 
 ```python
 FAEHIGKEITEN = {
-    "geschuetzturm": {"klasse": "engineer", "stufe": 1, "abklingzeit": 30, "kosten": {"schrott": 40}},
-    "kopfschuss":    {"klasse": "soldat",   "stufe": 5, "passiv": True,    "bonus": 15},
+    "geschuetzturm": {"klasse": "engineer", "stufe": 3, "abklingzeit": 30,
+                      "kosten": {"schwere_munition": 20}},
+    "mine":          {"klasse": "engineer", "stufe": 1, "abklingzeit": 10,
+                      "kosten": {"schwere_munition": 15}},
+    "granate":       {"klasse": "soldat",   "stufe": 2, "abklingzeit": 12,
+                      "kosten": {"schwere_munition": 10}},
+    "durchschlag":   {"klasse": "heavy",    "stufe": 2, "abklingzeit": 15,
+                      "kosten": {"schwere_munition": 25}},
+    "heilung":       {"klasse": "medic",    "stufe": 1, "abklingzeit": 8,
+                      "kosten": {}},
+    "kopfschuss":    {"klasse": "soldat",   "stufe": 5, "passiv": True, "bonus": 15},
 }
 
 BASISTURM = {
@@ -2268,6 +2371,10 @@ BASISTURM = {
     2: {"schaden": 18, "reichweite": 4, "kosten": {"schrott": 300}, "voraussetzung": "energiezelle"},
 }
 ```
+
+⚠️ **Sieh dir die erste Tabelle noch einmal an — sie ist der Beweis für *Die zwei Machtquellen*.** In jeder Zeile steht `stufe` **und** `kosten`, und sie tun verschiedene Dinge: `stufe` entscheidet, **ob** die Fähigkeit existiert, `kosten` entscheidet, **wie oft** sie einsetzbar ist. Erfahrung und Schrott stehen nebeneinander, ohne sich zu überschneiden. **Wäre die Regel verletzt, sähe man es hier sofort** — etwa an einem Eintrag `{"stufe": 3, "bonus_schaden": 5}`, der eine Stufe in eine Zahl übersetzt.
+
+**Und das Klassengerät steht in keiner dieser Tabellen.** Es hat keinen Preis und keine Stufe; es ist die Spalte `klasse`, nach der gefiltert wird. Aus dem String von Etappe 2 ist eine Zugangsbedingung geworden, ohne dass er je etwas anderes war als ein String.
 
 ⚠️ **Sieh dir die zweite Tabelle genau an: Das sind Stufen desselben Turms, keine verschiedenen Turmtypen.** Es gibt genau **einen** Turm in der Basis, und du baust ihn aus. Freies Bauen beliebig vieler Geschütze gehört ausdrücklich nicht in dieses Spiel — es ist ein Hero-Survival, kein Tower Defense. Der Turm ist eine Beigabe zu deiner eigenen Figur, keine Mechanik, die sie ersetzt.
 

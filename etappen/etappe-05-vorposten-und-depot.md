@@ -1,10 +1,10 @@
 # Etappe 5 — Der Vorposten und das Depot
 
-*v1.2.0 · 2026-09-02*
+*v1.4.0 · 2026-09-07*
 
 > **Block 1: Fundament** · Etappe 5 von 30 · [← Etappe 4](etappe-04-ausruestung-und-beute.md) · [Lehrplan](../Vorposten_Lehrplan.md) · [Etappe 6 →](etappe-06-datenstrukturen.md)
 
-**Neue Syntax heute:** `{"schluessel": wert}` · `d["schluessel"]` lesen und schreiben · `.get()` mit und ohne Ersatzwert · `in` beim Dictionary · `d[a][b]` · `for name in d` · `.items()` · `del d[key]` · Zahlen als Schlüssel · 👀 `.keys()` und `.values()`
+**Neue Syntax heute:** `{"schluessel": wert}` · `d["schluessel"]` lesen und schreiben · `.get()` mit und ohne Ersatzwert · `in` beim Dictionary · `d[a][b]` · **`f"{d['schluessel']}"` — der Zugriff im f-String** · `for name in d` · `.items()` · `del d[key]` · Zahlen als Schlüssel · 👀 `.keys()` und `.values()`
 
 **Zeitaufwand:** 5–7 Sitzungen à 20–30 Minuten. Rund 45 Minuten davon sind Lesestoff — also gut anderthalb Sitzungen, bevor du tippst.
 
@@ -174,6 +174,58 @@ farben["rot"] = "#cc0000"        # überschreibt
 ⚠️ **Und hier eine Falle, die es bei Listen nicht gibt:** Beide Zeilen sehen identisch aus. Die eine legt an, die andere überschreibt — und Python sagt dir nicht, welche von beiden gerade passiert ist. Ein Tippfehler im Schlüssel erzeugt keinen Fehler, sondern **einen neuen Eintrag**, den niemand je liest.
 
 Das ist ein Fehler vom Typ 3, und du wirst ihn heute mindestens einmal bauen.
+
+### 2b. Einen Eintrag anzeigen — der Zugriff im f-String ⭐
+
+Deine Statusanzeige besteht seit Etappe 1 aus f-Strings, und ab heute stehen die Werte, die sie zeigen soll, in einem Dictionary. Diese zwei Dinge müssen zusammenkommen, und dabei gibt es genau eine Hürde: **die Anführungszeichen.**
+
+Der f-String ist bereits von Anführungszeichen umschlossen. Der Schlüssel braucht selbst welche. Die Regel lautet:
+
+> **Innen die andere Sorte als außen.**
+
+```python
+gewuerze = {"anis": 12, "kuemmel": 40}
+
+print(f"Anis: {gewuerze['anis']} Gramm")     # außen doppelt, innen einfach
+print(f'Anis: {gewuerze["anis"]} Gramm')     # oder genau umgekehrt
+```
+
+Beide Zeilen tun dasselbe. Nimm eine und bleib dabei.
+
+Innerhalb der geschweiften Klammern darf alles stehen, was auch sonst geht — Verschachtelung aus Konzept 5 und Rechnungen inbegriffen:
+
+```python
+lager = {"anis": {"menge_g": 12, "regal": "B"}}
+
+print(f"Anis: {lager['anis']['menge_g']} g in Regal {lager['anis']['regal']}")
+print(f"Doppelt wären {lager['anis']['menge_g'] * 2} g")
+```
+
+⚠️ **Die Versionsfalle — lies das, bevor du an dir zweifelst.** Ob innen *dasselbe* Anführungszeichen erlaubt ist wie außen, hängt an deiner Python-Version:
+
+| Deine Version | `f"{gewuerze["anis"]}"` |
+|---|---|
+| **3.12 und neuer** | läuft |
+| **3.11 und älter** | `SyntaxError` |
+
+Das ist der unangenehmste Fehler des heutigen Tages, weil die Meldung auf die Zeile zeigt und nach nichts aussieht. **Wenn du innen konsequent einfache Anführungszeichen nimmst, läuft dein Code auf jeder Version** — und fremder Code, der es anders macht, ist deshalb nicht falsch, sondern nur neuer. Prüf mit `python3 --version`, worauf du stehst, und schreib es in `GELERNT.md`; du wirst es noch öfter brauchen.
+
+**Die zweite Falle ist der Schlüssel ohne Anführungszeichen:**
+
+```python
+print(f"Anis: {gewuerze[anis]}")     # NameError: name 'anis' is not defined
+```
+
+Ohne Anführungszeichen ist `anis` ein **Variablenname**, kein Schlüssel. Existiert zufällig eine Variable dieses Namens, wird es noch unangenehmer: Dann sucht Python nach deren *Wert* als Schlüssel und du bekommst einen `KeyError` mit einer Zahl darin, die nirgends in deinem Dictionary steht. Das ist dieselbe Unterscheidung, die in Konzept 9 wiederkommt: Eine Kennung in Anführungszeichen ist ein Text, ohne Anführungszeichen ein Name.
+
+**Und der Ausweg, wenn es dir zu verschachtelt wird:** Hol den Wert vorher heraus.
+
+```python
+menge = gewuerze["anis"]
+print(f"Anis: {menge} Gramm")
+```
+
+Das ist kein Rückzug. Bei drei Werten in einer Zeile ist es die lesbarere Lösung, und du wirst es in Etappe 7 wiedersehen, wenn Anzeige und Logik getrennt werden.
 
 ### 3. `.get()` — fragen, ohne abzustürzen
 
@@ -545,6 +597,8 @@ waren: medkit → 40, munition → 15, panzerplatte → 90
 - Befehl `depot`, der alle Waren mit Preisen auflistet — **mit einer Schleife über das Dictionary**, nicht mit drei `print`-Zeilen.
 - Trägst du eine vierte Ware ein, muss sie ohne weitere Arbeit in der Liste erscheinen.
 
+⚠️ **Was hier ausdrücklich nicht hineingehört: `klassengeraet`.** Das Medkit im Depot ist ein Einwegverband, den jede Klasse kaufen kann — der Bio-Injektor des Medics aus Etappe 2 ist etwas anderes und bleibt es. Er hat keinen Preis, weil er nicht käuflich ist. Trägst du ihn versehentlich als Ware ein, kann ihn sich der Soldat für 40 Schrott kaufen, und die Klassenwahl aus Etappe 1 verliert ihren Sinn.
+
 **Zum Nachdenken, bevor du weitergehst:** Öffne `inventar` und `waren` nebeneinander. Beides sind Sammlungen von Gegenständen — eine Liste, ein Dictionary. Was wäre unsinnig daran, das Inventar wie `waren` aufzubauen? Ein, zwei Sätze in `GELERNT.md`. Die vollständige Antwort gibt Etappe 6.
 
 ---
@@ -577,6 +631,10 @@ vorrat: schrott → 0, munition → 40
 
 - Deine losen Zahlen für Schrott und Munition wandern hinein.
 - Pass **alle** Stellen an, die bisher direkt darauf zugegriffen haben — Statusanzeige, Feuern, Aufsammeln.
+
+⚠️ **Die Statusanzeige ist die Stelle, an der es hakt**, denn dort trifft der Dictionary-Zugriff auf deine f-Strings aus Etappe 1. Aus `f"Munition: {munition}"` wird `f"Munition: {vorrat['munition']}"` — **innen einfache Anführungszeichen.** Wenn dir hier ein `SyntaxError` oder ein `NameError` entgegenkommt, ist das kein Denkfehler, sondern Konzept 2b; lies ihn notfalls noch einmal.
+
+*(Falls du es noch nicht getan hast: Führ einmal `python3 --version` aus. Unterhalb von 3.12 ist die Anführungszeichen-Regel strenger, und das erklärt einen sonst rätselhaften Fehler.)*
 
 **So prüfst du es:** Feuern muss weiterhin Munition senken, der Balken aus Etappe 3c muss weiterhin stimmen.
 
@@ -741,6 +799,7 @@ Prüft den Zustand deines Programms, nicht dein Gefühl. Führ jeden Punkt tats�
 - [ ] `depot` außerhalb des Depots meldet, wo das Depot ist
 - [ ] ⭐ **Ware hinzufügen:** `"reparaturkit"` mit allen Daten eintragen, **keine Zeile Logik anfassen** — sie erscheint im Depot, ist kaufbar und landet an der richtigen Stelle
 - [ ] ⭐ **Ware löschen:** `"panzerplatte"` aus den Daten entfernen — sie verschwindet aus dem Depot, `kaufe panzerplatte` meldet sauber, nichts stürzt ab
+- [ ] Deine Statusanzeige liest Munition und Schrott aus `vorrat` — es gibt keine losen Zahlen mehr daneben
 - [ ] Preis einer Ware ändern — Depot **und** Abbuchung zeigen den neuen Wert
 - [ ] Einen Ausgang aus einem Sektor löschen — `umsehen` zeigt ihn nicht mehr, `gehe` dorthin meldet die vorhandenen Richtungen
 - [ ] Kaufen mit zu wenig Schrott sagt, dass der Schrott nicht reicht — und der Schrott wird **nicht** abgebucht
@@ -798,7 +857,7 @@ Wenn Schritt 5 ohne jede Änderung funktioniert, hast du Konzept 8 verstanden. W
 
 ## Kaputtmachen
 
-**Vor jedem Experiment aufschreiben, was passieren wird.** Die ersten fünf gehören dazu, die letzten vier sind Kür.
+**Vor jedem Experiment aufschreiben, was passieren wird.** Die ersten sechs gehören dazu, die letzten vier sind Kür.
 
 **1. Greif auf einen Schlüssel zu, den es nicht gibt.** Lies die Fehlermeldung ganz. Was genau steht in den Anführungszeichen?
 
@@ -816,6 +875,16 @@ Das erste läuft **still durch** und legt einen Eintrag an, den nie jemand liest
 **Warum der Unterschied?** Beim ersten legst du einen Schlüssel *an* — das ist erlaubt, dafür gibt es keine Rechtschreibprüfung. Beim zweiten musst du erst einen Schlüssel *lesen*, um an das innere Dictionary zu kommen, und den gibt es nicht.
 
 **Die Regel dahinter ist wichtiger als das Beispiel:** Ein Tippfehler links vom `=` ist gefährlich. Ein Tippfehler beim Lesen ist harmlos, weil er abstürzt. Ruf danach `waren` auf und sieh dir an, was da jetzt drinsteht.
+
+**2b. Die drei Arten, einen Eintrag falsch anzuzeigen.** Nimm eine Zeile deiner Statusanzeige und probier nacheinander:
+
+```python
+print(f"Schrott: {vorrat[schrott]}")        # ohne Anführungszeichen
+print(f"Schrott: {vorrat['schrot']}")       # Tippfehler im Schlüssel
+print(f"Schrott: {vorrat["schrott"]}")      # innen wie außen
+```
+
+**Drei verschiedene Fehler — oder auch nur zwei.** Schreib vor dem Ausführen auf, welchen du jeweils erwartest, und danach, welchen du bekommen hast. **Die dritte Zeile ist die interessante:** Ob sie läuft oder abstürzt, hängt an deiner Python-Version. Führ `python3 --version` aus und halt in `GELERNT.md` fest, was bei dir passiert — Konzept 2b sagt, warum.
 
 **3. Schreib beim Kaufen `vorrat["schrott"] - preis` statt `-= preis`.** Kauf dreimal hintereinander dasselbe.
 
@@ -877,6 +946,9 @@ Alle Typ-3-Fehler in `GELERNT.md`, mit einem Satz dazu: **woran du sie erkannt h
 | `KeyError: 'osten'` nach dem Gehen | Die Himmelsrichtung wurde als Standort gespeichert | Konzept 12 — Richtung ist nicht Ziel |
 | Neue Ware erscheint nicht im Depot | Die Anzeige ist von Hand geschrieben statt aus den Daten | Auftragsschritt 6 |
 | `in` findet die Ware nicht, obwohl sie da ist | Du suchst nach dem Wert statt nach dem Schlüssel | Konzept 4 |
+| `SyntaxError` in einer f-String-Zeile, die richtig aussieht | Innen dasselbe Anführungszeichen wie außen — auf Python 3.11 und älter verboten | Konzept 2b. Innen einfache Anführungszeichen nehmen |
+| `NameError: name 'munition' is not defined` in einem `print` | Schlüssel ohne Anführungszeichen im f-String | Konzept 2b — ohne Anführungszeichen ist es ein Variablenname |
+| `KeyError` mit einer **Zahl** darin, die es im Dictionary gar nicht gibt | Schlüssel ohne Anführungszeichen, und eine gleichnamige Variable existiert — ihr Wert wurde als Schlüssel benutzt | Konzept 2b |
 
 **Der Debugging-Reflex dieser Etappe: „Was steht wirklich drin — und unter welchem Namen?"**
 

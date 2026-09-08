@@ -1,6 +1,6 @@
 # Etappe 2 — Der erste Kontakt
 
-*v1.2.0 · 2026-09-02*
+*v1.3.0 · 2026-09-07*
 
 > **Block 1: Fundament** · Etappe 2 von 30 · [← Etappe 1](etappe-01-der-abwurf.md) · [Lehrplan](../Vorposten_Lehrplan.md) · [Etappe 3 →](etappe-03-die-wellenschleife.md)
 
@@ -28,7 +28,7 @@ Heute bekommt es eine Gabelung.
 
 Das ist der größte Einzelsprung der ersten fünf Etappen, und er hat zwei Anwendungen, die zusammengehören.
 
-**Erstens: Die Klassenwahl aus Etappe 1 bekommt Folgen.** Gestern hast du gespeichert, was der Spieler gewählt hat, und es bestätigt. Heute bestimmt diese Wahl Panzerung, Schaden, Trefferpunkte und Startausrüstung. Der Heavy hält aus, was den Medic umwirft. Ab heute ist die Klassenwahl eine Entscheidung und keine Kosmetik.
+**Erstens: Die Klassenwahl aus Etappe 1 bekommt Folgen.** Gestern hast du gespeichert, was der Spieler gewählt hat, und es bestätigt. Heute bestimmt diese Wahl Panzerung, Schaden, Trefferpunkte und das Klassengerät. Der Heavy hält aus, was den Medic umwirft. Ab heute ist die Klassenwahl eine Entscheidung und keine Kosmetik.
 
 **Und zwar für genau eine Figur.**
 
@@ -80,12 +80,18 @@ Der Soldat bietet sich an — er ist im Lehrplan als ausgewogen angelegt.
 
 **Damit du nicht vier Zahlenpaare erfinden musst, hier ein vollständiger Satz zum Übernehmen.** Er ist nicht heilig, aber er ist stimmig, und du sollst heute deine Zeit nicht mit Balancing verbringen:
 
-| Klasse | Trefferpunkte | Schaden | Panzerung | Startausrüstung |
+| Klasse | Trefferpunkte | Schaden | Panzerung | Klassengerät |
 |---|---|---|---|---|
 | **Soldat** ← Bezugsfall | 100 | 10 | 5 | Sturmgewehr |
 | Heavy | 140 | 14 | 10 | Schweres MG |
-| Engineer | 90 | 7 | 4 | Reparaturwerkzeug |
-| Medic | 80 | 6 | 3 | Medkit |
+| Engineer | 90 | 7 | 4 | Multiwerkzeug |
+| Medic | 80 | 6 | 3 | Bio-Injektor |
+
+**Zur letzten Spalte, damit die Namen nicht willkürlich wirken.** Das Klassengerät ist das, was deine Figur zu ihrer Klasse macht — **Identität, kein Besitz.** Es steht in keinem Depot, kostet nichts und lässt sich nicht verlieren. Ab Etappe 5 wirst du Medkits kaufen können; **das ist etwas anderes als der Bio-Injektor des Medics**, so wie ein Verbandskasten etwas anderes ist als eine Ausbildung. Deshalb heißt es hier auch nicht „Ausrüstung": Was du dir *beschaffst*, kommt in Etappe 4 und 5 und heißt dort so.
+
+⚠️ **Heute ist das ein String und sonst nichts.** Er wird angezeigt und nirgends abgefragt. Keine Fähigkeit, kein Effekt, keine Sonderregel. **Das ist Absicht und kein Vergessen** — genau wie der Erfahrungszähler, der dir in Etappe 3c begegnen wird. Ein Wert liegt sichtbar herum, bis das Werkzeug da ist, mit dem er etwas tun kann. Wer ihm heute schon Wirkung gibt, braucht dafür Fähigkeiten, Abklingzeiten und ein Freischaltsystem — den Stoff von sechzehn Etappen auf einmal.
+
+*(Was einmal daraus wird, steht in Etappe 18: Aus dem Sturmgewehr wird ein Granatwerfer für Flächenschaden, aus dem schweren MG ein Durchschlag, der mehrere Gegner in einer Reihe trifft, aus dem Multiwerkzeug Minen und ein Geschützturm, aus dem Bio-Injektor Heilung und eine Unterstützungsaura. Nichts davon heute.)*
 
 ⚠️ **Und jetzt die Falle, in die hier fast jeder tappt — sie kostet später Stunden.**
 
@@ -385,15 +391,15 @@ Die Klassenwahl aus Etappe 1 bekommt `.strip()`, bevor `int()` darauf losgeht. F
 
 > Nach der Eingabe soll dein Programm **genau einen** dieser fünf Fälle ausführen:
 >
-> | Eingabe | Klasse | `trefferpunkte` | `schaden` | `panzerung` | `ausruestung` |
+> | Eingabe | Klasse | `trefferpunkte` | `schaden` | `panzerung` | `klassengeraet` |
 > |---|---|---|---|---|---|
 > | `1` | Soldat | 100 | 10 | 5 | `"Sturmgewehr"` |
 > | `2` | Heavy | 140 | 14 | 10 | `"Schweres MG"` |
-> | `3` | Engineer | 90 | 7 | 4 | `"Reparaturwerkzeug"` |
-> | `4` | Medic | 80 | 6 | 3 | `"Medkit"` |
+> | `3` | Engineer | 90 | 7 | 4 | `"Multiwerkzeug"` |
+> | `4` | Medic | 80 | 6 | 3 | `"Bio-Injektor"` |
 > | alles andere | — | — | — | — | Fehlermeldung |
 >
-> **Nach der Kette stehen in diesen vier Variablen die Werte genau einer Klasse.** Es gibt keine `heavy_trefferpunkte` und kein `medic_schaden` — nur `trefferpunkte`, `schaden`, `panzerung`, `ausruestung`, jeweils einmal.
+> **Nach der Kette stehen in diesen vier Variablen die Werte genau einer Klasse.** Es gibt keine `heavy_trefferpunkte` und kein `medic_schaden` — nur `trefferpunkte`, `schaden`, `panzerung`, `klassengeraet`, jeweils einmal.
 
 Vier Zweige mit `if` und `elif`, jeder setzt vier Variablen. Ja, das sind vier fast identische Blöcke. Ja, das darf sich falsch anfühlen — warum, steht unten unter „Was NICHT".
 
@@ -446,7 +452,7 @@ Wenn Letzteres: Das ist kein Fehler, sondern die Eigenschaft einer verknüpften 
 ## Was NICHT in diese Etappe gehört
 
 - ❌ **Wiederholt fragen, bis die Eingabe stimmt** → Etappe 3a (Schleifen)
-- ❌ **Eine Liste für die Startausrüstung** → Etappe 4
+- ❌ **Eine Liste für mitgeführte Gegenstände** → Etappe 4
 - ❌ **Ein Wörterbuch für die Klassenwerte** → siehe unten
 - ❌ **`try` / `except` für die Eingabe `zwei`** → Etappe 20
 - ❌ **Funktionen, damit die Kette kürzer wird** → Etappe 7

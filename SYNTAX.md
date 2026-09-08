@@ -1,6 +1,6 @@
 # Das Syntaxregister — welches Werkzeug ab wann zur Verfügung steht
 
-*v1.2.0 · 2026-09-02*
+*v1.4.0 · 2026-09-07*
 
 > Verbindlicher Anhang zum [Lehrplan](Vorposten_Lehrplan.md). Diese Datei ist die einzige Quelle der Wahrheit darüber, was ein Lernender an einem bestimmten Punkt kennt.
 
@@ -177,6 +177,9 @@ Kein Python. Terminal, Git, virtuelle Umgebung, `pip`. Steht im Lehrplan, nicht 
 | `in` prüft beim Dictionary den Schlüssel | 4 | 🔨 |
 | `in d.values()` | 4 | 👀 |
 | `d[a][b]` — verschachtelter Zugriff | 5 | 🔨 |
+| `f"{d['schluessel']}"` — Zugriff im f-String, innen die andere Anführungssorte | 2b | 🔨 |
+| Gleiche Anführungszeichen innen wie außen sind erst ab Python 3.12 erlaubt | 2b | 🧠 |
+| `python3 --version` | 2b | 🔨 |
 | `for name in d` — läuft über die Schlüssel | 6 | 🔨 |
 | `.items()` | 6 | 🔨 |
 | `.keys()` und `.values()` | 6 | 👀 |
@@ -233,17 +236,35 @@ Kein Python. Terminal, Git, virtuelle Umgebung, `pip`. Steht im Lehrplan, nicht 
 
 ---
 
+## Etappe 8 — Die Bug-Jagd I
+
+| Werkzeug | Konzept | Stufe |
+|---|---|---|
+| `f"{wert!r}"` — die `!r`-Form im f-String | 5 | 🔨 |
+| `repr()` als Funktion | 5 | 👀 |
+| `breakpoint()` — hält an und öffnet den Debugger | 6 | 🔨 |
+| `p name` im Debugger — druckt, und zwar in der repr-Form | 6 | 🔨 |
+| `n` `s` `r` `c` `l` `q` — die Debugger-Schrittbefehle | 6 | 🔨 |
+| `if bedingung: breakpoint()` — der bedingte Breakpoint | 7 | 🔨 |
+| Grafischer Debugger: *Step Over/Into/Out* = `n`/`s`/`r` | 6 | 👀 |
+
+*(Diese Etappe führt keine Spielsyntax ein — alles hier sind Werkzeuge zur Fehlersuche. Das Traceback-Lesen steht bereits bei Etappe 1 auf 🧠 und wird hier nur aktiv geübt, deshalb kein neuer Eintrag. `git diff` und `git log --oneline` gehören in den Git-Faden des Bogens, nicht in dieses Register.)*
+
+---
+
 ## Offene Lücken
 
 Werkzeuge, die eine Aufgabe braucht und die kein Guide erklärt. **Jede solche Zeile blockiert einen Lernenden, der keine zweite Quelle hat.**
 
-> **Für die Etappen 1 bis 7: keine.** Alle Werkzeuge, die ein Auftragsschritt dort verlangt, sind vorher erklärt.
+> **Für die Etappen 1 bis 8: keine.** Alle Werkzeuge, die ein Auftragsschritt dort verlangt, sind vorher erklärt.
 
 **Diese Tabelle bleibt trotzdem stehen**, weil sie beim Schreiben jeder weiteren Etappe wieder gebraucht wird. Findest du eine Lücke, trag sie hier ein — mit der Etappe, die sie braucht, und der Etappe, in die die Erklärung gehört.
 
 | Werkzeug | Gebraucht in | Muss erklärt werden in |
 |---|---|---|
 | *(zurzeit leer)* | | |
+
+**Eine geschlossene Lücke zur Erinnerung:** Der Dictionary-Zugriff im f-String fehlte in Etappe 5 bis v1.3.0 — der Auftrag verlangte ihn (Schritt 9, Statusanzeige auf `vorrat` umstellen), kein Konzept erklärte ihn. Aufgefallen ist das **nicht beim Review, sondern beim Bauen**. Die Lehre daraus: Ein Werkzeug kann fehlen, obwohl beide Einzelteile registriert sind — f-Strings seit Etappe 1, Dictionaries seit Etappe 5. **Prüf beim Schreiben nicht nur die Werkzeuge, sondern auch ihre Kombinationen.**
 
 **Zur Erinnerung, wie es dazu kam:** Elf solcher Lücken waren im Bestand, und keine davon war Nachlässigkeit im Einzelfall. Sie entstanden, weil die Guides nach *Ideen* gegliedert sind und `+=`, `%`, `//`, `liste[i] =` und `.pop()` zu klein für eine eigene Idee und zu neu zum Voraussetzen waren. Genau dagegen gibt es diese Datei.
 

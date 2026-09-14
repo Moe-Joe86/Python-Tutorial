@@ -1,6 +1,6 @@
 # Etappe 3 — Die Wellenschleife ⭐
 
-*v1.3.0 · 2026-09-07*
+*v1.3.0 · 2026-09-08*
 
 > **Block 1: Fundament** · Etappe 3 von 30 · [← Etappe 2](etappe-02-der-erste-kontakt.md) · [Lehrplan](../Vorposten_Lehrplan.md) · [Etappe 4 →](etappe-04-ausruestung-und-beute.md)
 

@@ -1,6 +1,6 @@
 # Etappe 2 — Der erste Kontakt
 
-*v1.3.0 · 2026-09-07*
+*v1.3.0 · 2026-09-08*
 
 > **Block 1: Fundament** · Etappe 2 von 30 · [← Etappe 1](etappe-01-der-abwurf.md) · [Lehrplan](../Vorposten_Lehrplan.md) · [Etappe 3 →](etappe-03-die-wellenschleife.md)
 

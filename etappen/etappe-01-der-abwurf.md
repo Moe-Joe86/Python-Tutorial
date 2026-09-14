@@ -1,6 +1,6 @@
 # Etappe 1 — Der Abwurf
 
-*v1.3.0 · 2026-09-07*
+*v1.3.0 · 2026-09-08*
 
 > **Block 1: Fundament** · Etappe 1 von 30 · [← Etappe 0](../Vorposten_Lehrplan.md#etappe-0--das-repo) · [Lehrplan](../Vorposten_Lehrplan.md) · [Etappe 2 →](etappe-02-der-erste-kontakt.md)
 

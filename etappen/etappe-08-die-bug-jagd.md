@@ -1,6 +1,6 @@
 # Etappe 8 — Die Bug-Jagd I
 
-*v1.2.0 · 2026-09-07*
+*v1.2.0 · 2026-09-08*
 
 > **Block 1: Fundament** · Etappe 8 von 30 · [← Etappe 7](etappe-07-aufraeumen.md) · [Lehrplan](../Vorposten_Lehrplan.md) · [Etappe 9 →](etappe-09-alles-wird-zum-objekt.md)
 

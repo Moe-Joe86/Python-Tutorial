@@ -1,8 +1,8 @@
 # Etappe 9 — Alles wird zum Objekt
 
-*v1.1.0 · 2026-09-07*
+*v1.1.1 · 2026-09-08*
 
-> **Block 2: Einheiten und Zeit** · Etappe 9 von 30 · [← Etappe 8](etappe-08-die-bug-jagd.md) · [Lehrplan](../Vorposten_Lehrplan.md) · Etappe 10 →
+> **Block 2: Einheiten und Zeit** · Etappe 9 von 30 · [← Etappe 8](etappe-08-die-bug-jagd.md) · [Lehrplan](../Vorposten_Lehrplan.md) · [Etappe 10 →](etappe-10-komposition.md)
 
 **Neue Syntax heute:** `class Name:` · `__init__` · `self` · `self.attribut = wert` · `objekt = Klasse(...)` · `objekt.attribut` · `def methode(self):` · `objekt.methode()` · `__repr__` · 👀 `__str__` · 👀 Dunder-Methoden als Begriff
 
@@ -791,4 +791,4 @@ Erst bei grünem Selbsttest. Alles freiwillig.
 
 ---
 
-> **Nächste Etappe:** Etappe 10 — Komposition · Objekte in Objekten, und was passiert, wenn sich zwei Marines ein Inventar teilen
+> **Nächste Etappe:** [Etappe 10 — Komposition](etappe-10-komposition.md) · Objekte in Objekten, und was passiert, wenn sich zwei Marines ein Inventar teilen

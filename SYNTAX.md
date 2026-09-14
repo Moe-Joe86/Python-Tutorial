@@ -1,6 +1,6 @@
 # Das Syntaxregister — welches Werkzeug ab wann zur Verfügung steht
 
-*v1.6.0 · 2026-09-07*
+*v1.9.0 · 2026-09-08*
 
 > Verbindlicher Anhang zum [Lehrplan](Vorposten_Lehrplan.md). Diese Datei ist die einzige Quelle der Wahrheit darüber, was ein Lernender an einem bestimmten Punkt kennt.
 
@@ -177,6 +177,7 @@ Kein Python. Terminal, Git, virtuelle Umgebung, `pip`. Steht im Lehrplan, nicht 
 | `d["schluessel"] = wert` — anlegen und überschreiben | 2 | 🔨 |
 | `KeyError` | 2 | 🧠 |
 | `.get(key)` und `.get(key, ersatz)` | 3 | 🔨 |
+| `.get(kennung, kennung)` — Rückfall auf den Schlüssel selbst | 9, Auftrag 7b | 🔨 |
 | `in` prüft beim Dictionary den Schlüssel | 4 | 🔨 |
 | `in d.values()` | 4 | 👀 |
 | `d[a][b]` — verschachtelter Zugriff | 5 | 🔨 |
@@ -280,11 +281,58 @@ Kein Python. Terminal, Git, virtuelle Umgebung, `pip`. Steht im Lehrplan, nicht 
 
 ---
 
+## Etappe 10 — Komposition
+
+| Werkzeug | Konzept | Stufe |
+|---|---|---|
+| Ein Objekt als Attribut eines anderen (`self.regal = Regal(3)`) | 2 | 🔨 |
+| `objekt.inneres.attribut` — zwei Punkte hintereinander | 2 | 🔨 |
+| `None` als bewusster Leerwert | 4 | 🔨 |
+| `is None` und `is not None` | 4, 9 | 🔨 |
+| Ein Dictionary mit festen Schlüsseln und `None` als Startwert (Slots) | 9 | 🔨 |
+| Ein Tuple als Position (`self.position = (0, 0)`) — **ohne Bewegung** | 10 | 🔨 |
+| `.copy()` als Schutz vor geteilten Objekten (aus Etappe 4) | 8 | 🔨 |
+| `def __init__(self, x=None)` statt `=[]` — der veränderbare Standardwert | 7 | 🔨 |
+| **Objektidentität: zwei Namen, ein Objekt** | 6 | 🧠 |
+| `None` ≠ `0` — beide falsy, verschiedene Bedeutung | 4 | 🧠 |
+| `__repr__` der inneren Klasse trägt die des äußeren Objekts | 11 | 🧠 |
+| `is` gegen `==` — Ding gegen Wert | 5 | 👀 |
+| Komposition („hat ein") als Begriff, gegen Vererbung („ist ein") | 1 | 👀 |
+| `TypeError: 'tuple' object does not support item assignment` | Kaputtmachen | 👀 |
+
+*(Vererbung, `super()` und Objekte statt Strings im Inventar gehören zu **11**. `@property` kommt im ganzen Plan nicht vor.)*
+
+---
+
+## Etappe 11 — Vererbung
+
+| Werkzeug | Konzept | Stufe |
+|---|---|---|
+| `class Kind(Eltern):` — Vererbung | 6 | 🔨 |
+| `super().__init__(...)` — als erste Zeile der `__init__` | 7 | 🔨 |
+| `super().methode()` in einer überschriebenen Methode | 8 | 🔨 |
+| Eine Methode überschreiben (gleicher Name in der Unterklasse) | 8 | 🔨 |
+| Eine Schleife über gemischte Objekte, ein Methodenaufruf | 8 | 🔨 |
+| `.remove(objekt)` an einer Liste von Objekten — entfernt genau dieses | 2 | 🔨 |
+| `for obj in liste: obj.attribut -= 1` verändert die Objekte | 3 | 🔨 |
+| Ein Dictionary Eingabe → Klasse, statt einer `if`/`elif`-Kette | Auftrag 11 | 🔨 |
+| Begriffe: Ober-/Basis-/Elternklasse, Unter-/abgeleitete/Kindklasse | 6 | 🧠 |
+| `AttributeError` bei fehlendem `super().__init__()` — Absturzstelle ≠ Fehlerstelle | 7 | 🧠 |
+| ⚠️ Methode ohne Klammern im `if` ist **immer wahr** — stiller Typ 3 | 14 | 🧠 |
+| `type(self).__name__` — Klassenname im `__repr__` der Oberklasse | 11 | 👀 |
+| `__len__`, `__contains__`, `__iter__` — **keine Implementierungsaufgabe** | 13 | 👀 |
+| `@property` — Methode ohne Klammern aufrufen | 14 | 👀 |
+| `TypeError: 'bool' object is not callable` — Klammern bei `@property` | 14 | 👀 |
+
+*(`min(..., key=...)` gehört zu **23a** und wird in 11a ausdrücklich vertagt — dort baut der Lernende die Schleife von Hand. Mehrfachvererbung kommt im ganzen Plan nicht vor.)*
+
+---
+
 ## Offene Lücken
 
 Werkzeuge, die eine Aufgabe braucht und die kein Guide erklärt. **Jede solche Zeile blockiert einen Lernenden, der keine zweite Quelle hat.**
 
-> **Für die Etappen 1 bis 9: keine.** Alle Werkzeuge, die ein Auftragsschritt dort verlangt, sind vorher erklärt.
+> **Für die Etappen 1 bis 11: keine.** Alle Werkzeuge, die ein Auftragsschritt dort verlangt, sind vorher erklärt.
 
 **Diese Tabelle bleibt trotzdem stehen**, weil sie beim Schreiben jeder weiteren Etappe wieder gebraucht wird. Findest du eine Lücke, trag sie hier ein — mit der Etappe, die sie braucht, und der Etappe, in die die Erklärung gehört.
 

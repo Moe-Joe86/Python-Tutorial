@@ -1,6 +1,6 @@
 # Projekt-Lehrplan: Vorposten
 
-*v2.5.1 · 2026-09-07*
+*v2.8.0 · 2026-09-08*
 
 **Python lernen, indem die Verteidigung wächst — 30 Etappen in 38 Portionen**
 
@@ -839,7 +839,9 @@ Das ist dieselbe Bauweise wie `kern_integritaet` in Etappe 1: erst sichtbar, vie
 
 Dazu `ablege <ding>` und eine zweite Liste mit dem, was nach einer Welle im Vorfeld liegt — ein Gegenstand wandert von der einen in die andere. Und `.split()`, damit Zwei-Wort-Befehle überhaupt möglich werden; in Etappe 5 trägt dasselbe Werkzeug `kaufe medkit`.
 
-**Erste Fundstücke:** ein Chitinpanzer, ein Organ, eine verbeulte Panzerplatte, ein Datenkern der Brut, mit dem heute noch niemand etwas anfangen kann. Der Datenkern ist der Köder Richtung Etappe 15.
+**Erste Fundstücke:** ein Chitinpanzer, ein Organ, ein Datenkern der Brut, mit dem heute noch niemand etwas anfangen kann. Der Datenkern ist der Köder Richtung Etappe 15.
+
+⚠️ **Der Grundsatz dahinter, und er gilt für den ganzen Plan: Aus der Brut fällt nichts, was ein Mensch anlegen kann.** Kein Vaporium (Währung), keine Munition (gekauft), **keine Panzerplatte** (Menschenausrüstung, Depotware). Was ein Insektoid hinterlässt, ist Rohstoff — plus den Datenkern als Rätsel. **Damit liegen im Vorfeld genau zwei Sorten Ding**: zählbares Material in vielen identischen Stücken und ein einmaliges Einzelstück, und dieser Kontrast ist die Not, die Etappe 5 auflöst.
 
 ⚠️ **Was hier ausdrücklich *nicht* liegt: Vaporium und Munition.** Was die Brut hinterlässt, ist die Brut selbst; Vaporium ist Währung und Munition wird gekauft. Beides bekommt der Lernende in Etappe 5, indem er sein Material verkauft — **so entsteht dort ein Kreislauf statt einer Einbahnstraße.**
 
@@ -984,7 +986,9 @@ Damit läuft ab heute die Wirtschaft, und sie ist **ein Kreislauf mit vier Stati
 
 ⚠️ **Weder Vaporium noch Munition sind Beute.** Vaporium ist Währung und entsteht ausschließlich durch Verkaufen; Munition wird gekauft. Ein Gegner, der Munition fallen lässt, finanziert das eigene Erlegen und macht das Depot überflüssig, bevor es gebaut ist — und in Etappe 21a gibt es dann nichts mehr zu balancieren. Was die Brut hinterlässt, ist die Brut selbst.
 
-**Der Verkauf ist deshalb kein Beiwerk, sondern trägt.** Er braucht eine **zweite flache Tabelle** (`verkaufswerte`) und übt damit die Kernlektion dieser Etappe ein zweites Mal: In der Verkaufslogik darf kein Materialname vorkommen. *(Frühere Fassungen führten Verkaufen als „bringt nichts Neues" — das galt, solange Gegner Vaporium fallen ließen.)* Der Kaufvorgang prüft drei Dinge (gibt es die Ware, reicht das Vaporium, ist Platz im Inventar) und ist damit dein erstes Stück Logik, das mehr als eine Bedingung braucht. Die Mengenabfrage (*„wie viele?"*) löst dabei die `int()`-Schuld aus Etappe 1 ein.
+⚠️ **Und Etappe 5 reißt ein Loch auf, das sie selbst schließen muss:** Das `nachladen` aus Etappe 3 setzt Munition auf einen festen Wert — harmlos, solange Munition nichts kostet. Ab hier ist es ein Cheat, der das Depot entwertet. **Auftragsschritt 12b trennt deshalb `geladen` vom `vorrat`:** Nachladen verschiebt, es erschafft nicht. Das ist die erste Stelle im Plan, an der zwei Zahlen für einen Vorgang nötig sind — Vorbereitung auf Etappe 12.
+
+**Der Verkauf ist deshalb kein Beiwerk, sondern trägt.** Er braucht eine **zweite flache Tabelle** (`verkaufswerte`) und übt damit die Kernlektion dieser Etappe ein zweites Mal: In der Verkaufslogik darf kein Materialname vorkommen. Der Kaufvorgang prüft drei Dinge (gibt es die Ware, reicht das Vaporium, ist Platz im Inventar) und ist damit dein erstes Stück Logik, das mehr als eine Bedingung braucht. Die Mengenabfrage (*„wie viele?"*) löst dabei die `int()`-Schuld aus Etappe 1 ein.
 
 **⭐ Und hier steckt der eigentliche Ertrag der Etappe, nicht bei den Dictionaries selbst:** In der Kauflogik darf **kein Warenname vorkommen**. Der Preis wird nachgeschlagen, nicht abgefragt. Eine vierte Ware ist dann eine Zeile in den Daten und keine Zeile im Code — und genau das ist die Prüfung, die im Selbsttest steht.
 
@@ -1346,7 +1350,7 @@ else:
 
 Du schreibst nichts. Du beantwortest: Was ist `einheit`? Woher kommt `moral`? Was macht der Punkt? Wann läuft `melde()`? Was passiert, wenn `moral` genau 5 ist?
 
-**Kaputtmachen:** Lass `self` bei einer Methode weg. Setz `self.munition` nicht in `__init__` und greif später darauf zu.
+**Kaputtmachen:** Lass `self` bei einer Methode weg. Setz `self.panzerung` nicht in `__init__` und greif später darauf zu.
 
 **Commit:** `Etappe 9b: Objekte zeigen, was in ihnen steckt`
 
@@ -1354,7 +1358,7 @@ Du schreibst nichts. Du beantwortest: Was ist `einheit`? Woher kommt `moral`? Wa
 
 ## Etappe 10 — Komposition
 
-**Neue Syntax:** Objekte in Objekten, Komposition
+**Neue Syntax:** Objekte als Attribute · `None` als bewusster Leerwert · `is None` / `is not None` · Slots als Dictionary mit `None` · `self.position` als Tuple · `.copy()` als Schutz · 👀 `is` gegen `==`
 
 **Was du baust:**
 Nicht Vererbung — **Komposition.** Ein Marine *hat* Dinge:
@@ -1421,7 +1425,15 @@ Und `if waffe is None:` — nicht `== None`. Kein Stil, echter Unterschied; frag
 
 ## Etappe 11 — Vererbung — und die Frage, ob wir sie brauchen
 
-**Neue Syntax:** Vererbung, `super()`, Methoden überschreiben
+**Neue Syntax:** `class Kind(Eltern)` · `super().__init__()` · Methoden überschreiben · `.remove(objekt)` an Objektlisten · 👀 `type(self).__name__` · 👀 `__len__`/`__contains__`/`__iter__` · 👀 `@property`
+
+⚠️ **Diese Etappe ist in drei Portionen geteilt** — sie zahlt drei Schulden auf einmal zurück, und jede hat ihr eigenes abgeschlossenes Ergebnis:
+
+| | Was passiert | Schuld seit |
+|---|---|---|
+| **11a** | Die zwei Gegnerlisten werden **eine** — reiner Umbau, `diff` muss leer sein | Etappe 6 |
+| **11b** | Vererbung, die `elif`-Kette stirbt, **der Trupp entsteht** | Etappe 2 |
+| **11c** | `Item`-Hierarchie, Dunder als Lesestoff, **die schriftliche Entscheidung** | Etappe 4 |
 
 **Diese Etappe ist voll, deshalb vorab die Gewichtung:**
 

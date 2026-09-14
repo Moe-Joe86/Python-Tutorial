@@ -1,6 +1,6 @@
 # Etappe 4 — Ausrüstung und Beute
 
-*v1.4.0 · 2026-09-07*
+*v1.5.0 · 2026-09-08*
 
 > **Block 1: Fundament** · Etappe 4 von 30 · [← Etappe 3](etappe-03-die-wellenschleife.md) · [Lehrplan](../Vorposten_Lehrplan.md) · [Etappe 5 →](etappe-05-vorposten-und-depot.md)
 
@@ -715,12 +715,22 @@ Das Muster steht in Konzept 12. Halt dich an die Reihenfolge dort.
 ### 3. Leg das Vorfeld an
 
 - Eine zweite Liste mit dem, was nach einer Welle draußen liegt.
-- Vier Gegenstände: `"chitinpanzer"`, `"organ"`, `"panzerplatte"`, `"datenkern"`.
+- Drei Gegenstände: `"chitinpanzer"`, `"organ"`, `"datenkern"`.
 - Zeig sie an — entweder als eigener Befehl oder am Ende jeder Welle.
 
-**Woher das kommt:** Was die Brut hinterlässt, ist die Brut selbst — Panzerstücke und Organe. Die Forschung nimmt beides ab und zahlt in **Vaporium**. **Deshalb liegt hier weder Vaporium noch Munition:** Vaporium ist Währung und fällt nicht vom Himmel, Munition wird gekauft und nicht von Insekten getragen. Beides bekommst du in Etappe 5, indem du dein Material verkaufst.
+**Woher das kommt:** Was die Brut hinterlässt, ist die Brut selbst — Panzerstücke und Organe. Die Forschung nimmt beides ab und zahlt in **Vaporium**.
 
-*(Der Datenkern tut heute nichts. Das ist Absicht — er wird in Etappe 15 eingelöst.)*
+⚠️ **Und hier gilt ein Grundsatz, den du dir merken solltest, weil er später ständig gebrochen werden will:**
+
+> **Aus der Brut fällt nichts, was ein Mensch anlegen kann.**
+
+Kein Vaporium — das ist Währung. Keine Munition — die wird gekauft. **Keine Panzerplatte** — die ist Menschenausrüstung und steht im Depot. Ein Insektoid trägt weder Metallplatten noch Standardmunition. **Was es hinterlässt, ist Rohstoff und ein Rätsel.**
+
+*(Der Datenkern ist das Rätsel. Er tut heute nichts. Das ist Absicht — er wird in Etappe 15 eingelöst.)*
+
+**Damit liegen im Vorfeld genau zwei Sorten Ding:** zählbares Material, von dem viele identische Stücke herumkommen, und ein einmaliges Einzelstück. **Genau dieser Kontrast ist der Gegenstand von Konzept 8** — und die Not, die Etappe 5 auflöst.
+
+*(Später wird die Beute vom Gegnertyp abhängen: Ein Speier hinterlässt eine Säuredrüse, ein Kriecher nicht. Dafür brauchst du die Gegnertypen aus Etappe 6 und die Gewichte aus 17a — heute fällt bei jedem dasselbe.)*
 
 ---
 

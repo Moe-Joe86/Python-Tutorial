@@ -1,6 +1,6 @@
 # Etappe 5 — Der Vorposten und das Depot
 
-*v1.13.1 · 2026-09-07*
+*v1.18.1 · 2026-09-08*
 
 > **Block 1: Fundament** · Etappe 5 von 30 · [← Etappe 4](etappe-04-ausruestung-und-beute.md) · [Lehrplan](../Vorposten_Lehrplan.md) · [Etappe 6 →](etappe-06-datenstrukturen.md)
 
@@ -9,6 +9,8 @@
 **Zeitaufwand:** 7–9 Sitzungen à 20–30 Minuten — **die größte Etappe des Fundaments.** Allein die Konzepte zu lesen kostet rund eine Stunde, also zwei bis drei Sitzungen, bevor du eine Zeile tippst. **Nimm den Schnitt nach Schritt 9 ernst** — die Schritte 10 bis 17 sind ein eigener Abend, und Schritt 1, 11 und 14 sind die schweren.
 
 **Voraussetzung:** Etappe 4 abgeschlossen, Selbsttest grün
+
+**Die Zeichen in diesem Guide:** ⚠️ *hier geht etwas kaputt* · ⛔ *Sperre — das kommt später* · ⭐ *das ist der eigentliche Ertrag*
 
 | 🔨 Bauen | 🧠 Verstehen | 👀 Nur erkennen |
 |---|---|---|
@@ -120,7 +122,7 @@ Du baust heute drei Sammlungen, die alle mit Gegenständen zu tun haben. Wenn du
 
 **Das Depot hat keinen Bestand** — es ist eine Preisliste, kein Lager. Wenn später von „Bestand" die Rede ist, ist immer der Vorrat des Spielers gemeint.
 
-⚠️ **Und eine Entscheidung, die heute fällt und die du sauber durchziehen musst:**
+**Und eine Entscheidung, die heute fällt und die du sauber durchziehen musst:**
 
 > **Ab heute ist Brut-Material kein Inventargegenstand mehr. Es ist eine Ressource.**
 
@@ -128,7 +130,7 @@ In Etappe 4 lagen Chitinpanzer und Organe in deiner `inventar`-Liste, weil du ni
 
 **Der Datenkern bleibt im Inventar.** Es gibt genau einen, er ist nicht zählbar, er wird nicht verkauft. **Das ist der Unterschied, um den es geht** — und du hast beide Sorten seit Etappe 4 in derselben Liste liegen gehabt.
 
-⚠️ **Und jetzt der Kreislauf, der heute zum ersten Mal geschlossen wird:**
+**Und jetzt der Kreislauf, der heute zum ersten Mal geschlossen wird:**
 
 > **Brut fällt → Material → verkaufen → Vaporium → kaufen → Munition → Brut fällt.**
 
@@ -140,11 +142,38 @@ In Etappe 4 lagen Chitinpanzer und Organe in deiner `inventar`-Liste, weil du ni
 
 Dieselbe Frage stellt sich für Munition und Vaporium. Für Medkit, Panzerplatte und Datenkern nicht — die bleiben Einzelstücke.
 
+⭐ **Die Gesamtübersicht, damit du nicht raten musst, was wohin gehört:**
+
+| Ding | Was es ist | Wo es lebt | Woher es kommt |
+|---|---|---|---|
+| **Vaporium** | Währung | `vorrat` (Zahl) | **nur** durch Verkaufen |
+| **Munition** | Verbrauchsmenge | `vorrat` (Zahl) | **nur** durch Kaufen |
+| **Chitinpanzer** | Material, zählbar | `vorrat` (Zahl) | Beute aus Etappe 4 |
+| **Organ** | Material, zählbar | `vorrat` (Zahl) | Beute aus Etappe 4 |
+| **Medkit** | Einzelstück | `inventar` (Liste) | Depot |
+| **Panzerplatte** | Einzelstück | `inventar` (Liste) | **nur** Depot — sie fällt nicht aus der Brut |
+| **Datenkern** | Einzelstück, einmalig | `inventar` (Liste) | Beute — wird **nie** verkauft (Etappe 15) |
+
+**Und die vier Tabellen, die du in dieser Etappe baust, decken jeweils etwas anderes ab:**
+
+| Tabelle | Enthält | Beantwortet |
+|---|---|---|
+| `waren` | was das Depot **verkauft** | Was kostet es? |
+| `verkaufswerte` | was das Depot **ankauft** | Was bringt es? |
+| `stapelbar` | **nur Einträge aus `waren`** | Frag ich beim Kauf nach einer Menge? |
+| `anzeigenamen` | **jedes Ding**, das der Spieler sieht | Wie heißt es schön? |
+
+**Diese vier Tabellen überschneiden sich absichtlich nicht vollständig.** Die Panzerplatte steht in `waren` und in `stapelbar`, aber nicht in `verkaufswerte` — man kann sie kaufen, nicht verkaufen. Chitinpanzer und Organ stehen nur in `verkaufswerte` — man kann sie verkaufen, nicht kaufen. **Vaporium steht in keiner der ersten drei**, denn es ist der Preis, nicht die Ware — in `anzeigenamen` steht es sehr wohl, denn der Spieler liest es in der Statusanzeige.
+
+**Und der Grundsatz aus Etappe 4 gilt weiter: Aus der Brut fällt nichts, was ein Mensch anlegen kann.** Die Panzerplatte ist Menschenausrüstung — kaufbar, nicht findbar. Das ist der Unterschied zwischen den beiden Herkunftsspalten oben.
+
+*(Ergänzt du eigene Beute — eine Säuredrüse, einen Nervenknoten —, dann gehört sie in `vorrat`, in `verkaufswerte` und in `anzeigenamen`, aber in keine der anderen. Sie muss zwei Bedingungen erfüllen: biologisch, und nicht anlegbar.)*
+
 Diese drei Wörter benutzt der Guide ab hier konsequent. Benutz sie in deinem Code genauso.
 
 ---
 
-⚠️⭐ **Und jetzt ein vierter Begriff, der heute etwas Neues wird — der Kern.**
+⭐ **Und jetzt ein vierter Begriff, der heute etwas Neues wird — der Kern.**
 
 Seit Etappe 1 ist der Kern für dich **eine Zahl**: `kern_integritaet`, ein Prozentwert, der sinkt, und bei null ist das Spiel vorbei. Mehr war er nie.
 
@@ -276,6 +305,27 @@ farben.get("gruen", "#000000")   # "#000000"
 > **Eckige Klammern, wenn ein fehlender Schlüssel ein Fehler wäre. `.get()`, wenn er ein normaler Fall ist.**
 
 Beim Nachschlagen eines Sektors, den dein eigener Code eingetragen hat, wäre ein fehlender Schlüssel ein Bug — da willst du den Absturz. Bei der Eingabe eines Spielers, der `kaufe hubschrauber` tippt, ist Fehlen der Normalfall — da willst du eine Meldung.
+
+⭐ **Und jetzt der Griff, den du in Schritt 7b brauchst: der Schlüssel als sein eigener Ersatzwert.**
+
+Bisher war der Ersatzwert etwas anderes als der Schlüssel — `.get("gruen", "#000000")`. Er darf aber auch **derselbe Wert sein, nach dem du fragst**:
+
+```python
+anzeigenamen = {"anis": "Sternanis (gemahlen)"}
+
+anzeigenamen.get("anis", "anis")          # 'Sternanis (gemahlen)'
+anzeigenamen.get("kuemmel", "kuemmel")    # 'kuemmel'   ← der Schlüssel selbst
+```
+
+**Lies die zweite Zeile als Satz:** *Gib mir den schönen Namen für „kuemmel" — und wenn es keinen gibt, nimm eben „kuemmel".*
+
+**Wofür das gut ist:** Du hast eine Tabelle, die Rohnamen in schöne Namen übersetzt. Sie ist nie vollständig, weil du beim nächsten Gegenstand den Eintrag vergisst. Mit diesem Griff erscheint dann eben `kuemmel` statt *„Kreuzkümmel"* — **hässlich, aber lauffähig.** Mit eckigen Klammern stünde dort ein `KeyError` und dein Spiel wäre beendet, weil ein *Name* fehlt.
+
+> **Die Form dahinter, und du wirst sie überall wiedersehen: `tabelle.get(x, x)` heißt „übersetze, wenn du kannst — sonst lass es, wie es ist".**
+
+Achte darauf, dass beide Male dasselbe drinsteht. Schreibst du versehentlich `.get(kennung)` ohne den zweiten Wert, bekommst du `None` — und das kannst du heute noch nicht sinnvoll abfragen.
+
+⛔ **Zur ersten Zeile, damit du nicht daran hängen bleibst:** `None` ist Pythons Wort für *„hier ist nichts"*. Du siehst es heute nur als Rückgabe — **abfragen kannst du es noch nicht**, dafür fehlt dir das Werkzeug bis Etappe 10. **Nimm deshalb heute immer die Fassung mit Ersatzwert**, oder frag vorher mit `in` (Konzept 4), ob der Schlüssel überhaupt da ist. Das reicht für alles, was diese Etappe von dir verlangt.
 
 *(In Etappe 20 lernst du die dritte Bauweise: es versuchen und den Fehler auffangen. Dann verstehst du auch, warum `.get()` oft die freundlichere Lösung ist.)*
 
@@ -421,14 +471,26 @@ Der Schlüssel ist knapp, kleingeschrieben und wird verglichen. Der Wert ist sch
 
 > **Verglichen wird immer die Kennung. Angezeigt wird immer der Anzeigename.**
 
-⚠️ **Und jetzt prüf deine Entscheidung aus Etappe 4 nach**, denn hier kann sie dir auf die Füße fallen:
+**Und jetzt prüf deine Entscheidung aus Etappe 4 nach**, denn hier kann sie dir auf die Füße fallen:
 
 - **Du hast Kennungen gewählt.** Gut. Deine Warentabelle benutzt dieselben Kennungen, `kaufe medkit` und `verkaufe chitinpanzer` funktionieren direkt, und die Anzeigenamen sind eine Tabelle mehr — oder du lässt sie ganz weg und lebst mit karger Ausgabe.
 - **Du hast Anzeigenamen gewählt.** Dann steht in deinem Inventar `"Chitinpanzer (rissig)"`, und der Spieler tippt `verkaufe chitinpanzer`. Das passt nicht zusammen, und du merkst es heute zum ersten Mal.
 
-**Wenn du in der zweiten Lage bist: Das ist kein Fehler von dir, sondern die Rechnung für eine Entscheidung.** Genau das war der Sinn der Übung. Du hast zwei Wege — auf Kennungen umstellen (zwanzig Minuten) oder die Eingabe des Spielers auf den Anzeigenamen übersetzen (mühsamer, und es wird mit jedem Gegenstand mühsamer).
+**Wenn du in der zweiten Lage bist: Das ist kein Fehler von dir, sondern die Rechnung für eine Entscheidung.** Genau das war der Sinn der Übung — und die Rechnung selbst ist Gegenstand von Konzept 16.
 
-Notier, wofür du dich entscheidest. In Etappe 11 bekommt jeder Gegenstand **beides** — `item.id` und `item.name` —, und dann ist die Frage endgültig erledigt. In Etappe 25 wird aus der Kennung der JSON-Schlüssel.
+**Die Auflösung ist eine eigene Namenstabelle**, und du baust sie in Schritt 7b:
+
+```python
+# fremdes Beispiel: ein Gewürzregal
+gewuerze     = {"anis": 12, "kuemmel": 40}                     # Preise
+anzeigenamen = {"anis": "Sternanis (gemahlen)", "kuemmel": "Kreuzkümmel"}
+```
+
+Die Kennung bleibt überall der Schlüssel, der schöne Name steht **an einer einzigen Stelle**. Damit hast du beides gleichzeitig, und die Frage war nie ein Entweder-Oder.
+
+**Warum eine eigene Tabelle und nicht der Name bei der Ware?** Weil nicht jedes Ding eine Ware ist. **Dein Datenkern liegt im Inventar und steht in keiner Warentabelle** — stünde sein Name bei den Waren, hätte er keinen. Eine Namenstabelle kennt **alle** Dinge, auch die unverkäuflichen.
+
+*(Dass ein Ding all seine Eigenschaften an einem Ort trägt, ist trotzdem eine gute Idee — der Plan kommt darauf zurück: in Etappe 11c als `Item`-Objekt mit `kennung` und `name`, in Etappe 25 wird die Kennung zum JSON-Schlüssel, und in Etappe 22 wachsen alle Tabellen zu einer verschachtelten zusammen.)*
 
 ### 10. Mengen — die dritte Einlösung aus Etappe 4
 
@@ -466,7 +528,7 @@ Eine Zuweisung, und die Daten sind andere. Kein Neuanlegen, kein Kopieren.
 
 Das klingt banal und ist der Grund, warum eine Sektorenkarte etwas anderes ist als ein Text. Ein Sektor, dessen Integrität von 100 auf 60 fällt, ist derselbe Sektor mit einem anderen Wert. In Etappe 13 räumst du damit den Osttunnel frei — **eine Zeile**, wenn du in Entscheidung 1 den markierten Weg gewählt hast.
 
-⚠️ **Und die Kehrseite:** In Etappe 19 wird gespeichert — und dann gilt die Frage:
+**Und die Kehrseite:** In Etappe 19 wird gespeichert — und dann gilt die Frage:
 
 > **Was sich zur Laufzeit ändert *und nach dem Laden noch so sein soll*, muss in den Spielstand.**
 
@@ -548,7 +610,59 @@ rabatte = {1: 0, 2: 5, 3: 12, 4: 20}
 
 Das liest sich als: Stufe 1 gibt keinen Rabatt, Stufe 4 gibt zwanzig Prozent. Vier Zeilen Daten statt einer `elif`-Kette mit vier Zweigen — und derselbe Gedanke wie in Konzept 8: **nachschlagen statt abfragen.**
 
-⚠️ **Die Grenze davon** siehst du gleich beim Auftrag: Ein Dictionary beantwortet die Frage *„was gilt für Stufe 3?"* sofort. Die umgekehrte Frage — *„welche Stufe gilt bei 250 Erfahrung?"* — beantwortet es **nicht** von selbst. Dafür musst du die Einträge durchlaufen und vergleichen. Das ist eine der nützlichsten Beobachtungen dieser Etappe: Eine Datenstruktur ist immer nur für **eine** Richtung der Frage gebaut.
+**Die Grenze davon** siehst du gleich beim Auftrag: Ein Dictionary beantwortet die Frage *„was gilt für Stufe 3?"* sofort. Die umgekehrte Frage — *„welche Stufe gilt bei 250 Erfahrung?"* — beantwortet es **nicht** von selbst. Dafür musst du die Einträge durchlaufen und vergleichen. Das ist eine der nützlichsten Beobachtungen dieser Etappe: Eine Datenstruktur ist immer nur für **eine** Richtung der Frage gebaut.
+
+---
+
+### 16. Die Fahndung — eine Umstellung vollständig durchziehen ⭐
+
+Mehrmals in diesem Projekt wanderst du einen Wert von einem Ort an einen anderen. Heute in Schritt 9, in Etappe 9 mit den Attributen, in Etappe 11 mit den Gegnerlisten. **Jedes Mal ist der Umbau selbst leicht — und ihn *vollständig* zu machen ist die eigentliche Arbeit.**
+
+Der Name steht nämlich nicht an einer Stelle. Er steht über die ganze Datei verstreut, und wer nur dort umstellt, wo er den Fehler zufällig sieht, hat morgen noch drei kaputte Stellen.
+
+> **Geh nicht auf Verdacht vor, sondern systematisch — und zähl mit.**
+
+| Schritt | Was du tust |
+|---|---|
+| **1** | Suchfunktion des Editors (`Strg + F`), such nach dem **alten** Namen |
+| **2** | **Treffer zählen und die Zahl aufschreiben** — das ist deine Arbeitsliste |
+| **3** | Von oben nach unten abarbeiten, eine Frage je Treffer: *gehört der hierher?* |
+| **4** | **Nach jedem einzelnen ausführen**, nicht nach allen |
+| **5** | Gegensuche: nach dem **neuen** Namen suchen — sitzt er überall richtig? |
+
+**Zwei Dinge, die die Suche nicht findet:**
+
+**Abgeleitete Werte.** Manche Zeilen benutzen nicht die Zahl selbst, sondern etwas, das daraus berechnet wurde — etwa einen Balken aus Etappe 3c. **Die musst du nicht anfassen.** Sobald die Zeile stimmt, in der gerechnet wird, ziehen alle nach, die nur anzeigen. Erkenne den Unterschied, statt blind zu ersetzen.
+
+⚠️ **Die Quelle.** Die Suche zeigt dir, wo ein Wert **gelesen** wird — nicht, wo er **entsteht**. Hast du eigene Mechanik gebaut, eine Beutetabelle, eine Belohnung, eine Startausstattung, kann sie den Wert weiterhin an den alten Ort schreiben. **Ein leerer alter Ort beweist nichts, solange etwas ihn wieder füllen kann.**
+
+*(Der Reflex dahinter ist derselbe wie in Etappe 8: **nachsehen statt vermuten** — nur mit dem Werkzeug, das dir heute schon zur Verfügung steht.)*
+
+---
+
+### 17. Was eine Entscheidung später kostet ⭐
+
+Diese Etappe stellt dir zweimal dieselbe Rechnung: bei den Kennungen aus Etappe 4 und beim Vorrat in Schritt 9. Beide Male zahlst du für etwas, das **richtig war**.
+
+**Lose Variablen in Etappe 1 waren die beste Wahl, die du treffen konntest.** Alles andere wäre Überbau gewesen für ein Programm mit zwanzig Zeilen. Du wusstest damals nicht, dass es einmal einen Vorrat geben würde — und du konntest es nicht wissen.
+
+Trotzdem kostet dich diese Entscheidung heute eine halbe Stunde.
+
+> **Die Lehre ist nicht „triff bessere Entscheidungen". Sie lautet: Jede Entscheidung wird später einmal fällig, und der Preis hängt daran, an wie vielen Stellen sie inzwischen steht.**
+
+| Wann du umstellst | Was es kostet |
+|---|---|
+| Zwei Variablen, frisch angelegt | Minuten |
+| Zwei Variablen an zehn Stellen (heute) | ein Abend |
+| Dieselbe Umstellung in Etappe 15, über mehrere Dateien | ein Wochenende |
+
+**Die Entscheidung ändert sich nicht — nur ihr Preis wächst mit der Zeit, in der du sie stehen lässt.** Daraus folgt aber ausdrücklich nicht, dass du von Anfang an alles perfekt bauen sollst. Es folgt etwas Praktischeres:
+
+- **Merkst du, dass eine Struktur nicht mehr passt, bau sie um — sofort.** Der Preis steigt, er sinkt nie.
+- **Viele kleine Umbauten sind billiger als ein großer irgendwann.** Deshalb ist Etappe 7 eine reine Aufräum-Etappe.
+- **Und wenn ein Umbau weh tut, ist das eine Information**, kein Zeichen von Unfähigkeit: Er sagt dir, wie tief die alte Entscheidung verwachsen war.
+
+*(In Etappe 7 baust du zum ersten Mal um, ohne dass ein Zwang dahintersteht — nur weil es später teurer wäre. Dort bekommst du auch das Werkzeug, mit dem man beweist, dass ein Umbau nichts kaputt gemacht hat.)*
 
 ---
 
@@ -577,7 +691,7 @@ Nach jedem Schritt ausführen, vorher sagen, was passieren wird.
 
 ⚠️ **Mit einer Ausnahme: Der Sektor `"kern"` bekommt *keine* `integritaet`** — nur `beschreibung` und `nachbarn`. Sein Zustand steht seit Etappe 1 in `kern_integritaet` und bleibt dort. Zwei Zahlen für denselben Reaktor wären zwei Wahrheiten über dieselbe Sache; siehe Konzept 0.
 
-*(Ja, damit hat ein Eintrag deines Dictionarys andere Schlüssel als die übrigen. Das ist erlaubt und kommt in echten Daten ständig vor — und es ist der Grund, warum du in Konzept 3 `.get()` kennengelernt hast. Wer beim Anzeigen blind `sektor["integritaet"]` schreibt, bekommt am Kern einen `KeyError`.)*
+*(Ja, damit hat ein Eintrag deines Dictionarys andere Schlüssel als die übrigen. Das ist erlaubt und kommt in echten Daten ständig vor. Wer beim Anzeigen blind `sektor["integritaet"]` schreibt, bekommt am Kern einen `KeyError` — Schritt 3 sagt, was du stattdessen tust.)*
 - `"nachbarn"` ist selbst ein Dictionary — **Richtung → Sektorname**, etwa `{"sueden": "kern", "osten": "osttor"}`.
 - Verbind die **erreichbaren** Sektoren so, dass man von jedem aus jeden erreichen kann.
 - Die Landeplattform behandelst du nach Entscheidung 1 — entweder gar nicht angebunden, oder angebunden und blockiert.
@@ -600,9 +714,7 @@ Nach jedem Schritt ausführen, vorher sagen, was passieren wird.
 - Gibt aus: die Beschreibung des aktuellen Sektors, seine Integrität, die möglichen Richtungen.
 - Die Richtungen liest du aus `nachbarn` — **schreib sie nicht von Hand hin**, sonst stimmen sie ab Etappe 13 nicht mehr.
 
-⚠️ **Und hier bekommst du `.get()` aus Konzept 3 zum ersten Mal wirklich zu spüren.** Der Kern hat keine `integritaet` — wer blind `aktueller_sektor["integritaet"]` schreibt, bekommt dort einen `KeyError`. Steh im Kern und ruf `umsehen` auf; das ist kein Zufall, sondern der eingebaute Anlass für dieses Werkzeug.
-
-**Entscheide selbst, was der Spieler im Kern sehen soll:** gar keine Zustandszeile, oder stattdessen `kern_integritaet`. Beides ist vertretbar — nur abstürzen darf es nicht. *(Die zweite Variante ist die schönere, weil der Spieler den Wert dann genau dort sieht, wo die Anlage steht.)*
+⚠️ **Der Kern hat keine `integritaet`.** Wer blind `aktueller_sektor["integritaet"]` schreibt, bekommt dort einen `KeyError` — frag vorher mit `in` (Konzept 4), ob der Schlüssel da ist. Das erlaubt dir auch zwei verschiedene Meldungen: „Wandzustand" am Tor, „Anlagenzustand" im Kern.
 
 **So prüfst du es:** Ändere eine Richtung in deinen Daten, ruf `umsehen` auf. Die Ausgabe muss sich mitändern, ohne dass du die Ausgabe selbst anfasst. Und: `umsehen` im Kern darf nicht abstürzen.
 
@@ -642,7 +754,7 @@ waren: medkit → 40, munition → 15, panzerplatte → 90
 - Befehl `depot`, der alle Waren mit Preisen auflistet — **mit einer Schleife über das Dictionary**, nicht mit drei `print`-Zeilen.
 - Trägst du eine vierte Ware ein, muss sie ohne weitere Arbeit in der Liste erscheinen.
 
-⚠️ **Was hier ausdrücklich nicht hineingehört: `klassengeraet`.** Das Medkit im Depot ist ein Einwegverband, den jede Klasse kaufen kann — der Bio-Injektor des Medics aus Etappe 2 ist etwas anderes und bleibt es. Er hat keinen Preis, weil er nicht käuflich ist. Trägst du ihn versehentlich als Ware ein, kann ihn sich der Soldat für 40 Vaporium kaufen, und die Klassenwahl aus Etappe 1 verliert ihren Sinn.
+⛔ **Was hier ausdrücklich nicht hineingehört: `klassengeraet`.** Das Medkit im Depot ist ein Einwegverband, den jede Klasse kaufen kann — der Bio-Injektor des Medics aus Etappe 2 ist etwas anderes und bleibt es. Er hat keinen Preis, weil er nicht käuflich ist. Trägst du ihn versehentlich als Ware ein, kann ihn sich der Soldat für 40 Vaporium kaufen, und die Klassenwahl aus Etappe 1 verliert ihren Sinn.
 
 **Zum Nachdenken, bevor du weitergehst:** Öffne `inventar` und `waren` nebeneinander. Beides sind Sammlungen von Gegenständen — eine Liste, ein Dictionary. Was wäre unsinnig daran, das Inventar wie `waren` aufzubauen? Ein, zwei Sätze in `GELERNT.md`. Die vollständige Antwort gibt Etappe 6.
 
@@ -650,25 +762,39 @@ waren: medkit → 40, munition → 15, panzerplatte → 90
 
 ### 7. Prüf deine Kennungen gegen Etappe 4
 
-**Worum es hier geht:** Deine Gegenstände haben ab heute **zwei Aufgaben** — der Spieler tippt sie ein, und der Spieler liest sie. Diese beiden Aufgaben ziehen in verschiedene Richtungen:
-
-| | Will es | Beispiel |
-|---|---|---|
-| **Pragmatisch** — was verglichen wird | knapp, kleingeschrieben, ohne Leerzeichen | `"medkit"` |
-| **Schön** — was angezeigt wird | ausgeschrieben, lesbar, mit Zusatz | `"Medkit (klein)"` |
-
-In Etappe 4 hattest du nur **eine** Liste und musstest dich für eines von beidem entscheiden. Heute hast du plötzlich **drei** Stellen mit denselben Namen — Inventar, Depot und gleich die Kauflogik. Und jetzt zeigt sich, ob deine Entscheidung von damals trägt.
-
-**So prüfst du es, ganz konkret:**
-
 - Ruf `depot` auf, dann `inventar`. Schreib beide Ausgaben nebeneinander.
 - **Steht dasselbe Ding in beiden unter genau demselben Wort?**
-- Wenn ja: fertig, weiter zu Schritt 8.
-- Wenn nein — etwa `"Medkit (klein)"` im Inventar gegen `medkit` im Depot —, dann hast du die Lage aus Konzept 9, und der Spieler tippt gleich `kaufe medkit` ins Leere.
+- Notier das Ergebnis in `GELERNT.md` — eine Zeile genügt.
 
-**Entscheide dich für einen Weg und schreib ihn in `GELERNT.md`:** entweder überall auf die knappe Kennung umstellen und die schönen Namen später in einer eigenen Tabelle nachschlagen — oder die Spielereingabe jedes Mal auf den Anzeigenamen übersetzen.
+Wenn nein — etwa `"Medkit (klein)"` im Inventar gegen `medkit` im Depot —, dann tippt der Spieler gleich `kaufe medkit` ins Leere. **Das ist die Lage aus Konzept 9**, und Schritt 7b räumt sie auf: Kennungen überall dort, wo verglichen wird, und **eine** Tabelle für die schönen Namen.
 
-⚠️ **Mach das jetzt, nicht in Schritt 11.** Sobald `kaufe` steht, gibt es eine dritte Stelle mit denselben Namen — dann ist die Umstellung dreimal so groß. **Das ist derselbe Kostengedanke wie in Schritt 9**, nur diesmal, bevor die Rechnung fällig wird statt danach.
+⚠️ **Mach das jetzt, nicht in Schritt 11.** Sobald `kaufe` steht, gibt es eine dritte Stelle mit denselben Namen — dann ist die Umstellung dreimal so groß. **Das ist der Kostengedanke aus Konzept 16**, diesmal *bevor* die Rechnung fällig wird.
+
+---
+
+### 7b. Bau die Namenstabelle
+
+Jetzt die Konsequenz aus deiner Entscheidung — fünf Zeilen Daten und eine Zeile Nachschlag.
+
+- Leg ein flaches Dictionary `anzeigenamen` an: **Kennung → schöner Name.**
+- Trag **jedes** Ding ein, das der Spieler je zu sehen bekommt — Waren, Material, Vaporium, Munition **und den Datenkern**, obwohl der in keiner Warentabelle steht.
+- Bau den Nachschlag in **jede** Anzeige ein: Depot, Inventar, Vorfeld, Statusanzeige.
+
+*(Dein `depot`-Befehl hat aus Schritt 6 schon eine Schleife — dort ergänzt du nur eine Zeile. War dein `inventar`-Befehl bisher ein bloßes `print(inventar)`, brauchst du dort jetzt zum ersten Mal eine: eine Zeile pro Gegenstand, mit `anzeigenamen.get(...)` statt dem rohen Wert.)*
+
+Der Nachschlag ist der Griff aus Konzept 3 — **die Kennung als ihr eigener Ersatzwert:**
+
+```python
+anzeigenamen.get(kennung, kennung)
+```
+
+**Hier wird `.get()` zum ersten Mal unverzichtbar.** Mit eckigen Klammern stürzt dein Spiel ab, sobald du bei einem Gegenstand den Namenseintrag vergisst.
+
+⚠️ **Die Kennung bleibt überall, wo verglichen wird.** `kaufe medkit` prüft weiterhin gegen `waren`, nicht gegen Anzeigenamen. Die Trennung ist der ganze Sinn: **Eingabe und Vergleich arbeiten mit Kennungen, nur die Ausgabe wird schön.**
+
+**So prüfst du es:** Trag testweise einen erfundenen Gegenstand ins Inventar ein, für den es **keinen** Anzeigenamen gibt. Dein Spiel darf nicht abstürzen.
+
+⚠️ **Der Preis dieser Bauweise — schreib ihn dir auf.** Du hast jetzt **vier** flache Tabellen mit fast demselben Schlüsselsatz: `waren`, `verkaufswerte`, `stapelbar`, `anzeigenamen`. Ein neuer Gegenstand braucht bis zu vier Einträge, und beim fünften vergisst du einen. **Das ist Absicht.** Es ist derselbe Schmerz wie bei den zwei parallelen Gegnerlisten aus Etappe 6 — und er wird zweimal bezahlt: in **Etappe 11c**, wo ein `Item`-Objekt Kennung und Namen zusammen trägt, und endgültig in **Etappe 22**, wo alle vier zu einer verschachtelten Tabelle mit einem Eintrag pro Ding zusammenwachsen.
 
 ---
 
@@ -688,59 +814,16 @@ vorrat: vaporium → 0, munition → 40, chitinpanzer → 0, organ → 0
 ```
 
 - Deine losen Zahlen für Vaporium und Munition wandern hinein.
+- **Zieh alle Zugriffsstellen nach — als Fahndung nach Konzept 16.** Sie sitzen in der Begrüßung, beim Feuern, beim Nachladen, in der Statusanzeige und in der Balkenberechnung.
 
-⚠️ **Und jetzt der Teil, den fast jeder unterschätzt: Es ist nicht *eine* Stelle. Es sind viele.**
-
-Deine alten Variablen stehen über die ganze Datei verstreut — in der Begrüßung, beim Feuern, beim Nachladen, in der Statusanzeige, in der Balkenberechnung. Wer nur dort umstellt, wo er den Fehler zufällig sieht, hat morgen noch drei kaputte Stellen. **Geh deshalb nicht auf Verdacht vor, sondern systematisch.**
-
-**Die Fahndung — so machst du es:**
-
-1. **Öffne die Suchfunktion deines Editors** (meist `Strg + F`) und such nach dem **alten** Namen: erst `munition`, dann `vaporium` — beziehungsweise so, wie deine losen Variablen bisher hießen.
-2. **Zähl, wie viele Treffer es sind, und schreib die Zahl auf.** Das ist deine Arbeitsliste.
-3. **Geh sie von oben nach unten durch.** Bei jedem Treffer nur eine Frage: *Ist das eine Munitions- oder Vaporium-Zahl? Dann kommt sie ab jetzt aus `vorrat`.*
-4. **Nach jedem einzelnen Treffer ausführen.** Nicht nach allen. Kommt ein `NameError`, sagt er dir Zeile und Namen — der freundlichste Fehler, den es gibt.
-5. **Wenn kein Treffer mehr übrig ist, such noch einmal.** Diesmal nach `vorrat[`. Steht überall ein Schlüssel in Anführungszeichen?
-
-⚠️ **Die zwei Fallen bei dieser Umstellung, beide aus Konzept 2b:**
-
-**Die Anführungszeichen.** In der Statusanzeige trifft der Dictionary-Zugriff auf deine f-Strings aus Etappe 1. Aus `f"Munition: {munition}"` wird `f"Munition: {vorrat['munition']}"` — **innen einfache Anführungszeichen.** Ein `SyntaxError` oder `NameError` an dieser Stelle ist kein Denkfehler, sondern genau das, wovor Konzept 2b warnt.
-
-**Die abgeleiteten Werte.** Manche Zeilen benutzen nicht die Zahl selbst, sondern etwas, das daraus berechnet wurde — etwa `munitions_balken` aus Etappe 3c. **Die musst du nicht anfassen.** Sobald die eine Zeile stimmt, in der der Balken berechnet wird, ziehen alle nach, die ihn nur noch anzeigen. Erkenne den Unterschied, statt blind zu ersetzen.
-
-⚠️ **Und jetzt die Stelle, die deine Editor-Suche nicht findet: die Quelle.**
-
-Die Suche zeigt dir, wo Vaporium **gelesen** wird. Sie zeigt dir nicht, wo er **entsteht**. Wenn du eigene Mechanik gebaut hast — eine Beutetabelle, eine Belohnung am Wellenende, eine Startausstattung — dann kann dort weiterhin Vaporium ins **Inventar** wandern, während `vorrat["vaporium"]` davon nichts weiß.
-
-**Prüf deshalb ausdrücklich:** Gibt es in deinem Code irgendeine Stelle, die `"vaporium"` oder `"munition"` in deine `inventar`-Liste bringen kann? Dann hast du zwei Wahrheiten über dieselbe Sache — siehe Konzept 0. Dieselbe Frage stellt sich für alles, was sich als Ressource verhält: ein Munitionskasten, eine Vaporium-Kanister, ein Fund am Wellenende.
-
-*(Falls du es noch nicht getan hast: Führ einmal `python3 --version` aus. Unterhalb von 3.12 ist die Anführungszeichen-Regel strenger, und das erklärt einen sonst rätselhaften Fehler.)*
+⚠️ **Die Anführungszeichen.** In der Statusanzeige trifft der Dictionary-Zugriff auf deine f-Strings aus Etappe 1. Aus `f"Munition: {munition}"` wird `f"Munition: {vorrat['munition']}"` — **innen einfache.** Ein `SyntaxError` oder `NameError` hier ist Konzept 2b, kein Denkfehler.
 
 **So prüfst du es:**
 - Feuern senkt Munition, der Balken aus Etappe 3c stimmt weiterhin.
 - Die Suche nach deinen alten Variablennamen findet **null** Treffer.
 - Material aufsammeln erhöht `vorrat["chitinpanzer"]` — und taucht **nicht** zusätzlich im Inventar auf.
 
-**Notier in `GELERNT.md`, wie viele Fundstellen es am Ende waren.** Die Zahl überrascht die meisten, und sie ist der beste Grund, warum eine einzige Datenquelle besser ist als fünf verstreute Variablen.
-
----
-
-⭐ **Und jetzt der eigentliche Grund, warum dieser Schritt im Lehrplan steht.**
-
-Was du hier gerade bezahlt hast, ist keine Strafe für einen Fehler. **Du hast in Etappe 1 eine völlig richtige Entscheidung getroffen** — lose Variablen für zwei Zahlen, das war damals das Einfachste und Beste, was du hättest tun können. Alles andere wäre Überbau gewesen für ein Programm mit zwanzig Zeilen.
-
-Trotzdem kostet dich diese Entscheidung heute eine halbe Stunde. Das ist die Rechnung, die du in Konzept 9 schon einmal bekommen hast, dort für Kennung gegen Anzeigename — und es ist dieselbe Sorte Rechnung, nur an einem anderen Wert.
-
-> **Die Lehre ist nicht „triff bessere Entscheidungen". Sie lautet: Jede Entscheidung wird später einmal fällig, und der Preis hängt daran, an wie vielen Stellen sie inzwischen steht.**
-
-Zwei Variablen umzustellen ist eine Sache von Minuten. Zwei Variablen, die inzwischen an zehn Stellen benutzt werden, kosten einen Abend. Dieselbe Umstellung in Etappe 15, mit dreißig Fundstellen über mehrere Dateien, kostet ein Wochenende. **Die Entscheidung ändert sich nicht — nur ihr Preis wächst mit der Zeit, in der du sie stehen lässt.**
-
-Daraus folgt aber ausdrücklich **nicht**, dass du von Anfang an alles perfekt bauen sollst. Das ginge auch gar nicht: Du wusstest in Etappe 1 nicht, dass es einmal einen Vorrat geben wird. Was es bedeutet, ist etwas Praktischeres:
-
-- **Wenn du merkst, dass eine Struktur nicht mehr passt, bau sie um — sofort und nicht später.** Der Preis steigt, er sinkt nie.
-- **Kleine Umbauten regelmäßig sind billiger als ein großer irgendwann.** Genau deshalb ist Etappe 7 eine reine Aufräum-Etappe und Etappe 8 eine reine Werkzeug-Etappe.
-- **Und wenn ein Umbau weh tut, ist das eine Information**, kein Zeichen von Unfähigkeit: Er sagt dir, wie tief die alte Entscheidung inzwischen verwachsen war.
-
-*(In Etappe 7 baust du zum ersten Mal um, ohne dass ein Zwang dahintersteht — nur weil es später billiger ist. Dort bekommst du auch das Werkzeug, mit dem man beweist, dass ein Umbau nichts kaputt gemacht hat.)*
+**Notier in `GELERNT.md`, wie viele Fundstellen es am Ende waren** — und was dich die Entscheidung aus Etappe 1 damit gekostet hat. Konzept 17 sagt, warum das keine Strafe ist.
 
 > **⏸ Guter Schnitt.** Nach Schritt 9 steht eine begehbare Karte mit sichtbarem Depot. Commit: `Etappe 5: Sektorenkarte und Depot`. Die Schritte 10 bis 17 sind ein eigener Abend.
 
@@ -807,6 +890,33 @@ Ware einbuchen
 
 ---
 
+### 12b. Nachladen kostet Nachschub
+
+**Probier zuerst aus, was gerade kaputt ist.** Kauf nichts. Feuer, bis die Munition leer ist. Dann `nachladen`. Wie viel Munition hast du jetzt — und was hat es dich gekostet?
+
+Solange `nachladen` deine Munition auf einen festen Wert setzt, erschafft es Munition aus dem Nichts. Dein Depot ist damit überflüssig, bevor du es fertig gebaut hast.
+
+**Die Ursache: Du brauchst eine Zahl für zwei verschiedene Dinge.** Was im Gewehr steckt und was du im Rucksack trägst, ist nicht dasselbe — aber aktuell ist beides `vorrat["munition"]`.
+
+- Leg eine zweite Variable an: `geladen`, die Schuss im Magazin. Dazu `magazin_groesse` als festen Wert.
+- **`feuer` verbraucht ab jetzt `geladen`**, nicht den Vorrat.
+- **`nachladen` verschiebt** vom Vorrat ins Magazin — es erschafft nichts.
+- Ist der Vorrat leer, schlägt Nachladen fehl. **Dann bleibt nur das Depot.**
+
+**Der Teil, an dem du kurz nachdenken musst:** Was, wenn im Vorrat weniger liegt, als ins Magazin passt? Ein halb gefülltes Magazin ist die richtige Antwort — aber überleg dir, wie du ausrechnest, wie viel tatsächlich hineinpasst.
+
+**So prüfst du es:**
+- Feuer bis leer, dann `nachladen`: Der Vorrat muss um genau so viel sinken, wie das Magazin gewinnt.
+- Vorrat auf 0, dann `nachladen`: Es muss fehlschlagen, nicht zaubern.
+- Vorrat auf 5 bei leerem Magazin: Du hast 5 geladen, nicht 30.
+- **Die Summe aus `geladen` und `vorrat["munition"]` darf beim Nachladen niemals steigen.**
+
+**Das ist eine Invariante** — schreib sie in `GELERNT.md`. Nachladen ist eine Verschiebung, keine Quelle.
+
+**Was dabei ebenfalls nachzuziehen ist:** Deine Statusanzeige und der Munitionsbalken zeigen bisher `vorrat["munition"]`. Welchen der beiden Werte will der Spieler im Kampf sehen — und braucht er nicht eigentlich beide?
+
+---
+
 ### 13. ⭐ Der Architekturtest — nur Daten anfassen
 
 Vier Änderungen, **keine einzige Zeile Logik darf dabei angefasst werden:**
@@ -828,7 +938,7 @@ Danach alles zurücksetzen.
 
 Bis hierher kannst du kaufen, aber du hast nichts, wovon. **Vaporium entsteht durch Verkaufen.**
 
-- Gefallene Gegner hinterlassen **Material** — Chitinpanzer, Organe. Das Aufsammeln erhöht jetzt den `vorrat`, nicht das Inventar.
+- Gefallene Gegner hinterlassen **Material und den Datenkern.** Chitinpanzer und Organe erhöhen jetzt `vorrat`, nicht das Inventar — der Datenkern bleibt Einzelstück und wandert wie bisher ins Inventar.
 - Leg eine **zweite flache Tabelle** an: `verkaufswerte`, Material → Vaporium pro Stück. Ein Organ ist deutlich mehr wert als ein Panzerstück.
 - Bau `verkaufe <material>` — nur im Depot, wie `kaufe`.
 
@@ -844,7 +954,7 @@ Bis hierher kannst du kaufen, aber du hast nichts, wovon. **Vaporium entsteht du
 
 **So prüfst du es:** Verkauf mehr, als du hast. Verkauf `0` und `-2`. Verkauf etwas, das gar nicht in `verkaufswerte` steht. Keiner der drei Fälle darf deinen Vorrat verändern.
 
-⚠️ **Und hier gilt dieselbe Regel wie beim Kauf: In deiner Verkaufslogik darf kein Materialname vorkommen.** Der Wert wird nachgeschlagen, nicht abgefragt. Ein neues Material ist dann eine Zeile in `verkaufswerte` und keine Zeile im Code — **das ist der Architekturtest aus Schritt 13 ein zweites Mal, und wer ihn dort bestanden hat, schreibt diesen Schritt in zehn Minuten.**
+**Und hier gilt dieselbe Regel wie beim Kauf: In deiner Verkaufslogik darf kein Materialname vorkommen.** Der Wert wird nachgeschlagen, nicht abgefragt. Ein neues Material ist dann eine Zeile in `verkaufswerte` und keine Zeile im Code — **das ist der Architekturtest aus Schritt 13 ein zweites Mal, und wer ihn dort bestanden hat, schreibt diesen Schritt in zehn Minuten.**
 
 *(Warum eine eigene Tabelle und nicht ein Feld in `waren`? Weil du Material nicht kaufen kannst und Waren nicht verkaufst. Zwei verschiedene Fragen, zwei Tabellen. In Etappe 22 werden sie zu einer verschachtelten zusammengezogen — dort hat jeder Eintrag dann Kaufpreis *und* Verkaufswert.)*
 
@@ -856,7 +966,7 @@ Brut fällt → Material → verkaufen → Vaporium → kaufen → Munition → 
 
 **So prüfst du es:** Erleg Gegner, bis Material im Vorrat liegt. Verkauf es. Kauf davon Munition. Wenn du an keiner Stelle nachhelfen musstest, steht deine Wirtschaft.
 
-⚠️ **Der Datenkern wird nicht verkauft.** Er steht in keiner `verkaufswerte`-Tabelle und bleibt im Inventar. Etappe 15 braucht ihn.
+⛔ **Der Datenkern wird nicht verkauft.** Er steht in keiner `verkaufswerte`-Tabelle und bleibt im Inventar. Etappe 15 braucht ihn.
 
 ---
 
@@ -868,7 +978,7 @@ Deine `erfahrung` aus Etappe 3c zählt seit zwei Etappen hoch und tut nichts. He
 - Schreib eine Stelle im Code, die aus der aktuellen Erfahrung die aktuelle Stufe **ermittelt**.
 - Zeig die Stufe im `status` an, neben der Erfahrung.
 
-⚠️ **Der Teil, an dem du kurz nachdenken musst:** Die Tabelle beantwortet die Frage *„ab wann gilt Stufe 3?"* — du brauchst aber die Gegenrichtung, *„welche Stufe gilt bei 250?"*. Konzept 15 sagt dir, warum das nicht dasselbe ist. Mit `.items()` aus Konzept 6 und einem Vergleich kommst du hin; es gibt mehr als einen richtigen Weg.
+**Der Teil, an dem du kurz nachdenken musst:** Die Tabelle beantwortet die Frage *„ab wann gilt Stufe 3?"* — du brauchst aber die Gegenrichtung, *„welche Stufe gilt bei 250?"*. Konzept 15 sagt dir, warum das nicht dasselbe ist. Mit `.items()` aus Konzept 6 und einem Vergleich kommst du hin; es gibt mehr als einen richtigen Weg.
 
 **So prüfst du es:** Setz `erfahrung` von Hand auf 0, auf einen Wert genau **auf** einer Schwelle und auf einen knapp darunter. Alle drei müssen die Stufe liefern, die du erwartest. Der Wert genau auf der Schwelle ist der, bei dem sich Off-by-One-Fehler zeigen.
 
@@ -908,6 +1018,9 @@ git push
 
 ## Was NICHT in diese Etappe gehört
 
+- ❌ **Unterschiedliche Magazingrößen je Klasse** → Etappe 21a. Eine Zahl pro Klasse lehrt nichts Neues und fasst Etappe 2 rückwirkend an; der Lerninhalt steckt in der Trennung der beiden Zahlen, nicht in ihrer Größe.
+- ❌ **Nachladen über mehrere Runden, Teilmagazine im Inventar** → ebenfalls 21a.
+
 - ❌ **Funktionen, damit `kaufe` nicht so lang wird** → Etappe 7a
 - ❌ **Gegenstände als Objekte mit Eigenschaften** → Etappe 11
 - ❌ **`try` / `except` für die Mengeneingabe** → Etappe 20
@@ -916,7 +1029,7 @@ git push
 - ❌ **Gegner, die in einzelnen Sektoren stehen** → Etappe 14a
 - ❌ **Sektoren, die einzeln fallen können** → Etappe 17b
 - ❌ **Den Grundriss aus den Daten erzeugen** → gar nicht, siehe Konzept 14
-- ✅ **Verkaufen gehört ab sofort dazu** — es ist die Quelle deines Vaporiums, siehe Schritt 14. *(In einer früheren Fassung stand hier, Verkaufen bringe nichts Neues. Das galt, solange Gegner Vaporium fallen ließen.)*
+- ✅ **Verkaufen gehört dazu** — es ist die einzige Quelle deines Vaporiums, siehe Schritt 14.
 - ❌ **Balancing** (Preise, Vaporium pro Gegner) → notieren, Etappe 21a
 
 **Der verlockendste Punkt ist der erste, und du wirst ihn heute spüren.**
@@ -947,9 +1060,13 @@ Prüft den Zustand deines Programms, nicht dein Gefühl. Führ jeden Punkt tats�
 - [ ] ⭐ **Ware löschen:** `"panzerplatte"` aus den Daten entfernen — sie verschwindet aus dem Depot, `kaufe panzerplatte` meldet sauber, nichts stürzt ab
 - [ ] Deine Statusanzeige liest Munition und Vaporium aus `vorrat` — es gibt keine losen Zahlen mehr daneben
 - [ ] Der Kreislauf läuft ohne Nachhelfen: Gegner erlegen → Material verkaufen → Munition kaufen
+- [ ] `nachladen` verschiebt Munition aus dem Vorrat ins Magazin und **erschafft keine** — bei leerem Vorrat schlägt es fehl
+- [ ] Die Summe aus `geladen` und `vorrat["munition"]` steigt beim Nachladen nie
 - [ ] Ein neues Material einzuführen ist **eine Zeile in `verkaufswerte`** und keine Zeile in der Verkaufslogik
 - [ ] Der Datenkern liegt im Inventar und lässt sich nicht verkaufen
 - [ ] Dasselbe Ding heißt in **Inventar, Depot und Kauflogik** gleich — und deine Entscheidung dazu steht in `GELERNT.md`
+- [ ] Jede Anzeige schlägt den Namen mit `anzeigenamen.get(kennung, kennung)` nach; ein Gegenstand **ohne** Eintrag lässt das Spiel nicht abstürzen
+- [ ] Verglichen wird überall weiter mit der **Kennung** — kein `if eingabe == "Medkit (klein)"`
 - [ ] `verkaufe <material> <menge>` funktioniert, und ein zu großer, ein negativer und ein unbekannter Wert lassen den Vorrat unverändert
 - [ ] Du kannst sagen, warum Chitinpanzer **nicht** in der Tabelle `stapelbar` steht, obwohl er gestapelt wird
 - [ ] Die Suche nach deinen **alten** Variablennamen für Munition und Vaporium findet im ganzen File null Treffer

@@ -1,6 +1,6 @@
 # Etappe 6 — Liste, Dictionary, Set, Tuple
 
-*v1.2.0 · 2026-09-07*
+*v1.2.0 · 2026-09-08*
 
 > **Block 1: Fundament** · Etappe 6 von 30 · [← Etappe 5](etappe-05-vorposten-und-depot.md) · [Lehrplan](../Vorposten_Lehrplan.md) · [Etappe 7 →](etappe-07-aufraeumen.md)
 

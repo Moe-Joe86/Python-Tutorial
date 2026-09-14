@@ -1,6 +1,6 @@
 # Etappe 7 — Aufräumen
 
-*v1.2.1 · 2026-09-07*
+*v1.2.1 · 2026-09-08*
 
 > **Block 1: Fundament** · Etappe 7 von 30 · [← Etappe 6](etappe-06-datenstrukturen.md) · [Lehrplan](../Vorposten_Lehrplan.md) · [Etappe 8 →](etappe-08-die-bug-jagd.md)
 

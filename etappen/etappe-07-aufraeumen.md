@@ -1,6 +1,6 @@
 # Etappe 7 — Aufräumen
 
-*v1.2.1 · 2026-09-08*
+*v1.3.0 · 2026-09-16*
 
 > **Block 1: Fundament** · Etappe 7 von 30 · [← Etappe 6](etappe-06-datenstrukturen.md) · [Lehrplan](../Vorposten_Lehrplan.md) · [Etappe 8 →](etappe-08-die-bug-jagd.md)
 
@@ -10,7 +10,9 @@
 
 **Voraussetzung:** Etappe 6 abgeschlossen, Selbsttest grün
 
-**Diese Etappe ist geteilt, und diesmal aus einem inhaltlichen Grund.** 7a ist eine Programmieretappe: Du lernst Funktionen und baust dein Spiel um. 7b ist eine Denketappe: Du trennst zwei Dinge, die bisher vermischt waren. Beides an einem Abend zu *tun* geht — beides an einem Abend *ankommen* nicht.
+**Diese Etappe ist geteilt, und diesmal aus einem inhaltlichen Grund.** Jede Portion hat ihre eigenen Konzepte und ihren eigenen Auftrag; lies und bau jeweils nur die, an der du sitzt.
+
+ 7a ist eine Programmieretappe: Du lernst Funktionen und baust dein Spiel um. 7b ist eine Denketappe: Du trennst zwei Dinge, die bisher vermischt waren. Beides an einem Abend zu *tun* geht — beides an einem Abend *ankommen* nicht.
 
 | | 🔨 Bauen | 🧠 Verstehen | 👀 Nur erkennen |
 |---|---|---|---|
@@ -79,6 +81,8 @@ Bei einer Funktion mit sechs Parametern siehst du in der ersten Zeile, was sie a
 **Schreib deine Entscheidung und die Begründung in `GELERNT.md`.** In Etappe 9 liest du sie wieder.
 
 ---
+
+# Teil 7a — Funktionen
 
 ## Die Konzepte — Teil 7a
 
@@ -235,11 +239,11 @@ kiste = ["hammer", "zange"]
 def leere_menge(m):
     m = 0
 
-def leere_kiste(k):
-    k.clear()
+def fuelle_kiste(k):
+    k.append("säge")
 
 leere_menge(menge)
-leere_kiste(kiste)
+fuelle_kiste(kiste)
 print(menge, kiste)      # Vorher sagen!
 ```
 
@@ -247,7 +251,7 @@ print(menge, kiste)      # Vorher sagen!
 
 > **Welche der beiden Funktionen verändert etwas außerhalb von sich selbst — und welche ist deshalb leichter vorherzusagen?**
 
-Was `leere_kiste()` tut, heißt **Seiteneffekt**: eine Wirkung, die man der Zeile `leere_kiste(kiste)` nicht ansieht. Seiteneffekte sind nicht verboten und manchmal genau richtig. Sie sind nur teuer, weil man den Funktionskörper lesen muss, um sie zu bemerken.
+Was `fuelle_kiste()` tut, heißt **Seiteneffekt**: eine Wirkung, die man der Zeile `fuelle_kiste(kiste)` nicht ansieht. Seiteneffekte sind nicht verboten und manchmal genau richtig. Sie sind nur teuer, weil man den Funktionskörper lesen muss, um sie zu bemerken.
 
 **Merk dir die drei Wörter als Reihenfolge:** Parameter hinein → Rückgabewert heraus → Seiteneffekt nur, wenn du ihn willst.
 
@@ -385,6 +389,170 @@ diff vorher.txt nachher.txt
 
 ---
 
+## Dein Auftrag — Teil 7a
+
+**Der schwerste Teil dieser Etappe ist nicht das Tippen, sondern das Aushalten.** Du baust stundenlang um und hast am Ende ein Spiel, das sich exakt wie vorher verhält. Das fühlt sich nach nichts an — und ist die Arbeit, die Etappe 9 bis 28 überhaupt erst möglich macht.
+
+⚠️ **Und weil diese Etappe sonst kein Ende hat: Das hier ist die vollständige Liste.**
+
+> **Sechs Funktionen in 7a, die Zeichenfunktionen in 7b. Das ist der Auftrag. Wenn die stehen, bist du fertig — auch wenn in `spiel.py` noch Blöcke liegen, die man theoretisch auslagern könnte.**
+
+Es gibt keine Zeilenzahl, die du erreichen musst. Ziel sind die **größten und offensichtlichsten** Blöcke, nicht ein durchsortiertes Programm. Alles, was dir zusätzlich auffällt, gehört in `GELERNT.md` und nicht in den heutigen Abend — dort steht auch die Stopp-Regel aus Konzept 8, falls du in Versuchung gerätst.
+
+Nach **jeder einzelnen** herausgelösten Funktion ausführen. Nicht nach fünf.
+
+---
+
+### 1. Schreib die Befehlsfolge für den Beweis
+
+- Eine Textdatei `befehle.txt` mit fünfzehn bis zwanzig Zeilen, eine Eingabe pro Zeile.
+- Deck alles ab: gültige Befehle, Kauf, Freischaltung, Bewegung, Bestiarium — **und die Fehlerfälle**: leere Zeile, unbekannter Befehl, `nimm` ohne Ziel, Kauf ohne Vaporium.
+- Am Ende `beenden`.
+
+```bash
+python spiel.py < befehle.txt > vorher.txt
+```
+
+**So prüfst du es:** Öffne `vorher.txt`. Steht dort ein vollständiger Spieldurchlauf? Wenn das Programm vorher abbricht, fehlt eine Eingabe — ergänz sie.
+
+⚠️ **Ohne diese Datei fängst du nicht an.** Sie ist der einzige Beweis, den du heute bekommst.
+
+---
+
+### 2. Lös die erste Funktion heraus: `zeige_status()`
+
+- Nimm den Block aus deinem `status`-Zweig und pack ihn in eine Funktion.
+- Sie bekommt alles, was sie braucht, **als Parameter** — nach deiner Design-Entscheidung.
+- Der `status`-Zweig in der Befehlskette besteht danach aus einem einzigen Aufruf.
+
+**So prüfst du es:** Programm ausführen, `status` tippen. Die Ausgabe muss **zeichengenau** dieselbe sein wie vorher.
+
+*(Fang mit dieser an, weil sie nichts verändert — sie gibt nur aus. Wenn hier etwas schiefgeht, liegt es am Umbau und nicht an der Logik.)*
+
+⭐ **Und jetzt mach absichtlich einen Fehler, bevor du ihn korrigierst.**
+
+Gib `zeige_status()` beim ersten Versuch **jeden** Wert als Parameter, den sie irgendwie berühren könnte — Kernintegrität, Vaporium, Munition, Sektor, Wellennummer, Gegnerliste, Freischaltungen, den Spielernamen. Auch die, die sie gar nicht braucht.
+
+Dann sieh dir die erste Zeile an:
+
+```python
+def zeige_status(kern, vaporium, munition, sektor, welle, gegner, freigeschaltet, name):
+```
+
+**Beantworte zwei Fragen ehrlich, bevor du etwas änderst:**
+
+1. Könntest du diese Zeile jemandem vorlesen, ohne den Faden zu verlieren?
+2. Wenn morgen ein neunter Wert dazukommt — wie viele Stellen im Programm musst du anfassen?
+
+**Danach wirf raus, was die Funktion nicht anfasst**, und lass den Rest stehen, auch wenn es immer noch fünf oder sechs sind.
+
+⚠️ *Das Unbehagen, das gerade entstanden ist, sollst du behalten. Es ist der Grund für Etappe 9 — und wer es nicht hatte, hält `self` dort für Zeremonie. Schreib einen Satz dazu in `GELERNT.md`.*
+
+**⏸ Checkpoint — hier hältst du an.** Erst weiter, wenn alle fünf Punkte stimmen:
+
+- [ ] Das Spiel läuft.
+- [ ] `zeige_status()` ist herausgelöst, der `status`-Zweig ist ein einziger Aufruf.
+- [ ] Die Ausgabe ist zeichengenau unverändert.
+- [ ] Du kannst sagen, **warum jeder einzelne Parameter** in der Liste steht.
+- [ ] Du kannst sagen, warum die Funktion **keine** äußeren Werte direkt liest.
+
+Das kostet zwei Minuten und erspart dir die Lage, in der du eine Stunde später nicht mehr weißt, wann es kaputtgegangen ist.
+
+---
+
+### 3. Lös `berechne_schaden()` heraus
+
+- Die Platzhalterformel aus Etappe 3c — heute reicht sie den Schadenswert deiner Klasse durch.
+- **Sie gibt eine Zahl zurück. Sie gibt nichts aus.**
+
+**So prüfst du es:** Feuern. Die Schadenszahl muss dieselbe sein wie vorher.
+
+*(Eine Funktion, die nur eine Zahl durchreicht, sieht nach Umstand aus. Sie ist es nicht: Der Schadenswert hat bis Etappe 11 keinen Verbraucher, weil ein Gegner heute mit einem Treffer fällt. Was jetzt zählt, ist der Aufrufort — er steht ab heute an einer einzigen Stelle.)*
+
+*(Diese Funktion wird in Etappe 21a zur echten Trefferrechnung und in Etappe 26 dein erster Test. Sie ist ab heute Produktivcode.)*
+
+---
+
+### 4. Lös die Prüfketten heraus: `kaufe()` und `schalte_frei()`
+
+- Die vier Prüfungen aus Etappe 5 und die fünf aus Etappe 6, jeweils in eine eigene Funktion.
+- Die Reihenfolge bleibt exakt wie sie war: **erst alle Prüfungen, dann verändern.**
+- Nutz die frühe Abfahrt aus Konzept 4, wenn es die Verschachtelung flacher macht.
+
+**So prüfst du es:** Kauf mit zu wenig Vaporium, Kauf bei vollem Inventar, `kaufe hubschrauber`, doppeltes Freischalten. Alle vier Meldungen müssen wortgleich sein.
+
+---
+
+### 5. Lös `wechsle_sektor()` heraus
+
+- Die drei Fälle aus Etappe 5: Richtung existiert, existiert nicht, kein zweites Wort.
+- Gibt den neuen Sektornamen **zurück** — sie setzt `aktueller_sektor` nicht selbst.
+
+⚠️ *Hier merkst du zum ersten Mal, warum das lästig ist. Merk dir das Gefühl; es ist der Grund für Etappe 9.*
+
+---
+
+### 6. Lös `verarbeite_befehl()` heraus
+
+- Die gesamte `if`/`elif`-Kette wandert in **eine** Funktion.
+- Auch die Eingabeaufbereitung aus Etappe 4 — `.strip()`, `.lower()`, `.split()`, die Längenprüfung.
+- Deine Hauptschleife besteht danach fast nur noch aus: Eingabe holen, Funktion aufrufen.
+
+**So prüfst du es:** Alle Befehle durchprobieren, auch die Fehlerfälle. Deine `while`-Schleife sollte jetzt in einen Bildschirm passen.
+
+⚠️ **Und ein Satz gegen die falsche Lehre, die man hier ziehen kann:** `verarbeite_befehl()` ist danach ein großer Block, und das ist heute in Ordnung — aber **nicht**, weil eine Funktion beliebig groß sein darf, sobald sie einen Namen hat. Sie ist groß, weil du sie heute nur **verschiebst**. Zerlegt wird sie in Etappe 23a, wenn du das Werkzeug dafür hast.
+
+*(Damit ist die Schuld aus Etappe 3b eingelöst — die Kette, die seit vier Etappen wächst, hat endlich einen eigenen Ort. Sie stirbt in Etappe 23a ganz.)*
+
+---
+
+### 7. Zieh den Beweis
+
+```bash
+python spiel.py < befehle.txt > nachher.txt
+```
+
+Dann vergleichen — im Editor nebeneinander oder mit `diff vorher.txt nachher.txt`, wie in Konzept 11 beschrieben.
+
+**Die beiden Dateien müssen identisch sein**, Zeile für Zeile. Gibt es einen Unterschied, hast du beim Umbauen etwas verändert — such ihn, bevor du weitermachst.
+
+⚠️ **Nicht „das ist bestimmt egal".** Ein Unterschied ist ein Verhaltensunterschied, und heute darf es keinen geben.
+
+---
+
+### 8. Bau ein Standardargument ein
+
+- Gib `zeige_status()` einen Parameter `ausfuehrlich=False`.
+- Bei `True` zeigt sie zusätzlich etwas an — was, ist dir überlassen: Gegnerpositionen, freigeschaltete Ausbauten, den Rundenzähler.
+- **Alle bestehenden Aufrufe bleiben unverändert.**
+
+**So prüfst du es:** Der normale `status`-Befehl verhält sich exakt wie vorher. Ein zweiter Befehl oder ein zweites Wort löst die ausführliche Fassung aus.
+
+---
+
+### 9. Schreib drei Docstrings
+
+- Für `berechne_schaden()`, `kaufe()` und eine dritte deiner Wahl.
+- Jeweils **ein Satz**: was kommt zurück, was wird vorausgesetzt.
+- Nicht wiederholen, was der Name schon sagt.
+
+**So prüfst du es:** `help(berechne_schaden)` im Terminal aufrufen.
+
+---
+
+### 10. Committen
+
+```
+git add .
+git commit -m "Etappe 7a: Refactoring in Funktionen"
+```
+
+> **⏸ Hier ist der Schnitt.** 7a ist getan. Die Trennung von Logik und Darstellung ist ein eigener Abend.
+
+---
+
+# Teil 7b — Logik und Darstellung
+
 ## Die Konzepte — Teil 7b
 
 ### 12. Die Linie: rechnen oder ausgeben ⭐
@@ -473,165 +641,9 @@ assert trinkgeld >= 0
 
 ---
 
-## Dein Auftrag
+## Dein Auftrag — Teil 7b
 
-**Der schwerste Teil dieser Etappe ist nicht das Tippen, sondern das Aushalten.** Du baust stundenlang um und hast am Ende ein Spiel, das sich exakt wie vorher verhält. Das fühlt sich nach nichts an — und ist die Arbeit, die Etappe 9 bis 28 überhaupt erst möglich macht.
-
-⚠️ **Und weil diese Etappe sonst kein Ende hat: Das hier ist die vollständige Liste.**
-
-> **Sechs Funktionen in 7a, die Zeichenfunktionen in 7b. Das ist der Auftrag. Wenn die stehen, bist du fertig — auch wenn in `spiel.py` noch Blöcke liegen, die man theoretisch auslagern könnte.**
-
-Es gibt keine Zeilenzahl, die du erreichen musst. Ziel sind die **größten und offensichtlichsten** Blöcke, nicht ein durchsortiertes Programm. Alles, was dir zusätzlich auffällt, gehört in `GELERNT.md` und nicht in den heutigen Abend — dort steht auch die Stopp-Regel aus Konzept 8, falls du in Versuchung gerätst.
-
-Nach **jeder einzelnen** herausgelösten Funktion ausführen. Nicht nach fünf.
-
----
-
-### 1. Schreib die Befehlsfolge für den Beweis
-
-- Eine Textdatei `befehle.txt` mit fünfzehn bis zwanzig Zeilen, eine Eingabe pro Zeile.
-- Deck alles ab: gültige Befehle, Kauf, Freischaltung, Bewegung, Bestiarium — **und die Fehlerfälle**: leere Zeile, unbekannter Befehl, `nimm` ohne Ziel, Kauf ohne Vaporium.
-- Am Ende `beenden`.
-
-```bash
-python spiel.py < befehle.txt > vorher.txt
-```
-
-**So prüfst du es:** Öffne `vorher.txt`. Steht dort ein vollständiger Spieldurchlauf? Wenn das Programm vorher abbricht, fehlt eine Eingabe — ergänz sie.
-
-⚠️ **Ohne diese Datei fängst du nicht an.** Sie ist der einzige Beweis, den du heute bekommst.
-
----
-
-### 2. Lös die erste Funktion heraus: `zeige_status()`
-
-- Nimm den Block aus deinem `status`-Zweig und pack ihn in eine Funktion.
-- Sie bekommt alles, was sie braucht, **als Parameter** — nach deiner Design-Entscheidung.
-- Der `status`-Zweig in der Befehlskette besteht danach aus einem einzigen Aufruf.
-
-**So prüfst du es:** Programm ausführen, `status` tippen. Die Ausgabe muss **zeichengenau** dieselbe sein wie vorher.
-
-*(Fang mit dieser an, weil sie nichts verändert — sie gibt nur aus. Wenn hier etwas schiefgeht, liegt es am Umbau und nicht an der Logik.)*
-
-⭐ **Und jetzt mach absichtlich einen Fehler, bevor du ihn korrigierst.**
-
-Gib `zeige_status()` beim ersten Versuch **jeden** Wert als Parameter, den sie irgendwie berühren könnte — Kernintegrität, Vaporium, Munition, Sektor, Wellennummer, Gegnerliste, Freischaltungen, den Spielernamen. Auch die, die sie gar nicht braucht.
-
-Dann sieh dir die erste Zeile an:
-
-```python
-def zeige_status(kern, vaporium, munition, sektor, welle, gegner, freigeschaltet, name):
-```
-
-**Beantworte zwei Fragen ehrlich, bevor du etwas änderst:**
-
-1. Könntest du diese Zeile jemandem vorlesen, ohne den Faden zu verlieren?
-2. Wenn morgen ein neunter Wert dazukommt — wie viele Stellen im Programm musst du anfassen?
-
-**Danach wirf raus, was die Funktion nicht anfasst**, und lass den Rest stehen, auch wenn es immer noch fünf oder sechs sind.
-
-⚠️ *Das Unbehagen, das gerade entstanden ist, sollst du behalten. Es ist der Grund für Etappe 9 — und wer es nicht hatte, hält `self` dort für Zeremonie. Schreib einen Satz dazu in `GELERNT.md`.*
-
-**⏸ Checkpoint — hier hältst du an.** Erst weiter, wenn alle fünf Punkte stimmen:
-
-- [ ] Das Spiel läuft.
-- [ ] `zeige_status()` ist herausgelöst, der `status`-Zweig ist ein einziger Aufruf.
-- [ ] Die Ausgabe ist zeichengenau unverändert.
-- [ ] Du kannst sagen, **warum jeder einzelne Parameter** in der Liste steht.
-- [ ] Du kannst sagen, warum die Funktion **keine** äußeren Werte direkt liest.
-
-Das kostet zwei Minuten und erspart dir die Lage, in der du eine Stunde später nicht mehr weißt, wann es kaputtgegangen ist.
-
----
-
-### 3. Lös `berechne_schaden()` heraus
-
-- Die Platzhalterformel aus Etappe 3c, plus der Panzerbrecher-Bonus aus Etappe 6.
-- **Sie gibt eine Zahl zurück. Sie gibt nichts aus.**
-
-**So prüfst du es:** Feuern. Die Schadenszahl muss dieselbe sein wie vorher — mit und ohne freigeschalteten Panzerbrecher.
-
-*(Diese Funktion wird in Etappe 21a zur echten Trefferrechnung und in Etappe 26 dein erster Test. Sie ist ab heute Produktivcode.)*
-
----
-
-### 4. Lös die Prüfketten heraus: `kaufe()` und `schalte_frei()`
-
-- Die vier Prüfungen aus Etappe 5 und die fünf aus Etappe 6, jeweils in eine eigene Funktion.
-- Die Reihenfolge bleibt exakt wie sie war: **erst alle Prüfungen, dann verändern.**
-- Nutz die frühe Abfahrt aus Konzept 4, wenn es die Verschachtelung flacher macht.
-
-**So prüfst du es:** Kauf mit zu wenig Vaporium, Kauf bei vollem Inventar, `kaufe hubschrauber`, doppeltes Freischalten. Alle vier Meldungen müssen wortgleich sein.
-
----
-
-### 5. Lös `wechsle_sektor()` heraus
-
-- Die drei Fälle aus Etappe 5: Richtung existiert, existiert nicht, kein zweites Wort.
-- Gibt den neuen Sektornamen **zurück** — sie setzt `aktueller_sektor` nicht selbst.
-
-⚠️ *Hier merkst du zum ersten Mal, warum das lästig ist. Merk dir das Gefühl; es ist der Grund für Etappe 9.*
-
----
-
-### 6. Lös `verarbeite_befehl()` heraus
-
-- Die gesamte `if`/`elif`-Kette wandert in **eine** Funktion.
-- Auch die Eingabeaufbereitung aus Etappe 4 — `.strip()`, `.lower()`, `.split()`, die Längenprüfung.
-- Deine Hauptschleife besteht danach fast nur noch aus: Eingabe holen, Funktion aufrufen.
-
-**So prüfst du es:** Alle Befehle durchprobieren, auch die Fehlerfälle. Deine `while`-Schleife sollte jetzt in einen Bildschirm passen.
-
-⚠️ **Und ein Satz gegen die falsche Lehre, die man hier ziehen kann:** `verarbeite_befehl()` ist danach ein großer Block, und das ist heute in Ordnung — aber **nicht**, weil eine Funktion beliebig groß sein darf, sobald sie einen Namen hat. Sie ist groß, weil du sie heute nur **verschiebst**. Zerlegt wird sie in Etappe 23a, wenn du das Werkzeug dafür hast.
-
-*(Damit ist die Schuld aus Etappe 3b eingelöst — die Kette, die seit vier Etappen wächst, hat endlich einen eigenen Ort. Sie stirbt in Etappe 23a ganz.)*
-
----
-
-### 7. Zieh den Beweis
-
-```bash
-python spiel.py < befehle.txt > nachher.txt
-```
-
-Dann vergleichen — im Editor nebeneinander oder mit `diff vorher.txt nachher.txt`, wie in Konzept 11 beschrieben.
-
-**Die beiden Dateien müssen identisch sein**, Zeile für Zeile. Gibt es einen Unterschied, hast du beim Umbauen etwas verändert — such ihn, bevor du weitermachst.
-
-⚠️ **Nicht „das ist bestimmt egal".** Ein Unterschied ist ein Verhaltensunterschied, und heute darf es keinen geben.
-
----
-
-### 8. Bau ein Standardargument ein
-
-- Gib `zeige_status()` einen Parameter `ausfuehrlich=False`.
-- Bei `True` zeigt sie zusätzlich etwas an — was, ist dir überlassen: Gegnerpositionen, freigeschaltete Ausbauten, den Rundenzähler.
-- **Alle bestehenden Aufrufe bleiben unverändert.**
-
-**So prüfst du es:** Der normale `status`-Befehl verhält sich exakt wie vorher. Ein zweiter Befehl oder ein zweites Wort löst die ausführliche Fassung aus.
-
----
-
-### 9. Schreib drei Docstrings
-
-- Für `berechne_schaden()`, `kaufe()` und eine dritte deiner Wahl.
-- Jeweils **ein Satz**: was kommt zurück, was wird vorausgesetzt.
-- Nicht wiederholen, was der Name schon sagt.
-
-**So prüfst du es:** `help(berechne_schaden)` im Terminal aufrufen.
-
----
-
-### 10. Committen
-
-```
-git add .
-git commit -m "Etappe 7a: Refactoring in Funktionen"
-```
-
-> **⏸ Hier ist der Schnitt.** 7a ist getan. Die Trennung von Logik und Darstellung ist ein eigener Abend.
-
----
+**Die zweite Hälfte ist kürzer und anstrengender.** In 7a hast du Blöcke verschoben; hier entscheidest du bei jeder Zeile, auf welche Seite einer Linie sie gehört. Der Beweis von gestern gilt weiter: `befehle.txt` ist dieselbe Datei, `diff` muss wieder schweigen.
 
 ### 11. Lös die Zeichenfunktionen heraus
 

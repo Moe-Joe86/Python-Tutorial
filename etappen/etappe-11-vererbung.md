@@ -1,8 +1,8 @@
 # Etappe 11 — Vererbung, und die Frage, ob wir sie brauchen
 
-*v1.1.0 · 2026-09-08*
+*v1.1.1 · 2026-09-16*
 
-> **Block 2: Einheiten und Zeit** · Etappe 11 von 30 · [← Etappe 10](etappe-10-komposition.md) · [Lehrplan](../Vorposten_Lehrplan.md) · Etappe 12 →
+> **Block 2: Einheiten und Zeit** · Etappe 11 von 30 · [← Etappe 10](etappe-10-komposition.md) · [Lehrplan](../Vorposten_Lehrplan.md) · [Etappe 12 →](etappe-12-der-tick.md)
 
 **Neue Syntax heute:** `class Kind(Eltern):` · `super().__init__(...)` · Methoden überschreiben · 👀 `__len__`, `__contains__`, `__iter__` · 👀 `@property` · 👀 `type(self).__name__`
 
@@ -848,4 +848,4 @@ Erst bei grünem Selbsttest.
 
 ---
 
-> **Nächste Etappe:** Etappe 12 — Der Tick · die Zeit läuft weiter, auch wenn du nichts tust, und drei Kameraden fangen an zu handeln
+> **Nächste Etappe:** [Etappe 12 — Der Tick](etappe-12-der-tick.md) · die Zeit läuft weiter, auch wenn du nichts tust, und drei Kameraden fangen an zu handeln

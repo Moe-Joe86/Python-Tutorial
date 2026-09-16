@@ -1,6 +1,6 @@
 # Etappe 5 — Der Vorposten und das Depot
 
-*v1.18.1 · 2026-09-08*
+*v1.19.0 · 2026-09-14*
 
 > **Block 1: Fundament** · Etappe 5 von 30 · [← Etappe 4](etappe-04-ausruestung-und-beute.md) · [Lehrplan](../Vorposten_Lehrplan.md) · [Etappe 6 →](etappe-06-datenstrukturen.md)
 
@@ -116,7 +116,7 @@ Du baust heute drei Sammlungen, die alle mit Gegenständen zu tun haben. Wenn du
 
 | Wort | Was es ist | Wem es gehört | Struktur |
 |---|---|---|---|
-| **Depot** (`waren`) | Der Katalog: was man kaufen *kann*, und was es kostet | dem Vorposten | Dictionary Ware → Preis |
+| **Depot** (`WAREN`) | Der Katalog: was man kaufen *kann*, und was es kostet | dem Vorposten | Dictionary Ware → Preis |
 | **Vorrat** (`vorrat`) | Gezählte Ressourcen: Vaporium, Munition | dem Spieler | Dictionary Name → Anzahl |
 | **Inventar** (`inventar`) | Einzelne Gegenstände, die man trägt | dem Spieler | Liste (aus Etappe 4) |
 
@@ -158,16 +158,20 @@ Dieselbe Frage stellt sich für Munition und Vaporium. Für Medkit, Panzerplatte
 
 | Tabelle | Enthält | Beantwortet |
 |---|---|---|
-| `waren` | was das Depot **verkauft** | Was kostet es? |
-| `verkaufswerte` | was das Depot **ankauft** | Was bringt es? |
-| `stapelbar` | **nur Einträge aus `waren`** | Frag ich beim Kauf nach einer Menge? |
-| `anzeigenamen` | **jedes Ding**, das der Spieler sieht | Wie heißt es schön? |
+| `WAREN` | was das Depot **verkauft** | Was kostet es? |
+| `VERKAUFSWERTE` | was das Depot **ankauft** | Was bringt es? |
+| `STAPELBAR` | **nur Einträge aus `WAREN`** | Frag ich beim Kauf nach einer Menge? |
+| `ANZEIGENAMEN` | **jedes Ding**, das der Spieler sieht | Wie heißt es schön? |
 
-**Diese vier Tabellen überschneiden sich absichtlich nicht vollständig.** Die Panzerplatte steht in `waren` und in `stapelbar`, aber nicht in `verkaufswerte` — man kann sie kaufen, nicht verkaufen. Chitinpanzer und Organ stehen nur in `verkaufswerte` — man kann sie verkaufen, nicht kaufen. **Vaporium steht in keiner der ersten drei**, denn es ist der Preis, nicht die Ware — in `anzeigenamen` steht es sehr wohl, denn der Spieler liest es in der Statusanzeige.
+**Diese vier Tabellen überschneiden sich absichtlich nicht vollständig.** Die Panzerplatte steht in `WAREN` und in `STAPELBAR`, aber nicht in `VERKAUFSWERTE` — man kann sie kaufen, nicht verkaufen. Chitinpanzer und Organ stehen nur in `VERKAUFSWERTE` — man kann sie verkaufen, nicht kaufen. **Vaporium steht in keiner der ersten drei**, denn es ist der Preis, nicht die Ware — in `ANZEIGENAMEN` steht es sehr wohl, denn der Spieler liest es in der Statusanzeige.
+
+⭐ **Alle vier stehen in Großbuchstaben.** Das ist die Verabredung aus Etappe 1, Konzept 10 — hier zum ersten Mal in deinem eigenen Code. Preise, Verkaufswerte, Stapelbarkeit und Anzeigenamen stehen fest, sobald du sie geschrieben hast; im laufenden Spiel fasst sie niemand an.
+
+**Und die Gegenprobe im selben Atemzug:** `sektoren`, `inventar` und `vorrat` bleiben klein. Sie sehen ähnlich aus und sind etwas völlig anderes — in `sektoren` sinkt die Integrität, das Inventar füllt sich, der Vorrat schrumpft bei jedem Nachladen. Die Schreibweise ist die einzige Stelle, an der dieser Unterschied im Code überhaupt sichtbar wird.
 
 **Und der Grundsatz aus Etappe 4 gilt weiter: Aus der Brut fällt nichts, was ein Mensch anlegen kann.** Die Panzerplatte ist Menschenausrüstung — kaufbar, nicht findbar. Das ist der Unterschied zwischen den beiden Herkunftsspalten oben.
 
-*(Ergänzt du eigene Beute — eine Säuredrüse, einen Nervenknoten —, dann gehört sie in `vorrat`, in `verkaufswerte` und in `anzeigenamen`, aber in keine der anderen. Sie muss zwei Bedingungen erfüllen: biologisch, und nicht anlegbar.)*
+*(Ergänzt du eigene Beute — eine Säuredrüse, einen Nervenknoten —, dann gehört sie in `vorrat`, in `VERKAUFSWERTE` und in `ANZEIGENAMEN`, aber in keine der anderen. Sie muss zwei Bedingungen erfüllen: biologisch, und nicht anlegbar.)*
 
 Diese drei Wörter benutzt der Guide ab hier konsequent. Benutz sie in deinem Code genauso.
 
@@ -215,7 +219,7 @@ Links vom Doppelpunkt der **Schlüssel**, rechts der **Wert**. Geschweifte Klamm
 
 Eine Liste ist eine Reihe. Ein Dictionary ist ein Nachschlagewerk. Und Nachschlagewerke schlägt man nicht der Reihe nach auf.
 
-*(Genauer, weil es sonst später irritiert: Ein Dictionary **merkt** sich seit Python 3.7 durchaus, in welcher Reihenfolge du Einträge angelegt hast — beim Durchlaufen kommen sie so heraus. Nur **adressieren** kannst du darüber nichts. `waren[0]` gibt es nicht.)*
+*(Genauer, weil es sonst später irritiert: Ein Dictionary **merkt** sich seit Python 3.7 durchaus, in welcher Reihenfolge du Einträge angelegt hast — beim Durchlaufen kommen sie so heraus. Nur **adressieren** kannst du darüber nichts. `WAREN[0]` gibt es nicht.)*
 
 Ein leeres Dictionary ist `{}`. Genau wie die leere Liste ist es falsy — die Regel aus Etappe 2 gilt weiter.
 
@@ -311,10 +315,10 @@ Beim Nachschlagen eines Sektors, den dein eigener Code eingetragen hat, wäre ei
 Bisher war der Ersatzwert etwas anderes als der Schlüssel — `.get("gruen", "#000000")`. Er darf aber auch **derselbe Wert sein, nach dem du fragst**:
 
 ```python
-anzeigenamen = {"anis": "Sternanis (gemahlen)"}
+ANZEIGENAMEN = {"anis": "Sternanis (gemahlen)"}
 
-anzeigenamen.get("anis", "anis")          # 'Sternanis (gemahlen)'
-anzeigenamen.get("kuemmel", "kuemmel")    # 'kuemmel'   ← der Schlüssel selbst
+ANZEIGENAMEN.get("anis", "anis")          # 'Sternanis (gemahlen)'
+ANZEIGENAMEN.get("kuemmel", "kuemmel")    # 'kuemmel'   ← der Schlüssel selbst
 ```
 
 **Lies die zweite Zeile als Satz:** *Gib mir den schönen Namen für „kuemmel" — und wenn es keinen gibt, nimm eben „kuemmel".*
@@ -483,7 +487,7 @@ Der Schlüssel ist knapp, kleingeschrieben und wird verglichen. Der Wert ist sch
 ```python
 # fremdes Beispiel: ein Gewürzregal
 gewuerze     = {"anis": 12, "kuemmel": 40}                     # Preise
-anzeigenamen = {"anis": "Sternanis (gemahlen)", "kuemmel": "Kreuzkümmel"}
+ANZEIGENAMEN = {"anis": "Sternanis (gemahlen)", "kuemmel": "Kreuzkümmel"}
 ```
 
 Die Kennung bleibt überall der Schlüssel, der schöne Name steht **an einer einzigen Stelle**. Damit hast du beides gleichzeitig, und die Frage war nie ein Entweder-Oder.
@@ -747,7 +751,7 @@ Das `.split()` aus Etappe 4 trägt das schon — du erweiterst nur deine Befehls
 ### 6. Bau das Depot als flaches Dictionary
 
 ```
-waren: medkit → 40, munition → 15, panzerplatte → 90
+WAREN: medkit → 40, munition → 15, panzerplatte → 90
 ```
 
 - Preise in Vaporium.
@@ -756,7 +760,7 @@ waren: medkit → 40, munition → 15, panzerplatte → 90
 
 ⛔ **Was hier ausdrücklich nicht hineingehört: `klassengeraet`.** Das Medkit im Depot ist ein Einwegverband, den jede Klasse kaufen kann — der Bio-Injektor des Medics aus Etappe 2 ist etwas anderes und bleibt es. Er hat keinen Preis, weil er nicht käuflich ist. Trägst du ihn versehentlich als Ware ein, kann ihn sich der Soldat für 40 Vaporium kaufen, und die Klassenwahl aus Etappe 1 verliert ihren Sinn.
 
-**Zum Nachdenken, bevor du weitergehst:** Öffne `inventar` und `waren` nebeneinander. Beides sind Sammlungen von Gegenständen — eine Liste, ein Dictionary. Was wäre unsinnig daran, das Inventar wie `waren` aufzubauen? Ein, zwei Sätze in `GELERNT.md`. Die vollständige Antwort gibt Etappe 6.
+**Zum Nachdenken, bevor du weitergehst:** Öffne `inventar` und `WAREN` nebeneinander. Beides sind Sammlungen von Gegenständen — eine Liste, ein Dictionary. Was wäre unsinnig daran, das Inventar wie `WAREN` aufzubauen? Ein, zwei Sätze in `GELERNT.md`. Die vollständige Antwort gibt Etappe 6.
 
 ---
 
@@ -776,25 +780,25 @@ Wenn nein — etwa `"Medkit (klein)"` im Inventar gegen `medkit` im Depot —, d
 
 Jetzt die Konsequenz aus deiner Entscheidung — fünf Zeilen Daten und eine Zeile Nachschlag.
 
-- Leg ein flaches Dictionary `anzeigenamen` an: **Kennung → schöner Name.**
+- Leg ein flaches Dictionary `ANZEIGENAMEN` an: **Kennung → schöner Name.**
 - Trag **jedes** Ding ein, das der Spieler je zu sehen bekommt — Waren, Material, Vaporium, Munition **und den Datenkern**, obwohl der in keiner Warentabelle steht.
 - Bau den Nachschlag in **jede** Anzeige ein: Depot, Inventar, Vorfeld, Statusanzeige.
 
-*(Dein `depot`-Befehl hat aus Schritt 6 schon eine Schleife — dort ergänzt du nur eine Zeile. War dein `inventar`-Befehl bisher ein bloßes `print(inventar)`, brauchst du dort jetzt zum ersten Mal eine: eine Zeile pro Gegenstand, mit `anzeigenamen.get(...)` statt dem rohen Wert.)*
+*(Dein `depot`-Befehl hat aus Schritt 6 schon eine Schleife — dort ergänzt du nur eine Zeile. War dein `inventar`-Befehl bisher ein bloßes `print(inventar)`, brauchst du dort jetzt zum ersten Mal eine: eine Zeile pro Gegenstand, mit `ANZEIGENAMEN.get(...)` statt dem rohen Wert.)*
 
 Der Nachschlag ist der Griff aus Konzept 3 — **die Kennung als ihr eigener Ersatzwert:**
 
 ```python
-anzeigenamen.get(kennung, kennung)
+ANZEIGENAMEN.get(kennung, kennung)
 ```
 
 **Hier wird `.get()` zum ersten Mal unverzichtbar.** Mit eckigen Klammern stürzt dein Spiel ab, sobald du bei einem Gegenstand den Namenseintrag vergisst.
 
-⚠️ **Die Kennung bleibt überall, wo verglichen wird.** `kaufe medkit` prüft weiterhin gegen `waren`, nicht gegen Anzeigenamen. Die Trennung ist der ganze Sinn: **Eingabe und Vergleich arbeiten mit Kennungen, nur die Ausgabe wird schön.**
+⚠️ **Die Kennung bleibt überall, wo verglichen wird.** `kaufe medkit` prüft weiterhin gegen `WAREN`, nicht gegen Anzeigenamen. Die Trennung ist der ganze Sinn: **Eingabe und Vergleich arbeiten mit Kennungen, nur die Ausgabe wird schön.**
 
 **So prüfst du es:** Trag testweise einen erfundenen Gegenstand ins Inventar ein, für den es **keinen** Anzeigenamen gibt. Dein Spiel darf nicht abstürzen.
 
-⚠️ **Der Preis dieser Bauweise — schreib ihn dir auf.** Du hast jetzt **vier** flache Tabellen mit fast demselben Schlüsselsatz: `waren`, `verkaufswerte`, `stapelbar`, `anzeigenamen`. Ein neuer Gegenstand braucht bis zu vier Einträge, und beim fünften vergisst du einen. **Das ist Absicht.** Es ist derselbe Schmerz wie bei den zwei parallelen Gegnerlisten aus Etappe 6 — und er wird zweimal bezahlt: in **Etappe 11c**, wo ein `Item`-Objekt Kennung und Namen zusammen trägt, und endgültig in **Etappe 22**, wo alle vier zu einer verschachtelten Tabelle mit einem Eintrag pro Ding zusammenwachsen.
+⚠️ **Der Preis dieser Bauweise — schreib ihn dir auf.** Du hast jetzt **vier** flache Tabellen mit fast demselben Schlüsselsatz: `WAREN`, `VERKAUFSWERTE`, `STAPELBAR`, `ANZEIGENAMEN`. Ein neuer Gegenstand braucht bis zu vier Einträge, und beim fünften vergisst du einen. **Das ist Absicht.** Es ist derselbe Schmerz wie bei den zwei parallelen Gegnerlisten aus Etappe 6 — und er wird zweimal bezahlt: in **Etappe 11c**, wo ein `Item`-Objekt Kennung und Namen zusammen trägt, und endgültig in **Etappe 22**, wo alle vier zu einer verschachtelten Tabelle mit einem Eintrag pro Ding zusammenwachsen.
 
 ---
 
@@ -836,7 +840,7 @@ vorrat: vaporium → 0, munition → 40, chitinpanzer → 0, organ → 0
 - Bau dafür ein zweites, flaches Dictionary:
 
   ```
-  stapelbar: medkit → False, munition → True, panzerplatte → False
+  STAPELBAR: medkit → False, munition → True, panzerplatte → False
   ```
 
 ⚠️ *Was du nicht tun solltest: die Stapelbarkeit daran ablesen, ob der Name schon im `vorrat` steht. Das sieht aus, als würde es funktionieren, beantwortet aber eine andere Frage — nämlich ob der Spieler die Ressource gerade besitzt.*
@@ -846,13 +850,13 @@ vorrat: vaporium → 0, munition → 40, chitinpanzer → 0, organ → 0
 | | Die Frage | Gilt für |
 |---|---|---|
 | **Stapelbar als Eigenschaft** | Wird das Ding **gezählt** oder einzeln geführt? | jedes Ding im Spiel |
-| **Die Tabelle `stapelbar`** | Frag ich beim **Kauf** nach einer Menge? | ausschließlich Einträge in `waren` |
+| **Die Tabelle `STAPELBAR`** | Frag ich beim **Kauf** nach einer Menge? | ausschließlich Einträge in `WAREN` |
 
 **Deshalb steht Chitinpanzer nicht in dieser Tabelle, obwohl er gestapelt wird.** Material ist *immer* gezählt — es lebt seit Schritt 9 als Zahl im `vorrat`, und die Frage stellt sich gar nicht. Die Tabelle braucht es nur dort, wo es **strittig** ist: Munition ist zählbar, ein Medkit nicht, und beide stehen im selben Katalog.
 
 **Der Datenkern ist der Gegenbeweis in die andere Richtung:** Er ist Beute wie das Material, aber nicht zählbar — es gibt genau einen. Er bleibt im Inventar und taucht in keiner der beiden Tabellen auf.
 
-> **Merksatz: `stapelbar` ist keine Eigenschaft der Welt, sondern eine Angabe für den Kaufvorgang.** Wer sie als Weltbeschreibung liest, sucht dort irgendwann nach Dingen, die nie darin stehen werden.
+> **Merksatz: `STAPELBAR` ist keine Eigenschaft der Welt, sondern eine Angabe für den Kaufvorgang.** Wer sie als Weltbeschreibung liest, sucht dort irgendwann nach Dingen, die nie darin stehen werden.
 
 **Der Preis dieser Bauweise:** Eine neue Ware braucht ab jetzt zwei Einträge. Vergisst du den zweiten, ist das der inkonsistente Datenfehler aus Konzept 13 — nur diesmal in deinen Warendaten.
 
@@ -939,7 +943,7 @@ Danach alles zurücksetzen.
 Bis hierher kannst du kaufen, aber du hast nichts, wovon. **Vaporium entsteht durch Verkaufen.**
 
 - Gefallene Gegner hinterlassen **Material und den Datenkern.** Chitinpanzer und Organe erhöhen jetzt `vorrat`, nicht das Inventar — der Datenkern bleibt Einzelstück und wandert wie bisher ins Inventar.
-- Leg eine **zweite flache Tabelle** an: `verkaufswerte`, Material → Vaporium pro Stück. Ein Organ ist deutlich mehr wert als ein Panzerstück.
+- Leg eine **zweite flache Tabelle** an: `VERKAUFSWERTE`, Material → Vaporium pro Stück. Ein Organ ist deutlich mehr wert als ein Panzerstück.
 - Bau `verkaufe <material>` — nur im Depot, wie `kaufe`.
 
 **Die Prüfungen sind das Spiegelbild von Schritt 11:** Zahlt die Forschung dafür überhaupt etwas? Hast du so viel? Erst dann abziehen und gutschreiben.
@@ -950,13 +954,13 @@ Bis hierher kannst du kaufen, aber du hast nichts, wovon. **Vaporium entsteht du
 - Wieder `int()` auf das dritte Wort — der Dreisatz aus Etappe 1, jetzt zum dritten Mal.
 - **Erlös ausrechnen, bevor du irgendetwas veränderst.** Erst prüfen, dann buchen: die Transaktion aus Schritt 11.
 
-*(Material ist immer zählbar — anders als beim Kauf musst du hier nicht in `stapelbar` nachsehen, ob eine Menge überhaupt erlaubt ist. Siehe den Kasten in Schritt 10.)*
+*(Material ist immer zählbar — anders als beim Kauf musst du hier nicht in `STAPELBAR` nachsehen, ob eine Menge überhaupt erlaubt ist. Siehe den Kasten in Schritt 10.)*
 
-**So prüfst du es:** Verkauf mehr, als du hast. Verkauf `0` und `-2`. Verkauf etwas, das gar nicht in `verkaufswerte` steht. Keiner der drei Fälle darf deinen Vorrat verändern.
+**So prüfst du es:** Verkauf mehr, als du hast. Verkauf `0` und `-2`. Verkauf etwas, das gar nicht in `VERKAUFSWERTE` steht. Keiner der drei Fälle darf deinen Vorrat verändern.
 
-**Und hier gilt dieselbe Regel wie beim Kauf: In deiner Verkaufslogik darf kein Materialname vorkommen.** Der Wert wird nachgeschlagen, nicht abgefragt. Ein neues Material ist dann eine Zeile in `verkaufswerte` und keine Zeile im Code — **das ist der Architekturtest aus Schritt 13 ein zweites Mal, und wer ihn dort bestanden hat, schreibt diesen Schritt in zehn Minuten.**
+**Und hier gilt dieselbe Regel wie beim Kauf: In deiner Verkaufslogik darf kein Materialname vorkommen.** Der Wert wird nachgeschlagen, nicht abgefragt. Ein neues Material ist dann eine Zeile in `VERKAUFSWERTE` und keine Zeile im Code — **das ist der Architekturtest aus Schritt 13 ein zweites Mal, und wer ihn dort bestanden hat, schreibt diesen Schritt in zehn Minuten.**
 
-*(Warum eine eigene Tabelle und nicht ein Feld in `waren`? Weil du Material nicht kaufen kannst und Waren nicht verkaufst. Zwei verschiedene Fragen, zwei Tabellen. In Etappe 22 werden sie zu einer verschachtelten zusammengezogen — dort hat jeder Eintrag dann Kaufpreis *und* Verkaufswert.)*
+*(Warum eine eigene Tabelle und nicht ein Feld in `WAREN`? Weil du Material nicht kaufen kannst und Waren nicht verkaufst. Zwei verschiedene Fragen, zwei Tabellen. In Etappe 22 werden sie zu einer verschachtelten zusammengezogen — dort hat jeder Eintrag dann Kaufpreis *und* Verkaufswert.)*
 
 **Damit läuft zum ersten Mal ein vollständiger Kreislauf:**
 
@@ -966,7 +970,7 @@ Brut fällt → Material → verkaufen → Vaporium → kaufen → Munition → 
 
 **So prüfst du es:** Erleg Gegner, bis Material im Vorrat liegt. Verkauf es. Kauf davon Munition. Wenn du an keiner Stelle nachhelfen musstest, steht deine Wirtschaft.
 
-⛔ **Der Datenkern wird nicht verkauft.** Er steht in keiner `verkaufswerte`-Tabelle und bleibt im Inventar. Etappe 15 braucht ihn.
+⛔ **Der Datenkern wird nicht verkauft.** Er steht in keiner `VERKAUFSWERTE`-Tabelle und bleibt im Inventar. Etappe 15 braucht ihn.
 
 ---
 
@@ -1062,13 +1066,13 @@ Prüft den Zustand deines Programms, nicht dein Gefühl. Führ jeden Punkt tats�
 - [ ] Der Kreislauf läuft ohne Nachhelfen: Gegner erlegen → Material verkaufen → Munition kaufen
 - [ ] `nachladen` verschiebt Munition aus dem Vorrat ins Magazin und **erschafft keine** — bei leerem Vorrat schlägt es fehl
 - [ ] Die Summe aus `geladen` und `vorrat["munition"]` steigt beim Nachladen nie
-- [ ] Ein neues Material einzuführen ist **eine Zeile in `verkaufswerte`** und keine Zeile in der Verkaufslogik
+- [ ] Ein neues Material einzuführen ist **eine Zeile in `VERKAUFSWERTE`** und keine Zeile in der Verkaufslogik
 - [ ] Der Datenkern liegt im Inventar und lässt sich nicht verkaufen
 - [ ] Dasselbe Ding heißt in **Inventar, Depot und Kauflogik** gleich — und deine Entscheidung dazu steht in `GELERNT.md`
-- [ ] Jede Anzeige schlägt den Namen mit `anzeigenamen.get(kennung, kennung)` nach; ein Gegenstand **ohne** Eintrag lässt das Spiel nicht abstürzen
+- [ ] Jede Anzeige schlägt den Namen mit `ANZEIGENAMEN.get(kennung, kennung)` nach; ein Gegenstand **ohne** Eintrag lässt das Spiel nicht abstürzen
 - [ ] Verglichen wird überall weiter mit der **Kennung** — kein `if eingabe == "Medkit (klein)"`
 - [ ] `verkaufe <material> <menge>` funktioniert, und ein zu großer, ein negativer und ein unbekannter Wert lassen den Vorrat unverändert
-- [ ] Du kannst sagen, warum Chitinpanzer **nicht** in der Tabelle `stapelbar` steht, obwohl er gestapelt wird
+- [ ] Du kannst sagen, warum Chitinpanzer **nicht** in der Tabelle `STAPELBAR` steht, obwohl er gestapelt wird
 - [ ] Die Suche nach deinen **alten** Variablennamen für Munition und Vaporium findet im ganzen File null Treffer
 - [ ] Keine Stelle deines Codes kann `"vaporium"` oder `"munition"` ins **Inventar** legen — auch keine Beutetabelle und keine Belohnung
 - [ ] Preis einer Ware ändern — Depot **und** Abbuchung zeigen den neuen Wert
@@ -1093,10 +1097,10 @@ Ohne Nachschlagen, in eigenen Worten. Dein Mentor fragt sie ab.
 1. Was ist der Unterschied zwischen einer Liste und einem Dictionary — **nicht** in der Schreibweise, sondern in der Frage, die man stellt?
 2. Wie kommst du an einen verschachtelten Wert, und was liefert der erste Schlüssel dabei zurück?
 3. Was passiert bei einem Schlüssel, den es nicht gibt? Was macht `.get()` anders, und wann willst du welches von beiden?
-4. **Was prüft `"medkit" in waren` — den Schlüssel oder den Wert?** Und wie fragst du nach dem anderen?
+4. **Was prüft `"medkit" in WAREN` — den Schlüssel oder den Wert?** Und wie fragst du nach dem anderen?
 5. Der Spieler tippt `gehe osten`. Welche drei verschiedenen Werte entstehen dabei — und warum ist `"osten"` keiner davon, den du in `aktueller_sektor` schreiben darfst?
 6. Was bekommst du, wenn du direkt über ein Dictionary iterierst? Und was liefert `.items()`?
-7. Warum ist `sektoren` verschachtelt und `waren` flach? Nenn die Frage, mit der du das entscheidest.
+7. Warum ist `sektoren` verschachtelt und `WAREN` flach? Nenn die Frage, mit der du das entscheidest.
 8. Warum kann eine Liste kein Dictionary-Schlüssel sein? *(Ein Satz genügt — 👀.)*
 8b. Was macht `del d["name"]`, und warum steht davor kein Punkt?
 8c. Warum ist `portionen[2]` bei einem Dictionary etwas anderes als `liste[2]` bei einer Liste?
@@ -1137,7 +1141,7 @@ Wenn Schritt 5 ohne jede Änderung funktioniert, hast du Konzept 8 verstanden. W
 Probier beides und vergleich:
 
 ```python
-waren["repraturkit"] = 60                   # ← Tippfehler
+WAREN["repraturkit"] = 60                   # ← Tippfehler
 sektoren["nordtorr"]["integritaet"] = 50    # ← Tippfehler
 ```
 
@@ -1145,7 +1149,7 @@ Das erste läuft **still durch** und legt einen Eintrag an, den nie jemand liest
 
 **Warum der Unterschied?** Beim ersten legst du einen Schlüssel *an* — das ist erlaubt, dafür gibt es keine Rechtschreibprüfung. Beim zweiten musst du erst einen Schlüssel *lesen*, um an das innere Dictionary zu kommen, und den gibt es nicht.
 
-**Die Regel dahinter ist wichtiger als das Beispiel:** Ein Tippfehler links vom `=` ist gefährlich. Ein Tippfehler beim Lesen ist harmlos, weil er abstürzt. Ruf danach `waren` auf und sieh dir an, was da jetzt drinsteht.
+**Die Regel dahinter ist wichtiger als das Beispiel:** Ein Tippfehler links vom `=` ist gefährlich. Ein Tippfehler beim Lesen ist harmlos, weil er abstürzt. Ruf danach `WAREN` auf und sieh dir an, was da jetzt drinsteht.
 
 **2b. Die drei Arten, einen Eintrag falsch anzuzeigen.** Nimm eine Zeile deiner Statusanzeige und probier nacheinander:
 
@@ -1247,7 +1251,7 @@ print("### WERT", sektoren.get(aktueller_sektor))
 | Frage an die Daten | Antwort |
 |---|---|
 | *Welche Dinge habe ich?* | **Liste** (`inventar`) |
-| *Was gehört zu diesem Namen?* | **Dictionary** (`sektoren`, `waren`) |
+| *Was gehört zu diesem Namen?* | **Dictionary** (`sektoren`, `WAREN`) |
 | *Wie viel habe ich?* | **Zahl** — oder ein Dictionary aus Namen und Anzahlen (`vorrat`) |
 
 **Etappe 6 ergänzt die drei fehlenden Fragen:**

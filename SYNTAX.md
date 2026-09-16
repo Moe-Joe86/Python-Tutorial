@@ -1,6 +1,6 @@
 # Das Syntaxregister — welches Werkzeug ab wann zur Verfügung steht
 
-*v1.9.0 · 2026-09-08*
+*v1.12.1 · 2026-09-16*
 
 > Verbindlicher Anhang zum [Lehrplan](Vorposten_Lehrplan.md). Diese Datei ist die einzige Quelle der Wahrheit darüber, was ein Lernender an einem bestimmten Punkt kennt.
 
@@ -66,6 +66,7 @@ Kein Python. Terminal, Git, virtuelle Umgebung, `pip`. Steht im Lehrplan, nicht 
 | Grundrechenarten `+` `-` `*` an Zahlen, Punkt vor Strich | 3b | 🔨 |
 | Rechnen ohne Zuweisung ändert nichts | 3b | 🧠 |
 | `trefferpunkte` als zweiter Gesundheitswert neben `kern_integritaet` | Auftrag 3 | 🔨 |
+| GROSS geschriebene Namen für feste Werte (Verabredung, keine Sprachregel) | 10 | 🧠 |
 
 ---
 
@@ -211,9 +212,11 @@ Kein Python. Terminal, Git, virtuelle Umgebung, `pip`. Steht im Lehrplan, nicht 
 | Tuple-Unpacking `a, b = t` und `for a, b in ...` | 9 | 🔨 |
 | `&` `\|` `-` — Mengenoperationen | 10 | 👀 |
 | Sets und Tuples lassen sich nicht als JSON speichern | 14 | 👀 |
+| `.index(wert)` — von einem Wert zu seiner Stelle | **0** | 🔨 |
+| `ValueError: x is not in list` | **0** | 🧠 |
 | `.pop(i)` — entfernt über die Stelle und gibt zurück | **0** | 🔨 |
 | `del liste[i]` | **0** | 🔨 |
-| `remove` / `pop` / `del` unterscheiden | **0** | 🧠 |
+| `remove` / `pop` / `del` unterscheiden — und `.index()` als Brücke vom Wert zur Stelle | **0** | 🧠 |
 | Eine Liste über den Index aufbauen (`i` als Positionsangabe) | **0** | 🔨 |
 
 ---
@@ -328,17 +331,47 @@ Kein Python. Terminal, Git, virtuelle Umgebung, `pip`. Steht im Lehrplan, nicht 
 
 ---
 
+## Etappe 12 — Der Tick
+
+| Werkzeug | Konzept | Stufe |
+|---|---|---|
+| `Welt` als Besitzer allen Zustands, den es pro Spiel einmal gibt | 1 | 🔨 |
+| Ein Objekt als Parameter statt sechs Einzelwerte (`f(name, hafen)`) | 3 | 🔨 |
+| Ein Objekt steht in einer Liste **und** unter eigenem Namen (`self.held`) | 4 | 🔨 |
+| `self` als Argument weitergeben (`einheit.update(self)`) | 8 | 🔨 |
+| Derselbe Parameter heißt drinnen `self` und draußen anders | 8 | 🧠 |
+| Ein Methodenkörper, der nur aus einem Docstring besteht | 7 | 🔨 |
+| `return` ohne Wert — sofort aussteigen, der Aufrufer bekommt `None` | 9 | 🔨 |
+| `self.status = "tot"` — Zustand als String am Objekt | 12 | 🔨 |
+| Sammeln und danach entfernen — zwei Schleifen statt einer | 11 | 🔨 |
+| Entfernen beim Iterieren überspringt jeden zweiten Eintrag, **ohne Absturz** | 11 | 🧠 |
+| `TypeError: … missing 1 required positional argument` beim vergessenen Argument | Stolpersteine | 🧠 |
+| `REICHWEITE` als fester Wert, GROSS geschrieben | Auftrag 13 | 🔨 |
+| `abschuesse` als Zähler am Objekt (Gedächtnis ohne Wirkung) | Auftrag 18 | 🔨 |
+| `pass` als leerer Rumpf — statt des Docstrings, gleichwertig | 7 | 👀 |
+| Der Begriff **Kopplung** — ein Ding, das alles kennt | 3 | 👀 |
+| Der Begriff **Zustandsautomat** | 12 | 👀 |
+| Die Tick-Reihenfolge als Entscheidung, nicht als Gegebenheit | 13 | 👀 |
+
+*(`.copy()` aus Etappe 4 wird in Konzept 11 als zweiter Weg gezeigt und bleibt gültig — kein neuer Eintrag. `min(..., key=...)` wird in Konzept 10 ausdrücklich auf **23a** vertagt; die Zielsuche läuft als Schleife von Hand. `continue` bleibt 👀 — die Zielsuche in Auftrag 11 kommt mit einem verschachtelten `if` aus.)*
+
+---
+
 ## Offene Lücken
 
 Werkzeuge, die eine Aufgabe braucht und die kein Guide erklärt. **Jede solche Zeile blockiert einen Lernenden, der keine zweite Quelle hat.**
 
-> **Für die Etappen 1 bis 11: keine.** Alle Werkzeuge, die ein Auftragsschritt dort verlangt, sind vorher erklärt.
+> **Für die Etappen 1 bis 12: keine.** Alle Werkzeuge, die ein Auftragsschritt dort verlangt, sind vorher erklärt.
 
 **Diese Tabelle bleibt trotzdem stehen**, weil sie beim Schreiben jeder weiteren Etappe wieder gebraucht wird. Findest du eine Lücke, trag sie hier ein — mit der Etappe, die sie braucht, und der Etappe, in die die Erklärung gehört.
 
 | Werkzeug | Gebraucht in | Muss erklärt werden in |
 |---|---|---|
 | *(zurzeit leer)* | | |
+
+**Eine dritte geschlossene Lücke, gefunden beim Durchsehen von Etappe 7:** `.clear()` bei einer Liste. Konzept 5 verlangte in einem „probier das aus"-Schritt `k.clear()` — erklärt war die Methode nirgends. Sie *stand* in Etappe 4, aber nur als eines von 81 Wörtern in der abgedruckten `dir([])`-Ausgabe, und **eine Nennung in einer Werkzeugliste ist keine Einführung**. Der Schritt arbeitet jetzt mit `.append()`, das seit Etappe 4 auf 🔨 steht; `.clear()` kommt im ganzen Plan nicht mehr vor. **Die Lehre: Was `dir()` ausspuckt, gilt nicht als eingeführt.**
+
+**Eine zweite geschlossene Lücke, gefunden beim Schreiben von Etappe 12:** Das **nackte `return`** ohne Wert. Etappe 7 erklärt `return name` und `return None`, nie `return` allein — und die Auftragsschritte 12 und 13 der Etappe 12 verlangen genau die Form („Status `"tot"`? Sofort `return`."). Erklärt wird sie jetzt in Etappe 12, Konzept 9. **Dasselbe Muster wie unten: Beide Einzelteile waren registriert, die Schreibweise selbst nicht.**
 
 **Eine geschlossene Lücke zur Erinnerung:** Der Dictionary-Zugriff im f-String fehlte in Etappe 5 bis v1.3.0 — der Auftrag verlangte ihn (Schritt 9, Statusanzeige auf `vorrat` umstellen), kein Konzept erklärte ihn. Aufgefallen ist das **nicht beim Review, sondern beim Bauen**. Die Lehre daraus: Ein Werkzeug kann fehlen, obwohl beide Einzelteile registriert sind — f-Strings seit Etappe 1, Dictionaries seit Etappe 5. **Prüf beim Schreiben nicht nur die Werkzeuge, sondern auch ihre Kombinationen.**
 

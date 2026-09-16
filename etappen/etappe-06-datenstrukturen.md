@@ -1,6 +1,6 @@
 # Etappe 6 — Liste, Dictionary, Set, Tuple
 
-*v1.2.0 · 2026-09-08*
+*v1.8.0 · 2026-09-15*
 
 > **Block 1: Fundament** · Etappe 6 von 30 · [← Etappe 5](etappe-05-vorposten-und-depot.md) · [Lehrplan](../Vorposten_Lehrplan.md) · [Etappe 7 →](etappe-07-aufraeumen.md)
 
@@ -92,11 +92,11 @@ Bisher hast du `remove()` benutzt: „nimm den Eintrag mit diesem Wert raus". Da
 | | Über den Index | Neu aufbauen |
 |---|---|---|
 | Wie | Position des Gefallenen merken, aus **beiden** Listen an dieser Stelle entfernen | Beide Listen neu erzeugen, ohne die gefallenen Einträge |
-| Werkzeug | `pop(i)` oder `del liste[i]` — **Konzept 0** | eine Schleife, die überträgt |
+| Werkzeug | `.index()`, um die Stelle zu finden, dann `del liste[i]` oder `pop(i)` — **Konzept 0** | eine Schleife, die überträgt |
 | Falle | Beim Entfernen während einer Schleife verschieben sich alle Indizes dahinter | keine — deshalb ist es die sicherere Variante |
 | Aufwand | weniger Code | etwas mehr Code |
 
-*(Beide Werkzeuge der linken Spalte sind neu. Sie stehen in Konzept 0, gleich am Anfang des nächsten Abschnitts — lies den, bevor du dich entscheidest.)*
+*(Die Werkzeuge der linken Spalte sind alle neu. Sie stehen in Konzept 0, gleich am Anfang des nächsten Abschnitts — lies den, bevor du dich entscheidest.)*
 
 **Ich empfehle dir keine Variante, und das ist ausnahmsweise Absicht.** Beide funktionieren, beide sind in echtem Code verbreitet, und die Falle bei der ersten ist genau die aus Etappe 4 — nur diesmal mit zwei Listen statt einer.
 
@@ -141,15 +141,15 @@ gegner = [Gegner("kriecher", 7), Gegner("kriecher", 4), Gegner("speier", 2)]
 
 *(„Meist" ist Absicht. Zwei Listen nebeneinander sind nicht automatisch falsch — erst wenn sie dasselbe Ding von zwei Seiten beschreiben, wie hier.)*
 
-Merk dir den Satz. Du hast dasselbe Muster schon einmal gebaut, ohne dass es benannt wurde: `waren` und `stapelbar` in Etappe 5 sind auch zwei Tabellen mit demselben Schlüsselsatz. In Etappe 22 werden auch die zusammengezogen.
+Merk dir den Satz. Du hast dasselbe Muster schon einmal gebaut, ohne dass es benannt wurde: `WAREN` und `STAPELBAR` in Etappe 5 sind auch zwei Tabellen mit demselben Schlüsselsatz. In Etappe 22 werden auch die zusammengezogen.
 
 ### Entscheidung 2 — Was passiert beim zweiten Mal?
 
-Der Spieler schaltet den Panzerbrecher frei. Dann tippt er denselben Befehl noch einmal. Drei Reaktionen sind vertretbar:
+Der Spieler schaltet das Großmagazin frei. Dann tippt er denselben Befehl noch einmal. Drei Reaktionen sind vertretbar:
 
 | Variante | Was der Spieler erlebt |
 |---|---|
-| Meldung | „Panzerbrecher ist bereits freigeschaltet." |
+| Meldung | „Großmagazin ist bereits freigeschaltet." |
 | Gar nicht anbieten | Freigeschaltete Ausbauten verschwinden aus der Liste |
 | Beides | Sie stehen weiter da, markiert, und der Kauf meldet |
 
@@ -168,9 +168,9 @@ print(dir(set()))    # alles, was ein Set kann
 help(set().add)      # was eine Methode tut
 ```
 
-### 0. Zwei Listenwerkzeuge, die du heute brauchst
+### 0. Drei Listenwerkzeuge, die du heute brauchst
 
-Bevor es um Sets und Tuples geht, zwei Dinge an der Liste. Beide brauchst du im Auftrag, und beide sind neu.
+Bevor es um Sets und Tuples geht, drei Dinge an der Liste. Alle drei brauchst du im Auftrag, und alle drei sind neu.
 
 **Erstens: einen Eintrag über seine Position entfernen.**
 
@@ -204,7 +204,28 @@ Die drei nebeneinander, weil sie leicht durcheinandergehen:
 
 ⚠️ **`.pop(i)` und `del` scheitern mit `IndexError`, wenn es die Stelle nicht gibt** — dieselbe Fehlermeldung wie beim Lesen in Etappe 4. Und wie dort gilt: Die Liste wird nach dem Entfernen **kürzer**, alles dahinter rutscht eine Stelle nach vorn. Genau das ist die Falle aus Entscheidung 1.
 
-**Zweitens: eine Liste bauen, bei der die Position eine Rolle spielt.**
+**Zweitens: von einem Wert zu seiner Stelle kommen.**
+
+`pop(i)` und `del` wollen eine Stelle. Du hast aber oft nur einen Wert — *„der Gegner, der am weitesten vorne steht"* ist eine Feldnummer, keine Position in der Liste. Die Brücke dazwischen ist `.index()`:
+
+```python
+werkzeuge = ["hammer", "zange", "feile", "saege"]
+
+stelle = werkzeuge.index("feile")
+print(stelle)              # 2
+print(werkzeuge[stelle])   # feile
+```
+
+**`.index(wert)` beantwortet genau die Frage, die `remove()` für sich behält:** *An welcher Stelle steht das?* Und weil du die Stelle als Zahl in der Hand hast, kannst du sie auf eine **zweite** Liste anwenden, die dieselbe Ordnung hat. Genau das ist die Aufgabe dieser Etappe.
+
+Zwei Eigenheiten, die du kennen musst:
+
+- **Es findet das erste Vorkommen.** Steht derselbe Wert mehrfach in der Liste, bekommst du die vorderste Stelle. Für gleiche Werte gibt es keine andere Auskunft — die Liste weiß nicht, welchen davon du meinst.
+- **Kommt der Wert gar nicht vor, scheitert es** mit `ValueError: x is not in list`. Wenn du nicht sicher bist, dass er drin ist, frag vorher mit `in`.
+
+*(In Etappe 11 verschwindet dieser Umweg wieder: Wenn ein Objekt Position und Typ zusammen trägt, musst du die Stelle nicht mehr suchen, um beides zu treffen.)*
+
+**Drittens: eine Liste bauen, bei der die Position eine Rolle spielt.**
 
 Bisher hast du Listen mit `.append()` gefüllt, und jeder Eintrag sah aus wie der nächste. Heute brauchst du eine Regel der Sorte *„der erste ist anders als der Rest"* — und dafür musst du beim Bauen wissen, an welcher Stelle du gerade bist.
 
@@ -477,7 +498,7 @@ Damit sind die drei Fragen beantwortet, die Etappe 5 offen gelassen hat — *Ist
 | Deine Sammlung | Frage, die zieht | Struktur |
 |---|---|---|
 | `sektoren` | Was gehört zu *diesem Namen*? | Dictionary |
-| `waren` | Was kostet *dieser Artikel*? | Dictionary |
+| `WAREN` | Was kostet *dieser Artikel*? | Dictionary |
 | `vorrat` | Wie viel habe ich von *diesem*? | Dictionary |
 | `inventar` | Welche Dinge habe ich? Doppelte sind erlaubt | Liste |
 | `gegner` | Welche Gegner stehen wo, in welcher Reihenfolge? | Liste |
@@ -557,7 +578,7 @@ KLASSEN:  soldat, heavy, engineer, medic
 ```
 
 - Als Tuple, nicht als Liste — Schreibweise in Konzept 7.
-- Großgeschrieben, weil sich das nie ändert.
+- Großgeschrieben — die Regel aus Etappe 1, dieselbe wie bei `WAREN` seit Etappe 5.
 - Gehört zu deinen festen Werten ganz oben, nicht in die Spiellogik.
 
 ---
@@ -594,8 +615,8 @@ Ein Dictionary, Name → Preis in Vaporium:
 | Kennung | Preis | Wirkung |
 |---|---|---|
 | `"zielhilfe"` | 60 | keine — siehe Schritt 7 |
-| `"schnellladen"` | 80 | Nachladen bringt 60 Schuss statt 40 |
-| `"panzerbrecher"` | 120 | Jeder Schuss macht 3 Schaden mehr |
+| `"grossmagazin"` | 80 | Das Magazin fasst 60 Schuss statt 40 |
+| `"schnellfeuer"` | 120 | `feuern` gibt zwei Schuss in derselben Runde ab |
 
 Gehört zu deinen festen Werten, wie `KLASSEN`.
 
@@ -635,14 +656,18 @@ Kennung ins Set aufnehmen
 
 ### 7. Gib zwei Freischaltungen eine Wirkung
 
-Je eine Zeile, die mit `in freigeschaltet` fragt:
+Beide fragen mit `in freigeschaltet` — die erste ist eine Zeile, die zweite ein kleiner Block.
 
-- `"panzerbrecher"` erhöht deinen Schaden pro Schuss um 3.
-- `"schnellladen"` lässt `nachladen` 60 statt 40 Schuss geben.
+- `"grossmagazin"` setzt `magazin_groesse` von 40 auf **60** — den festen Wert aus Etappe 5, Schritt 12b. Am Nachschub ändert das nichts: Nachladen verschiebt, es erschafft nicht. Liegen weniger als 60 im Vorrat, kommt eben weniger.
+- `"schnellfeuer"` lässt `feuern` **zwei Schuss in derselben Runde** abgeben: zwei Munition, zwei Gegner. Der Befehl kostet weiterhin genau **eine** Runde.
+
+⚠️ **Beim Schnellfeuer entscheiden zwei Obergrenzen mit, und beide gehören geprüft, bevor du abbuchst:** Es wird nie mehr geschossen, als Munition im Magazin liegt, und nie auf mehr Gegner, als überhaupt stehen. Steht nur noch einer, fällt einer — und nur ein Schuss wird verbraucht. Dieselbe Reihenfolge wie beim Kauf in Etappe 5: erst alles prüfen, dann verändern.
+
+⚠️ **Die Wirkung gehört an den Wert, nicht an die Handlung.** Du kannst die 60 auch direkt ins Nachladen schreiben — es läuft, und nichts stürzt ab. Dann gibt es aber zwei Wahrheiten über dieselbe Zahl: Das Magazin hält 60 Schuss, während dein Munitionsbalken weiter gegen 40 misst und bei vollem Magazin 150 % anzeigt. Änderst du dagegen `magazin_groesse`, ziehen Nachladen **und** Balken **und** Statusanzeige von selbst nach, ohne dass du eine davon anfasst. Das ist derselbe Maßstab wie der Architekturtest aus Etappe 5, Schritt 13: Wer eine Zahl an zwei Stellen kennt, hat sie an einer zu viel.
 
 `"zielhilfe"` bekommt **absichtlich keine Wirkung** und wird in der Ausbautenliste als *„kalibriert noch"* gekennzeichnet — ein Platzhalter wie der Datenkern aus Etappe 4. In Etappe 18 wird eine Fähigkeit daraus.
 
-**So prüfst du es:** Schaden pro Schuss notieren, Panzerbrecher freischalten, noch einmal feuern. Die Zahl muss sich ändern.
+**So prüfst du es:** Munition und Gegnerzahl notieren, dann feuern — ohne Schnellfeuer sinken beide um 1, mit Schnellfeuer um 2, und der Rundenzähler steigt beide Male gleich. Danach der Grenzfall: mit genau **einem** stehenden Gegner feuern. Es darf nur ein Schuss verbraucht werden, und die Gegnerzahl darf nicht unter 0 rutschen.
 
 ---
 
@@ -695,7 +720,7 @@ gegner_typen = ["kriecher", "kriecher", "speier"]
 
 - Bau beide Listen **immer gemeinsam** auf — zu Wellenbeginn, für jeden Gegner ein Eintrag.
 
-⚠️ *Die Regel unten unterscheidet nach der **Stelle** in der Liste, nicht nach dem Inhalt. Du musst beim Bauen also wissen, den wievielten Gegner du gerade anlegst — das Muster dafür steht in **Konzept 0**, zweiter Teil.*
+⚠️ *Die Regel unten unterscheidet nach der **Stelle** in der Liste, nicht nach dem Inhalt. Du musst beim Bauen also wissen, den wievielten Gegner du gerade anlegst — das Muster dafür steht in **Konzept 0**, dritter Teil.*
 
 **Die Verteilung gibt der Guide heute vor**, damit du nicht nebenbei noch ein Datenmodell entwerfen musst. Eine feste Regel, direkt aus der Wellennummer:
 
@@ -724,9 +749,19 @@ Der Speier steht auf Feld 7. Aber **nirgends in deinen Daten steht das.** Es ste
 
 Das ist der Satz, den du dir merken sollst. In Etappe 11 wird aus dieser unsichtbaren Verbindung etwas Sichtbares: ein Objekt, das beides trägt.
 
-⚠️ **Und jetzt der Kern: bau das Entfernen um.**
+---
 
-Dein `feuern` aus Etappe 3c entfernt einen Gegner. Ab jetzt muss es **beide** Listen an derselben Stelle treffen — nach Entscheidung 1.
+### 9c. Bau das Entfernen um ⭐
+
+Dein `feuern` aus Etappe 3c entfernt einen Gegner aus einer Liste. Ab heute muss derselbe Schuss **zwei** Listen an **derselben Stelle** treffen.
+
+**Und dafür trägt `remove()` nicht mehr.** Es sucht nach einem Inhalt, behält die gefundene Stelle aber für sich — du kannst sie der zweiten Liste nicht weitergeben. Mit dem Typnamen wird es noch schlimmer: `gegner_typen.remove("kriecher")` löscht *irgendeinen* Kriecher, nicht den gefallenen.
+
+> **Was du brauchst, ist die Stelle — als Zahl, die auf beide Listen passt.**
+
+Du holst sie dir mit `.index()` aus der Positionsliste (**Konzept 0**, zweiter Teil) und entfernst dann in beiden Listen an genau dieser Stelle. **Nimm `del liste[i]`**, solange du den entfernten Eintrag nicht weiterverwendest — `pop(i)` lohnt sich erst, wenn du den Rückgabewert wirklich brauchst, etwa für eine Meldung *„Speier erledigt."*
+
+*(Beim Schnellfeuer aus Schritt 7 gilt das zweimal — und der zweite Index ist nach dem ersten Entfernen nicht mehr derselbe. Such ihn neu, statt ihn dir zu merken.)*
 
 **So prüfst du es, und mach das gründlich:** Gib nach jedem Schuss `len(gegner)` und `len(gegner_typen)` aus. **Die beiden Zahlen müssen immer gleich sein.** Spiel drei volle Wellen durch, bevor du weitergehst.
 
@@ -734,7 +769,7 @@ Dein `feuern` aus Etappe 3c entfernt einen Gegner. Ab jetzt muss es **beide** Li
 
 ---
 
-### 9c. Zeig die Typen auf der Anmarschbahn
+### 9d. Zeig die Typen auf der Anmarschbahn
 
 - Statt dreimal `K` bekommt jeder Typ ein eigenes Zeichen — `k`, `S`, `P`, oder eigene Wahl.
 - Eine Zuordnung Kennung → Zeichen, als Dictionary, nicht als `if`-Kette.
@@ -781,9 +816,9 @@ Zwei Meldungen, klar unterschieden:
 
 ---
 
-### 13. Ersetz `stapelbar` durch ein Set
+### 13. Mach aus `STAPELBAR` ein Set
 
-- Aus dem Dictionary Name → Wahrheitswert (Etappe 5) wird ein Set `STAPELBAR` mit genau einem Eintrag: `"munition"`.
+- Aus dem Dictionary Kennung → Wahrheitswert (Etappe 5) wird ein Set mit genau einem Eintrag: `"munition"`. **Der Name bleibt** — es ändert sich die Struktur, nicht die Rolle.
 - Die `False`-Einträge fallen weg — sie sind jetzt die, die *nicht* drinstehen.
 - Pass die Stelle im Kauf an, die bisher den Wahrheitswert nachgeschlagen hat.
 
@@ -836,7 +871,7 @@ git push
 
 **Der verlockendste Punkt ist der erste.**
 
-Du hast jetzt drei Freischaltungen, und binnen einer Viertelstunde denkst du: *Der Panzerbrecher sollte eigentlich erst gehen, wenn die Zielhilfe da ist.* Das ist eine Zeile — `if "zielhilfe" in freigeschaltet` — und sie ist verführerisch, weil sie so klein aussieht.
+Du hast jetzt drei Freischaltungen, und binnen einer Viertelstunde denkst du: *Das Schnellfeuer sollte eigentlich erst gehen, wenn die Zielhilfe da ist.* Das ist eine Zeile — `if "zielhilfe" in freigeschaltet` — und sie ist verführerisch, weil sie so klein aussieht.
 
 **Der Gedanke ist richtig, und genau deshalb gibt es Etappe 18.** Dort ist die Voraussetzung nicht eine Bedingung im Kaufbefehl, sondern **ein Eintrag in den Daten** — und dann kannst du Voraussetzungen hinzufügen, ohne Code anzufassen. Genau derselbe Unterschied wie beim Depot in Etappe 5, nur eine Stufe komplizierter. Wer die eine Zeile heute schreibt, hat in Etappe 18 nichts zu tun als sie wieder zu löschen, und die Etappe verliert ihren Anlass.
 
@@ -858,7 +893,10 @@ Prüft den Zustand deines Programms, nicht dein Gefühl. Führ jeden Punkt tats�
 - [ ] ⭐ **Beim zweiten Mal sinkt das Vaporium nicht** — und `freigeschaltet` enthält den Eintrag genau einmal
 - [ ] `schalte frei tarnkappe` meldet, dass es das nicht gibt, und stürzt nicht ab
 - [ ] Freischalten mit zu wenig Vaporium meldet das — und bucht **nichts** ab
-- [ ] Der Panzerbrecher verändert deinen Schaden pro Schuss nachweisbar
+- [ ] Mit Schnellfeuer sinken Munition **und** Gegnerzahl bei einem `feuern` um 2, ohne Schnellfeuer um 1
+- [ ] ⭐ Schnellfeuer auf den **letzten** stehenden Gegner verbraucht nur einen Schuss, und die Gegnerzahl bleibt bei 0
+- [ ] Nach dem Großmagazin füllt `nachladen` bis 60 auf, und der Vorrat sinkt um genau dieselbe Zahl
+- [ ] ⭐ Der Munitionsbalken misst nach dem Großmagazin gegen 60 und zeigt bei vollem Magazin 100 % — **ohne dass du die Balkenzeile angefasst hast**
 - [ ] ⭐ **`len(gegner)` und `len(gegner_typen)` sind nach jedem Schuss gleich** — über drei volle Wellen geprüft, nicht angenommen
 - [ ] Auf der Anmarschbahn haben verschiedene Typen verschiedene Zeichen
 - [ ] Fällt der Gegner in der Mitte, verschwinden Position **und** Typ an derselben Stelle — die übrigen behalten ihren Typ
@@ -998,9 +1036,11 @@ Die folgenden drei sind Kür.
 | `IndexError` beim Zeichnen der Bahn, mitten in der Welle | `gegner` und `gegner_typen` sind auseinandergelaufen | Nicht die Zeichenfunktion — die Stelle, an der entfernt wird |
 | Auf der Bahn steht der falsche Typ | Dieselbe Ursache, nur noch ohne Absturz | `len()` beider Listen ausgeben, Schritt 9b |
 | `gegner_typen.remove(typ)` entfernt den falschen Gegner | `remove()` sucht nach Wert, nicht nach Stelle | Entscheidung 1 — über den Index gehen |
+| `ValueError: x is not in list` bei `.index()` | Der Wert steht nicht in **dieser** Liste — meist `.index()` auf der Typenliste mit einer Feldnummer | Konzept 0, zweiter Teil — `.index()` gehört auf die Positionsliste |
+| Beim Schnellfeuer stirbt der falsche zweite Gegner | Index von **vor** dem ersten Entfernen weiterverwendet | Schritt 9c — nach jedem Entfernen neu suchen |
 | `IndexError` bei `.pop(i)` | Die Stelle gibt es nicht — meist, weil aus der ersten Liste schon entfernt wurde | Konzept 0 — Position **vor** dem ersten Entfernen merken |
 | Nach `.pop(i)` fehlt in der anderen Liste der Eintrag daneben | Nur eine der beiden Listen behandelt | Beide Zeilen stehen direkt untereinander, ohne etwas dazwischen |
-| Alle Gegner haben denselben Typ, obwohl der erste anders sein sollte | Beim Bauen wird nicht nach der Stelle unterschieden | Konzept 0, zweiter Teil — `i` als Positionsangabe lesen |
+| Alle Gegner haben denselben Typ, obwohl der erste anders sein sollte | Beim Bauen wird nicht nach der Stelle unterschieden | Konzept 0, dritter Teil — `i` als Positionsangabe lesen |
 | `TypeError: pop() takes no keyword arguments` oder ein leerer Rückgabewert | `.pop()` ohne Zahl nimmt den letzten, nicht den gemeinten | Konzept 0 — die Stelle gehört in die Klammern |
 
 **Der Debugging-Reflex dieser Etappe: „Welche Struktur ist das eigentlich?"**
@@ -1118,6 +1158,8 @@ Erst bei grünem Selbsttest. Alles hier ist freiwillig.
 Trag einen Typ ein, der in Schritt 9 in keiner Wellenzusammenstellung vorkommt. Dein Bestiarium zählt ab sofort „2 von 4" — und der vierte Platz bleibt leer, egal wie lange man spielt.
 
 Das ist der beste Zusatz dieser Etappe, aus demselben Grund wie der Datenkern in Etappe 4 und die Werkbank in Etappe 5: **Ein Spiel wird groß, wenn es zeigt, dass es größer ist als das, was man gesehen hat.** Der Eintrag kostet dich zwei Minuten. In Etappe 17 baust du den Wellengenerator, und dann entscheidest du, ab welcher Welle dieser Typ zum ersten Mal wirklich anrückt.
+
+**Ein `G` für Gruppen.** Stehen mehrere Gegner auf demselben Feld, zeigt die Anmarschbahn dort ein `G` statt eines einzelnen Zeichens. Dafür musst du vor dem Eintragen zählen, wie viele Positionen in `gegner_pos` auf denselben Wert fallen — ein Zwischenschritt, den der Guide dir heute nirgends vorgibt.
 
 ---
 

@@ -1,8 +1,8 @@
 # Projekt-Lehrplan: Vorposten
 
-*v2.8.0 · 2026-09-08*
+*v2.10.0 · 2026-09-16*
 
-**Python lernen, indem die Verteidigung wächst — 30 Etappen in 38 Portionen**
+**Python lernen, indem die Verteidigung wächst — 30 Etappen in 39 Portionen**
 
 Dieses Tutorial ist selbsttragend. Es setzt keinen Kurs, kein Buch und kein Vorwissen über Python voraus: Jedes Zeichen und jeder Aufruf, den eine Aufgabe braucht, wird vorher in einem Etappen-Guide erklärt. Welches Werkzeug ab wann zur Verfügung steht, führt [`SYNTAX.md`](SYNTAX.md) Buch.
 
@@ -975,7 +975,7 @@ Fünf bis sechs Sektoren: Nordtor, Osttor, Kern, Depot, Werkstatt, Landeplattfor
 **Das Depot** — flach, weil ein Preis nur eine Zahl ist:
 
 ```python
-waren = {"medkit": 40, "munition": 15, "panzerplatte": 90}
+WAREN = {"medkit": 40, "munition": 15, "panzerplatte": 90}
 ```
 
 Zwei Formen desselben Werkzeugs in einer Etappe. Das ist Absicht: Verschachtelung ist kein Qualitätsmerkmal, sondern eine Antwort auf eine Frage. *Wie viele Eigenschaften hat ein Eintrag?* Eine → flach. Mehrere → verschachtelt.
@@ -988,7 +988,7 @@ Damit läuft ab heute die Wirtschaft, und sie ist **ein Kreislauf mit vier Stati
 
 ⚠️ **Und Etappe 5 reißt ein Loch auf, das sie selbst schließen muss:** Das `nachladen` aus Etappe 3 setzt Munition auf einen festen Wert — harmlos, solange Munition nichts kostet. Ab hier ist es ein Cheat, der das Depot entwertet. **Auftragsschritt 12b trennt deshalb `geladen` vom `vorrat`:** Nachladen verschiebt, es erschafft nicht. Das ist die erste Stelle im Plan, an der zwei Zahlen für einen Vorgang nötig sind — Vorbereitung auf Etappe 12.
 
-**Der Verkauf ist deshalb kein Beiwerk, sondern trägt.** Er braucht eine **zweite flache Tabelle** (`verkaufswerte`) und übt damit die Kernlektion dieser Etappe ein zweites Mal: In der Verkaufslogik darf kein Materialname vorkommen. Der Kaufvorgang prüft drei Dinge (gibt es die Ware, reicht das Vaporium, ist Platz im Inventar) und ist damit dein erstes Stück Logik, das mehr als eine Bedingung braucht. Die Mengenabfrage (*„wie viele?"*) löst dabei die `int()`-Schuld aus Etappe 1 ein.
+**Der Verkauf ist deshalb kein Beiwerk, sondern trägt.** Er braucht eine **zweite flache Tabelle** (`VERKAUFSWERTE`) und übt damit die Kernlektion dieser Etappe ein zweites Mal: In der Verkaufslogik darf kein Materialname vorkommen. Der Kaufvorgang prüft drei Dinge (gibt es die Ware, reicht das Vaporium, ist Platz im Inventar) und ist damit dein erstes Stück Logik, das mehr als eine Bedingung braucht. Die Mengenabfrage (*„wie viele?"*) löst dabei die `int()`-Schuld aus Etappe 1 ein.
 
 **⭐ Und hier steckt der eigentliche Ertrag der Etappe, nicht bei den Dictionaries selbst:** In der Kauflogik darf **kein Warenname vorkommen**. Der Preis wird nachgeschlagen, nicht abgefragt. Eine vierte Ware ist dann eine Zeile in den Daten und keine Zeile im Code — und genau das ist die Prüfung, die im Selbsttest steht.
 
@@ -1019,7 +1019,7 @@ Beide Entscheidungen kommen in `GELERNT.md`.
 - Warum ist ein Dictionary hier besser als eine Liste?
 - Wie kommst du an einen verschachtelten Wert?
 - Was passiert bei einem Schlüssel, den es nicht gibt — und was macht `.get()` anders?
-- **Was prüft `"medkit" in waren` — Schlüssel oder Wert?** (Stolperstein, über den fast jeder einmal fällt.)
+- **Was prüft `"medkit" in WAREN` — Schlüssel oder Wert?** (Stolperstein, über den fast jeder einmal fällt.)
 - Was bekommst du beim Iterieren über ein Dictionary?
 - Warum ist das eine Dictionary verschachtelt und das andere nicht?
 - **Warum kommt in deiner Kauflogik kein einziger Warenname vor — und was wäre der Preis dafür, wenn doch?** ← die wichtigste
@@ -1048,7 +1048,7 @@ Keine neue Funktion — eine bessere Wahl der Werkzeuge.
 
 ```python
 KLASSEN = ("soldat", "heavy", "engineer", "medic")   # Tuple: unveränderlich
-freigeschaltet = {"panzerbrecher", "schnellladen"}    # Set: keine Duplikate
+freigeschaltet = {"zielhilfe", "grossmagazin"}        # Set: keine Duplikate
 ```
 
 **Das Set ist hier keine Optimierung, sondern eine Spielregel.** Eine Fähigkeit zweimal zu kaufen darf nicht gehen. Mit einer Liste musst du das prüfen. Mit einem Set ist es strukturell unmöglich — die Datenstruktur *ist* die Regel. Das ist der Unterschied zwischen „ich habe es abgefangen" und „es kann nicht passieren", und er wird dich dein Programmiererleben lang begleiten.
@@ -1542,19 +1542,24 @@ def am_leben(self):
 
 ## Etappe 12 — DER TICK ⭐
 
-**Neue Syntax:** Objekte in Schleifen, Zustand über Zeit
+**Neue Syntax:** `self` weitergeben · `return` ohne Wert · Status als String · sammeln und danach entfernen
+
+**Zwei Portionen:** **12a** — aller lose Zustand zieht in ein `Welt`-Objekt um (reiner Umbau, `diff` muss leer bleiben). **12b** — die Welt tickt, und die drei Kameraden handeln.
 
 | 🔨 Bauen | 🧠 Verstehen | 👀 Nur erkennen |
 |---|---|---|
-| `Welt.tick()`, `update()` an jeder Einheit, dümmste Trupp-KI | Gesteuert gegen autonom · warum man Listen nicht beim Durchlaufen verändert | Tick-Reihenfolge · der Begriff *Zustandsautomat* |
+| `Welt` als Objekt · `tick()` · `update()` an jeder Einheit · dümmste Trupp-KI · Aufräumphase | Gesteuert gegen autonom · warum man Listen nicht beim Durchlaufen verändert · pro Figur gegen pro Spiel | Tick-Reihenfolge · *Zustandsautomat* · *Kopplung* · `pass` |
 
 ```python
 class Welt:
     def tick(self):
         self.zeit += 1
-        for einheit in self.einheiten:
-            einheit.update(self)
+        # ... Trupp, dann Gegner, dann aufräumen
 ```
+
+**Die Design-Entscheidung dieser Etappe: zwei Listen, nicht eine.** Es liegt nahe, alles Tickende in **eine** `einheiten`-Liste zu legen. Der Plan tut es nicht: `welt.trupp` und `welt.gegner` bleiben getrennt, weil eine gemeinsame Liste beim Zeichnen der Anmarschbahn und bei der Zielsuche wieder die Frage *„was bist du eigentlich?"* erzwingen würde — genau die, die Etappe 11 abgeschafft hat. Der Preis sind zwei Schleifen im Tick; der Gewinn ist, dass die Reihenfolge damit sichtbar im Code steht.
+
+**Und der Ertrag, auf den du seit Etappe 7 wartest:** Die langen Parameterlisten von damals schrumpfen auf einen einzigen Parameter `welt`. Das ist bequem — und genau deshalb steht das Warnsignal zur Kopplung in derselben Etappe.
 
 **Warum diese Etappe in diesem Setting der Angelpunkt ist:** Ein RPG kann ohne Tick existieren — dann ist es eben statisch. Dein Spiel kann das nicht. Ohne Tick rücken keine Gegner vor, laufen keine Abklingzeiten ab, baut sich kein Geschütz, kommt kein Rekrut nach. Der Tick ist hier nicht ein Feature, sondern der Motor.
 
@@ -1585,17 +1590,17 @@ Dein Marine und die drei anderen sind derselbe Typ, unterscheiden sich aber gena
 **Lernziele:**
 - Warum bekommt `update()` die Welt übergeben?
 - Was ist ein Zustandsautomat — und wo steckt einer in deinem Gegner? *(Ein Satz reicht.)*
-- Was passiert, wenn du beim Iterieren über `self.einheiten` eine Einheit entfernst?
+- Was passiert, wenn du beim Iterieren über `welt.gegner` eine Einheit entfernst — und warum merkst du es nicht sofort?
 - Warum tickt die Welt und nicht jede Einheit für sich?
 - Was passiert, wenn zwei Systeme im selben Tick auf dieselbe Einheit zugreifen — und in welcher Reihenfolge laufen sie eigentlich?
 
-**Leseübung, Stufe 2 (10 Min):** Ab hier wird der fremde Code länger — 15 bis 30 Zeilen, eine Schleife über Objekte, die dabei Zustand verändert. Du beantwortest die fünf Fragen und zusätzlich diese: *Wie sieht die Liste nach dem dritten Durchlauf aus?* Nicht ausführen. Auf Papier verfolgen. Genau das ist die Fähigkeit, die dir in Etappe 16 bei den Reihenfolgefehlern das Leben rettet.
+**Leseübung, Stufe 2 (15 Min):** Ab hier wird der fremde Code länger — 15 bis 30 Zeilen, eine Schleife über Objekte, die dabei Zustand verändert. Du beantwortest die fünf Fragen und zusätzlich diese: *Wie sieht die Liste nach dem dritten Durchlauf aus?* Nicht ausführen. Auf Papier verfolgen. Genau das ist die Fähigkeit, die dir in Etappe 16 bei den Reihenfolgefehlern das Leben rettet.
 
-**Transferaufgabe (10 Min, alternativ):** Klasse `Uhr` mit `tick()`, die Minuten zählt und bei 60 auf die nächste Stunde springt.
+**Transferaufgabe (15 Min):** Klasse `Uhr` mit `tick()`, die Minuten zählt und bei 60 auf die nächste Stunde springt — danach ein Wecker, an dem sich zeigt, ob die Prüfung vor oder nach dem Erhöhen steht.
 
 **Kaputtmachen:** Ruf `tick()` zweimal pro Befehl auf. Dann gar nicht. Dann nur, wenn der Befehl gültig war — und schau, ob du dir damit unendlich Zeit erkaufen kannst, indem du Unsinn eingibst. Das ist ein Typ-3-Fehler, der wie eine Spielmechanik aussieht.
 
-**Commit:** `Etappe 12: Der Vorposten tickt`
+**Commits:** `Etappe 12a: Loser Zustand wird zur Welt` · `Etappe 12b: Der Vorposten tickt`
 
 ---
 

@@ -1,6 +1,6 @@
 # Etappe 1 — Der Abwurf
 
-*v1.3.0 · 2026-09-08*
+*v1.4.0 · 2026-09-14*
 
 > **Block 1: Fundament** · Etappe 1 von 30 · [← Etappe 0](../Vorposten_Lehrplan.md#etappe-0--das-repo) · [Lehrplan](../Vorposten_Lehrplan.md) · [Etappe 2 →](etappe-02-der-erste-kontakt.md)
 
@@ -301,6 +301,23 @@ lager = 12      # Stand vom Morgen, wird abends neu gezählt
 ```
 
 Ein guter Kommentar erklärt **warum**, nicht was. `lager = 12  # setzt lager auf 12` ist Lärm. Die Zeile oben ist nützlich.
+
+**Und eine zweite Schreibweise, die du heute noch nicht anwendest — und ab Etappe 5 an jeder Ecke.**
+
+Manche Werte ändern sich, solange das Programm läuft: Munition sinkt, Währung steigt, eine Position wandert. Andere stehen schon beim Schreiben fest und werden nie wieder angefasst — eine Preisliste, die Aufzählung der Spielerklassen, die Länge einer Anzeige.
+
+Für die zweite Sorte ist unter Python-Programmierern **Großschreibung verabredet**:
+
+```python
+oeffnungszeit = "07:00"        # kann sich ändern
+WOCHENTAGE = ("Mo", "Di", "Mi")  # steht fest, sobald es dasteht
+```
+
+Python erzwingt das nicht. Es hindert dich niemand daran, `WOCHENTAGE` später zu überschreiben — die Großschreibung ist kein Schloss, sondern eine Nachricht an den Leser: *Das ist Einrichtung, kein Zustand.*
+
+⚠️ **Von deinen sechs Lagewerten in Schritt 3 ist keiner so einer** — alle sechs verändern sich ab Etappe 3. Deshalb schreibst du sie klein, und deshalb hast du heute kein Beispiel im eigenen Code. Der erste großgeschriebene Name entsteht in Etappe 5, wenn das Depot seine Preisliste bekommt.
+
+**Lern die Regel trotzdem heute.** Wer sie erst kennenlernt, nachdem er drei feste Tabellen kleingeschrieben hat, benennt sie alle nachträglich um — und das ist Arbeit, die nichts beibringt.
 
 ### 11. Der Kopf: ein Bild aus Zeichen
 

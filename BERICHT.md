@@ -220,6 +220,23 @@ Ansonsten war die Etappe angenehm direkt: Die „Wem gehört ein Wert?"-Tabelle 
 
 ### Etappe 10 — Komposition
 
+**Code:** `durchlauf/et10.py` (`Inventar` und `Ausruestung` als eigene Klassen, in `Marine.__init__` erzeugt; charakterisierungsgetestet gegen `et9.py`)
+
+**A – Anfängerperspektive.** Die Etappe war so klein wie angekündigt — zwei kompakte Klassen, ein überschaubarer Umbau. Der eigentliche Fund liegt woanders: Beim vorgeschriebenen `diff vorher.txt nachher.txt` zeigte sich zunächst ein **scheinbarer** Regressionsfehler — zwei Zeilen mit Gegnertyp-Beschreibungen standen in vertauschter Reihenfolge. Der Reflex aus Etappe 8 („halbieren, welche Stelle zuletzt geändert?") führte ins Leere, weil an der vermeintlich betroffenen Stelle gar nichts geändert worden war. Der tatsächliche Grund: `wellen_typen` ist seit Etappe 6 ein **Set**, und die Reihenfolge, in der ein Set beim Iterieren seine Elemente liefert, hängt von Pythons Hash-Randomisierung ab — die sich bei **jedem Programmstart neu würfelt**, unabhängig von jeder Codeänderung. Wiederholte Testläufe von `et9.py` **gegen sich selbst** (zwei separate Prozessstarts, kein Zeichen Unterschied im Code) zeigten dasselbe Verhalten: mal eine Reihenfolge, mal die andere. Mit `PYTHONHASHSEED=0` fixiert, war der `diff` zwischen `et9.py` und `et10.py` tatsächlich leer.
+
+**B – Professionelle Perspektive.**
+- **Wichtigster und am gründlichsten verifizierter Fund des gesamten Durchlaufs bisher:** Die Charakterisierungstest-Methodik aus Etappe 7 (wortwörtlich wiederholt in Etappe 9 und 10: „`diff` muss leer sein, jede Abweichung ist ein Fehler, kein Nebeneffekt") ist **nicht robust** gegenüber Code, den der Guide selbst in Etappe 6 eingeführt hat: `wellen_typen` ist dort bewusst und ausdrücklich als Set gebaut, mit der eigenen Warnung „Verlass dich nie auf die Reihenfolge" (Etappe 6, Konzept 3). Weil die Iterationsreihenfolge eines Sets über die Druckreihenfolge zweier Gegnertyp-Texte entscheidet, kann `vorher.txt` und `nachher.txt` aus **zwei separaten Prozessstarts** — genau das vorgeschriebene Verfahren — einen Unterschied zeigen, obwohl am Code nichts geändert wurde. Ein Lernender, der der Anweisung „ein Unterschied ist immer ein Fehler, dann halbieren" wörtlich folgt, sucht einen Bug, der nicht existiert — reproduzierbar demonstriert (siehe Testprotokoll: `et9.py` erzeugt bei wiederholten Starts zwei verschiedene MD5-Summen für identische Eingabe). Das ist ein handfester, in mehreren Läufen bestätigter Befund, kein Einzelfall.
+  **Konkreter Verbesserungsvorschlag:** Entweder (a) Etappe 7 ergänzt bei der Einführung des `diff`-Verfahrens einen Satz zu nichtdeterministischer Ausgabereihenfolge bei Sets und empfiehlt `PYTHONHASHSEED=0` für Beweisläufe, oder (b) die Konsument-Stelle (Wellenbeginn-Meldung) sortiert die Typen vor der Ausgabe in eine feste, nachvollziehbare Reihenfolge (was ohnehin näherliegt, weil eine zufällige Meldereihenfolge auch für den Spieler kein erkennbarer Mehrwert ist).
+- **„Neue Syntax heute" vs. `SYNTAX.md`:** deckungsgleich.
+- **Besonders stark:** Die Gegenüberstellung „Wo steht `Regal(3)`?" (in `__init__` vs. außerhalb übergeben) und die Erklärung des veränderbaren Standardwerts sind lehrbuchreif knapp und korrekt — beide Effekte wurden unabhängig nachgebaut und bestätigt (siehe Testprotokoll: zwei `Marine`-Objekte haben nachweislich getrennte `Inventar`-Objekte).
+- **Code gegen Etappe geprüft:** `Ausruestung.ablegen()` verwendet kein `del`; die Invariante „jeder Platz existiert immer" hält (verifiziert: `"waffe" in a.plaetze` bleibt `True` nach dem Ablegen). Die Kapazitätsprüfung steckt ausschließlich in `Inventar.hinzufuegen()`, keine nackte `10` mehr im übrigen Code außer als Konstruktorargument.
+
+**C – Inhalt gegen Anspruch.** „`print(marine)` zeigt die inneren Objekte lesbar" — verifiziert. „Zwei Marines haben nachweislich verschiedene Inventare" — verifiziert mit `is`. Die Invariante der `Ausruestung` hält. Das einzige nennenswerte Spannungsfeld ist die unter B beschriebene Methodik-Lücke — sie betrifft nicht das Versprechen dieser Etappe selbst, sondern das seit Etappe 7 mitgeführte Beweisverfahren.
+
+---
+
+### Etappe 11 — Vererbung
+
 *(folgt)*
 
 ---

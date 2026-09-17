@@ -141,6 +141,26 @@ Grundsätzlich ja — mit den unter 1.1 genannten Einschränkung und den Einzelb
 
 ### Etappe 6 — Liste, Dictionary, Set, Tuple
 
+**Code:** `durchlauf/et6.py` (getestet: KLASSEN-Validierung, Gegnertypen mit parallelen Listen, `feuern` mit `.index()`-Zielsuche, Schnellfeuer, Ausbauten/Freischaltungen, Bestiarium mit allen drei Meldungsfällen)
+
+**A – Anfängerperspektive.** Schritt 9b/9c (Gegner bekommen einen Typ, paralleles Entfernen) waren tatsächlich die schwersten Stellen, aber die Warnungen im Guide (Invariante aufschreiben, Debugzeilen bis Schritt 15 stehen lassen) haben genau die Fehler verhindert, vor denen gewarnt wurde. Zwei konkrete Funde beim tatsächlichen Bauen:
+
+1. **`magazin_groesse` — ein Wert, der zwischen zwei Etappen nicht zusammenpasst.** Etappe 5, Schritt 12b, lässt den Startwert bewusst offen („`magazin_groesse` als festen Wert" — keine Zahl genannt). `durchlauf/et5.py` hat sich für 8 entschieden. Etappe 6, Schritt 7, sagt dann aber: „`grossmagazin` setzt `magazin_groesse` **von 40 auf 60**" — als wäre 40 der Wert, den Etappe 5 vorgegeben hätte. Das ist sie nicht. Wer in Etappe 5 einen anderen Wert gewählt hat als 40 (und es gab keinen Grund, gerade 40 zu wählen), liest hier einen Satz, der nicht zum eigenen Programm passt. `durchlauf/et6.py` korrigiert den Wert deshalb rückwirkend auf 40, mit Kommentar — genau die Art Stille-Korrektur, vor der die Tutorial-eigene Philosophie („zwei Wahrheiten über dieselbe Sache") warnt, hier aber selbst passiert.
+2. **`schalte frei <kennung>` ist ein Drei-Wort-Befehl** in einem Befehlssystem, das Etappe 4 ausdrücklich als „Verb + Ziel", also **zwei** Wörter, festgelegt hat (`kaufe medkit`, `nimm vaporium`). „schalte frei grossmagazin" hat drei Token. Das lässt sich lösen (z. B. `ziel` fest auf `"frei"` prüfen und ein drittes Token für die Kennung einführen, wie in `et6.py` umgesetzt), aber die Etappe erwähnt an keiner Stelle, dass sie hier von der eigenen, vorher fest etablierten Befehlsgrammatik abweicht.
+
+**B – Professionelle Perspektive.**
+- **Wichtigster Fund:** siehe A.1 — ein cross-etappen-Zahlenkonflikt, der bei sorgfältiger Lösungsprobe (Etappe 5 tatsächlich bauen, dann Etappe 6 lesen) sofort auffällt. Behebbar mit einer Zeile in Etappe 5: „Nimm als Startwert **40**" statt „einen festen Wert".
+- **Zweiter Fund:** siehe A.2 — die Drei-Wort-Form von `schalte frei` bricht mit der in Etappe 4 als verbindlich dargestellten Zwei-Wort-Grammatik, ohne dass die Etappe das kommentiert. Für einen Lernenden, der seine Befehlsverarbeitung strikt nach dem Muster aus Etappe 4 (`befehl`, `ziel` aus genau zwei Token) gebaut hat, ist das ein echter Stolperstein, der eine dritte Zerlegung erfordert.
+- **„Neue Syntax heute" vs. `SYNTAX.md`:** deckungsgleich.
+- **Besonders stark:** Die „Entscheidungshilfe — vier Fragen, feste Reihenfolge" ist der bislang beste Syntheseabschnitt des gesamten Tutorials; sie bündelt sechs Etappen Modellierungswissen in vier Zeilen und wird sofort an eigenen Daten nachgeprüft. Ebenso stark: Entscheidung 1 (paralleles Entfernen) wird bewusst **ohne** Empfehlung präsentiert — ungewöhnlich für diesen Guide, der sonst gerne rät, und hier genau richtig, weil beide Varianten wirklich gleichwertig sind (entspricht der eigenen Regel aus `MENTOR.md` für Design-Fragen).
+- **Code gegen Etappe geprüft:** Die Invariante „`len(gegner)` == `len(gegner_typen)` nach jeder Änderung" hält im Test über mehrere Wellen und Schnellfeuer-Doppelschüsse. Alle drei Bestiarium-Meldungsfälle (unbekannt / gesehen, aber keine Daten / vollständig) wurden einzeln verifiziert.
+
+**C – Inhalt gegen Anspruch.** Das Bestiarium wird wie versprochen zur „ersten Sache, die sich über Wellen hinweg merkt" — `gesehene_gegnertypen` überlebt den Wellenwechsel im Test korrekt, Erstbegegnung liefert den langen Text, jede weitere den kurzen. Die Anmarschbahn zeigt wie versprochen unterschiedliche Zeichen je Typ. Das Set als „Regel statt Prüfung" bei Freischaltungen ist strukturell korrekt (ein zweiter `schalte frei`-Versuch kann nicht doppelt abbuchen, weil die Prüfung `ziel in freigeschaltet` vor der Abbuchung steht). Keine Diskrepanz zwischen Anspruch und Umsetzung über die unter A/B genannten Punkte hinaus.
+
+---
+
+### Etappe 7 — Aufräumen
+
 *(folgt)*
 
 ---

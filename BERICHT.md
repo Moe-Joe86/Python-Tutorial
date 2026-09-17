@@ -88,7 +88,24 @@ Grundsätzlich ja — mit den unter 1.1 genannten Einschränkung und den Einzelb
 
 ---
 
-### Etappe 3 — Die Wellenschleife
+### Etappe 3 — Die Wellenschleife (3a/3b/3c)
+
+**Code:** `durchlauf/et3.py` (Endstand nach 3c, komplett getestet: 20-Wellen-Durchlauf, `status`/`feuern`/`nachladen`/ungültiger Befehl, Game-Over über `kern_integritaet`)
+
+**A – Anfängerperspektive.** Trotz des Umfangs (drei Portionen) die bisher angenehmste Etappe. Besonders bemerkenswert: Die „Knobelstelle" in Schritt 6 (Spielende von innen nach außen mitteilen) ließ sich tatsächlich ohne fremde Hilfe lösen — mit einem Boolean `spiel_laeuft`, der in der inneren Schleife gesetzt und in der äußeren geprüft wird. Genau dieses Muster wird danach in Konzept 11 („Variante A") explizit bestätigt und benannt. Das ist gute Didaktik: Die Bausteine für die eigene Lösung waren tatsächlich alle vorher vorhanden (Boolean aus Etappe 2, `break` und `while` aus 3a) — anders als im Vorfall aus Etappe 1/2, wo eine angebotene Lösung Werkzeuge voraussetzte, die es noch nicht gab. Der explizite Warnkasten zu Auftragsschritt 17 („Schaden gehört genau dorthin, wo auch der Rundenzähler hochzählt") hat den naheliegenden Fehler (Schaden am Blockende statt an die Rundenkosten-Bedingung gebunden) proaktiv verhindert, bevor ich ihn machen konnte.
+
+**B – Professionelle Perspektive.**
+- **Kleine Konsistenzlücke:** `ziel_in_sicht` wird in Etappe 2 als dritter, gleichberechtigter Teil der Feuerbedingung eingeführt (`munition > 0 and not nachladen_noetig and ziel_in_sicht`). Etappe 3c, Auftragsschritt 15, baut die Feuerbedingung neu auf und erwähnt nur noch „ist keine Munition da" — `ziel_in_sicht` taucht im ganzen Rest der Etappe nicht mehr auf. `BOGEN.md` bestätigt das: Der Eintrag zu `ziel_in_sicht`/`nachladen_noetig` steht weiterhin auf „offen", Zieletappe 12/18. Für einen Lernenden, der `ziel_in_sicht` aus Etappe 2 übernommen hat, bleibt unklar, ob die Variable weiter in die Bedingung gehört oder bewusst herausfällt — ein Satz („`ziel_in_sicht` bleibt heute ungenutzt liegen, sie zahlt erst in Etappe 12") würde die Lücke schließen. In `durchlauf/et3.py` wurde sie entsprechend der Auftragsschritt-15-Anleitung konsequent weggelassen.
+- **Kleiner Redaktionsfehler:** Die Lernziele-Nummerierung springt von „7." direkt zu „7b.", „7c.", „7d.", „7e." und dann zu „8." — eine „7a." fehlt. Rein kosmetisch, aber ein Beleg dafür, dass die Liste nachträglich erweitert wurde, ohne die Nummerierung zu prüfen.
+- **„Neue Syntax heute" vs. `SYNTAX.md`:** vollständig deckungsgleich für alle drei Portionen.
+- **Besonders stark:** Die explizite Vier-Zeilen-Frageform für Hilfegesuche („Was ich will / Was passiert / Was ich ausgeschlossen habe / Was ich vermute") vor der Knobelstelle ist ein didaktisch kluger Kompromiss zwischen „allein lassen" und „im Stich lassen".
+- **Code gegen Etappe geprüft:** Alle Selbsttest-Punkte aus 3a/3b/3c wurden gegen `et3.py` verifiziert (siehe Testläufe) und bestehen, einschließlich der Sonderfälle „zehnmal `status`" (keine Wirkung auf Runde/Integrität) und „`kern_integritaet = 150`" (Balken läuft sichtbar aus dem Rahmen, unkorrigiert wie gefordert).
+
+**C – Inhalt gegen Anspruch.** Die drei zentralen Versprechen der Etappe — „Nach 3a wartet dein Programm auf dich. Nach 3b kannst du mit ihm reden. Nach 3c kannst du verlieren." — sind alle drei verifiziert eingelöst. „Spätere Wellen haben mehr Gegner als frühe" ist mit der gewählten Formel (`gegner = welle`) erfüllt. Die Prämisse aus dem Lehrplan („alle vier Marines stehen immer auf dem Feld") gilt hier erwartungsgemäß noch nicht — das ist im Lehrplan selbst ausdrücklich erst ab Etappe 11 vorgesehen und wird in dieser Etappe an keiner Stelle fälschlich behauptet. Keine Diskrepanz.
+
+---
+
+### Etappe 4 — Ausrüstung und Beute
 
 *(folgt)*
 

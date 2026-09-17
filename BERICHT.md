@@ -107,6 +107,23 @@ Grundsätzlich ja — mit den unter 1.1 genannten Einschränkung und den Einzelb
 
 ### Etappe 4 — Ausrüstung und Beute
 
+**Code:** `durchlauf/et4.py` (getestet: Inventar/Vorfeld-Mechanik, Befehlsumbau auf zwei Wörter, 20-Wellen-Lauf, gezielter Test auf Positions-Überlauf der Anmarschbahn)
+
+**A – Anfängerperspektive.** Schritt 2 (Befehlsumbau auf zwei Wörter) war tatsächlich der schwerste Punkt, wie angekündigt — das Muster aus Konzept 12 (leere Eingabe zuerst abfangen, dann `wort1`/`wort2` mit Vorbelegung) war aber präzise genug beschrieben, dass sich die Umsetzung ohne Umwege ergab. Ein handfester Fund beim tatsächlichen Durchspielen (nicht nur beim Abhaken des Selbsttests): **Die Etappe sagt nirgends, was passiert, wenn ein Gegner das Ende der Anmarschbahn erreicht oder überschreitet.** Die naive, direkt aus Konzept 3b/14 folgende Umsetzung (`bahn_felder[pos] = "K"` für jede Position in `gegner`) stürzt mit `IndexError: list assignment index out of range` ab, sobald ein Gegner weiter vorrückt, als die Bahn lang ist — reproduzierbar z. B. durch mehrfaches `nachladen`, während Gegner stehen bleiben (siehe Testlauf: Welle 15, elftes `nachladen` in Folge). Ein Schutz vor dem Absturz (Position nur zeichnen, wenn sie im gültigen Bereich liegt) behebt den Crash, erzeugt aber ein neues, stilles Problem: Der betroffene Gegner wird unsichtbar, meldet sich aber weiterhin mit „Die Brut schlägt zurück." — der Spieler sieht eine leere Bahn und nimmt trotzdem Schaden. Als Anfänger, der nur dieser Etappe folgt, gibt es keinen Hinweis darauf, dass dieser Fall existiert oder wie er behandelt werden soll.
+
+**B – Professionelle Perspektive.**
+- **Wichtigster Fund:** Die unter A beschriebene Lücke ist kein Rand­fall, sondern eine direkte Folge der in dieser Etappe selbst geforderten Vollständigkeit — Auftragsschritt 10 verlangt ausdrücklich, „eine ganze Welle" zu spielen, und die Formel für die Gegnerzahl wächst mit der Wellennummer, sodass spätere, längere Wellen den Fall zwangsläufig provozieren. Die Etappe legt weder eine Bahnlänge fest noch eine Regel für „Gegner erreicht das Tor", obwohl genau diese Randprüfung in Etappe 14a (`raster[y][x]`, „die Randprüfung … vor jedem Zugriff") als zentrales Konzept eingeführt wird — hier in der eindimensionalen Vorstufe fehlt ihr Gegenstück komplett. Eine Zeile wie *„Was passiert, wenn ein Gegner das Tor erreicht? Notier es dir — die Antwort ist erst ab Etappe 13/14 dran"* würde die Lücke wenigstens benennen, so wie es die Etappe an vielen anderen Stellen vorbildlich für andere offene Fragen tut.
+- **Kleinere Ambiguität:** Ob `nimm`/`ablege` eine Runde kosten, wird nirgends festgelegt — anders als bei `status`/`feuern`/`nachladen`/`beenden` in Etappe 3b, wo es eine eigene Tabelle dafür gibt. `durchlauf/et4.py` behandelt sie als kostenlos (Auskunft/Handlung außerhalb des Kampfgeschehens), das ist aber eine eigene Interpretation, keine vom Guide vorgegebene.
+- **„Neue Syntax heute" vs. `SYNTAX.md`:** deckungsgleich.
+- **Besonders stark:** Die Tabelle „Wo *ist* ein Gegner?" (Design-Entscheidung 2) ist eine der klarsten Gegenüberstellungen im ganzen bisherigen Material — sie macht eine abstrakte Modellierungsfrage an fünf sehr konkreten Zeilen greifbar. Ebenso stark: das dreiteilige „Vor dem Umbau"-Ritual, das hier zum ersten Mal explizit eingeführt wird und für den Rest des Plans angekündigt ist.
+- **Code gegen Etappe geprüft:** Alle Selbsttest-Punkte bestehen; der oben beschriebene Grenzfall liegt außerhalb dessen, was der Selbsttest explizit prüft (er verlangt nur „korrekt gezählt", nicht „bei jeder erreichbaren Spiellänge korrekt").
+
+**C – Inhalt gegen Anspruch.** Das zentrale Versprechen der Etappe — „die Darstellung ist ab heute ein Debugging-Werkzeug … ein Fehler, den man sieht, ist ein Fehler, den man findet" (Konzept 15, im Bogen wiederholt) — wird durch den unter A/B beschriebenen Fall ausgerechnet unterlaufen: Hier *versteckt* die notwendig gewordene Absturzsicherung einen Fehlerzustand, statt ihn zu zeigen. Das ist keine böswillige Absicht der Etappe, sondern eine Lücke an der Grenze ihres eigenen Anspruchs. Alle übrigen Versprechen — Inventar, Vorfeld, `gegner` als reine Positionsliste ohne Zeichen, Anmarschbahn als Bild statt Zustand — sind sauber eingelöst und im Test verifiziert.
+
+---
+
+### Etappe 5 — Der Vorposten und das Depot
+
 *(folgt)*
 
 ---

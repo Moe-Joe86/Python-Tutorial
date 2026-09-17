@@ -124,6 +124,23 @@ Grundsätzlich ja — mit den unter 1.1 genannten Einschränkung und den Einzelb
 
 ### Etappe 5 — Der Vorposten und das Depot
 
+**Code:** `durchlauf/et5.py` (getestet: Sektorenkarte/Bewegung, Depot mit Kauf/Verkauf, Vorrat/Magazin-Trennung, Stufentabelle, Grundriss)
+
+**A – Anfängerperspektive.** Die größte Etappe bisher, aber die Aufteilung in „Schritt 1–9" und „Schritt 10–17" mit explizitem Commit-Punkt dazwischen hat sich beim Bauen tatsächlich wie zwei separate, gut verdauliche Abende angefühlt — genau wie angekündigt. Schritt 1 (zwei Verschachtelungsebenen: `sektoren → nachbarn`) und Schritt 11 (`kaufe` mit vier Prüfungen) waren wirklich die aufwendigsten Stellen. Eine echte Unklarheit beim Bauen: Auftragsschritt 14 sagt, „Chitinpanzer und Organe erhöhen jetzt `vorrat`, nicht das Inventar", zeigt aber anders als an praktisch jeder anderen Stelle dieser Etappe **keinen Codeausschnitt**, der zeigt, *wie* dieser Übergang mechanisch passiert — bleibt `nimm chitinpanzer` als Befehl bestehen und schreibt jetzt in `vorrat` statt in `inventar`, oder landet das Material beim Wellenende automatisch im Vorrat, ganz ohne `nimm`? Beide Lesarten sind mit dem bisher Gelernten baubar, sie unterscheiden sich aber deutlich im Spielgefühl. `durchlauf/et5.py` entscheidet sich für „automatisch beim Wellenende", weil das die sauberere Lösung ist und näher an „Aus der Brut fällt nichts, was ein Mensch anlegen kann" liegt — aber es ist eine eigene Interpretation, keine vom Guide vorgegebene.
+
+**B – Professionelle Perspektive.**
+- **Bestätigter/verstärkter Fund aus Etappe 4:** Auch hier bleibt für alle neu eingeführten Befehle (`umsehen`, `gehe`, `depot`, `kaufe`, `verkaufe`) offen, ob sie eine Runde kosten. Die Tabelle aus Etappe 3b deckt nur die ursprünglichen vier Befehle ab. Da es sich jetzt um die zweite Etappe in Folge handelt, in der dieselbe Frage unbeantwortet bleibt, ist das kein Einzelfall mehr, sondern eine Lücke, die sich mit jeder neuen Etappe potenziell wiederholt — ein Satz wie „alle Befehle, die nicht in dieser Tabelle stehen, kosten ebenfalls keine Runde, solange nichts anderes gesagt wird" würde das für den Rest des Tutorials ein für alle Mal klären.
+- **Kleinere Unschärfe** wie unter A beschrieben: Der Mechanismus, wie Material von „Gegner fällt" zu `vorrat["chitinpanzer"]` wird, ist textlich behauptet, aber nicht gezeigt — ungewöhnlich für einen ansonsten sehr code-nahen Guide.
+- **„Neue Syntax heute" vs. `SYNTAX.md`:** deckungsgleich.
+- **Besonders stark:** Der Abschnitt „Drei Wörter, die heute nicht durcheinandergeraten dürfen" (Depot/Vorrat/Inventar) plus die „Gesamtübersicht"-Tabelle sind die klarste Modellierungs-Referenz im gesamten bisherigen Material. Ebenso die offene Selbstkritik an den vier parallelen Tabellen (`WAREN`/`VERKAUFSWERTE`/`STAPELBAR`/`ANZEIGENAMEN`) als „geplante Not" mit festem Rückzahlungstermin (Etappe 11c/22) — das nimmt dem Lernenden die berechtigte Sorge, hier schlampig zu bauen.
+- **Code gegen Etappe geprüft:** Alle geprüften Selbsttest-Punkte bestehen (Kern ohne `integritaet` stürzt bei `umsehen` nicht ab, `kaufe`/`verkaufe` mit allen drei Fehlerfällen, Architektur-Erweiterbarkeit durch reines Datenwörterbuch, Nachlade-Invariante „Summe steigt nie" hält).
+
+**C – Inhalt gegen Anspruch.** Das zentrale Versprechen — „eine neue Ware ins Depot legen, ohne die Kauflogik anzufassen" — ist strukturell eingelöst: `kaufe` enthält keinen einzigen Warennamen, alles läuft über `WAREN`/`STAPELBAR`. Der Wirtschaftskreislauf „Brut fällt → Material → verkaufen → Vaporium → kaufen → Munition" wurde im Test tatsächlich einmal vollständig durchlaufen (siehe Testlauf: Chitinpanzer verkauft, Vaporium gestiegen). Die explizit versprochene „Sperre" — `klassengeraet` gehört nicht ins Depot — wird eingehalten. Keine Diskrepanz zwischen Anspruch und Umsetzung gefunden.
+
+---
+
+### Etappe 6 — Liste, Dictionary, Set, Tuple
+
 *(folgt)*
 
 ---

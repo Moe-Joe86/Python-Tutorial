@@ -166,3 +166,67 @@ Voraussetzungen bricht `for x in objekt:` mit `TypeError: 'X' object is not iter
 keine der eigenen Klassen in diesem Projekt (`Marine`, `Gegner`, `Item`, `Inventar`, …)
 definiert `__iter__`, sie sind also alle nicht direkt iterierbar, nur ihre Attribute
 (`inventar.gegenstaende` als Liste) sind es.
+
+## Etappe 12
+
+**12a, Auftragsschritt 2 — hat die Etappe-9-Antwort getragen?** Ja, fast vollständig. Die
+Regel „gäbe es diesen Wert pro Figur oder pro Spiel?" hat für jeden der acht Welt-Werte sofort
+eine eindeutige Antwort geliefert. Einzige Korrektur: `sektoren` stand in Etappe 9 nicht zur
+Debatte (es gab noch keine `Welt`), aber nach derselben Regel angewendet gehört die Karte
+eindeutig der Welt (es gibt sie einmal pro Spiel), nicht dem Marine.
+
+**Design-Entscheidung „eine Liste oder zwei?" — zwei Listen, wie vom Plan vorgegeben.**
+`welt.trupp` und `welt.gegner` bleiben getrennt, weil die Anmarschbahn (braucht `entfernung`)
+und die Statusanzeige (braucht keine) sonst bei jedem Zugriff erst fragen müssten, was ein
+Eintrag überhaupt ist — genau die Frage, die Etappe 11 gerade abgeschafft hat. Zusätzlicher,
+selbst erlebter Grund: Die feste Reihenfolge „Trupp vor Gegner" im Tick ist nur sichtbar
+und entscheidbar, weil es zwei Schleifen sind, keine gemeinsam sortierte Liste.
+
+**12a — Anzahl der Zugriffsstellen:** Die Fahndung nach `kern_integritaet`/`gegner`/`trupp`/
+`welle`/`sektoren` als losen Namen traf 22 Stellen (verteilt auf `verarbeite_befehl()` und das
+Hauptprogramm); nach dem Umbau bekommt keine Funktion mehr mehr als zwei dieser Werte einzeln
+— die meisten bekommen `welt` als Ganzes oder gar nichts davon.
+
+**12b, Auftragsschritt 17 — die eigene Tick-Reihenfolge, mit Datum:**
+1. `self.zeit += 1`
+2. `welt.trupp` handelt (Kameraden feuern autonom)
+3. `welt.gegner` handelt (rückt vor oder trifft den Kern)
+4. Aufräumen (tote Gegner entfernen)
+
+**Was wäre bei vertauschten Phasen 2/3 anders?** Ein Gegner, den ein Kamerad in Phase 2 mit dem
+letzten nötigen Treffer erledigt, kann in der jetzigen Reihenfolge in Phase 3 desselben Ticks
+nicht mehr vorrücken oder zuschlagen — er ist zu diesem Zeitpunkt schon `"tot"`. Mit
+vertauschten Phasen würde derselbe Gegner in Phase 3 (jetzt zuerst) noch normal handeln, bevor
+er in Phase 2 (jetzt danach) fällt — er bekäme also einen „letzten" Vorstoß, den er in der
+gebauten Reihenfolge nie bekommt. Die gebaute Reihenfolge begünstigt damit leicht die
+Verteidigung; die umgekehrte macht jeden Gegner einen Tick lang gefährlicher, bevor er fällt.
+
+**Eigene Entscheidung: Eine ungültige Eingabe kostet keinen Tick.** Begründung: „Unbekannter
+Befehl." ist reine Auskunft über die Eingabe, keine gescheiterte Handlung — dieselbe Logik wie
+bei `status`/`umsehen` seit Etappe 3b. **Bewusst in Kauf genommene Kehrseite, per Kaputtmachen
+1 verifiziert:** Damit lässt sich unendlich Zeit erkaufen, ohne dass sich am Spielzustand
+etwas ändert (100 Unsinn-Eingaben hintereinander: `welt.zeit` bleibt `0`, kein Gegner rückt
+vor) — ein Typ-3-„Fehler", der wie eine Spielmechanik aussieht, genau wie die Etappe vorhersagt.
+Würde ich in einem echten Release anders entscheiden (ungültige Eingabe kostet doch einen Tick),
+für diesen Lerndurchlauf aber bewusst so gelassen, weil beide Fassungen laut Guide vertretbar
+sind und die aktuelle die tippfehlerfreundlichere ist.
+
+**Offener Posten:** Die Kameraden feuern ohne Munitionsverbrauch (wie von der Etappe
+ausdrücklich als Auslassung markiert, Etappe 13 wird das nachholen).
+
+**Eigener, über die Etappe hinausgehender Fund — siehe BERICHT.md, Perspektive B/C:** Mit
+`Gegner.update()` exakt wie in Auftragsschritt 12 spezifiziert (nur `welt.kern_integritaet`
+nimmt Schaden) wird die zweite, seit Etappe 3c geforderte Verlustbedingung
+(`marine.trefferpunkte <= 0`, „Du bist gefallen.") praktisch unerreichbar — nichts im neuen
+Tick-Modell reduziert mehr die Trefferpunkte des eigenen Marines. Auftragsschritt 19 verlangt
+aber ausdrücklich, weiterhin **beide** Verlustbedingungen zu prüfen. Für diesen Durchlauf
+wurde die Spezifikation trotzdem wörtlich umgesetzt (kein eigener Schadensmechanismus
+hinzuerfunden), weil die Etappe an keiner Stelle einen Ersatz dafür nennt — das ist also eine
+Lücke im Guide, keine eigene Lücke in der Umsetzung.
+
+**Was mich überrascht hat:** Wie stark sich die Funktionssignaturen verkürzt haben — aus
+`verarbeite_befehl(eingabe, marine, trupp, kern_integritaet, gegner, sektoren, vorfeld,
+freigeschaltet, gesehene_gegnertypen)` (neun Parameter, Etappe 11) wurde
+`verarbeite_befehl(eingabe, welt, freigeschaltet, gesehene_gegnertypen)` (vier). Ebenso
+überraschend: dass ein Kamerad tatsächlich ganz ohne eigenes Zutun einen Gegner erledigt —
+verifiziert per Testlauf (siehe `BERICHT.md`).

@@ -183,6 +183,24 @@ Beide Fehler wurden behoben (siehe Code-Kommentare), und `diff vorher.txt nachhe
 
 ### Etappe 8 — Die Bug-Jagd I
 
+**Code:** `durchlauf/et8.py` (identisch zu `et7.py` — diese Etappe führt kein Spielfeature ein). **Zusätzlich:** `durchlauf/FEHLERTAGEBUCH.md`, echte Bug-Jagd mit zwei selbst injizierten Sabotagen (Details dort).
+
+**A – Anfängerperspektive.** Die Etappe hält ihr Versprechen, „mehr Lesen als Tippen" zu sein, und die zwei Dokumente (Fehlertagebuch, Vier-Zeilen-Formular) sind schnell angelegt. Der Auftrag empfiehlt ausdrücklich, den letzten echten Fehler aus einer früheren Etappe als ersten Fehlertagebuch-Eintrag zu nehmen — die beiden echten Funde aus Etappe 7 (siehe dort) waren dafür ideales, authentisches Material, kein Kunstprodukt. Die tatsächlich durchgeführte Bug-Jagd (zwei injizierte Sabotagen, siehe `FEHLERTAGEBUCH.md`) hat eine eigene Fehlannahme korrigiert: Ich erwartete, dass ein Tippfehler im Vorrats-Schlüssel (`vorrat["vaporum"]` statt `"vaporium"`) still bleibt, wie es Etappe 5 lehrt. Tatsächlich stürzte das Programm sofort mit `KeyError` ab — weil die betroffene Zeile `-=` benutzt, und `-=` **liest** den Schlüssel zuerst, bevor es schreibt. Genau das Ritual „vorhersagen → ausführen → vergleichen → erklären" hat diesen eigenen Irrtum sichtbar gemacht.
+
+**Einschränkung der Simulation, ehrlich benannt:** Die „Zeitversatz-Methode" (zwei Tage warten, damit man die selbst gebauten Sabotagen vergisst) lässt sich in einem einzelnen, durchgehenden Bearbeitungslauf nicht echt nachbilden — ich kannte die Sabotagen, weil ich sie selbst und unmittelbar zuvor eingebaut hatte. Das ist eine Grenze dieses Durchlaufs, keine des Guides.
+
+**B – Professionelle Perspektive.**
+- **Konkreter, verallgemeinerbarer Fund:** Die Lehre „ein Tippfehler links vom `=` bleibt still" (Etappe 5, Konzept 2; wiederholt in Etappe 8, Kaputtmachen Nr. 7 und Konzept 10) gilt nachweislich **nur für reine Zuweisung** (`vorrat["x"] = 40`), **nicht** für die Kurzform `+=`/`-=` (`vorrat["x"] -= 5`), weil diese den Schlüssel zuerst liest und dabei sofort mit `KeyError` abstürzt, wenn er nicht existiert. Das ist praktisch relevant, weil fast jede `vorrat`-Änderung im tatsächlich gebauten Spiel ab Etappe 5 über `-=`/`+=` läuft (`kaufe`, `verkaufe`, `nachladen`) — der „stille" Fall, vor dem beide Etappen wiederholt warnen, ist in genau diesem Code seltener, als die Warnungen vermuten lassen. Ein Satz zur Unterscheidung („Bei `+=`/`-=` stürzt ein Tippfehler im Schlüssel meistens laut ab, weil zuerst gelesen wird — still bleibt nur die reine Zuweisung eines neuen Schlüssels") würde diese Lücke schließen und ist mit dem Wissensstand von Etappe 5 vollständig erklärbar.
+- **„Neue Syntax heute" vs. `SYNTAX.md`:** deckungsgleich (`breakpoint()`, Debugger-Befehle, bedingter Breakpoint, `!r`, 👀 `repr()`).
+- **Besonders stark:** Die doppelte „Landkarte" (Syntax-/Laufzeit-/Logikfehler **gegen** Typ 1/2/3) mit der expliziten Tabelle, wie beide zusammenhängen, ist die klarste Einordnung von Fehlerarten im ganzen bisherigen Material. Das Verbot, während der Sabotage-Jagd `git diff` zu benutzen, zeigt, dass der Guide die naheliegende Abkürzung selbst kennt und aktiv absperrt.
+- **Code gegen Etappe geprüft:** `et8.py` enthält keine `breakpoint()`- oder `###`-Zeilen und keine Entwicklerbefehle — identisch zu `et7.py`, wie von Selbsttest und „Was NICHT" gefordert.
+
+**C – Inhalt gegen Anspruch.** Die Etappe verspricht explizit „heute kein Spielfeature, sondern ein Verfahren und zwei Dateien" — exakt das wurde geliefert, nichts mehr und nichts weniger. Keine Diskrepanz.
+
+---
+
+### Etappe 9 — Alles wird zum Objekt
+
 *(folgt)*
 
 ---

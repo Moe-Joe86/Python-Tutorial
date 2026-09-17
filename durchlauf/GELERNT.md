@@ -297,3 +297,47 @@ Zählers, Text der Meldung).
 **Offener Posten:** Was dem Turm noch fehlt, bevor er sich richtig anfühlt — eine sichtbare
 Reichweitenbegrenzung (er feuert aktuell wie ein Kamerad ohne eigene Munition oder Position,
 Etappe 14b bringt echte Positionen und damit eine echte Reichweitenrechnung).
+
+## Etappe 14
+
+**Auftragsschritt 4 — Fahndung nach `entfernung`:** 32 Fundstellen (Gegner-Klasse, Bewegung,
+Zielsuche in `Welt.naechster_gegner()`, Reichweitenprüfung von Turm und Kameraden, die
+Anmarschbahn-Funktion selbst, der Kopfkommentar von Etappe 11/12/13). Deutlich mehr als
+erwartet, wie von der Etappe angekündigt — die eindimensionale Zahl steckte tiefer im Code,
+als sie beim Bauen aussah.
+
+**Bewegungsentscheidung (Auftragsschritt 5): eine Achse pro Tick, bei Gleichstand zuerst x.**
+Willkürlich, aber jetzt an einer Stelle festgelegt und für Gegner **und** Kameraden gleich
+angewendet (dieselbe drei-Zeilen-Form in `Gegner.update()` und `Marine.update()`) — sonst hätte
+ein Gegner und ein ihm folgender Kamerad bei symmetrischer Lage unterschiedliche Wege gewählt,
+ohne dass irgendwo ein Fehler gewesen wäre.
+
+**Eigener Fund, keine Guide-Lücke: Namenskollision mit dem bestehenden `welt.vorfeld`.**
+Seit Etappe 4/5 hieß die Liste der am Boden liegenden Gegenstände (`nimm`/`ablege`,
+`"datenkern"`) bereits `vorfeld` — ein Wort, das Etappe 14 jetzt für das neue 2D-Raster
+vergibt. Beide Bedeutungen gleichzeitig unter demselben Namen zu führen hätte in
+`verarbeite_befehl()` zu stillen, schwer auffindbaren Verwechslungen geführt (eine Zeile, die
+eigentlich das Raster meint, hätte die Gegenstandsliste erwischt oder umgekehrt). Die alte
+Bedeutung wurde deshalb auf `welt.bodenfunde` umbenannt, bevor `welt.vorfeld` das Raster wurde
+— eine reine Namenskonsequenz aus zwölf Etappen gewachsenem Code, kein Fehler der aktuellen
+Etappe, aber ein gutes Beispiel dafür, warum eine Fahndung vor einem großen Umbau lohnt.
+
+**Auftragsschritt 9 — Abstandsrechnung, mit negativen Differenzen getestet:**
+`welt.abstand(5,5,2,2)` liefert `6`, nicht `-6` — `abs()` verhindert das Vorzeichenproblem in
+beide Richtungen. Verifiziert, passt zur Bewegungsregel: Abstand 5 heißt „5 Ticks bis dahin",
+weil Bewegung und Abstandsformel (Summe der Beträge, nicht Diagonale) auf derselben Annahme
+beruhen.
+
+**`felder_in_reichweite(x, y, 1)` von Hand nachgezählt: fünf Felder** (das Feld selbst und die
+vier direkten Nachbarn) — verifiziert per Testlauf, keine neun (das wäre die diagonale/
+Tschebyschow-Variante, die nicht zu unserer Ein-Achse-Bewegung passt).
+
+**14c (Barrikade) ausgelassen.** Die Etappe erlaubt das ausdrücklich („wenn 14b sich zieht,
+lass 14c ganz weg") und stuft sie selbst als Kür ein, die „nichts Neues lehrt" außer der schon
+dreimal geübten Prüfkette. Offener Posten für einen späteren Durchlauf.
+
+**Eigene Entscheidung, vom Guide nicht behandelt:** Der Held zielt beim `feuern`-Befehl seit
+`naechster_gegner()` einen Startpunkt braucht auf denselben, ihm am nächsten liegenden Gegner
+wie die Kameraden — vorher galt implizit „der torneeste". Vertretbar, weil es dieselbe Logik
+überall im Spiel konsistent macht; siehe BERICHT.md für die damit verbundene, unverändert
+bestehende Asymmetrie (Held tötet weiterhin mit einem Schuss, Kameraden brauchen mehrere).

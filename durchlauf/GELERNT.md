@@ -341,3 +341,53 @@ dreimal geübten Prüfkette. Offener Posten für einen späteren Durchlauf.
 wie die Kameraden — vorher galt implizit „der torneeste". Vertretbar, weil es dieselbe Logik
 überall im Spiel konsistent macht; siehe BERICHT.md für die damit verbundene, unverändert
 bestehende Asymmetrie (Held tötet weiterhin mit einem Schuss, Kameraden brauchen mehrere).
+
+## Etappe 15
+
+**Design-Entscheidung „Wo wohnt eine Erkenntnis?" — zentral bei `welt.erkenntnisse`, wie vom
+Plan vorgegeben.** Weder am Fundstück (würde beim Ablegen verschwinden) noch in `GEGNERTYPEN`
+(würde Katalog und Spielstand vermischen, genau die Trennung, die `gesehene_gegnertypen` seit
+Etappe 6 schon vorführt). Dieselbe Besitzfrage wie seit Etappe 9, zum dritten Mal auf dieselbe
+Antwort angewendet.
+
+**Eigene Entscheidung: Fundstücke werden beim Analysieren NICHT verbraucht.** Ein Andenken im
+Inventar kostet nichts (Konzept 7, „Argument für Nein"); die Prüfkette in `analysiere` folgt
+trotzdem der vom Guide empfohlenen Reihenfolge (Erkenntnis-Check vor Besitz-Check), falls sich
+das je ändert — dann wäre die Kette schon richtig.
+
+**Auftragsschritt 13 — vierter Fund, gezählt:** Vier reine Tabellen-Stellen
+(`GEGNERTYP_FUND`, `FUNDE`, `ANZEIGENAMEN`, `SCHWACHPUNKTE`), **keine einzige Funktion**
+angefasst. Genau das ist der Punkt aus Konzept 9: „Wenn es eine ist — eine neue Zeile in
+deiner Tabelle — dann ist deine Struktur in Ordnung." Bei mir sind es vier Zeilen in vier
+verschiedenen Tabellen statt einer, weil ich (wie von Konzept 4b selbst vorhergesagt und
+bewusst nicht aufgelöst) vier separate Tabellen mit denselben Kennungen führe, statt sie
+zusammenzuführen. Die ehrliche Zahl ist also nicht „1", sondern „4 Tabellenzeilen, 0
+Funktionen" — der Unterschied zur Idealzahl ist genau der Vorschuss, den Etappe 22
+zurückzahlen soll.
+
+**Konzept 5/9, tatsächlich gebraucht:** `welt.naechster_gegner()` (Etappe 12/14) und
+`Welt.sammle_fundstuecke_ein()` sind beides „finde das erste Passende, sonst nichts"- bzw.
+„sammle alles Passende"-Schleifen, die konsequent `None`/leere Listen statt Sonderfällen
+zurückgeben — an keiner Stelle musste eine dieser Funktionen wegen eines fehlenden Ziels
+gesondert behandelt werden.
+
+**Kopplungszeichnung (in Textform statt auf Papier):**
+```
+Fundstück      → welt.erkenntnisse   (Analysieren, einmalig)
+erkenntnisse   → Schadensberechnung  (SCHWACHPUNKTE, gelesen)
+erkenntnisse   → Depot/kaufe         (DEPOT_VORAUSSETZUNG, gelesen)
+erkenntnisse   → Bestiarium          (SCHWACHPUNKTE, gelesen)
+erkenntnisse   → Wellenvorschau      (fester String-Check, gelesen)
+```
+Alle Pfeile gehen von `welt.erkenntnisse` weg, keiner zurück — laut Guide „das beste
+mögliche Ergebnis", weil ein Set über niemanden etwas weiß. Der einzige Pfeil, der nicht in
+diesem Bild auftaucht und es sollte: **Inventar (Kamerad) → Inventar (Held)** — es gibt
+keinen. Siehe BERICHT.md für den daraus entstehenden echten Spielfehler.
+
+**Was mich überrascht hat:** Beim ersten vollständigen Testlauf landete die erste
+`chitinprobe` im Inventar eines **Kameraden**, nicht des Helden — weil dessen Zone (Zeile
+y=1) weiter vom Spawnpunkt/Tor (Zeile y=3) entfernt liegt als die der Kameraden. `analysiere`
+prüft aber ausschließlich `marine.inventar` (den Helden). Ohne einen Weg, Gegenstände
+zwischen den Inventaren der vier Marines zu verschieben, ist ein von einem Kameraden
+eingesammeltes Fundstück für den Spieler **dauerhaft unerreichbar** - ein echter, durch
+eigenes Testen gefundener Fehler, kein nur gedachter Randfall (siehe BERICHT.md).

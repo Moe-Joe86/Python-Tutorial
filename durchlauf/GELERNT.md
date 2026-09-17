@@ -391,3 +391,57 @@ prüft aber ausschließlich `marine.inventar` (den Helden). Ohne einen Weg, Gege
 zwischen den Inventaren der vier Marines zu verschieben, ist ein von einem Kameraden
 eingesammeltes Fundstück für den Spieler **dauerhaft unerreichbar** - ein echter, durch
 eigenes Testen gefundener Fehler, kein nur gedachter Randfall (siehe BERICHT.md).
+
+## Etappe 16
+
+**Tick-Reihenfolge, geltend, mit Begründung (Auftragsschritt 4):** Trupp vor Gegner (wie
+seit Etappe 12). Getestet mit vertauschter Reihenfolge, identischer Startlage, ein Gegner
+bereits am Tor: „Trupp zuerst" ergibt `Kernintegrität 95` nach zwei Ticks, „Gegner zuerst"
+ergibt `90` — fünf Punkte Unterschied an einem einzigen Gegner, exakt wie Konzept 1 es
+vorrechnet. Bleibt bei „Trupp zuerst", weil das die Verteidigung begünstigt und seit Etappe
+12 durchgehend so dokumentiert ist — eine Umstellung jetzt würde jede bisherige Balance-
+Aussage in `GELERNT.md` entwerten.
+
+**Tick-Tabelle (Auftragsschritt 2/3), von Hand vorhergesagt und danach exakt bestätigt:**
+Lage: Kriecher A (12 TP) und Speier B (12 TP) je einen Tor-Schritt entfernt, ein Kamerad
+(Schaden 6, Reichweite 2) und der Turm (Schaden 8, Reichweite 3) beide in Reichweite. Vorhersage
+für drei Ticks: Tick 1 - Kamerad trifft A (12→6), Turm trifft A (6→0, tot), A hinterlässt
+`chitinprobe` an seiner Position, B rückt einen Schritt vor; Tick 2 - Kamerad trifft B
+(12→6), Turm trifft B (6→0, tot), B hinterlässt `sporenprobe`+`pheromonspur`; Tick 3 -
+kein Gegner mehr, nichts passiert. **Das Programm hat exakt diese Reihenfolge geliefert**,
+inklusive der Abschuss-Zuordnung (Turm bekommt beide Abschüsse, weil er nach dem Kameraden
+den tödlichen Treffer setzt) und des Magazin-Stands des Kameraden (3→2→1). Kein Unterschied
+zwischen Vorhersage und Ausführung — ein „gutes Zeichen" im Sinne der Etappe, kein Nullbefund:
+Es bestätigt, dass die drei seit Etappe 12 aufgeschriebenen Entscheidungen (Reihenfolge,
+Zählersemantik, Ziel-Zuordnung) tatsächlich zusammenpassen.
+
+**Fahndungsliste, alle vierzehn Punkte geprüft:**
+
+| # | Kandidat | Ergebnis |
+|---|---|---|
+| 1 | Reichweite `<`/`<=` | geprüft — `<=` korrekt umgesetzt (Etappe 14, Testprotokoll) |
+| 2 | Zählersemantik | geprüft — stimmt mit der Notiz aus Etappe 13 überein |
+| 3 | Gleichstand Bewegung | geprüft — immer zuerst x, konsistent bei Gegner und Kameraden |
+| 4 | Zähler läuft doppelt | geprüft — `zaehler_runter()` hat genau einen Aufrufort im Tick |
+| 5 | Sammeln, dann entfernen | geprüft — vier von vier toten Gegnern verschwinden (Etappe 12) |
+| 6 | Geteiltes Objekt durch `b = a` | geprüft — `inventar`/`vorrat` zweier Marines sind nachweislich `is`-verschieden |
+| 7 | Veränderbarer Standardwert in `__init__` | trifft nicht zu — keine Konstruktor-Signatur im Code verwendet `=[]`/`={}` als Default |
+| 8 | Klammern bei Methodenaufruf | trifft nicht zu — keine Fundstelle, an der eine Methode ohne `()` in einer Bedingung steht |
+| 9 | Verweis ins Leere | geprüft — jedes Wort aus `SCHWACHPUNKTE`/`DEPOT_VORAUSSETZUNG` kommt in `FUNDE` vor |
+| 10 | Zwei Werte für dieselbe Aussage | **Fund** — siehe unten (`nachladen_noetig`) |
+| 11 | Namensfalle Kern/Marine | geprüft — `kern_integritaet` und `trefferpunkte` werden nirgends vertauscht verwendet |
+| 12 | Komma-Falle `(5)`/`(5,)` | trifft nicht zu — keine Stelle im Code erzeugt absichtlich ein Ein-Element-Tuple |
+| 13 | Raster geteilt | geprüft — `welt.vorfeld[0] is welt.vorfeld[1]` ist `False` (Etappe 14) |
+| 14 | Einsammeln zu früh | geprüft — `sammle_fundstuecke_ein()` steht nach `welt.tick()`, das die letzte Aufräumphase schon gelaufen ist, wenn „Welle geschafft" ausgelöst wird |
+
+**Der Fund (#10), vollständig dokumentiert:**
+- **Beobachtung:** `marine.nachladen_noetig` wird gesetzt (bei leerem Magazin) und zurückgesetzt (beim Nachladen), aber an keiner Stelle im aktuellen Code gelesen.
+- **Hypothese:** Das Flag war ursprünglich Teil der Feuerbedingung und ist bei einem Umbau verlorengegangen.
+- **Experiment:** Alle `durchlauf/etN.py`-Stände von Etappe 3 bis 11 durchsucht (Bisektion über die eigene Etappenhistorie, Auftragsschritt 7 — statt `git bisect` über Commits, weil jede Etappe ohnehin ein eigener Snapshot ist). **Ergebnis:** In `et3.py` bis `et6.py` stand tatsächlich `if munition > 0 and not nachladen_noetig:` — ein echter, gelesener Wert. Ab `et7.py` (dem großen Funktions-Refactor) lautet dieselbe Zeile nur noch `if geladen > 0 and len(gegner) > 0:` — die Prüfung ist beim Umbau lautlos verschwunden.
+- **Zweite Hypothese, nach dem Fund der Stelle:** War das ein echter Verhaltensfehler in Etappe 7, den der damalige `diff`-Beweis hätte finden müssen? **Nein** — `nachladen_noetig` wird ausschließlich exakt dann `True` gesetzt, wenn `geladen == 0`, und exakt dann wieder `False`, wenn `nachladen` `geladen` erhöht. `not nachladen_noetig` und `geladen > 0` sind damit **durch die eigene Pflege der beiden Werte immer deckungsgleich** — der Wert war seit Etappe 3c redundant, nicht falsch. Sein Verschwinden in Etappe 7 hat deshalb nachweislich **kein** beobachtbares Verhalten geändert (mit den bekannten Startwerten durchgerechnet: jeder Fall, in dem `nachladen_noetig` je `True` war, hatte auch `geladen == 0`).
+- **Rückwärtsprobe:** Die alte Zeile aus `et6.py` probeweise in eine Kopie von `et16.py` zurückgeschrieben (`if geladen > 0 and len(welt.gegner) > 0 and not marine.nachladen_noetig:`) und mit denselben Startwerten wie im Tick-Tabellen-Test laufen lassen — identisches Ergebnis. Bestätigt: kein Verhaltensunterschied, die Redundanz war schon seit Etappe 3c angelegt.
+- **Einordnung:** Das ist exakt der Fall aus Zeile 2 der „Ursache/Symptom"-Tabelle (Konzept 6) — **fehlende Wirkung, kein Symptom, deshalb über vier Etappen hinweg unbemerkt** — nur dass hier die „fehlende Wirkung" harmlos ist, weil der Wert nie etwas Eigenes beigetragen hat. Bleibt als totes, aber ungefährliches Attribut stehen (heute wird nichts repariert, was nicht kaputt ist).
+
+**Auftragsschritt 8 — Datenfehler gebaut und beobachtet:** `SCHWACHPUNKTE["kriecher"]` probeweise auf `"chitin_analysiret"` (ein Buchstabe vertauscht) gesetzt. Mit derselben, korrekt geschriebenen Erkenntnis im Set liefert `berechne_schaden()` **exakt denselben Wert** wie ganz ohne jede Erkenntnis (`10` statt `15`) — und das Spiel zeigt an keiner Stelle einen konkreten Schadenswert an (`feuern` meldet nur „Treffer: <Typ>", nie eine Zahl). **Die Wirkung dieser Mechanik ist im laufenden Spiel nicht beobachtbar.** Genau der von Konzept 8/Frage 10 vorhergesagte Fall — ein Fund, der wichtiger ist als der Tippfehler selbst, weil er unabhängig vom konkreten Fehler gilt: Ohne eine sichtbare Schadenszahl kann kein Spieler je merken, ob ein Schwachpunkt-Bonus überhaupt wirkt. Nicht behoben (heute wird nur gefunden, nicht repariert) — Kandidat für eine spätere Anzeige-Ergänzung.
+
+**Lernziel 10 — „Wann hätte ich es gemerkt, wenn es funktioniert hätte?":** Beim Schadensbonus aus Etappe 15 (siehe oben) hätte ich es **nie** gemerkt — weder mit noch ohne Fehler zeigt das Spiel eine Schadenszahl. Bei der Abklingzeit aus Etappe 13 dagegen sofort (die Statuszeile zeigt den Zähler direkt an). Der Unterschied ist nicht die Mechanik, sondern die Anzeige, die zufällig für die eine gebaut wurde und für die andere nicht.

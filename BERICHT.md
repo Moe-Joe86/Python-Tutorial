@@ -201,6 +201,25 @@ Beide Fehler wurden behoben (siehe Code-Kommentare), und `diff vorher.txt nachhe
 
 ### Etappe 9 — Alles wird zum Objekt
 
+**Code:** `durchlauf/et9.py` (Marine als Klasse, `Gegner`-Klasse bereitgestellt, aber bewusst ungenutzt; charakterisierungsgetestet gegen `et8.py`)
+
+**A – Anfängerperspektive.** Die dritte Etappe in Folge, in der der vorgeschriebene `diff`-Beweis einen echten, stillen Fehler gefunden hat: Nachdem `trefferpunkte` vollständig in `Marine` gewandert war, verschwand die Zeile „Trefferpunkte: 100" aus dem allerersten Lagebriefing — denn dieses Briefing wird **vor** der Klassenwahl ausgegeben, das `Marine`-Objekt kann aber erst **nach** der Klassenwahl entstehen (es braucht `schaden`, `panzerung` usw., die erst dann feststehen). Der alte Code hatte hier eine lose Variable mit einem Startwert, der unmittelbar danach von der `if`/`elif`-Kette überschrieben wurde — ein Wert, der nur für eine einzige Anzeige-Zeile kurz existierte, bevor er in ein Objekt umzog, das es zu diesem Zeitpunkt noch gar nicht gibt. Behoben mit einer eigens benannten, klar kommentierten Anzeige-Variablen nur für diese eine Zeile. Ohne den `diff`-Test wäre das nicht aufgefallen, weil das Spiel dabei nirgends abstürzt.
+
+Ansonsten war die Etappe angenehm direkt: Die „Wem gehört ein Wert?"-Tabelle traf für fast jeden Wert sofort eine eindeutige Entscheidung. Einzige eigene Erweiterung: `geladen`, `magazin_groesse` und `nachladen_noetig` stehen nicht in der Attributtabelle des Guides (sie stammen aus der in Etappe 5/6 selbst gewählten Magazin-Mechanik), gehören aber nach genau demselben Test des Guides („hätte ein zweiter Marine seinen eigenen Wert davon?") eindeutig in die Klasse — konsequent angewendet auf eine eigene frühere Erweiterung.
+
+**B – Professionelle Perspektive.**
+- **Wichtigster Fund:** siehe A — ein Wert mit einem **vorläufigen** Startwert, der vor einer späteren, objektabhängigen Neuberechnung kurz angezeigt wird, passt nicht bruchlos in „alle losen Variablen wandern vollständig in ein zur Klassenwahl-Zeit noch nicht existierendes Objekt". Ein Satz im Auftrag („Die anfängliche `Trefferpunkte: 100`-Zeile im Briefing bleibt eine lose Variable — sie gehört zeitlich vor die Objekterzeugung") hätte den Fehler von vornherein verhindert.
+- **Randnotiz, kein Fehler:** Die Attributtabelle in Schritt 2 nennt keine magazinbezogenen Werte — nachvollziehbar, weil das Referenzspiel des Guides an dieser Stelle offenbar ohne Magazin/Vorrat-Trennung auskommt (oder sie nicht explizit auflistet); für ein Spiel, das Etappe 5/6 wie beschrieben umgesetzt hat, ist die Lücke real, aber leicht mit der eigenen Entscheidungsregel des Guides zu schließen.
+- **„Neue Syntax heute" vs. `SYNTAX.md`:** deckungsgleich.
+- **Besonders stark:** Die „Wem gehört ein Wert?"-Tabelle (Design-Entscheidung) ist die klarste Heuristik des gesamten bisherigen Materials — eine einzige Frage („gäbe es diesen Wert pro Figur oder pro Spiel?") löst praktisch jeden Zweifelsfall sofort. Die explizite Anweisung, `Gegner` zu bauen, aber bewusst **nicht** einzusetzen, ist ein ungewöhnlich diszipliniertes Stück Sequenzierung — es wäre technisch leicht, hier vorzugreifen, und der Guide erklärt genau, warum das den Ertrag von Etappe 11 zunichtemachen würde.
+- **Code gegen Etappe geprüft:** `kaufe()`, `verkaufe()`, `schalte_frei()`, `wechsle_sektor()`, `berechne_schaden()` haben nach dem Umbau alle spürbar kürzere Signaturen (0–2 explizite Argumente statt 3–5). `print()` einer Liste von drei `Gegner`-Objekten ist lesbar (siehe Testlauf). `help(marine.zeige_status)` zeigt den Docstring aus Etappe 7 korrekt an.
+
+**C – Inhalt gegen Anspruch.** Das zentrale Versprechen — aus langen Parameterlisten werden kurze Methodenaufrufe — ist konkret nachvollziehbar (siehe oben). „`print()` einer Liste von Gegner-Objekten ist lesbar" wurde verifiziert. Der Charakterisierungstest ist nach Behebung des unter A beschriebenen Fehlers grün. Keine weitere Diskrepanz.
+
+---
+
+### Etappe 10 — Komposition
+
 *(folgt)*
 
 ---

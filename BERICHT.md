@@ -161,6 +161,28 @@ Grundsätzlich ja — mit den unter 1.1 genannten Einschränkung und den Einzelb
 
 ### Etappe 7 — Aufräumen
 
+**Code:** `durchlauf/et7.py` (kompletter Umbau in Funktionen; tatsächlich per `befehle.txt`/`diff` gegen `et6.py` charakterisierungsgetestet — siehe unten)
+
+**A – Anfängerperspektive.** Dies ist die erste Etappe, in der der vorgeschriebene Beweis (`python spiel.py < befehle.txt > vorher.txt`, umbauen, erneut laufen lassen, `diff`) tatsächlich **zwei echte, stille Regressionen gefunden hat** — genau die Bestätigung, dass die Methodik der Etappe kein Ritual, sondern ein wirksames Werkzeug ist:
+
+1. **Vergessener Parameter.** `zeige_status()` wurde zunächst ohne `kern_integritaet` und `trefferpunkte` gebaut — die Funktion zeigte klaglos „Kern [..........] 0%". Kein Absturz, nur falsche Zahlen: ein waschechter Typ-3-Fehler, verursacht durch genau die Art Fehler, vor der die Etappe selbst warnt („eine Zeile, die … in ein `if` rutscht, in das sie nicht gehört — die läuft, und sie tut etwas anderes"), nur diesmal als vergessener statt vertauschter Parameter.
+2. **Verlorenes Kurzschluss-Verhalten.** In `et6.py` steht die gesamte Rundenverarbeitung (Schadenberechnung, Anmarschbahn zeichnen, Sieg-/Niederlage-Prüfung) im `else`-Zweig von „ist die Eingabe leer?" — bei leerer Eingabe passiert *nichts* davon. Nach dem Umbau in `verarbeite_befehl()` + Hauptschleife lief die Bahn-Zeichnung in der Hauptschleife **unabhängig** davon, ob die Eingabe leer war, weil dieses Detail beim Verschieben verlorenging. Ergebnis: eine zusätzliche Zeile `Sk.........@` bei jeder leeren Eingabe. **Der `diff` hat genau diese eine Zeile gefunden, sonst nichts** — exakt das Szenario, für das der Charakterisierungstest gebaut wurde.
+
+Beide Fehler wurden behoben (siehe Code-Kommentare), und `diff vorher.txt nachher.txt` ist jetzt tatsächlich still. Ohne den literal ausgeführten Beweis wären beide Fehler nicht aufgefallen — insbesondere der zweite, weil er sich in keinem der üblichen Anfänger-Testpfade (die vier Hauptbefehle einzeln durchspielen) zeigt.
+
+**B – Professionelle Perspektive.**
+- **Konzeptionelle Lücke in Konzept 5b/Schritt 6:** Die „Zwei-Spalten"-Methode (welche Werte ändert die Befehlskette?) prüft systematisch nur, was `verarbeite_befehl()` **verändert** — nicht, was sie nur **liest**, ohne es zu verändern. Genau daran ist Fund 1 aus A entstanden: `kern_integritaet`/`trefferpunkte` werden von `status` nur gelesen, tauchen deshalb in keiner der beiden Spalten auf und wurden beim ersten Entwurf vergessen. Ein Satz wie „Und welche Werte liest die Kette nur, ohne sie zu verändern? Die brauchst du ebenfalls als Parameter" würde diese Fehlerklasse präventiv abdecken.
+- **Unklare Grenze für Konstanten:** Die Design-Entscheidung „alles als Parameter" sagt nicht, ob GROSS geschriebene, zur Laufzeit unveränderliche Tabellen (`WAREN`, `AUSBAUTEN`, `GEGNERTYPEN`, …) ebenfalls durchgereicht werden müssen. `durchlauf/et7.py` behandelt sie als direkt referenzierbare Konstanten (nicht als Parameter) — vertretbar, aber vom Guide nicht ausdrücklich entschieden.
+- **„Neue Syntax heute" vs. `SYNTAX.md`:** deckungsgleich für beide Portionen.
+- **Besonders stark:** Die Reihenfolge „erst die reine Anzeigefunktion (`zeige_status`), dann die reinen Rechenfunktionen, zuletzt die große `verarbeite_befehl()`" minimiert das Risiko bei jedem einzelnen Schritt genau in der Reihenfolge steigender Fehleranfälligkeit. Der explizite Kasten „Checkpoint — hier hältst du an" nach Schritt 2 ist ein gutes Sicherheitsnetz. Und die Warnung zu Schritt 3 (Schadenswert „bekommt nur einen Ort", keine neue Wirkung) hat tatsächlich einen naheliegenden Fehler verhindert: Der erste Instinkt beim Bauen war, den Schaden in der Treffermeldung mit auszugeben — das hätte die Ausgabe verändert und wäre eine unerlaubte Vermischung von Refactoring und neuem Feature gewesen (Konzept 10, zweite Regel). Der `diff`-Test hätte das ebenfalls gefunden.
+- **Code gegen Etappe geprüft:** Alle vier Zeichenfunktionen sind bei Durchsicht „rein" im Sinne von Schritt 12 (kein Zugriff auf Weltzustand außer den übergebenen Parametern und den module-level-Konstanten). `berechne_schaden()` hat ihren `assert`, geprüft mit einem negativen Testwert.
+
+**C – Inhalt gegen Anspruch.** Das zentrale Versprechen der Etappe — „alle drei Antworten heißen nichts", der Spieler darf „nicht das Geringste" merken — wurde nicht nur behauptet, sondern **tatsächlich mit einem byte-genauen `diff` verifiziert**, inklusive Fehlerfällen (leere Eingabe, unbekannter Befehl, Kauf ohne Guthaben, Freischaltung ohne Guthaben, doppeltes Freischalten). Nach Behebung der zwei unter A genannten Regressionen ist der Beweis grün. Keine Diskrepanz zwischen Anspruch und Umsetzung.
+
+---
+
+### Etappe 8 — Die Bug-Jagd I
+
 *(folgt)*
 
 ---

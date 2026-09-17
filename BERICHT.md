@@ -54,7 +54,43 @@ Grundsätzlich ja — mit den unter 1.1 genannten Einschränkung und den Einzelb
 
 ## Teil 2 — Etappen-Durchlauf
 
-*(wird je Etappe ergänzt)*
+### Etappe 1 — Der Abwurf
+
+**Code:** `durchlauf/et1.py`
+
+**A – Anfängerperspektive.** Die Umsetzung war fast durchgehend problemlos — die Etappe ist sehr kleinschrittig geführt, jeder Schritt hat ein konkretes Ziel und ein Beispiel in fremdem Kontext. Ein echter Stolperstein trat aber auf: Bei der „Design-Entscheidung, die du jetzt treffen solltest" werden zwei gleichwertig klingende Optionen für die Speicherung der Klassenwahl angeboten — **die Zahl** oder **der Name** (`klasse = "heavy"`). Mit den Werkzeugen, die bis zu diesem Punkt eingeführt sind (nur Variablen, Zuweisung, `input()`, `int()`/`float()`/`str()`, Rechnen, f-Strings — **kein** `if`, keine Liste, kein Dictionary), lässt sich eine eingetippte Zahl wie `2` aber gar nicht in einen Namen wie `"heavy"` übersetzen. Das bräuchte zwingend eine Fallunterscheidung, und `if` kommt laut `SYNTAX.md` erst in Etappe 2. Als Anfänger, der sich strikt an „nur bereits Gelerntes" hält, bleibt real nur die Option „Zahl" — die zweite Option ist an dieser Stelle eine Behauptung ohne Werkzeug dahinter. `durchlauf/et1.py` speichert deshalb `klasse` als Zahl, mit einem Kommentar, der das begründet.
+
+**B – Professionelle Perspektive.**
+- **Fachlicher Fehler (klein, aber real):** Im Selbsttest steht *„Alle fünf Lagewerte existieren als Variablen mit den vorgegebenen Startwerten"* — Auftragsschritt 3 listet aber **sechs** Werte (`kern_integritaet`, `trefferpunkte`, `munition`, `vaporium`, `rekruten_verfuegbar`, `wellen_bis_evakuierung`). Auch wenn man `kern_integritaet`/`trefferpunkte` abzieht, weil sie einen eigenen Selbsttest-Punkt bekommen, bleiben vier, nicht fünf. Wirkt wie ein stehengebliebener Zähler aus einer früheren Fassung (vermutlich vor Einführung von `rekruten_verfuegbar`) — genau die Art Zahlenfehler, vor der der Lehrplan selbst warnt.
+- **Design-Lücke:** siehe A — die „Name"-Option der Design-Entscheidung ist in Etappe 1 mit den vorhandenen Werkzeugen nicht baubar. Entweder gehört ein Satz dazu, der sagt *„Die Umsetzung als Name folgt technisch erst in Etappe 2 — leg heute nur die Entscheidung fest, nicht den Code"*, oder die Formulierung „eine Umwandlung mehr heute" muss weg, weil sie das Gegenteil suggeriert.
+- **„Neue Syntax heute"-Kopfzeile vs. `SYNTAX.md`:** deckungsgleich für alles, was tatsächlich Sprachsyntax ist. Einträge wie „GROSS geschriebene Namen" oder „`trefferpunkte` als zweiter Gesundheitswert" fehlen in der Kopfzeile, gehören dort aber nicht hin — es sind Konventionen bzw. Inhalte, keine Syntax. Kein Fehler.
+- **Didaktisch stark:** Die Etappe ist ungewöhnlich ehrlich über ihren eigenen geringen Neuheitswert („Als Programmierübung ist das mager") und begründet den Sinn sofort nachvollziehbar. Die explizite Liste „Was NICHT in diese Etappe gehört" nimmt Druck raus und verhindert genau das Vorgreifen, das an anderer Stelle (siehe A) fast provoziert würde.
+- **Code gegen Etappe geprüft:** `et1.py` erfüllt alle Punkte des Selbsttests bis auf die numerische Unstimmigkeit oben, die sich nicht eindeutig erfüllen lässt.
+
+**C – Inhalt gegen Anspruch.** Etappe 1 verspricht selbst noch kein Spielfeature, sondern legt Variablen für später an (`letzte_meldung`, `kern_integritaet`, `wellen_bis_evakuierung`). Das ist transparent kommuniziert („Der lange Bogen"-Tabelle nennt explizit, wo jeder Wert wieder auftaucht) und wird, soweit die vorhandenen Etappen das zeigen, auch eingelöst (siehe Etappe 3, 9, 11, 13 unten). Keine Diskrepanz feststellbar — diese Etappe ist bewusst ein Versprechen, kein Feature.
+
+---
+
+### Etappe 2 — Der erste Kontakt
+
+**Code:** `durchlauf/et2.py`
+
+**A – Anfängerperspektive.** Bis auf einen Punkt reibungslos — `if`/`elif`/`else`, `and`, die verknüpfte Feuerbedingung, alles ließ sich mit den bis hierhin gelernten Werkzeugen direkt umsetzen, und die Beispiele in fremdem Kontext (Bäckerei, Türsteher) waren beim Übertragen wirklich hilfreich. **Ein Punkt hat aber tatsächlich zum Absturz geführt, und zwar genau der von der Etappe selbst verlangte Test:** Auftragsschritt 5 fordert ausdrücklich, alle fünf Fälle durchzuspielen, darunter `9`. Mit dem `else`-Zweig aus Schritt 3 (der nur eine Meldung ausgibt) und der Werteanzeige aus Schritt 4 (die direkt im Anschluss `schaden`, `panzerung` und `klassengeraet` ausgibt) stürzt das Programm bei Eingabe `9` mit `NameError: name 'schaden' is not defined` ab — **nachdem** die freundliche Meldung „Diese Klasse gibt es nicht." bereits erschienen ist. Reproduziert in `durchlauf/et2.py` (siehe Testlauf unten). Als Anfänger, der nur das in dieser Etappe Gezeigte kennt, gibt es keinen erkennbaren Ausweg: Funktionen, `return`, `try`/`except` oder gar `sys.exit()` sind alle nicht verfügbar (die ersten beiden erst Etappe 7, `try` erst Etappe 20). Die einzige Lösung mit heutigem Werkzeug wäre, die Anzeige mit einem eigenen Boolean (`klasse_gueltig`) zu schützen — das ist technisch machbar, aber der Guide erwähnt diese Notwendigkeit an keiner Stelle.
+
+**B – Professionelle Perspektive.**
+- **Fachlicher/didaktischer Fehler (der wichtigste Fund dieser Etappe):** Die eigene Zusage im Abschnitt „Worum es geht" — *„Eingabe `9` lief stillschweigend durch — der `else`-Zweig fängt sie ab"* — stimmt nur für den `else`-Zweig selbst, nicht für das Programm als Ganzes. Der Selbsttest-Punkt *„Eingabe `9` erzeugt eine verständliche Meldung statt einer erfundenen Klasse"* wird im Effekt erfüllt (die Meldung erscheint), verschweigt aber, dass direkt danach ein unbehandelter Absturz folgt, wenn Schritt 4 wie beschrieben direkt im Anschluss an die Kette steht. Das ist exakt die Fehlerklasse, vor der die eigene Lösungsprobe-Methodik (siehe `skills/SKILL.md`, Abschnitt 3) schützen soll: Jeder Auftragsschritt selbst lösen und ausführen — hier hätte das den Fehler sofort gezeigt.
+  **Verbesserungsvorschlag:** Ein Satz in Schritt 4 oder ein kleiner Kasten, der auf einen Schutz-Boolean hinweist (`klasse_gueltig = False`, in jedem Zweig auf `True` gesetzt, Anzeige nur `if klasse_gueltig:`) — mit den Werkzeugen aus Konzept 6 vollständig lösbar, ohne irgendetwas vorzugreifen.
+- **„Neue Syntax heute" vs. `SYNTAX.md`:** deckungsgleich; alle 👀-Einträge (Punkt-Schreibweise, `and`/`or` als Wertgeber) korrekt aus der Kopfzeile ausgespart.
+- **Didaktisch bemerkenswert stark:** Der Abschnitt „Was NICHT in diese Etappe gehört" nimmt die naheliegende Kritik („das wäre doch ein Dictionary") selbst vorweg und begründet sie überzeugend mit dem späteren Ertrag in Etappe 11 — genau die Art Transparenz, die Frust vermeidet, weil sie zeigt, dass die hässliche Lösung heute Absicht ist statt Unwissen des Autors.
+- **Sauber:** Die Trennung `kern_integritaet` (Anlage) / `trefferpunkte` (Marine) wird ein zweites Mal explizit mit Tabelle und Warnkasten geschärft — konsistent mit Etappe 1 und mit `BOGEN.md`s Eintrag zur „Namensfalle".
+
+**C – Inhalt gegen Anspruch.** Die Etappe verspricht „Der Heavy hält aus, was den Medic umwirft" — das wird durch unterschiedliche `trefferpunkte`/`schaden`/`panzerung` je Klasse tatsächlich eingelöst, spaltenweise wie in `GELERNT.md` gefordert nachvollziehbar. Die Zukunftsversprechen zum Klassengerät (Granatwerfer, Durchschlag usw. ab Etappe 18) sind explizit als „nichts davon heute" markiert — keine Diskrepanz. Die einzige Lücke zwischen Anspruch und Umsetzung ist die unter A/B beschriebene: Der Anspruch „ungültige Eingabe wird sauber behandelt" wird nicht vollständig eingelöst.
+
+---
+
+### Etappe 3 — Die Wellenschleife
+
+*(folgt)*
 
 ---
 

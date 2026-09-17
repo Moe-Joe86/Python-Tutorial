@@ -346,4 +346,54 @@ Ansonsten war die Etappe angenehm direkt: Die „Wem gehört ein Wert?"-Tabelle 
 
 ## Teil 3 — Gesamtbericht
 
-*(wird nach Abschluss aller Etappen ergänzt)*
+Dieser Abschnitt fasst zusammen, was über alle 16 vorhandenen Etappen hinweg am meisten Gewicht hat. Einzelbelege stehen bei der jeweiligen Etappe in Teil 2 bzw. in `durchlauf/GELERNT.md`/`FEHLERTAGEBUCH.md`.
+
+### Die wichtigsten fachlichen/technischen Fehler
+
+1. **Marine-Balken verglich gegen eine feste `100` statt gegen den klassenabhängigen Maximalwert** (seit Etappe 3c/9, gefunden und behoben in Etappe 13). Für Heavy (140 TP) und Medic (80 TP) zeigte die Statuszeile eine falsche Prozentzahl an — ein mehrere Etappen alter, stiller Typ-3-Fehler, der erst durch die explizite `max_trefferpunkte`-Anforderung in Etappe 13 auffiel.
+2. **`nachladen_noetig` ist seit dem Refactor in Etappe 7 totes Attribut** — gesetzt, aber nie gelesen (gefunden in Etappe 16). Folgenlos, weil es seit Einführung redundant zu `geladen > 0` war, aber ein Beleg dafür, dass auch ein reiner Refactor mit bestandenem `diff`-Beweis stille Bedeutungsverluste zurücklassen kann, wenn die Invariante hinter dem Beweis selbst nie geprüft wurde.
+3. **Der Charakterisierungstest (`diff`) ist nicht robust gegen Sets** (Etappe 10): Pythons Hash-Randomisierung lässt zwei identische Programmläufe unterschiedliche Ausgabereihenfolgen erzeugen, sobald ein Set über die Druckreihenfolge entscheidet — ohne `PYTHONHASHSEED` fixiert zu haben, jagt man hier einen Fehler, der keiner ist.
+4. **Gegner.update() (Etappe 12) lässt die zweite, seit Etappe 3c geforderte Verlustbedingung (`marine.trefferpunkte <= 0`) praktisch unerreichbar werden**, obwohl Auftragsschritt 19 explizit verlangt, weiterhin beide Bedingungen zu prüfen — ein Widerspruch zwischen der eigenen Spezifikation der Etappe und ihrem eigenen Anspruch.
+5. **Kein Transferweg zwischen den vier Marine-Inventaren** (sichtbar seit Etappe 15): Sammelt ein Kamerad statt des Helden ein Fundstück ein, ist es für den Spieler dauerhaft unerreichbar, weil `analysiere` nur `marine.inventar` prüft.
+
+### Die wichtigsten didaktischen Probleme
+
+1. **`GELERNT.md` ist über den Fließtext verteilt, nicht strukturell verankert** (durchgängig seit Etappe 1) — anders als der stets klar abgesetzte `befehle.txt`/`diff`-Beweis gibt es keinen wiederkehrenden, visuell hervorgehobenen Ort, an dem alle `GELERNT.md`-Pflichten einer Etappe gebündelt stünden. Das ist im eigenen Durchlauf tatsächlich zum Ausfall gekommen: Bis Etappe 11 wurde die Datei schlicht nicht geführt, obwohl sie seit Etappe 1 auch ein Selbsttest-Punkt ist.
+2. **Wiederkehrende Lücke „Kostet dieser Befehl eine Runde?"** (Etappe 4, 5 und mehrfach danach): Für jeden neu eingeführten Befehl bleibt offen, ob er eine Handlung oder eine Auskunft ist, bis Etappe 12 das explizit zur Design-Entscheidung macht. Ein einmaliger Grundsatz früh im Material („alles ohne Gegenteil-Angabe ist Auskunft") hätte die wiederholte Unschärfe von Etappe 4 bis 11 vermieden.
+3. **Zahlenkonflikte über Etappengrenzen** (`magazin_groesse` 8 vs. 40 zwischen Etappe 5/6): Offen gelassene Startwerte, die eine spätere Etappe stillschweigend voraussetzt, sind für einen linear lernenden Anfänger nicht erkennbar, bevor der Fehler auftritt.
+4. **Die Barrikaden-Kür (14c) und ähnliche „nur wenn Zeit"-Abschnitte sind an sich gut konzipiert**, aber ihr Auslassen bedeutet, dass das jeweils folgende narrative Element (hier: räumliche Umlenkung von Gegnern) im weiteren Spielverlauf schlicht fehlt, ohne dass eine spätere Etappe das aufgreift oder vermisst — die Konsequenz eines Kür-Verzichts bleibt unklar.
+
+### Die wichtigsten Inkonsistenzen zwischen Lehrplan/BOGEN/SYNTAX und den Etappen
+
+1. **BOGEN.md behauptet „sieben geteilte Etappen", der Lehrplan und die tatsächlichen Guides zeigen elf** (Etappe 11, 12, 13, 15 fehlen in der BOGEN-Zeile) — der schwerwiegendste Einzelfund der Grundlagenprüfung (siehe 1.1).
+2. **Kleinere Diskrepanzen** wie die „fünf Lagewerte" vs. tatsächlich sechs (Etappe 1) oder die fehlende „7a" in der Lernziele-Nummerierung (Etappe 3) — beide kosmetisch, aber Belege für nachträglich erweiterte Listen ohne durchgängige Prüfung.
+3. **SYNTAX.md hält dagegen durchgängig stand** — in keiner der 16 Etappen wurde eine echte Abweichung zwischen „Neue Syntax heute" und der SYNTAX.md-Tabelle gefunden.
+
+### Die wichtigsten Diskrepanzen zwischen beworbenem Spielinhalt und tatsächlicher Umsetzung
+
+1. **Das namensgebende Versprechen der Etappe 15** („vier Systeme fangen an, miteinander zu reden") ist strukturell eingelöst, aber für den Spieler nur teilweise erlebbar, solange die Inventar-Lücke (siehe oben) besteht.
+2. **Der Held tötet weiterhin mit einem Schuss (seit Etappe 6), während Kameraden und Turm seit Etappe 12/15 mit echten Trefferpunkten und Schadenswerten rechnen** — zwei nie aufeinander abgestimmte Kampfmodelle koexistieren, ohne dass eine Etappe das kommentiert.
+3. **Ein Schadensbonus, den man nie sieht** (Etappe 15/16): Weil `feuern` keine Schadenszahl anzeigt, ist die zentrale neue Belohnung der Etappe 15 (Schwachpunkt-Analyse) im Spiel nicht überprüfbar — sie könnte falsch verdrahtet sein, ohne dass es auffiele.
+4. **Alles, was als Versprechen für spätere Etappen markiert ist** (Klassengerät-Fähigkeiten, Rekruten/Söldner, Ausbaustufen des Turms, Sichtlinienprüfung), wird bis Etappe 16 konsequent **nicht** vorgegriffen — ein positiver Befund, keine Diskrepanz.
+
+### Besonders gute Elemente, die unbedingt erhalten bleiben sollten
+
+1. **Der `befehle.txt`/`diff`-Charakterisierungstest** (ab Etappe 7) — hat in diesem Durchlauf tatsächlich mehrfach echte, sonst unsichtbare Regressionen gefunden (Etappe 7 zweimal, Etappe 9 einmal) und einmal eine Methodikschwäche aufgedeckt (Etappe 10, Hash-Randomisierung).
+2. **Die „Vor dem Umbau: drei Fragen"-Box** vor jedem reinen Refactor — verlässlich, knapp, verhindert Vermischung von Umbau und neuem Feature.
+3. **Die wiederkehrenden Design-Entscheidungs-Tabellen mit Gegenprobe** (z. B. Etappe 12 „eine Liste oder zwei", Etappe 13 „wo läuft der Zähler", Etappe 15 „wo wohnt eine Erkenntnis") — durchgängig die stärksten Abschnitte des gesamten Materials, weil sie Nutzen und Kosten einer Entscheidung nebeneinanderstellen statt nur zu behaupten.
+4. **Die „🚨 KI-Code-Warnsignal"-Boxen** (ab Etappe 12) — ungewöhnlich ehrlich über die Nachteile der eigenen empfohlenen Muster (Kopplung durch `update(self, welt)`), ohne sie zu beschönigen.
+5. **Die Bug-Jagd-Etappen (8 und 16)** — der Dreizeiler (Beobachtung/Hypothese/Experiment) als Pflichtformular und die Fahndungsliste über neun vorbereitende Etappen hinweg sind ein durchdachtes, tatsächlich wirksames Debugging-Curriculum, keine Attrappe.
+6. **Die konsequente Trennung „was existiert" vs. „was ich weiß"** (`GEGNERTYPEN`/`gesehene_gegnertypen` seit Etappe 6, `welt.erkenntnisse` seit Etappe 15) — dieselbe Besitzfrage aus Etappe 9, immer wieder korrekt angewendet.
+
+### Die wichtigsten konkreten Verbesserungen
+
+1. **`GELERNT.md`-Pflichten strukturell hervorheben** — ein eigener, immer gleich aussehender Kasten direkt nach der „Vor dem Umbau"-Box, der alle `GELERNT.md`-Einträge einer Etappe bündelt, analog zum Beweis-Kasten.
+2. **Einen Grundsatz für „kostet das eine Runde?" früh festlegen** (spätestens Etappe 4) statt die Frage über sieben Etappen unbeantwortet zu lassen.
+3. **Eine sichtbare Schadenszahl in der Feuer-Meldung** einführen (auch nur optional/ausführlich), damit Schadensboni aus Etappe 15/18 überhaupt beobachtbar werden — sonst bleibt jede künftige, ähnlich gebaute Mechanik einem Spieler verborgen.
+4. **Fundstücke unabhängig von der einsammelnden Zone in das Inventar des Helden legen**, oder einen expliziten Item-Transfer-Befehl zwischen Marines einführen — behebt die in Etappe 15 gefundene Sackgasse.
+5. **BOGEN.md, Zeile 29, korrigieren** auf „Elf Etappen sind in Portionen geteilt" (siehe 1.1).
+6. **`PYTHONHASHSEED` als feste Empfehlung** in die `diff`-Anleitung ab Etappe 7 aufnehmen, um die in Etappe 10 gefundene Methodikschwäche für künftige Lernende zu vermeiden.
+
+---
+
+*Ende des Berichts für die 16 vorhandenen Etappen (Stand dieses Durchlaufs). Etappen 17–30 existieren noch nicht als Guides und wurden entsprechend nicht geprüft.*

@@ -106,7 +106,7 @@ Der Fehler entsteht nicht dadurch, dass ein unbekanntes Werkzeug im Guide *steht
 1. **Löse ihn selbst.** Schreib die Lösung tatsächlich hin, in einer Wegwerf-Datei, und lass sie laufen. Nicht im Kopf. Nicht „das ist offensichtlich".
 2. **Inventarisier, was die Lösung braucht.** Jedes Zeichen, jeden Aufruf, jede Konstruktion. Auch das Kleine: `+=`, `%`, `//`, `[i] =`, `[-1]`, `["."] * n`, `while True:`, `.pop()`, `del`, `enumerate()`, f-String-Formatangaben.
 3. **Prüf jeden Eintrag gegen `SYNTAX.md`.** Drei mögliche Ausgänge:
-   - **Steht mit Etappe ≤ N drin** → in Ordnung, weiter.
+   - **Steht mit Etappe ≤ N drin** → fast in Ordnung. **Prüf die Portion mit:** Ein Werkzeug, das in N**b** erklärt wird, existiert für einen Auftragsschritt in N**a** nicht. Der Lernende arbeitet die Portionen an verschiedenen Abenden ab, und der Guide sagt ihm ausdrücklich, er soll nur die Portion lesen, an der er sitzt. Steht das Werkzeug später in derselben Etappe → wie „gehört in eine spätere Etappe" behandeln: Schritt umbauen oder Konzept vorziehen.
    - **Steht nicht drin und gehört hierher** → Konzeptabschnitt schreiben, danach in `SYNTAX.md` eintragen.
    - **Gehört in eine spätere Etappe** → Auftragsschritt umbauen, bis er ohne auskommt. Nicht das Werkzeug vorziehen.
 4. **Gibt es mehr als einen gangbaren Lösungsweg?** Dann muss **mindestens einer davon vollständig gedeckt** sein. Es reicht nicht, dass Weg A gedeckt wäre, wenn der Guide an anderer Stelle von Weg A abrät.
@@ -119,6 +119,7 @@ Werkzeuge schleichen sich außerhalb von Codeblöcken ein. Diese vier Orte immer
 - **Die Kaputtmach-Experimente.**
 - **Der Selbsttest.**
 - **Klammerbemerkungen und Tabellenzellen.** Genau dort ist historisch das meiste durchgerutscht.
+- **Die „So prüfst du es"-Zeilen.** Sie stehen außerhalb des Auftragstexts und werden deshalb beim Prüfen übersehen — verlangen aber genauso Handlungen. *„Ruf `help(f)` im Terminal auf"* setzt die interaktive Konsole voraus; steht die nicht im Register, ist die Prüfanweisung unausführbar.
 
 ### Zwei Regeln für Hinweise
 
@@ -139,8 +140,31 @@ Diese sieben Lücken sind real aufgetreten. Sie sind der Grund für diesen Absch
 | `.pop(i)` / `del` | In einer Tabellenzelle als „Werkzeug" benannt, Syntax nirgends |
 | `while True:` | Vom Auftrag verlangt, die Bauform erst eine Portion später erklärt |
 | Funktionsaufrufe (`backe(blech)`) | Als lesbarer Pseudocode in Beispielen, vier Etappen bevor Funktionen drankommen |
+| `return a, b` | Vom Auftrag in Portion **a** gebraucht, erklärt in Portion **b** derselben Etappe — die Portionsgrenze wurde beim Prüfen übersehen |
+| Die interaktive Konsole | In einer „So prüfst du es"-Zeile verlangt (`help(f)` im Terminal), nirgends eingeführt — und im Widerspruch zur eigenen früheren Etappe, die dasselbe in einer Wegwerf-Datei machen ließ |
+| Rückgabewert im Fehlerzweig | Der Schritt nennt drei Fälle und sagt nur für einen, was zurückkommt |
+| Die Datei aus der Umleitung (`> vorher.txt`) | Wirkung erklärt, Entstehung nicht — der Lernende sucht eine Datei, die er anlegen soll |
 
 Die letzte Zeile ist eine eigene Regel wert: **Beispiele dürfen keine Konstruktion enthalten, die der Lernende noch nicht kennt — auch nicht als Kulisse.** Wenn ein Beispiel eine Handlung braucht, nimm `print()`.
+
+---
+
+## 3b. Der Anfängerdurchlauf — die Probe auf die Handgriffe
+
+**Abschnitt 3 prüft Werkzeuge. Er prüft keine Handgriffe** — und daran ist eine fertige Etappe schon gescheitert, obwohl jedes einzelne Werkzeug im Register stand.
+
+Der Unterschied: *„Kennt er `def`?"* ist eine Werkzeugfrage. *„Weiß er, **wohin in der Datei** die `def`-Zeile gehört?"* ist eine Handgriff-Frage. Die erste beantwortet das Register, die zweite beantwortet niemand.
+
+**Das Verfahren:** Lies den Auftrag noch einmal von Schritt 1 an, aber **nicht als Autor**. Als jemand, der `spiel.py` offen hat, ein Terminal daneben, und ausschließlich die Etappen bis hierher kennt. Sechs feste Fragen:
+
+1. **Wohin kommt der Code?** Neue Funktionen, Klassen, Konstanten — oben, unten, in welcher Reihenfolge? Eine `def` unter der Hauptschleife gibt `NameError`, und das steht in keinem Register.
+2. **Wo steht das Terminal, und welche Dateien entstehen von selbst?** Jeder Befehl, der einen Pfad enthält, setzt ein Arbeitsverzeichnis voraus. Jede Datei, die durch eine Umleitung entsteht, muss als *entsteht von selbst, wird überschrieben* benannt sein — sonst sucht der Lernende nach einer Vorlage.
+3. **Was passiert im Fehlerzweig?** Der häufigste Fund. Eine Funktion mit drei Fällen wird beim Prüfen nur im Erfolgsfall gelöst. **Sag für jeden Zweig, was zurückkommt** — sonst schreibt der Lernende das implizite `None` hin und baut sich einen Typ-3-Fehler, der eine Runde später knallt.
+4. **Wie kommt der veränderte Zustand wieder heraus?** Ausgerechnet der Kern jedes Umbaus. Eine Zuweisung im Funktionskörper wirkt nicht nach außen; ein Dictionary oder eine Liste schon. **Geh die Werte durch, die der Schritt verändert, und trenn sie in beide Sorten.** Bleibt eine Zahl oder ein String übrig, braucht der Schritt einen Rückgabeweg — und der muss vorher erklärt sein.
+5. **Hat der Schritt genau eine Lesart?** Wenn zwei Sätze desselben Schritts verschiedene Dinge nahelegen — *„die Formel aus 3c"* und *„reicht nur eine Zahl durch"* —, steht der Lernende und rät.
+6. **Welche Handarbeit verschweigt der Schritt?** Code aus einem verschachtelten Zweig in einen Funktionskörper zu verschieben heißt, **jede Zeile umzurücken**. Das ist der zeitaufwendigste Teil des Abends. Wenn er nirgends vorkommt, fehlt er.
+
+**Die Regel, die alle sechs zusammenhält:** Prüf gegen das Programm, das der Lernende **tatsächlich hat**, nicht gegen einen Schnipsel. Abschnitt 3 lässt sich mit isolierten Beispielen bestehen; dieser Abschnitt nicht.
 
 ---
 
@@ -293,6 +317,9 @@ Für *„was ist schon geschrieben"* und *„was kommt als Nächstes"*: `BOGEN.m
 - [ ] Alle Schulden aus dem Bogen eingelöst **und benannt**
 - [ ] Versprechen aus N−1 und N−2 erfüllt
 - [ ] **Jeder Auftragsschritt selbst gelöst und ausgeführt; alle benötigten Werkzeuge gegen `SYNTAX.md` geprüft**
+- [ ] **Kein Auftragsschritt braucht ein Werkzeug aus einer späteren Portion derselben Etappe**
+- [ ] **Anfängerdurchlauf (3b) gemacht: Codeort · Arbeitsverzeichnis und entstehende Dateien · jeder Fehlerzweig · Rückweg für veränderten Zustand · eine Lesart · verschwiegene Handarbeit**
+- [ ] **Jede „So prüfst du es"-Zeile ist mit dem Stand dieser Portion ausführbar**
 - [ ] **Kein Beispiel und keine Tabelle nennt ein Werkzeug, das der Lernende noch nicht kennt**
 - [ ] **Jeder „so geht es nicht"-Hinweis hat ein gedecktes „so geht es"**
 - [ ] Kein Auftragsschritt verlangt ein 👀-Werkzeug

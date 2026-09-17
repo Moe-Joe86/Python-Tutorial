@@ -1,6 +1,6 @@
 # Das Syntaxregister — welches Werkzeug ab wann zur Verfügung steht
 
-*v1.12.1 · 2026-09-16*
+*v1.20.0 · 2026-09-16*
 
 > Verbindlicher Anhang zum [Lehrplan](Vorposten_Lehrplan.md). Diese Datei ist die einzige Quelle der Wahrheit darüber, was ein Lernender an einem bestimmten Punkt kennt.
 
@@ -188,7 +188,7 @@ Kein Python. Terminal, Git, virtuelle Umgebung, `pip`. Steht im Lehrplan, nicht 
 | `for name in d` — läuft über die Schlüssel | 6 | 🔨 |
 | `.items()` | 6 | 🔨 |
 | `.keys()` und `.values()` | 6 | 👀 |
-| `del d[key]` | 6 (als Gegenbeispiel gezeigt) | 🧠 |
+| `del d[key]` | 6 (als Gegenbeispiel gezeigt), **hochgestuft in 13** (Konzept 10) | 🔨 |
 | `RuntimeError` beim Ändern der Größe während der Iteration | 6 | 🧠 |
 | Schlüssel müssen hashbar sein, `TypeError: unhashable type` | 7 | 👀 |
 | `d[key] -= n` | 10 | 🔨 |
@@ -233,10 +233,23 @@ Kein Python. Terminal, Git, virtuelle Umgebung, `pip`. Steht im Lehrplan, nicht 
 | `global` | 5 | 👀 |
 | Standardargument `def f(x, y=0)` | 6 | 🔨 |
 | Docstring als erster String im Funktionskörper | 9 | 🔨 |
-| `return a, b` — zwei Werte zurückgeben | 14 | 🔨 |
+| `return a, b` — zwei Werte zurückgeben | **5b** (in v1.5.0 aus 7b nach 7a verschoben) | 🔨 |
 | `assert` | 15 | 👀 |
 | `UnboundLocalError` — Zuweisung im Körper macht den Namen im ganzen Körper lokal | 5 | 🧠 |
 | Seiteneffekt gegen Rückgabewert | 5 | 🧠 |
+| `cd` und `ls` (Windows: `dir`) — das Terminal muss im Projektordner stehen | 11 | 🔨 |
+| `python: can't open file '...'` ist ein **Ortsfehler**, kein Python-Fehler | 11 | 🧠 |
+| `> datei` legt die Datei an und **überschreibt** sie vollständig; sie leitet **nur** normale Ausgaben um | 11 | 🧠 |
+| **Wohin `def`-Zeilen gehören** — über das Hauptprogramm, weil `def` vor dem Aufruf gelaufen sein muss | 1 | 🔨 |
+| `NameError`, wenn die `def`-Zeile unter dem Aufruf steht | 1 | 🧠 |
+| **Mutable gegen immutable als Rückgabefrage** — was sich von innen ändert und was durch `return` heraus muss | 5b | 🧠 |
+| `return a, b, c` und `a, b, c = f(...)` beim Aufruf — **Reihenfolge wird nicht geprüft** | 5b | 🔨 |
+| `TypeError: cannot unpack non-sequence NoneType` — ein Zweig ohne `return` | 5b | 🧠 |
+| Blockweises Aus- und Einrücken beim Verschieben in einen Funktionskörper | Auftrag 2 | 🔨 |
+| Das Format von `befehle.txt` — eine Zeile pro `input()`, in der Reihenfolge der Fragen; leere Zeile = leere Eingabe | 11b | 🔨 |
+| `EOFError: EOF when reading a line` — die Eingabedatei ist zu Ende; **erwartbar**, weil das Spiel keinen Befehl zum Beenden hat | 11b | 🧠 |
+| Zwei Ausgabekanäle: Fehler landen **nicht** in der Ausgabedatei, `2>` leitet sie um — nur erkennen | 11b | 👀 |
+| Umgeleitete Eingaben erscheinen nicht in der Ausgabedatei, und `input()`-Texte enden ohne Zeilenumbruch | 11b | 🧠 |
 | `<` und `>` im Terminal — Eingabe und Ausgabe umleiten | 11 | 🔨 |
 
 *(Konzept 14 benutzt `//` und `%` im Beispiel. Beide kommen aus Etappe 3c, Konzept 13b.)*
@@ -357,11 +370,108 @@ Kein Python. Terminal, Git, virtuelle Umgebung, `pip`. Steht im Lehrplan, nicht 
 
 ---
 
+## Etappe 13 — Bauzeit und Abklingzeit
+
+| Werkzeug | Konzept | Stufe |
+|---|---|---|
+| **Das Zähler-Muster** — `if z > 0:` · `z -= 1` · `if z == 0:` melden | 1 | 🔨 |
+| Die Meldung **innerhalb** des `> 0`-Blocks macht aus einem Zustand ein Ereignis | 2 | 🧠 |
+| Ein Zähler als Attribut an dem Objekt, dem er gehört | Design-Entscheidung | 🔨 |
+| `welt.melde(text)` — ein Ort, an dem entschieden wird, wie Meldungen erscheinen | 5 | 🔨 |
+| Einen Wert merken, neu berechnen, vergleichen — den Übergang erkennen | 4 | 🔨 |
+| `d[a][b] = wert` — **schreibend** in ein verschachteltes Dictionary; fehlender innerer Schlüssel entsteht | 10 | 🔨 |
+| `del d[key]` — jetzt aktiv, nicht mehr nur als Gegenbeispiel (aus **5** hochgestuft). **Nur nötig, wenn der versiegelte Weg in Etappe 5 als *markiert* gebaut wurde** | 10 | 🔨 |
+| `KeyError` auch beim `del` eines fehlenden Schlüssels | 10 | 🧠 |
+| Ein zweites Attribut für den Startwert (Trefferpunkte beim Aufstehen) | 8 | 🔨 |
+| Ein Objekt unter eigenem Namen an der Welt als „höchstens einer" (`welt.turm`) | 9 | 🔨 |
+| Ein Attribut (`gesteuert`) entscheidet den Startwert — **kein** Objektvergleich mit `is` | 7 | 🔨 |
+| **Die Bedeutung einer Zählerzahl schriftlich festlegen** (Off-by-one vor dem Bauen) | Auftrag 7 | 🔨 |
+| Eine Prüfkette mit Ortsbedingung und Kosten (aus **5** und **6**), erweitert um „steht schon eines?" | Auftrag 17 | 🔨 |
+| Eine eigene Tick-Phase für Zähler, vor dem Handeln | Auftrag 4 | 🔨 |
+| Invariante (prüfbar) und Merksatz (nicht prüfbar) unterscheiden — beide aufschreiben, keines prüfen | Auftrag 10 | 🧠 |
+| Der Begriff **Scheduler** — die Welt führt Termine statt Zähler im Objekt | Design-Entscheidung | 👀 |
+| Entscheidung **Tick-Zeit statt Echtzeit** — `time.time()` wird benannt, nicht benutzt | Design-Entscheidung | 👀 |
+
+*(`is` auf Objekten bleibt 👀 — Konzept 7 rät im Auftrag ausdrücklich davon ab und nennt das Attribut als gedeckten Weg. `assert` bleibt 👀 aus 7b: Schritt 9 lässt die Invariante aufschreiben, nicht prüfen. Die Stufenberechnung stammt aus 9a und wird nicht neu eingeführt — Schritt 8 legt nur zwei Zeilen darum.)*
+
+---
+
+## Etappe 14 — Das Vorfeld
+
+| Werkzeug | Konzept | Stufe |
+|---|---|---|
+| **Eine Liste, deren Einträge Listen sind** — als Literal hingeschrieben | 1 | 🔨 |
+| `raster[y][x]` — **Zeile vor Spalte**, lesend und schreibend | 2 | 🔨 |
+| `raster[x][y]` stürzt bei quadratischem Raster **nicht** ab, liefert aber das falsche Feld | 2 | 🧠 |
+| Ein Raster über zwei verschachtelte Schleifen aufbauen (`zeile = []`, `append`) | 3 | 🔨 |
+| `[["."] * n] * n` erzeugt **eine** Zeile, n-mal verlinkt — aus **4** und **10** | 3 | 🧠 |
+| Die Doppelschleife `for y in range(len(r))` / `for x in range(len(r[y]))` | 4 | 🔨 |
+| `len(r[y])` statt `len(r[0])` — die Zeile fragen, in der man steht | 4 | 🧠 |
+| **Die Randprüfung** — `< 0` und `>= len(...)`, beide Achsen, vor jedem Zugriff | 5 | 🔨 |
+| Ein negativer Index greift **still** von hinten; über den oberen Rand knallt es | 5 | 🧠 |
+| Eine flache Kopie eines Rasters: **jede Zeile einzeln** mit `.copy()` | 8 | 🔨 |
+| `abs()` — der Betrag | 9 | 🔨 |
+| Abstand als `abs(dx) + abs(dy)` — und dass die Form zur Bewegung passen muss | 9 | 🧠 |
+| **Ein Set aus Tuples** (`felder.add((x, y))`) — Einlösung aus **6** | 10 | 🔨 |
+| `TypeError: unhashable type: 'list'` — warum eine Liste nicht ins Set darf | 10 | 🧠 |
+| `TypeError: add() takes exactly one argument (2 given)` — ein Klammerpaar fehlt | 10 | 🧠 |
+| `(x, y) in menge` als Bereichsabfrage | 10 | 🔨 |
+| Die Zonenprüfung — dieselbe Form wie die Randprüfung, andere Grenzen | 11 | 🔨 |
+| Tuple-Unpacking aus einem Attribut (`x0, y0, x1, y1 = zone`) — aus **6** | 11 | 🔨 |
+| Entscheidung `<` gegen `<=` bei Reichweite **schriftlich** festlegen (Konzept 9 legt fest: Abstand `<= r` ist drin) | 9, Auftrag 13 | 🔨 |
+| 👀 `enumerate()` und die drei Schleifenformen — **kein Umbau** | 4 | 👀 |
+
+*(`continue` bleibt 👀 und kommt nur in der Leseübung vor, mit ausdrücklichem Bauverbot. `min(..., key=...)` und Comprehensions werden in Konzept 10 und unter „Was NICHT" auf **23a** vertagt — die Doppelschleife wird heute ausgeschrieben. Der Bedingungsausdruck `a if c else b` und verkettete Vergleiche (`a <= x <= b`) werden bewusst **nicht** eingeführt; die Aufträge kommen mit `if`/`return` aus.)*
+
+---
+
+## Etappe 15 — Was die Brut hinterlässt
+
+⚠️ **Fast keine neue Sprache.** Diese Etappe kombiniert Registriertes zu Mustern. Was hier steht, sind Bauformen, keine neuen Schlüsselwörter.
+
+| Werkzeug | Konzept | Stufe |
+|---|---|---|
+| **Das Set-Muster: `add()` … später `in`** — merken und abfragen an getrennten Stellen | 1 | 🔨 |
+| Ein falsch geschriebenes Flag-Wort erzeugt **keinen** Fehler — stiller Typ 3 | 1 | 🧠 |
+| Set statt Dictionary aus Booleans — zwei Zustände statt drei | 2 | 🧠 |
+| **Die Umkehrtabelle: Sache → Voraussetzung**, nachgeschlagen mit `.get()` + `is not None` + `in` | 4 | 🔨 |
+| Eine Tabelle iterieren statt in der Logik aufzuzählen (`for k in TABELLE`) | 4 | 🔨 |
+| **Suchschleife mit `return` in der Schleife und `return None` am Ende** — „das erste, das passt" | 5 | 🔨 |
+| Jede Funktion, die `None` liefern kann, muss beim **Aufrufer** geprüft werden | 5 | 🧠 |
+| `Fundstueck(Item)` — eine Unterklasse, die nur Attribute mitbringt (aus **11**); das Inventar behandelt sie unverändert | 6 | 🔨 |
+| Prüfkette mit **verschiedenen** Meldungen für Katalog und Besitz (aus **6**) | Auftrag 7 | 🔨 |
+| **Eine Quelle definiert die Flag-Wörter**, andere Tabellen verweisen nur darauf — ein Verweis ins Leere fällt nicht auf | 1, Auftrag 1 | 🔨 |
+| 👀 **Kopplung als Zeichnung** — Pfeile auf Papier, nichts wird repariert | Kopplungszeichnung | 👀 |
+
+*(Über ein Set wird **nicht** iteriert — jede Abfrage ist ein `in`. Die Reihenfolge eines Sets ist nirgends zugesagt, und der Guide braucht sie nicht. `dataclass` wird in Konzept 6 auf **23b** vertagt, `Enum` in Konzept 1 auf **21b**, gewichtete Beute auf **17a**.)*
+
+---
+
+## Etappe 16 — Bug-Jagd II
+
+⚠️ **Keine neue Sprache — nicht eine Zeile.** Diese Etappe führt Verfahren ein, keine Werkzeuge. Sie steht hier, damit das Register lückenlos bleibt.
+
+| Werkzeug | Konzept | Stufe |
+|---|---|---|
+| **Die Tick-Tabelle von Hand** — Phase mal Einheit, **vor** dem Ausführen | 3 | 🔨 |
+| **Reihenfolgefehler als dritte Ursachenklasse** (weder Code noch Daten) — auf der Zeitachse immer Typ 3 | 1 | 🧠 |
+| Der Dreizeiler Beobachtung → Hypothese → Experiment als **Pflicht** (aus **8**) | 4 | 🔨 |
+| **Die Rückwärtsprobe:** Änderung zurücknehmen — ist der Fehler wieder da? | 4 | 🔨 |
+| Off-by-one als **Familie**: die drei schriftlichen Entscheidungen aus 13, 14a, 14b | 5 | 🧠 |
+| Bisektion über die **Git-Historie** statt über den Code (aus **8**) | 7 | 🔨 |
+| **Verweis ins Leere** zwischen zwei Tabellen — beide für sich fehlerfrei (aus **15**) | 8 | 🧠 |
+| „Wann hätte ich es gemerkt, wenn es funktioniert hätte?" — fehlende Wirkung ist schwerer zu bemerken als falsche | 6 | 🧠 |
+| Die Leseleiter **auf eigenen Code** angewandt | Leseübung | 🔨 |
+
+*(`git bisect` wird unter „Was NICHT" ausdrücklich ausgeschlossen — halbiert wird von Hand. `Enum` gegen Verweise ins Leere bleibt **21b**, Tests bleiben **26**.)*
+
+---
+
 ## Offene Lücken
 
 Werkzeuge, die eine Aufgabe braucht und die kein Guide erklärt. **Jede solche Zeile blockiert einen Lernenden, der keine zweite Quelle hat.**
 
-> **Für die Etappen 1 bis 12: keine.** Alle Werkzeuge, die ein Auftragsschritt dort verlangt, sind vorher erklärt.
+> **Für die Etappen 1 bis 16: keine.** Alle Werkzeuge, die ein Auftragsschritt dort verlangt, sind vorher erklärt.
 
 **Diese Tabelle bleibt trotzdem stehen**, weil sie beim Schreiben jeder weiteren Etappe wieder gebraucht wird. Findest du eine Lücke, trag sie hier ein — mit der Etappe, die sie braucht, und der Etappe, in die die Erklärung gehört.
 

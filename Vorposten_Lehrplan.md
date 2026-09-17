@@ -1,8 +1,8 @@
 # Projekt-Lehrplan: Vorposten
 
-*v2.10.0 · 2026-09-16*
+*v3.4.0 · 2026-09-16*
 
-**Python lernen, indem die Verteidigung wächst — 30 Etappen in 39 Portionen**
+**Python lernen, indem die Verteidigung wächst — 30 Etappen in 41 Portionen**
 
 Dieses Tutorial ist selbsttragend. Es setzt keinen Kurs, kein Buch und kein Vorwissen über Python voraus: Jedes Zeichen und jeder Aufruf, den eine Aufgabe braucht, wird vorher in einem Etappen-Guide erklärt. Welches Werkzeug ab wann zur Verfügung steht, führt [`SYNTAX.md`](SYNTAX.md) Buch.
 
@@ -54,7 +54,7 @@ Das ist keine Bequemlichkeit, sondern die tragende Konstruktion dieses Plans:
 
 Im Code existieren ab Etappe 11 alle vier Klassen gleichzeitig.
 
-**Die Zusatzregel dazu:** Fällt ein Trupp-Marine, ist er nicht tot, sondern *ausgefallen* — und kommt nach einem Zähler zurück, genau wie ein Rekrut. Fällt **dein** Marine, ist das Spiel vorbei. Der Unterschied ist die ganze Spannung.
+**Die Zusatzregel dazu:** Fällt ein Trupp-Marine, ist er nicht tot, sondern *ausgefallen* — und kommt nach einem Zähler zurück, genau wie ein Rekrut. Fällt **dein** Marine, wartest du, bis ein Respawn-Zähler abgelaufen ist — und in dieser Zeit kämpft der Trupp ohne dich weiter. Der Unterschied ist die ganze Spannung. *(Verloren ist das Spiel erst, wenn die Kernintegrität auf null fällt; beide Bedingungen stehen seit Etappe 1 nebeneinander, und ab Etappe 13 beendet nur noch eine davon den Lauf.)*
 
 **Was du dazwischen tust:** Wellen überstehen, Brut-Material bergen und verkaufen, im Depot kaufen — Waffen, Module, Fähigkeiten, Geschütze. Und **Rekruten**. Ein Rekrut hält ein Tor, das du gerade nicht halten kannst. Wenn er fällt, läuft ein Nachschubzähler; irgendwann steht ein neuer da. Du kaufst dir also kein Leben, sondern eine **Stelle**, die dauerhaft besetzt wird. Genau diese Unterscheidung ist später eine der schöneren Modellierungsfragen im Code.
 
@@ -1604,26 +1604,39 @@ Dein Marine und die drei anderen sind derselbe Typ, unterscheiden sich aber gena
 
 ---
 
-## Etappe 13 — Abklingzeiten und Nachschub ⭐
+## Etappe 13 — Bauzeit und Abklingzeit ⭐
 
 **Neue Syntax:** Objektzustand über Zeit, Weltzustand zur Laufzeit ändern
 
 | 🔨 Bauen | 🧠 Verstehen | 👀 Nur erkennen |
 |---|---|---|
-| Abklingzeit, Respawn, Nachschub, Erfahrungsschwelle — viermal dasselbe Muster | Zustand gegen Ereignis: *soll das gelten oder soll das passieren?* | Der Begriff *Scheduler* |
+| Abklingzeit, Ausfall, Nachladen, Aufstellzeit, Räumzeit, Erfahrungsschwelle — sechsmal dasselbe Muster · `welt.melde()` · `del d[key]` | Zustand gegen Ereignis: *soll das gelten oder soll das passieren?* · derselbe Zähler, zwei Spielgefühle | Der Begriff *Scheduler* · Kopplung zum zweiten Mal |
 
-**Das ist eine kleine, freundliche Etappe** — ein Zähler, ein `if`, und ein Spielmoment, den du nicht mehr vergisst. Genau deshalb steht sie direkt hinter dem Tick.
+**Zwei Portionen:** **13a** — das Zähler-Muster einmal gebaut, an der Abklingzeit, plus der Stufenaufstieg als Ereignis. **13b** — dasselbe Muster viermal weiter: eigener Ausfall, Kameraden, Basisturm, Karte. **13b ist dabei nicht nur länger, sondern konzeptionell schwerer** — dort beschreibt ein Zähler erstmals einen Zustand, der ein anderes Objekt ins Spiel bringt und die Karte verändert.
+
+**Jedes einzelne Stück ist klein und freundlich** — ein Zähler, ein `if`, und ein Spielmoment, den du nicht mehr vergisst. **Die Summe ist es nicht:** Du baust dieselben fünfzehn Minuten fünfmal, an fünf verschiedenen Objekten. Genau deshalb steht die Etappe direkt hinter dem Tick, und genau deshalb ist sie geteilt.
 
 ```python
-class Faehigkeit:
-    def update(self, welt):
-        if self.restzeit > 0:
-            self.restzeit -= 1
-            if self.restzeit == 0:
-                welt.melde(f"{self.name} ist wieder bereit.")
+    def zaehler_runter(self, welt):
+        if self.abklingzeit > 0:
+            self.abklingzeit -= 1
+            if self.abklingzeit == 0:
+                welt.melde(f"{self.name}: Fähigkeit wieder bereit.")
 ```
 
+**Der Zähler ist ein Attribut an dem Objekt, dem er gehört** — kein eigenes `Faehigkeit`-Objekt. Das lohnt sich erst, wenn eine Abklingzeit mehr kann als herunterzählen (verlängert werden, unterbrochen werden, sich stapeln), und das ist Etappe 18. Heute wäre es eine Klasse mit einem Attribut — und genau die Art Vorwegnahme, vor der der nächste Absatz warnt.
+
 Du zündest die Fähigkeit, kämpfst weiter, vergisst sie — und irgendwann meldet sie sich zurück. Der einfachste mögliche Beweis, dass dein Tick-System funktioniert.
+
+⚠️ **Der Turm, der heute gebaut wird, ist der Basisturm — nicht der Geschützturm des Engineer.** Das sind zwei verschiedene Dinge, und die Etappe hängt daran:
+
+| | Der Basisturm — **13** | Der Geschützturm des Engineer — **18** |
+|---|---|---|
+| Was er ist | ein Gebäude im Vorposten | eine Klassenfähigkeit |
+| Wie er entsteht | in der Werkstatt in Auftrag gegeben, kostet Vaporium und **Bauzeit** | eingesetzt, kostet eine Abklingzeit |
+| Wer ihn hat | **jeder**, unabhängig von der Klassenwahl | nur der Engineer |
+
+**Die dritte Zeile ist die, an der die Prämisse hängt:** *Die Klassenwahl bestimmt, wen du steuerst — nicht, was verfügbar ist.* Ein Turm, den nur der Engineer bauen könnte, machte aus einer Rollenwahl eine Fähigkeitswahl. Und es bleibt bei **genau einem Turm in der Basis**; seine fünf Ausbaustufen sind Etappe 22, und freies Bauen beliebig vieler Geschütze gehört nicht in dieses Spiel.
 
 ⚠️ **Nimm heute genau *eine* Fähigkeit, und zwar eine erfundene.** Ein Knopf, eine Abklingzeit, eine Meldung — mehr nicht. **Keine Klassenbindung, keine Voraussetzung, keine Kosten, keine Wirkung auf Gegner.** Das echte Fähigkeitensystem ist Etappe 18, und es braucht Sets, Statuseffekte und das Freischaltraster; wer es hier vorwegnimmt, baut es zweimal. Heute geht es allein darum, dass ein Zähler im Tick herunterläuft und sich am Ende meldet.
 
@@ -1633,21 +1646,24 @@ Du zündest die Fähigkeit, kämpfst weiter, vergisst sie — und irgendwann mel
 
 | System | Zähler läuft | Am Ende passiert |
 |---|---|---|
-| **Gezündete Fähigkeit** | `restzeit` | Sie ist wieder bereit |
-| **Der eigene Ausfall** | `respawnzeit` | Du stehst wieder da — mit Restmunition, nicht mit voller |
-| Gefallener Rekrut | `nachschubzaehler` | Ein neuer steht da |
-| Ausgefallener Kamerad | `ausfallzeit` | Er steht wieder auf |
-| Engineer-Turret im Aufbau | `aufstellzeit` | Er beginnt zu feuern |
+| **Gezündete Fähigkeit** | `abklingzeit` | Sie ist wieder bereit |
+| **Der eigene Ausfall** | `ausfallzeit` | Du stehst wieder da — mit Restmunition, nicht mit voller |
+| Ausgefallener Kamerad | `ausfallzeit` | Er steht wieder auf, und das Spiel hat nie gewartet |
+| Leergeschossener Kamerad | `nachladezeit` | Das Magazin ist wieder voll |
+| **Der Basisturm im Bau** | `bauzeit` | Er wird fertig und beginnt zu feuern |
+| **Der verschüttete Osttunnel** | `raeumzeit` an der **Welt** | Die Landeplattform ist erreichbar |
+
+**Die letzte Zeile ist die lehrreichste:** Der Tunnel gehört keiner Einheit, also zählt die Welt. Das Muster hat nichts mit Objekten zu tun, sondern mit Besitz — die Frage aus Etappe 9, noch einmal.
 
 ⚠️ **Der Unterschied zwischen Held und Kamerad wird hier zum ersten Mal spürbar.** Fällt ein Kamerad, läuft das Spiel weiter und du kämpfst zu dritt. Fällt **dein** Marine, wartest du. Das ist derselbe Zähler und ein völlig anderes Spielgefühl — und eine der Stellen, an denen dir auffällt, dass dieselbe Technik zwei verschiedene Dinge bedeuten kann.
 
 **Und ein fünfter Zähler, der keiner zu sein scheint:** die Erfahrung bis zur nächsten Stufe. Sie läuft nach oben statt nach unten, sonst ist sie dasselbe — Schwelle prüfen, Ereignis auslösen. Wenn du das siehst, hast du das Muster verstanden.
 
-Viermal derselbe Ablauf mit anderen Namen. Wenn du das siehst, hast du den wichtigsten Reflex dieser Etappe: **Wiederholung im Muster ist ein Hinweis, kein Zufall.** Ob du daraus schon eine gemeinsame Basisklasse machst oder erst später, ist deine Entscheidung — aber du sollst sie bewusst treffen.
+Fünfmal derselbe Ablauf mit anderen Namen. Wenn du das siehst, hast du den wichtigsten Reflex dieser Etappe: **Wiederholung im Muster ist ein Hinweis, kein Zufall.** Ob du daraus schon eine gemeinsame Basisklasse machst oder erst später, ist deine Entscheidung — aber du sollst sie bewusst treffen.
 
 💡 **Nur merken:** Man könnte das auch anders bauen — die Welt führt eine Liste von Terminen (*„bei Tick 148: MG-Turm aktivieren"*), statt dass jedes Objekt seinen eigenen Zähler mitschleppt. Das heißt **Scheduler**, es ist in großen Simulationen oft die bessere Struktur, und für dein Spiel ist der Zähler im Objekt momentan einfacher. Mehr musst du dazu heute nicht wissen — nur, dass es beide Bauarten gibt, damit du die andere in fremdem Code nicht für einen Fehler hältst.
 
-Und das Dritte in der Tabelle ist besonders: `welt.raeume_frei("osttunnel")` ändert dein `sektoren`-Dictionary **zur Laufzeit**. Deine Karte aus Etappe 5 war statische Daten. Jetzt ist sie lebendiger Zustand. Und hier zahlt die Design-Entscheidung von damals: Wenn du den blockierten Weg markiert hast, ist das eine Zeile. Wenn er fehlte, ist es ein Umbau.
+Und die letzte Zeile der Tabelle ist besonders: `welt.raeume_frei()` ändert dein `sektoren`-Dictionary **zur Laufzeit**. Deine Karte aus Etappe 5 war statische Daten. Jetzt ist sie lebendiger Zustand. Und hier zahlt die Design-Entscheidung von damals: Wenn du den blockierten Weg markiert hast, ist das eine Zeile. Wenn er fehlte, ist es ein Umbau.
 
 **Und jetzt der Begriff, der aus dieser Etappe hängen bleiben soll: Zustand ist nicht Ereignis.**
 
@@ -1675,14 +1691,17 @@ Irgendwann wirst du fragen: *Warum muss das Geschütz eigentlich die ganze Welt 
 
 **Empfehlung: jetzt Tick-Zeit.** Nicht als Kompromiss — in Etappe 28 läuft die Loop mit 60 Bildern pro Sekunde. Dann *ist* ein Tick eine Zeiteinheit, und `bauzeit = 180` sind exakt drei Sekunden. Ohne eine Zeile neue Bau-Logik. *(Und wenn dich Echtzeit wirklich reizt: dafür gibt es die `advanced/`-Reihe. Nicht jetzt.)*
 
+⚠️ **Rekruten kommen nicht hier vor, sondern in Etappe 22.** Ein Rekrut ist eine **gekaufte Stelle**, die nach ihrem Nachschubzähler neu besetzt wird — etwas anderes als ein Trupp-Kamerad, der ausfällt und wieder aufsteht. Diese Unterscheidung ist eine der schöneren Modellierungsfragen des Plans, und sie braucht die Kauf- und Vertragstabellen aus 22. Was 13 baut, ist der Kamerad mit `ausfallzeit`.
+
 **Lernziele:**
+- **Was bedeutet `bauzeit = 8` exakt? Bei welchem `welt.zeit` ist der Turm fertig?** *(Vor dem Bauen aufschreiben. Die Antwort gilt für alle fünf Zähler.)*
 - Was spricht dafür, dass das Objekt selbst zählt — und was dafür, dass die Welt eine Liste von Terminen führt?
 - Was ist der Unterschied zwischen „ist fertig" und „wurde gerade fertig" — und warum brauchst du beides?
 - Warum darf `update()` nur einmal pro Tick laufen?
 
-**Kaputtmachen:** Lass die `not self.aktiv`-Prüfung weg und schau, was ein fertiges Geschütz bei jedem weiteren Tick meldet. Setz `bauzeit = 0`.
+**Kaputtmachen:** Rück die Meldezeile eine Ebene nach links, aus dem `> 0`-Block heraus, und schau, was ein fertiges Geschütz bei jedem weiteren Tick meldet. Nimm dann die Prüfung `> 0` ganz weg. Setz `AUFSTELLZEIT = 0`.
 
-**Commit:** `Etappe 13: Das erste Geschütz`
+**Commits:** `Etappe 13a: Die Fähigkeit meldet sich zurück` · `Etappe 13b: Ausfall, Nachladen und der Basisturm`
 
 ---
 
@@ -1690,14 +1709,17 @@ Irgendwann wirst du fragen: *Warum muss das Geschütz eigentlich die ganze Welt 
 
 **Neue Syntax:** Verschachtelte Listen, 2D-Raster, `range()` über Koordinaten
 
-**Die am stärksten geteilte Etappe des Plans — und sie war vorher die überladenste.** 14a ist reine Python-Arbeit an einer Datenstruktur. 14b baut darauf Spielmechanik. Wer beides mischt, lernt weder das eine noch das andere.
+**Die am stärksten geteilte Etappe des Plans — und sie war vorher die überladenste.** 14a ist reine Python-Arbeit an einer Datenstruktur. 14b baut darauf Spielmechanik. Wer beides mischt, lernt weder das eine noch das andere. **Die Barrikade ist als 14c herausgezogen** und ausdrücklich Kür — sie lehrt nichts Neues, sie zeigt, dass man etwas schon kann.
+
+⚠️ **Der zweite Riegel, noch vor dem ersten Codeblock: Das Raster hält Gelände, keine Einheiten.** Wände, freie Felder, Tor, Spawnpunkt — das steht im Raster. Gegner und Marines haben **eigene Koordinaten** und werden beim Zeichnen in eine **Kopie** hineingemalt. Wer den Gegner ins Raster schreibt, verliert, was unter ihm lag, kann keine zwei Einheiten auf ein Feld setzen und hat keinen Ort mehr für Trefferpunkte. Das ist die Entscheidung aus Etappe 3c zum dritten Mal: *Positionen sind der Zustand, das Zeichen ist nur sein Bild.*
 
 | | 🔨 Bauen | 🧠 Verstehen | 👀 Nur erkennen |
 |---|---|---|---|
 | **14a** | Das Raster, `vorfeld[y][x]`, Gegnerbewegung, Randprüfung | Warum hier ein Raster passt und bei den Sektoren ein Dictionary | `enumerate()` |
-| **14b** | Reichweite als Set von Feldern, Sensorabdeckung, Trupp-Bewegung | Warum ein Set und keine Liste | — |
+| **14b** | `abs()`, Abstand, Reichweite als Set von Feldern, Zone, Trupp-Bewegung | Warum ein Set und keine Liste · warum Abstand und Bewegung zusammenpassen müssen | — |
+| **14c** *(Kür)* | Barrikade als Depotware, auf ein Feld gestellt | Dieselbe Prüfung zum dritten Mal | — |
 
-**Wenn dir 14b zu viel wird: lass die Sensorabdeckung weg.** Sie ist Spielmechanik, kein Python-Lernziel, und sie kann jederzeit nachkommen. Die Reichweite dagegen brauchst du in Etappe 21.
+**Wenn dir 14b zu viel wird: lass die Sensorabdeckung weg, und 14c gleich mit.** Sie ist Spielmechanik, kein Python-Lernziel, und sie kann jederzeit nachkommen. Die Reichweite dagegen brauchst du in Etappe 21.
 
 ---
 
@@ -1734,7 +1756,9 @@ for y in range(len(vorfeld)):
 
 **Dazu die Randprüfung:** Liegt `(x, y)` überhaupt auf dem Raster? Ein Gegner, der bei `x = -1` landet, greift in Python auf das *letzte* Element zu, statt abzustürzen — einer der schönsten Typ-3-Fehler der Sprache, und du kannst ihn heute selbst herbeiführen.
 
-**⚠️ Der wichtigste Riegel dieser Etappe: Heute gibt es keine Wegfindung.** Kein A\*, kein Dijkstra, keine Breitensuche. Deine Gegner gehen den direkten Weg — ein Schritt in x, ein Schritt in y, und wenn eine Wand im Weg steht, gilt eine simple Regel (an ihr entlang, oder gar nicht erst Wände dorthin bauen).
+**⚠️ Der wichtigste Riegel dieser Etappe: Heute gibt es keine Wegfindung.** Kein A\*, kein Dijkstra, keine Breitensuche. **Deine Gegner gehen den direkten Weg — einen Schritt pro Tick, auf einer Achse.** Ist das Zielfeld blockiert, bleiben sie stehen. **Es gibt keine Umgehung**, auch keine primitive: „an der Wand entlang" ist bereits Wegfindung und fällt unter denselben Riegel. Der billige Ausweg ist erlaubt und ausreichend — **bau keine Wände dorthin, wo sie jemanden festsetzen.**
+
+⭐ **Und die Entscheidung, die dabei hängenbleibt: Welche Achse bei Gleichstand?** Von `(2,2)` nach `(5,5)` sind beide Abstände gleich, und *„nimm die größere"* sagt dazu nichts. Ohne feste Regel entsteht sie trotzdem — aus der Reihenfolge der `if`-Zweige, ungeschrieben. In `GELERNT.md`.
 
 Der Reflex „Wände plus Bewegung, also brauche ich jetzt A\*" ist verständlich und die teuerste Abzweigung in diesem ganzen Plan. Wegfindung ist ein schönes Thema, es ist Informatik statt Python, und es kostet dich zwei Wochen an einer Stelle, an der du gerade verschachtelte Listen lernen wolltest. **Notier es in `GELERNT.md` als Idee für nach Etappe 27.** Dann gehört das Spiel dir, und dann ist es ein wunderbares Wochenendprojekt.
 
@@ -1763,7 +1787,7 @@ Diese drei Formen machen einen erheblichen Teil aller Schleifen aus, die dir je 
 
 **Der spätere Zahltag:** Genau dieses Raster ist das Format, in dem Pygame Tilemaps zeichnet. Dein Vorfeld wird in Etappe 29 zur ersten grafischen Karte — ohne Umbau.
 
-**Transferaufgabe (15 Min):** 3×3-Raster aus Zahlen. Berechne die Summe einer Zeile, dann die einer Spalte.
+**Transferaufgabe (15 Min):** 3×3-Raster aus Zahlen. Berechne die Summe einer Zeile, dann die einer Spalte — und lass dieselbe Spaltensumme danach über ein Raster mit **verschieden langen Zeilen** laufen. Das ist der Grund, warum die Doppelschleife `len(r[y])` fragt und nicht `len(r[0])`.
 
 **Kaputtmachen:** Vertausch `x` und `y`. Erzeug das Raster mit `[["."] * 5] * 5` und ändere ein Feld — das hängt direkt mit Etappe 4 und 10 zusammen und ist derselbe Gedanke: ein Objekt, viele Namen. Lass die Randprüfung weg und schick einen Gegner auf `x = -1`.
 
@@ -1820,7 +1844,7 @@ Sobald es Felder gibt, gibt es etwas, das man auf sie stellen kann. **Die Barrik
 
 **Kaputtmachen:** Setz die Reichweitenprüfung auf `<=` statt `<` und schau, ob ein Gegner ein Feld zu früh beschossen wird. Das läuft durch, und es ist genau die Sorte Fehler, die dich in Etappe 16 beschäftigen wird.
 
-**Commit:** `Etappe 14b: Reichweite und Bewegung`
+**Commits:** `Etappe 14b: Reichweite und Bewegung` · `Etappe 14c: Die Barrikade`
 
 ---
 
@@ -1830,7 +1854,7 @@ Sobald es Felder gibt, gibt es etwas, das man auf sie stellen kann. **Die Barrik
 
 | 🔨 Bauen | 🧠 Verstehen | 👀 Nur erkennen |
 |---|---|---|
-| Fundstücke, `erkenntnisse` als Set, Wirkung auf Depot und Kampf | Ein Ereignis verändert den Spielzustand **dauerhaft** | Der Begriff *Kopplung* |
+| Fundstücke auf Feldern, `erkenntnisse` als Set, **die Umkehrtabelle**, Wirkung auf Depot, Kampf und Bestiarium | Ein Ereignis verändert den Spielzustand **dauerhaft** · warum ein Set und kein Dictionary aus Booleans · warum die Wirkung nicht beim Fund wohnt | Der Begriff *Kopplung* — als Zeichnung |
 
 **Das Muster dieser Etappe in vier Zeilen** — und es ist eines der nützlichsten, die es in Python überhaupt gibt:
 
@@ -1844,11 +1868,19 @@ if "chitinprobe" in erkenntnisse:
 
 Etwas passiert einmal. Es wird gemerkt. Es wird später abgefragt. Damit hat dein Spiel zum ersten Mal ein Gedächtnis, das über eine Welle hinausreicht.
 
-Gefallene Gegner hinterlassen mehr als Vaporium: Chitinproben, einen halb geschmolzenen Datenkern, Sporen, die auf etwas hindeuten, das noch nicht gekommen ist. Jeder Fund setzt ein Flag in `erkenntnisse`.
+Gefallene Gegner hinterlassen mehr als Vaporium: Chitinproben, einen halb geschmolzenen Datenkern, Sporen, die auf etwas hindeuten, das noch nicht gekommen ist.
+
+⭐ **Und es sind drei Stufen, nicht zwei:** Das **Fundstück** liegt auf dem Feld, an dem der Gegner fiel (Einlösung aus 14). Der **Besitz** entsteht beim Einsammeln. Die **Erkenntnis** entsteht erst, wenn der Spieler *analysiert* — und nur sie verschwindet nie wieder. Wer beim Aufheben sofort die Erkenntnis setzt, hat dem Spieler eine Entscheidung genommen.
+
+⚠️ **Eingesammelt wird nach der Welle, und zwar nur, was in einer Truppzone liegt.** Damit bekommt die Zone aus 14b zum ersten Mal zwei Seiten: eng ist sicher, eng lässt aber auch liegen. Die Meldung *„drei Fundstücke außerhalb deiner Zonen zurückgelassen"* ist wichtiger als die Meldung über das, was du bekommen hast.
+
+⭐ **Wo eine Erkenntnis wohnt, ist die Design-Entscheidung der Etappe:** nicht beim Fundstück (dann wäre sie beim Wegwerfen weg), nicht in `GEGNERTYPEN` (das ist der Katalog, nicht der Spielstand), sondern **zentral beim Spieler**. `erkenntnisse` ist die dritte Menge derselben Familie wie `GEGNERTYPEN` und `gesehene_gegnertypen` aus Etappe 6.
 
 **Und Erkenntnisse tun etwas.** Wer die Chitinprobe analysiert hat, sieht in der Gegnerübersicht den Schwachpunkt und macht mehr Schaden. Wer den Datenkern hat, bekommt im Depot eine Ware angeboten, die vorher nicht im Sortiment war. Wer die Sporen gefunden hat, weiß, welcher Typ in Welle 12 kommt — und kann vorbauen.
 
 **Erste echte Verzahnung** von Ort, Gegenstand, Wirtschaft und Kampf. Deine Systeme reden miteinander, und das ist der Moment, in dem aus vier Bausteinen ein Spiel wird.
+
+⭐ **Und die Bauform, an der das hängt: die Umkehrtabelle.** Nicht *„wenn Erkenntnis X, dann mehr Schaden gegen Kriecher"* als `if`-Kette in der Schadensfunktion — sondern eine Tabelle **Gegnertyp → nötige Erkenntnis**, die die Funktion nachschlägt. Dann ist der vierte Fund eine Tabellenzeile und null Zeilen Logik. Dieselbe Form trägt später die Depotfreigaben (22), die Widerstände (21b) und die Fähigkeitsvoraussetzungen (18).
 
 **Erweitern ohne zu zerstören:** Füge einen vierten Fund hinzu, **ohne** die Depot-Logik oder die Schadensberechnung anzufassen. Wenn das nicht geht, ist das eine Erkenntnis über deinen Code — nicht über dein Können. Und es ist genau die Erkenntnis, die Etappe 22 vorbereitet.
 
@@ -1870,10 +1902,12 @@ Das ist alles, was du heute damit tun musst: es sehen. Der Begriff heißt **Kopp
 - Wo speicherst du eine Erkenntnis — beim Fundstück, beim Gegnertyp, oder zentral? Was spricht wofür?
 - Wie findest du in einer Liste von Objekten das erste, das eine Bedingung erfüllt?
 - Warum ist „Erkenntnis vorhanden" ein Set und kein Dictionary aus Booleans?
+- Warum steht die Zuordnung „Gegnertyp → nötige Erkenntnis" in einer Tabelle und nicht als `if`-Kette?
+- Was passiert, wenn du ein Flag-Wort an einer Stelle falsch schreibst — und warum ist das schlimmer als ein Absturz?
 
 **Leseübung (10 Min):** Ich zeige dir eine fremde Funktion, die eine Sammlung durchsucht und dabei stillschweigend annimmt, dass sie nie leer ist. Du sagst mir, unter welcher Bedingung sie abstürzt — ohne sie auszuführen.
 
-**Commit:** `Etappe 15: Was die Brut hinterlässt`
+**Commits:** `Etappe 15a: Fundstücke und Erkenntnisse` · `Etappe 15b: Erkenntnisse wirken`
 
 ---
 
@@ -1903,7 +1937,9 @@ Dann führ dasselbe mit deinem Programm aus und vergleich Zeile für Zeile. Das 
 
 Probier es aus — vertausch zwei Zeilen in deinem Tick und lass dieselbe Welle laufen. Das Ergebnis ist anders, und **nichts davon stürzt ab**. Ein Gegner, der ein Feld zu weit vorne getroffen wird, ist ein Gegner, der ein Feld zu weit vorne stirbt, und ab Welle 12 entscheidet das darüber, ob dein Tor hält.
 
-Damit hast du den vierten Fehlertyp aus dem Rahmenteil am eigenen Programm erlebt: **Reihenfolgefehler.** Es gibt keine richtige Reihenfolge, die ich dir nennen könnte — es gibt nur die, für die du dich entscheidest, und die dann überall gilt. Schreib sie in `GELERNT.md`.
+Damit hast du eine eigene Fehlerursache am eigenen Programm erlebt: **Reihenfolgefehler.**
+
+⚠️ **Und zwar keinen „vierten Fehlertyp".** Etappe 8 hat zwei Landkarten aufgespannt: die Zeitachse (Typ 1 sofort, Typ 2 irgendwann, Typ 3 nie) und die Ortfrage (sitzt der Fehler im Code oder in den Daten). **Die Reihenfolge ist eine dritte Antwort auf die Ortfrage** — der Fehler sitzt weder im Code noch in den Daten, sondern in der Abfolge, in der richtiger Code auf richtige Daten trifft. **Auf der Zeitachse ist er immer ein Typ 3.** Deshalb ist er teurer als alles aus Etappe 8. Es gibt keine richtige Reihenfolge, die ich dir nennen könnte — es gibt nur die, für die du dich entscheidest, und die dann überall gilt. Schreib sie in `GELERNT.md`.
 
 **Und ab heute schreibst du jede Fehlersuche als drei Zeilen auf, bevor du eine Zeile Code änderst:**
 
@@ -1916,6 +1952,10 @@ Experiment:    Was änderst du, um genau diese Vermutung zu prüfen — und nur 
 Das dritte Wort ist das schwerste: **nur diese.** Wer drei Dinge gleichzeitig ändert und danach feststellt, dass es läuft, hat den Fehler nicht gefunden, sondern begraben. Zwei der drei Änderungen sind jetzt unbegründet im Code und warten.
 
 **Merk dir das Formular. Es ist das, was du in Etappe 27 auf fremden Code anwendest** — dort in der Form: *„Ich verstehe diese Stelle nicht. Was vermute ich? Wie prüfe ich das?"* Das ist derselbe Vorgang, nur ohne die Erlaubnis, etwas zu ändern.
+
+⚠️ **Der Datenfehler dieser Etappe ist kein manipulierter Speicherstand** — den gibt es erst ab Etappe 19. Er ist der **Verweis ins Leere** aus Etappe 15: Ein Erkenntnis-Wort steht in zwei Tabellen, in einer davon mit einem Buchstaben Unterschied. Beide Tabellen sind für sich fehlerfrei; falsch ist nur die Beziehung zwischen ihnen, und die prüft niemand.
+
+**Und die Fahndungsliste.** Neun Etappen haben Bug-Kandidaten hinterlegt — geteilte Objekte, veränderbare Standardwerte, eine Methode ohne Klammern, parallele Listen, die Komma-Falle, drei Off-by-one-Entscheidungen. Der Guide führt sie als vierzehn Punkte auf, und jeder bekommt eines von drei Wörtern: *geprüft*, *Fund*, *trifft nicht zu*. **Man muss nicht alle finden. Man muss alle geprüft haben.**
 
 **Zusatzaufgabe:** Nimm einen der Fehler und schreib in `GELERNT.md`, *wie du vorgegangen bist* — nicht, was der Fehler war.
 

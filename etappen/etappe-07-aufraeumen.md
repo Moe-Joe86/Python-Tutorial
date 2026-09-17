@@ -1,12 +1,12 @@
 # Etappe 7 — Aufräumen
 
-*v1.3.0 · 2026-09-16*
+*v1.6.0 · 2026-09-16*
 
 > **Block 1: Fundament** · Etappe 7 von 30 · [← Etappe 6](etappe-06-datenstrukturen.md) · [Lehrplan](../Vorposten_Lehrplan.md) · [Etappe 8 →](etappe-08-die-bug-jagd.md)
 
-**Neue Syntax heute:** `def` · Parameter und Argumente · `return`, auch mehrfach im selben Körper · `return a, b` · Standardargumente · Docstrings · Scope · 👀 `global` · 👀 `assert`
+**Neue Syntax heute:** `def` · Parameter und Argumente · `return`, auch mehrfach im selben Körper · `return a, b` und Tuple-Unpacking beim Aufruf · wohin die `def`-Zeilen gehören · Standardargumente · Docstrings · Scope · `<` und `>` im Terminal · `cd` und `ls` · das Format von `befehle.txt` · `EOFError` · 👀 die zwei Ausgabekanäle und `2>` · 👀 `global` · 👀 `assert`
 
-**Zeitaufwand:** 7a: 4–5 Sitzungen · 7b: 3 Sitzungen, à 20–30 Minuten. Rund 40 Minuten davon sind Lesestoff. **Der Umbau selbst dauert länger, als es aussieht** — plan für Auftragsschritt 2 allein eine ganze Sitzung ein.
+**Zeitaufwand:** 7a: 4–5 Sitzungen · 7b: 3 Sitzungen, à 20–30 Minuten. Rund 50 Minuten davon sind Lesestoff, etwa 30 für 7a und 20 für 7b — lies jeweils nur die Portion, an der du sitzt. **Der Umbau selbst dauert länger, als es aussieht** — plan für Auftragsschritt 2 allein eine ganze Sitzung ein.
 
 **Voraussetzung:** Etappe 6 abgeschlossen, Selbsttest grün
 
@@ -112,6 +112,8 @@ print("Zeile 3")
 ```
 
 **Sag die Ausgabe vorher, bevor du es ausführst.** Vier Zeilen Code, drei Zeilen Ausgabe — in welcher Reihenfolge?
+
+⚠️ **Und daraus folgt, wohin die `def`-Zeilen in deiner Datei gehören: nach oben.** Weil `def` durchlaufen sein muss, bevor der erste Aufruf kommt — und deine Hauptschleife steht unten. Eine Funktion unter der `while`-Schleife wird nie angelegt; der Aufruf darüber findet den Namen nicht und du bekommst `NameError`. **Alle Funktionen oben, das Hauptprogramm unten.**
 
 ### 2. Parameter und Argument — zwei Wörter, ein Missverständnis
 
@@ -255,6 +257,48 @@ Was `fuelle_kiste()` tut, heißt **Seiteneffekt**: eine Wirkung, die man der Zei
 
 **Merk dir die drei Wörter als Reihenfolge:** Parameter hinein → Rückgabewert heraus → Seiteneffekt nur, wenn du ihn willst.
 
+### 5b. Wie der Zustand wieder herauskommt ⭐⭐
+
+**Konzept 5 hat ein Problem aufgemacht, und hier ist die Antwort darauf.** Lies diesen Abschnitt, bevor du Auftragsschritt 6 anfängst — ohne ihn ist er nicht lösbar.
+
+Dein Befehlsblock verändert eine Menge. Geh die Werte einmal durch und **sortier sie in zwei Spalten**:
+
+| Verändert sich von innen heraus | Verändert sich **nicht** von innen heraus |
+|---|---|
+| `vorrat["vaporium"]`, `vorrat["munition"]` — Dictionary | `aktueller_sektor` — ein String |
+| `inventar` — Liste | `geladen` — eine Zahl |
+| `freigeschaltet` — Set | die Variable, die das Spiel beendet — ein Boolean |
+| `sektoren` — Dictionary | |
+
+**Die linke Spalte ist erledigt.** Konzept 5 hat gezeigt, warum: Du änderst den *Inhalt* eines Objekts, und alle, die auf dieses Objekt zeigen, sehen die Änderung. Eine Funktion, die nur Dictionaries und Listen anfasst, braucht überhaupt keinen Rückgabewert.
+
+**Die rechte Spalte ist das Problem.** Eine Zuweisung an einen Zahl-, String- oder Boolean-Namen wirkt nicht nach draußen — und `global` hast du in der Design-Entscheidung ausgeschlossen. **Also müssen diese Werte durch die Tür wieder heraus, durch die alles herauskommt: `return`.**
+
+Und dafür gibt es eine Schreibweise, die du noch nicht kennst:
+
+```python
+def teile_mit_rest(a, b):
+    return a // b, a % b         # zwei Werte, durch Komma getrennt
+
+ganz, rest = teile_mit_rest(17, 5)
+```
+
+*(`//` und `%` kennst du aus Etappe 3c — hier stehen sie nur als Beispiel, das zwei Ergebnisse hat.)*
+
+**Das Komma macht daraus ein Tuple** — die Komma-Falle aus Etappe 6, jetzt von der nützlichen Seite. Und das Auspacken links vom `=` ist das Tuple-Unpacking aus derselben Etappe. **Beides kennst du; neu ist nur, dass sie hier zusammenkommen.**
+
+⚠️ **Die Reihenfolge ist das Risiko, nicht die Schreibweise.** Python prüft nicht, ob du sie einhältst:
+
+```python
+rest, ganz = teile_mit_rest(17, 5)     # läuft — und beide Namen sind vertauscht
+```
+
+**Kein Fehler, kein Hinweis, falsche Zahlen.** Bei zwei Werten merkt man es noch; bei vier nicht mehr. Deshalb gilt ab drei Werten: **Schreib in den Docstring, in welcher Reihenfolge sie zurückkommen** — Konzept 9 zeigt, wie.
+
+**Wofür du es außerdem brauchen wirst:** Eine Funktion, die nur den Schaden zurückgibt, zwingt den Aufrufer zum Raten — *war die 0 ein Fehlschlag oder ein Treffer auf schwere Panzerung?* Zwei Rückgabewerte beantworten das, ohne dass irgendwo ein `print` stehen muss. *(In Etappe 21a wird genau das gebraucht: `schaden, ergebnis = berechne_treffer(...)`.)*
+
+⚠️ **Und eine Warnung, die zu Konzept 7 gehört:** Wenn eine Funktion fünf Werte zurückgeben muss, ist das dasselbe Signal wie sieben Parameter. **Es ist heute in Ordnung, und es ist wieder der Grund für Etappe 9** — dort wandern diese Werte in ein Objekt, und dann reist nur noch ein Name hin und her.
+
 ### 6. Standardargumente — erweitern, ohne alte Aufrufe zu brechen
 
 ```python
@@ -365,6 +409,73 @@ python spiel.py < befehle.txt > vorher.txt
 
 Beide Zeichen gehören zum Terminal, nicht zu Python. Mehr musst du darüber heute nicht wissen.
 
+**Drei Dinge, die zu `> vorher.txt` gehören und sonst Rätsel bleiben:**
+
+- **Du legst diese Datei nicht an.** Der Befehl legt sie an. Existiert sie noch nicht, entsteht sie; existiert sie schon, wird sie **vollständig überschrieben**. Genau deshalb funktioniert das Verfahren mit zwei Namen: `vorher.txt` bleibt unangetastet, solange du nur nach `nachher.txt` schreibst.
+- **Sie landet in dem Ordner, in dem dein Terminal gerade steht.** Und das ist zugleich die Antwort auf die häufigste Fehlermeldung dieser Etappe.
+- **Dein Terminal muss im Projektordner stehen** — dort, wo `spiel.py` liegt. Steht es woanders, bekommst du:
+
+```
+python: can't open file 'spiel.py': [Errno 2] No such file or directory
+```
+
+**Das ist kein Python-Fehler, sondern ein Ortsfehler.** Der Befehl zum Wechseln heißt `cd`, gefolgt vom Pfad — `cd ~/vorposten` oder wie dein Ordner heißt. Mit `ls` (Windows: `dir`) siehst du, was im aktuellen Ordner liegt: **Steht `spiel.py` in der Liste, bist du richtig.**
+
+⚠️ **Und falls `python` bei dir gar nicht existiert:** Auf vielen Systemen heißt der Befehl `python3`. Du hast ihn in Etappe 5 schon einmal benutzt — `python3 --version`. Gilt für jeden Befehl in diesem Guide: Wo `python` steht, nimm das, was bei dir funktioniert, und bleib dann dabei.
+
+### 11b. Wie `befehle.txt` aussieht ⭐
+
+**Das ist eine ganz gewöhnliche Textdatei**, die du in deinem Editor anlegst — neben `spiel.py`, im selben Ordner. Kein Python, keine Anführungszeichen, keine Kommas, keine Aufzählungszeichen.
+
+> **Eine Zeile der Datei = eine Antwort auf ein `input()`, in der Reihenfolge, in der dein Programm fragt.**
+
+Und weil dein Programm nicht mit den Befehlen anfängt, fangen die ersten Zeilen auch nicht damit an. Dein Spiel fragt zuerst nach dem Namen (Etappe 1), dann nach der Klasse (Etappe 1), dann nach der Funkentscheidung (Etappe 2) — **erst danach kommt die Befehlsschleife aus Etappe 3b.** Eine Datei, die mit `status` in Zeile 1 beginnt, meldet dich also mit dem Namen „status" an.
+
+So sieht der Anfang einer solchen Datei aus — für ein Programm mit einem Bäcker statt einem Marine, damit du deine eigene selbst zusammenstellst:
+
+```
+Ada
+2
+ja
+status
+backen
+backen
+
+hilfe
+schnickschnack
+feierabend
+```
+
+**Lies das von oben nach unten und sag dir zu jeder Zeile, welche Frage sie beantwortet.** Die ersten drei sind die Startfragen, alles darunter sind Befehle. **Die leere Zeile in der Mitte ist kein Versehen** — sie ist der Fehlerfall „der Spieler drückt nur Enter", und genau dafür steht sie da.
+
+⚠️ **Die letzte Zeile ist ein Befehl dieser Bäckerei, kein Bauplan für dich.** Welche Befehle in *deine* Datei gehören, sagt dir dein eigenes Programm — schreib mit, was du tippst, wenn du es von Hand spielst.
+
+⚠️ **Zwei Dinge passieren beim ersten Versuch garantiert, und beide sind kein Fehler von dir:**
+
+**Erstens: In `vorher.txt` stehen die Fragen, aber nicht die Antworten.** Das sieht kaputt aus und ist richtig: Was du normalerweise tippst, erscheint nur deshalb auf dem Bildschirm, weil deine Tastatur es dorthin malt — nicht weil dein Programm es ausgibt. Aus der Datei gelesen, malt niemand etwas. Und weil ein `input()`-Text ohne Zeilenumbruch endet, kleben mehrere Fragen in einer Zeile aneinander. Auch das ist normal.
+
+**Zweitens: Wenn die Zeilen ausgehen, bricht dein Programm ab.**
+
+```
+EOFError: EOF when reading a line
+```
+
+**EOF heißt *end of file*** — die Datei ist zu Ende, und dein `input()` wartet auf eine Antwort, die nicht mehr kommt. Von der Tastatur kann man ewig warten; eine Datei ist irgendwann leer.
+
+⚠️ **Und jetzt der Teil, der überrascht: Das ist für den Beweis völlig in Ordnung.**
+
+Dein Programm hat nämlich gar keinen Befehl, der es beendet. **`beenden` beendet in deinem Spiel die *Welle*** — so hast du es in Etappe 3a gebaut, und die nächste Welle beginnt trotzdem. Enden tut dein Spiel nur auf zwei Wegen: nach der letzten Welle, oder wenn Kernintegrität oder Trefferpunkte auf null fallen. **Ein `beenden`-Befehl fürs Programm existiert im ganzen Tutorial nicht, und du brauchst heute keinen.**
+
+**Der `EOFError` schadet dem Beweis trotzdem nicht**, und der Grund ist eine Sache, die man einmal gehört haben sollte:
+
+> **Ein Programm hat zwei getrennte Ausgabekanäle: einen für normale Ausgaben, einen für Fehler.** `> vorher.txt` leitet nur den ersten um. Fehlermeldungen laufen weiter über den zweiten — auf deinen Bildschirm.
+
+Der Traceback erscheint also im Terminal und landet **nicht** in `vorher.txt`. Beide Läufe brechen an derselben Stelle ab, beide Dateien sind vollständig bis dorthin, und `diff` bleibt still. **Der Abbruch am Dateiende ist das normale Ende eines Beweislaufs.**
+
+👀 **Die beiden Kanäle heißen *stdout* und *stderr*.** Es gibt auch ein Zeichen, um den zweiten umzuleiten — `2> fehler.txt` —, und du wirst es in fremden Anleitungen sehen. **Heute brauchst du es nicht.** Ein Satz, kein Umbau.
+
+*(Wenn dich der Traceback jedes Mal stört: Du kannst deine Datei so lang machen, dass sie alle zwanzig Wellen durchläuft — eine `beenden`-Zeile pro Welle. Zwanzig Zeilen, nur um sauber auszusteigen. Meistens ist es das nicht wert.)*
+
 Dann baust du um und lässt es noch einmal laufen:
 
 ```bash
@@ -405,21 +516,38 @@ Nach **jeder einzelnen** herausgelösten Funktion ausführen. Nicht nach fünf.
 
 ### 1. Schreib die Befehlsfolge für den Beweis
 
-- Eine Textdatei `befehle.txt` mit fünfzehn bis zwanzig Zeilen, eine Eingabe pro Zeile.
-- Deck alles ab: gültige Befehle, Kauf, Freischaltung, Bewegung, Bestiarium — **und die Fehlerfälle**: leere Zeile, unbekannter Befehl, `nimm` ohne Ziel, Kauf ohne Vaporium.
-- Am Ende `beenden`.
+**Wenn du nicht weißt, wie die Datei aussehen soll: Konzept 11b zeigt es.** Kurzfassung hier, in der Reihenfolge, in der du vorgehst:
+
+1. **Leg die Datei an.** In deinem Editor eine neue Datei, gespeichert als `befehle.txt`, **im selben Ordner wie `spiel.py`**.
+2. **Start dein Spiel einmal ganz normal von Hand** und schreib mit, was du tippst — Zeile für Zeile. Das ist der einfachste Weg, die Reihenfolge nicht zu verfehlen.
+3. **Die ersten Zeilen sind die Startfragen**, nicht die Befehle: Name, Klassenzahl, Funkentscheidung. Erst danach die Befehlsschleife.
+4. **Ergänz die Fehlerfälle**: eine **leere Zeile**, ein unbekannter Befehl, `nimm` ohne Ziel, ein Kauf ohne genug Vaporium.
+5. **Deck den Rest ab**: Kauf, Freischaltung, Bewegung, Bestiarium, `status`, Feuern, Nachladen.
+6. **Am Ende brauchst du nichts Besonderes.** Dein Spiel hat keinen Befehl, der das Programm beendet — `beenden` beendet nur die Welle (Etappe 3a). Wenn die Zeilen ausgehen, bricht der Lauf mit `EOFError` ab. **Das ist erwartbar und für den Beweis unschädlich**, weil der Fehler nicht in `vorher.txt` landet. Konzept 11b erklärt, warum.
+
+Fünfzehn bis zwanzig Zeilen insgesamt. Eine Eingabe pro Zeile, sonst nichts — kein Python, keine Anführungszeichen, keine Kommas.
 
 ```bash
 python spiel.py < befehle.txt > vorher.txt
 ```
 
-**So prüfst du es:** Öffne `vorher.txt`. Steht dort ein vollständiger Spieldurchlauf? Wenn das Programm vorher abbricht, fehlt eine Eingabe — ergänz sie.
+**So prüfst du es:** Öffne `vorher.txt`. Steht dort ein vollständiger Spieldurchlauf, bis zur Abschiedsmeldung? Dann stimmt es.
+
+**Wundere dich nicht über das, was du dort siehst:** Die Fragen stehen drin, deine Antworten nicht, und mehrere Fragen kleben in einer Zeile. Das ist richtig so — Konzept 11b erklärt, warum.
+
+**Und lass dich vom `EOFError` im Terminal nicht beirren.** Er gehört dazu, solange deine Datei nicht alle zwanzig Wellen durchspielt. Entscheidend ist nur: **In `vorher.txt` steht alles, was passiert ist, bis der Lauf abbrach** — und das ist im zweiten Lauf genau dieselbe Menge.
 
 ⚠️ **Ohne diese Datei fängst du nicht an.** Sie ist der einzige Beweis, den du heute bekommst.
 
 ---
 
 ### 2. Lös die erste Funktion heraus: `zeige_status()`
+
+⚠️ **Die eigentliche Arbeit dabei ist Einrückung, und das überrascht jeden.** Dein `status`-Block steht in einem `elif`-Zweig, also zwei Ebenen tief. Im Funktionskörper gehört er **eine** Ebene tief. Jede einzelne Zeile ändert sich.
+
+**Zwei Handgriffe, die es erträglich machen:** Markier den ganzen Block und benutz die Ausrück-Taste deines Editors (⇧Tab in den meisten) statt Leerzeichen zu zählen. Und **verschieb keinen Block, dessen letzte Zeile du nicht siehst** — lieber zweimal weniger auf einmal.
+
+*(Ein `IndentationError` ist dabei der freundliche Fall. Der unfreundliche ist eine Zeile, die um eine Ebene zu tief landet und dadurch in ein `if` rutscht, in das sie nicht gehört — die läuft, und sie tut etwas anderes.)*
 
 - Nimm den Block aus deinem `status`-Zweig und pack ihn in eine Funktion.
 - Sie bekommt alles, was sie braucht, **als Parameter** — nach deiner Design-Entscheidung.
@@ -462,7 +590,7 @@ Das kostet zwei Minuten und erspart dir die Lage, in der du eine Stunde später 
 
 ### 3. Lös `berechne_schaden()` heraus
 
-- Die Platzhalterformel aus Etappe 3c — heute reicht sie den Schadenswert deiner Klasse durch.
+- **Sie nimmt den Schadenswert deiner Klasse als Parameter und gibt ihn zurück.** Mehr nicht — eine Zeile Rumpf. Was in Etappe 3c an der Feuern-Stelle stand, wird nicht mehr, sondern bekommt nur einen Ort.
 - **Sie gibt eine Zahl zurück. Sie gibt nichts aus.**
 
 **So prüfst du es:** Feuern. Die Schadenszahl muss dieselbe sein wie vorher.
@@ -494,11 +622,30 @@ Das kostet zwei Minuten und erspart dir die Lage, in der du eine Stunde später 
 
 ### 6. Lös `verarbeite_befehl()` heraus
 
+**Lies Konzept 5b, bevor du anfängst.** Ohne die Zweispaltentabelle dort ist dieser Schritt nicht lösbar, und der naheliegende Ausweg wäre `global`.
+
 - Die gesamte `if`/`elif`-Kette wandert in **eine** Funktion.
 - Auch die Eingabeaufbereitung aus Etappe 4 — `.strip()`, `.lower()`, `.split()`, die Längenprüfung.
 - Deine Hauptschleife besteht danach fast nur noch aus: Eingabe holen, Funktion aufrufen.
 
-**So prüfst du es:** Alle Befehle durchprobieren, auch die Fehlerfälle. Deine `while`-Schleife sollte jetzt in einen Bildschirm passen.
+**Und jetzt der Teil, der diesen Schritt von allen vorherigen unterscheidet.** Bevor du irgendetwas verschiebst:
+
+1. **Schreib auf, welche Werte die Kette verändert.** Alle.
+2. **Sortier sie in die zwei Spalten aus Konzept 5b.** Dictionaries, Listen und Sets links; Zahlen, Strings und Booleans rechts.
+3. **Die rechte Spalte ist deine Rückgabeliste.** Genau diese Werte gibt `verarbeite_befehl()` zurück, in einer festgelegten Reihenfolge.
+4. Die Hauptschleife nimmt sie mit Tuple-Unpacking entgegen:
+
+```
+aktueller_sektor, geladen, laeuft = verarbeite_befehl(...)
+```
+
+5. **Schreib die Reihenfolge in den Docstring**, bevor du den ersten Aufruf tippst.
+
+⚠️ **Jeder Zweig muss alle diese Werte zurückgeben — auch der, der nichts verändert.** Ein `elif`, das nur eine Meldung ausgibt und dann ohne `return` endet, liefert `None`, und dein Tuple-Unpacking bricht mit `TypeError: cannot unpack non-sequence NoneType`. **Der freundliche Fall** — er knallt sofort. Der unfreundliche ist der Zweig, der die Werte in vertauschter Reihenfolge zurückgibt.
+
+*(Wenn dir die Zeile mit drei Rückgabewerten unangenehm vorkommt: Sie soll das. Siehe die letzte Warnung in Konzept 5b.)*
+
+**So prüfst du es:** Alle Befehle durchprobieren, auch die Fehlerfälle. **Besonders die, die nichts verändern** — `status`, ein unbekanntes Wort, eine leere Eingabe. Wenn danach dein Sektor `None` heißt, hat ein Zweig sein `return` vergessen. Deine `while`-Schleife sollte jetzt in einen Bildschirm passen.
 
 ⚠️ **Und ein Satz gegen die falsche Lehre, die man hier ziehen kann:** `verarbeite_befehl()` ist danach ein großer Block, und das ist heute in Ordnung — aber **nicht**, weil eine Funktion beliebig groß sein darf, sobald sie einen Namen hat. Sie ist groß, weil du sie heute nur **verschiebst**. Zerlegt wird sie in Etappe 23a, wenn du das Werkzeug dafür hast.
 
@@ -536,7 +683,9 @@ Dann vergleichen — im Editor nebeneinander oder mit `diff vorher.txt nachher.t
 - Jeweils **ein Satz**: was kommt zurück, was wird vorausgesetzt.
 - Nicht wiederholen, was der Name schon sagt.
 
-**So prüfst du es:** `help(berechne_schaden)` im Terminal aufrufen.
+**So prüfst du es:** In einer **Wegwerf-Datei** — dem Werkzeug seit Etappe 4 — die Zeile `help(berechne_schaden)`. Dein Docstring muss erscheinen. *(`help` gibt selbst aus, ein `print` drumherum braucht es nicht.)*
+
+⚠️ **Die Funktion muss dafür in der Wegwerf-Datei bekannt sein.** Am einfachsten: Kopier die `def`-Zeile samt Rumpf hinein. *(Dass man sie stattdessen aus `spiel.py` holen kann, ohne sie zu kopieren, ist Etappe 24 — heute reicht Kopieren.)*
 
 ---
 
@@ -604,24 +753,7 @@ Das heißt konkret: `zeichne_balken(wert, maximum)` bekommt zwei Zahlen. Sie fra
 
 *(In Etappe 14a kommt `zeichne_vorfeld()` dazu, in Etappe 28 werden dieselben Funktionen ausgetauscht statt umgeschrieben, in Etappe 29 zeichnen sie Kacheln statt Zeichen. Dass das geht, entscheidest du heute.)*
 
-### 14. Zwei Werte auf einmal zurückgeben
-
-```python
-def teile_mit_rest(a, b):
-    return a // b, a % b         # zwei Werte, durch Komma getrennt
-
-ganz, rest = teile_mit_rest(17, 5)
-```
-
-*(`//` und `%` kennst du aus Etappe 3c — hier stehen sie nur als Beispiel, das zwei Ergebnisse hat.)*
-
-Das Komma macht daraus ein **Tuple** — die Komma-Falle aus Etappe 6, jetzt von der nützlichen Seite. Und das Auspacken links vom `=` ist das Tuple-Unpacking aus derselben Etappe.
-
-**Wofür du das brauchst:** Eine Funktion, die nur den Schaden zurückgibt, zwingt den Aufrufer zum Raten — *war die 0 ein Fehlschlag oder ein Treffer auf schwere Panzerung?* Zwei Rückgabewerte beantworten das, ohne dass irgendwo ein `print` stehen muss.
-
-*(In Etappe 21a wird genau das gebraucht: `schaden, ergebnis = berechne_treffer(...)`.)*
-
-### 15. 👀 `assert` — eine Behauptung, die knallt
+### 14. 👀 `assert` — eine Behauptung, die knallt
 
 ```python
 assert trinkgeld >= 0
@@ -682,7 +814,7 @@ Geh deine Funktionen aus 7a durch und such nach `print`.
 - `kaufe()` und `schalte_frei()` dürfen melden — sie sprechen mit dem Spieler. **Aber die Rechnung darin nicht.**
 - Wo eine Logikfunktion etwas mitteilen will: **Rückgabewert statt Ausgabe.** Der Aufrufer entscheidet, ob und wie es angezeigt wird.
 
-**So prüfst du es:** Kannst du `berechne_schaden()` im Terminal aufrufen und mit dem Ergebnis rechnen, ohne dass etwas auf dem Bildschirm erscheint?
+**So prüfst du es:** Kannst du `berechne_schaden()` in einer **Wegwerf-Datei** aufrufen und mit dem Ergebnis rechnen, ohne dass etwas auf dem Bildschirm erscheint?
 
 ---
 
@@ -743,6 +875,10 @@ Die Liste ist mehr wert, als du gerade denkst — sie ist deine Vorlage für Eta
 
 ## Selbsttest
 
+**7a — die zwei Punkte, an denen es heute am ehesten schiefgeht:**
+- [ ] Alle `def`-Zeilen stehen **über** dem Hauptprogramm.
+- [ ] `verarbeite_befehl()` gibt in **jedem** Zweig alle Werte zurück — auch in `status` und im Fehlerfall — und die Reihenfolge steht im Docstring.
+
 Prüft den Zustand deines Programms, nicht dein Gefühl. Führ jeden Punkt tatsächlich aus.
 
 - [ ] ⭐ **`diff vorher.txt nachher.txt` gibt nichts aus**
@@ -762,6 +898,8 @@ Prüft den Zustand deines Programms, nicht dein Gefühl. Führ jeden Punkt tats�
 ---
 
 ## Lernziele
+
+0. **Welche Werte einer Funktion ändern sich von innen heraus, welche nicht — und was folgt daraus für den Rückgabewert?** *(Konzept 5b. Das ist die Frage, an der Auftragsschritt 6 hängt.)*
 
 Ohne Nachschlagen, in eigenen Worten.
 
@@ -854,7 +992,15 @@ Alles in `GELERNT.md`, mit einem Satz dazu: **woran du es erkannt hättest.**
 | `IndentationError` direkt nach `def` | Der Körper ist nicht eingerückt | Die Zeile unter `def` |
 | `UnboundLocalError: local variable 'x' referenced before assignment` | Irgendwo im Körper steht eine Zuweisung an `x` — damit gilt `x` ab der ersten Zeile als lokal | Konzept 5, Warnkasten |
 | Nach `python spiel.py < befehle.txt > vorher.txt` erscheint nichts auf dem Bildschirm | Richtig so — die Ausgabe liegt in der Datei | `vorher.txt` öffnen |
-| Das Programm bricht mitten im Durchlauf ab | `befehle.txt` hat weniger Zeilen als das Spiel `input()`-Aufrufe hat | Eine Eingabe ergänzen, Auftragsschritt 1 |
+| `EOFError: EOF when reading a line` | Die Zeilen von `befehle.txt` sind ausgegangen | Konzept 11b — **erwartet**, landet nicht in `vorher.txt`, `diff` bleibt still |
+| `NameError: name 'zeige_status' is not defined` | Die `def`-Zeile steht **unter** der Stelle, die sie aufruft | Konzept 1 — alle Funktionen nach oben |
+| `TypeError: cannot unpack non-sequence NoneType` | Ein Zweig von `verarbeite_befehl()` endet ohne `return` | Schritt 6 — jeder Zweig gibt alle Werte zurück |
+| Werte sind nach dem Umbau vertauscht | Die Rückgabereihenfolge stimmt nicht mit dem Unpacking überein | Konzept 5b — steht sie im Docstring? |
+| `python: can't open file 'spiel.py'` | Das Terminal steht im falschen Ordner | Konzept 11 — `cd`, dann `ls` |
+| Eine Zeile tut nach dem Verschieben etwas anderes | Sie ist eine Ebene zu tief gerutscht und steckt jetzt in einem `if` | Schritt 2 — blockweise aus- und einrücken |
+| `vorher.txt` endet früher als erwartet | `befehle.txt` hat weniger Zeilen als das Spiel `input()`-Aufrufe hat | Kein Fehler, solange **beide** Läufe gleich weit kommen — sonst Eingaben ergänzen |
+| In `vorher.txt` stehen Fragen ohne Antworten, mehrere in einer Zeile | Eingaben aus einer Datei werden nicht auf den Bildschirm gemalt, und `input()`-Texte enden ohne Zeilenumbruch | Konzept 11b — das ist kein Fehler |
+| Der Spieler heißt „status" | Die Datei beginnt mit einem Befehl statt mit der Antwort auf die erste Frage | Konzept 11b — erst Name, Klasse, Funkentscheidung |
 | Nichts passiert beim Ausführen | Die Funktion ist definiert, aber nie aufgerufen | `def` legt an, es tut nichts |
 | `diff` zeigt Unterschiede, obwohl du nur verschoben hast | Beim Verschieben eine Zeile verändert oder verloren | Die zuletzt herausgelöste Funktion — nur die |
 | `diff` zeigt Unterschiede in Leerzeilen | Ein `print()` zu viel oder zu wenig beim Verschieben | Zeichengenau vergleichen, nicht ungefähr |

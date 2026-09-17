@@ -1,8 +1,8 @@
 # Etappe 12 — Der Tick
 
-*v1.1.0 · 2026-09-16*
+*v1.1.2 · 2026-09-16*
 
-> **Block 2: Einheiten und Zeit** · Etappe 12 von 30 · [← Etappe 11](etappe-11-vererbung.md) · [Lehrplan](../Vorposten_Lehrplan.md) · Etappe 13 →
+> **Block 2: Einheiten und Zeit** · Etappe 12 von 30 · [← Etappe 11](etappe-11-vererbung.md) · [Lehrplan](../Vorposten_Lehrplan.md) · [Etappe 13 →](etappe-13-bauzeit-und-abklingzeit.md)
 
 **Neue Syntax heute:** `self` als Argument weitergeben (`einheit.update(self)`) · ein Methodenkörper, der nur aus einem Docstring besteht · Status als String am Objekt · `return` ohne Wert · Sammeln und danach entfernen · 👀 `pass` · 👀 der Begriff *Zustandsautomat* · 👀 der Begriff *Kopplung*
 
@@ -63,7 +63,7 @@ Diese Etappe zahlt mehr zurück als jede andere im Block. Sechs Schulden auf ein
 - **Der Rundenzähler aus Etappe 3b wird zu `self.zeit`** — und damit zum ersten Mal ein Wert, den andere Teile des Spiels lesen.
 - **„Eine Liste nicht verändern, während man über sie läuft"** aus Etappe 4 war ein Übungsfall mit einer Anmarschbahn. Heute ist es dein Spiel, und der Fehler überspringt Gegner, die dich gerade angreifen.
 - **Die Frage aus Etappe 3b** — *welcher Befehl kostet eine Runde?* — kommt in ihrer erwachsenen Form zurück: **Welche Spieleraktion löst einen Tick aus?** Damals ein `if`, heute eine Entscheidung mit Folgen.
-- **Die `Einheit`-Basisklasse aus Etappe 11** zeigt heute, wozu sie da war. Eine Schleife, ein Aufruf, und jedes Objekt tut das Seine — Marines, Gegner, ab Etappe 13 auch ein Geschützturm.
+- **Die `Einheit`-Basisklasse aus Etappe 11** zeigt heute, wozu sie da war. Eine Schleife, ein Aufruf, und jedes Objekt tut das Seine — Marines, Gegner, ab Etappe 13 auch der Basisturm.
 
 ---
 
@@ -92,7 +92,7 @@ Deine Anmarschbahn braucht Gegner mit einer Entfernung. Deine Marines haben kein
 
 ⚠️ **Was das *nicht* heißt:** Die beiden Listen sind keine parallelen Sammlungen wie `gegner` und `gegner_typen` aus Etappe 6. Die mussten gleich lang bleiben und über den Index zusammenpassen. Diese hier haben nichts miteinander zu tun — sie enthalten verschiedene Dinge, in verschiedener Anzahl. **Zwei Listen sind nur dann ein Fehler, wenn sie sich einen Index teilen.**
 
-*(Der Geschützturm aus Etappe 13 kommt in den `trupp`. Er ist kein Marine, aber er steht auf deiner Seite und tickt wie alle anderen — das ist der Punkt an der `Einheit`-Basis.)*
+*(Der Basisturm aus Etappe 13 kommt in den `trupp`. Er ist kein Marine, aber er steht auf deiner Seite und tickt wie alle anderen — das ist der Punkt an der `Einheit`-Basis.)*
 
 **Schreib deine Entscheidung in `GELERNT.md`**, auch wenn du dem Plan folgst. In Etappe 22 kommt die Frage zurück.
 
@@ -929,7 +929,7 @@ if self.zeit == 40:
 
 ## Ein Blick nach vorne
 
-**Etappe 13 hängt sich als Erstes an den Tick.** Abklingzeiten, Bauzeiten, Nachschub und dein eigener Ausfall mit Respawn-Zähler — alle vier sind dasselbe Muster: ein Zähler, der pro Tick um eins sinkt. Dein `tick()` von heute bekommt eine Phase dazu, und mehr passiert dort nicht.
+**Etappe 13 hängt sich als Erstes an den Tick.** Abklingzeiten, die Bauzeit des Basisturms, Nachladen und dein eigener Ausfall mit Respawn-Zähler — alle sind dasselbe Muster: ein Zähler, der pro Tick um eins sinkt. Dein `tick()` von heute bekommt eine Phase dazu, und mehr passiert dort nicht.
 
 **Etappe 14a macht aus `entfernung` ein `(x, y)`** — und deine `update()`-Methoden sind die Stellen, die das merken. In 14b lernen die Kameraden laufen, und aus „in Reichweite" wird eine Rechnung.
 
@@ -976,4 +976,4 @@ Erst bei grünem Selbsttest.
 
 ---
 
-> **Nächste Etappe:** Etappe 13 — Abklingzeiten und Nachschub · dasselbe Zähler-Muster dreimal an einem Abend, und dein eigener Ausfall ist nicht mehr das Ende
+> **Nächste Etappe:** [Etappe 13 — Bauzeit und Abklingzeit](etappe-13-bauzeit-und-abklingzeit.md) · dasselbe Zähler-Muster fünfmal, ein Turm im Vorposten, und dein eigener Ausfall ist nicht mehr das Ende

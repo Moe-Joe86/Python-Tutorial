@@ -1,6 +1,6 @@
 # Der Bogen — Register aller Vorausverweise
 
-*v2.20.0 · 2026-09-16*
+*v3.5.0 · 2026-09-16*
 
 > Verbindlicher Anhang zum [Lehrplan](Vorposten_Lehrplan.md). Das Gegenstück dazu ist [`SYNTAX.md`](SYNTAX.md), das Register der Werkzeuge: Der Bogen führt Buch über Versprechen zwischen Etappen, das Syntaxregister darüber, welches Werkzeug ab wann zur Verfügung steht. Diese Datei ist die einzige Quelle der Wahrheit für alles, was eine frühe Etappe verspricht und eine späte einlösen muss.
 
@@ -55,7 +55,7 @@ Chronologisch nach Etappe. Spalte „Status": `offen` = noch nicht eingelöst, `
 |---|---|---|
 | `letzte_meldung` als Variable statt als Satz | **17** — die Aufzeichnung ist achtzehn Tage alt | offen |
 | `kern_integritaet` (angelegt, noch ohne Wirkung) | **3a** — Abbruchbedingung, inklusive Knobelstelle ✓; **17** — Vergleich mit dem Startwert | **teilweise eingelöst** ✓ (3a) |
-| ⭐ **Zwei Verlustbedingungen nebeneinander** — `kern_integritaet` (die Basis) und `trefferpunkte` (die eigene Figur) | **3a** — beide beenden den Lauf, zwei Prüfungen statt einer; **9a** — `trefferpunkte` wandert in den Marine, `kern_integritaet` bleibt bei der Welt; **13** — der eigene Ausfall bekommt einen Respawn-Zähler | offen |
+| ⭐ **Zwei Verlustbedingungen nebeneinander** — `kern_integritaet` (die Basis) und `trefferpunkte` (die eigene Figur) | **3a** — beide beenden den Lauf, zwei Prüfungen statt einer; **9a** — `trefferpunkte` wandert in den Marine, `kern_integritaet` bleibt bei der Welt; **13** — der eigene Ausfall bekommt einen Respawn-Zähler | **eingelöst** ✓ (13) |
 | **Die Namensfalle dazu:** zwei Gesundheitswerte, die nie verwechselt werden dürfen | **5** — dort steht die Regel für gleichlautende Namen; **16** — Kandidat für die Bug-Jagd | offen |
 | `wellen_bis_evakuierung` als feste Zahl | **3a** — `range(1, 21)` ✓; **17** — der Wellengenerator skaliert daran | **teilweise eingelöst** ✓ (3a) |
 | Prinzip: Weltzustand speichern, nicht nur ausgeben | **12** — der gesamte Tick beruht darauf | **eingelöst** ✓ (12) |
@@ -101,8 +101,8 @@ Chronologisch nach Etappe. Spalte „Status": `offen` = noch nicht eingelöst, `
 |---|---|---|
 | **3a:** `for` über die Wellen, `while` über die Runden | **12** — jeder Rundendurchlauf löst einen Tick aus | **eingelöst** ✓ (12) |
 | **3a: Die Hauptschleife selbst** | **28** — wird zur Pygame-Loop mit 60 fps | offen |
-| **3a:** Zwei Schleifenebenen, also zwei Einrückungstiefen | **14a** — die Doppelschleife über das Raster | offen |
-| **3a:** `range()` | **14a** — Schleifen über das Vorfeldraster | offen |
+| **3a:** Zwei Schleifenebenen, also zwei Einrückungstiefen | **14a** — die Doppelschleife über das Raster | **eingelöst** ✓ (14a) |
+| **3a:** `range()` | **14a** — Schleifen über das Vorfeldraster | **eingelöst** ✓ (14a) |
 | **3a:** `range()` zählt ab 0, die zweite Zahl ist ausgeschlossen | **4** — derselbe Grund, warum der erste Listenindex 0 ist ✓; **8** — Off-by-One als eigene Fehlerkategorie | **eingelöst** ✓ |
 | **3a:** `break` beim Wellenende | **20** — die Abbruchbedingungen werden validiert | offen |
 | ⭐ **3a: Knobelstelle — Abbruch von innen nach außen** (erste Aufgabe ohne gezeigtes Verfahren) | **12** — dieselbe Frage beim Beenden des Ticks; **19** — dort wird vor dem Beenden gespeichert | offen |
@@ -115,19 +115,19 @@ Chronologisch nach Etappe. Spalte „Status": `offen` = noch nicht eingelöst, `
 | **3b:** `else`-Zweig für unbekannte Befehle | **5** — wächst um `umsehen`, `gehe`, `depot`, `kaufe` ✓; **20** — wird echte Fehlerbehandlung | **teilweise eingelöst** ✓ (5) |
 | **3b: Design-Entscheidung Befehlssprache** (heute einwortig, bewusst) | **4** — der Umbau auf Verb + Ziel findet statt, und er wird als Erfahrung ausgewertet ✓; **5** — `kaufe medkit` und `gehe norden` ✓; **25** — Befehle als Content | **teilweise eingelöst** ✓ (4, 5) |
 | **3b:** Befehl `beenden` (Schreibweise als Entscheidung festgelegt) | **19** — dort wird vor dem Beenden gespeichert | offen |
-| **3b: Design-Entscheidung — welche Befehle kosten eine Runde?** (Auskunft kostet nichts, Handlung schon) | **12** — dieselbe Frage als „welche Spieleraktion löst einen Tick aus?"; **13** — Bauzeit läuft nur bei vergehender Zeit; **21a** — erst dadurch wird Nachladen eine echte Wahl | **teilweise eingelöst** ✓ (12) |
+| **3b: Design-Entscheidung — welche Befehle kosten eine Runde?** (Auskunft kostet nichts, Handlung schon) | **12** — dieselbe Frage als „welche Spieleraktion löst einen Tick aus?"; **13** — Bauzeit läuft nur bei vergehender Zeit; **21a** — erst dadurch wird Nachladen eine echte Wahl | **teilweise eingelöst** ✓ (12, 13) |
 | **3a: Drei Ebenen für Variablen** (vor den Schleifen · pro Welle · pro Runde) ⭐ | **7a** — dort heißt das Verhalten *Scope* ✓; **12** — Weltzustand gehört der Welt | **teilweise eingelöst** ✓ (7a) |
-| **3a: Zwei Abbruchbedingungen — `kern_integritaet` *und* `trefferpunkte`** — Einlösung aus **1** und **2** | **13** — nur eine der beiden bekommt einen Respawn-Zähler | offen |
+| **3a: Zwei Abbruchbedingungen — `kern_integritaet` *und* `trefferpunkte`** — Einlösung aus **1** und **2** | **13** — nur eine der beiden bekommt einen Respawn-Zähler; ab dort beendet **nur noch der Kern** den Lauf | **eingelöst** ✓ (13) |
 | **3a: Entwicklerbefehle sind erlaubt und werden am Ende entfernt** | **3c** — eigener Aufräumschritt; **8** — sie wären sonst Verdächtige bei der Fehlersuche | **eingelöst** ✓ |
 | **3c: `nachladen_noetig` bekommt endlich einen Wert** — Einlösung aus **2** | **18** — zwei Werte, die dasselbe sagen, sind eine Fehlerquelle | offen |
-| ⭐ **3c: `erfahrung` — ein Zähler, der beim Kill steigt** (heute nur eine Zahl in der Anzeige, ohne Wirkung) | **5** — die Stufenschwellen kommen als Dictionary dazu; **9a** — wird Attribut des Marine; **13** — „Erfahrung bis zur nächsten Stufe" ist dasselbe Zählermuster wie ein Cooldown; **18** — Stufen zahlen Skillpunkte aus | offen |
+| ⭐ **3c: `erfahrung` — ein Zähler, der beim Kill steigt** (heute nur eine Zahl in der Anzeige, ohne Wirkung) | **5** — die Stufenschwellen kommen als Dictionary dazu; **9a** — wird Attribut des Marine; **13** — „Erfahrung bis zur nächsten Stufe" ist dasselbe Zählermuster wie ein Cooldown; **18** — Stufen zahlen Skillpunkte aus | **teilweise eingelöst** ✓ (13) |
 | **3c: Zwei Werte für dieselbe Aussage** (`munition > 0` und `nachladen_noetig`) | **18** — Zustandsverwaltung; **16** — Kandidat für die Bug-Jagd | offen |
 | **3c: Was aus Zustand entsteht, wird beim Anzeigen erzeugt, nicht aufbewahrt** (Balkenlänge) | **4** — dasselbe für die Anmarschbahn ✓; **7b** — die Rechnung wohnt in `zeichne_balken()` ✓; **28** — 60-mal pro Sekunde | **teilweise eingelöst** ✓ (4, 7b) |
 | **3b: Wo eine Variable angelegt wird, entscheidet, wann sie neu gesetzt wird** ⭐ | **7a** — dort bekommt das Verhalten den Namen *Scope* ✓; **12** — Weltzustand gehört der Welt | **teilweise eingelöst** ✓ (7a) |
 | **3b:** Rundenzähler mit `+=` | **12** — wird zu `self.zeit`, der Weltzeit | **eingelöst** ✓ (12) |
 | **3c:** Anzahl Gegner hängt an der Wellennummer (**Formel vom Lernenden selbst gewählt**) | **17a** — wird zum Budget-System | offen |
 | **3c:** Platzhalter-Kampfformel (fester Schaden) | **7a** — wird zu `berechne_schaden()` ✓; **21a** — wird zum System | **teilweise eingelöst** ✓ (7a) |
-| **3c:** Nachladen kostet eine Runde, Nachschauen nicht (erste echte Spielentscheidung) | **13** — dasselbe Muster als Bauzeit; **21a** — Teil des Balancings | offen |
+| **3c:** Nachladen kostet eine Runde, Nachschauen nicht (erste echte Spielentscheidung) | **13** — dasselbe Muster als Bauzeit; **21a** — Teil des Balancings | **teilweise eingelöst** ✓ (13) |
 | **3c:** Notizliste „was fühlt sich falsch an" | **21a** — Grundlage des Balancings | offen |
 | **3c: Darstellung: Balken statt Zahlen** | **4** — die Anmarschbahn kommt daneben ✓; **7b** — wandert in `zeichne_balken()` | **teilweise eingelöst** ✓ (4) |
 | **3c:** Balken zeigt ungültige Werte sichtbar an — **und soll sie nicht begrenzen** | **8** — Typ-3-Fehler an der Darstellung erkennen | **eingelöst** ✓ |
@@ -143,15 +143,15 @@ Chronologisch nach Etappe. Spalte „Status": `offen` = noch nicht eingelöst, `
 | `inventar` als Liste von Strings | **11** — wird zur Liste von `Item`-Objekten | **eingelöst** ✓ (11c) |
 | **Zwei identische Gegenstände sind nicht unterscheidbar** („welches Medkit?") | **11** — genau deshalb werden aus Strings Objekte | **eingelöst** ✓ (11c) |
 | Obergrenze 10 Gegenstände | **20** — „Inventar voll" als abgefangener Fall | offen |
-| Index ab 0 — Einlösung aus **3a** | **14a** — `vorfeld[y][x]` im Raster | offen |
+| Index ab 0 — Einlösung aus **3a** | **14a** — `vorfeld[y][x]`, und `>= len(...)` in der Randprüfung | **eingelöst** ✓ (14a) |
 | **Einen Eintrag über den Index ersetzen** (`liste[i] = wert`) | **6** — dasselbe an zwei parallelen Listen, dort mit `.pop(i)` daneben; **14a** — jedes Feld des Rasters wird so gesetzt; **23a** — dieselbe Absicht als List Comprehension | offen |
-| `len()` | **14a** — `range(len(vorfeld))` | offen |
+| `len()` | **14a** — `range(len(vorfeld))`, und `len(r[y])` statt `len(r[0])` | **eingelöst** ✓ (14a) |
 | `for` über eine Sammlung statt über `range()` | **12** — der Tick läuft über Trupp und Gegner; **14a** — dieselbe Schleife über ein Raster | **teilweise eingelöst** ✓ (12) |
-| ⭐ **Gegner = Positionszahl** — die Liste ist der Zustand, das `"K"` gehört nur in die Darstellung | **11** — aus der Zahl wird ein Objekt mit HP und Typ; **12** — das Objekt tickt; **14a** — aus der Zahl wird `(x, y)`; **19** — dieser Zustand wird gespeichert | **teilweise eingelöst** ✓ (11, 12) |
+| ⭐ **Gegner = Positionszahl** — die Liste ist der Zustand, das `"K"` gehört nur in die Darstellung | **11** — aus der Zahl wird ein Objekt mit HP und Typ ✓; **12** — das Objekt tickt ✓; **14a** — aus `entfernung` wird `(x, y)` ✓; **19** — dieser Zustand wird gespeichert | **teilweise eingelöst** ✓ (11, 12, 14a) |
 | Gegnerliste der laufenden Welle — **keine Zählvariable mehr, `len()` ist die Anzahl** | **12** — wird zu `welt.gegner`. ⚠️ **Abweichung von der ursprünglichen Vorgabe:** Es entsteht **keine** gemeinsame `einheiten`-Liste. Der Tick läuft über `trupp` und `gegner` getrennt, weil eine gemeinsame Liste beim Zeichnen und bei der Zielsuche wieder die Typfrage erzwingen würde, die **11** gerade abgeschafft hat. Die Design-Entscheidung steht im Guide zu 12. | **eingelöst** ✓ (12) |
 | **Die Bahn wird jede Runde neu erzeugt, nicht verändert** | **7b** — `zeichne_bahn()` ✓; **14a** — dasselbe für das Raster; **28** — dasselbe 60-mal pro Sekunde | **teilweise eingelöst** ✓ (7b) |
 | 👀 **Zuweisen an die Schleifenvariable ändert die Liste nicht** (`for pos in gegner: pos += 1` bewegt nichts) | **11** — ab dort *kann* man den Eintrag über die Schleifenvariable ändern, weil er ein Objekt ist | **eingelöst** ✓ (11a) |
-| ⚠️ **`range(len(...))` nur bei echtem Indexbedarf** — sonst `for ding in liste` | **14a** — dort ist der Indexbedarf echt | offen |
+| ⚠️ **`range(len(...))` nur bei echtem Indexbedarf** — sonst `for ding in liste` | **14a** — dort ist der Indexbedarf echt | **eingelöst** ✓ (14a) |
 | **Liste nie verändern, während man darüber läuft** (Typ-3-Fehler) | **12** — als echtes Problem beim Tick; **16** — Kandidat für die Bug-Jagd | **teilweise eingelöst** ✓ (12) |
 | `in` bei einer Liste | **6** — Gegenüberstellung Liste / Set / Dictionary | offen |
 | `remove()` scheitert an fehlendem Element | **20** — wird zu `try` / `except` | offen |
@@ -159,17 +159,17 @@ Chronologisch nach Etappe. Spalte „Status": `offen` = noch nicht eingelöst, `
 | `.split()` für Zwei-Wort-Befehle | **5** — `kaufe medkit` und `gehe norden` ✓; **7a** — wohnt in `verarbeite_befehl()` ✓ | **eingelöst** ✓ |
 | Befehl ohne zweites Wort (`nimm` allein) | **20** — wird sauber abgefangen | offen |
 | **Design-Entscheidung 1: Kennung oder Anzeigename?** | **5** — das Depot ist die zweite Stelle, und die Entscheidung wird dort ausdrücklich nachgeprüft ✓; **11** — `item.id` / `item.name`; **25** — die Kennung wird JSON-Schlüssel | **teilweise eingelöst** ✓ (5) |
-| **Design-Entscheidung 2: Ist die Bahn der Zustand oder nur sein Bild?** ⭐ — **der Plan legt sich hier fest: Positionen sind der Zustand** | **12** — nur ein eigenständiger Zustand lässt sich ticken; **14a** — beim Raster wird die Entscheidung fällig; **19** — nur Zustand wird gespeichert; **28** — nur so bleibt die Logik grafikfähig | **teilweise eingelöst** ✓ (12) |
+| **Design-Entscheidung 2: Ist die Bahn der Zustand oder nur sein Bild?** ⭐ — **der Plan legt sich hier fest: Positionen sind der Zustand** | **12** — nur ein eigenständiger Zustand lässt sich ticken ✓; **14a** — Riegel 2 macht die Entscheidung endgültig ✓; **19** — nur Zustand wird gespeichert; **28** — nur so bleibt die Logik grafikfähig | **teilweise eingelöst** ✓ (12, 14a) |
 | **Die Frage „Menge oder mehrere unterscheidbare Dinge?"** (Munition bleibt eine Zahl) | **6** — dieselbe Frage für vier Strukturen; **25** — welche Inhalte werden JSON | offen |
 | Vaporium als Währung | **5** — der Kaufvorgang, und Vaporium wandert in den `vorrat` ✓; **22** — Kosten in den Tabellen | **teilweise eingelöst** ✓ (5) |
 | Mengen lassen sich mit Listen schlecht führen (mehrmals `"vaporium"`) | **5** — das `vorrat`-Dictionary löst das ✓ | **eingelöst** ✓ |
-| Der Datenkern der Brut (heute nutzlos) | **15** — wird zur ersten Erkenntnis | offen |
+| Der Datenkern der Brut (heute nutzlos) | **15** — wird zur ersten Erkenntnis | **eingelöst** ✓ (15) |
 | ⚠️⭐ **Grundsatz: Aus der Brut fällt nichts, was ein Mensch anlegen kann** — kein Vaporium, keine Munition, keine Panzerplatte. Beute ist Rohstoff plus Rätsel | **5** — die Panzerplatte ist reine Depotware ✓; **17a** — auch seltene Beute bleibt biologisch; **25** — gilt für fremden Content | **teilweise eingelöst** ✓ (5) |
 | **Typspezifische Beute** — heute fällt bei jedem Gegner dasselbe; ein Speier soll später eine **Säuredrüse** hinterlassen, ein Kriecher nicht | **6** — dort entstehen die Gegnertypen, an die sich Beute hängen kann; **17a** — Zahltag: Typen bekommen Gewichte, Beute wird typgebunden | offen |
 | 💡 **Seltene Beute als Werkstoff** — ein *perfekt erhaltener* Chitinpanzer, aus dem sich eine **Chitinpanzerplatte** herstellen lässt (besser als die gekaufte Panzerplatte) | **17a** — er setzt Gewichte voraus, vorher gibt es keine Seltenheit. **Das Herstellen selbst braucht die Werkstatt aus 13** — und weil 13 vor 17a liegt, ist die Reihenfolge zu klären, bevor das gebaut wird | **Idee, nicht terminiert** |
-| ⭐ *(Kür)* Der untersuchbare Datenkern — eine Zeile, die nichts auflöst | **15** — dort wird sie aufgelöst. *Entfällt, wenn die Kür entfällt.* | offen |
-| **Darstellung: die Anmarschbahn als eine Zeile** ⭐ | **7b** — wandert in `zeichne_bahn()` ✓; **14a** — wird zum Raster aus vielen Zeilen | **teilweise eingelöst** ✓ (7b) |
-| Gegnerposition ↔ Zeichen an dieser Stelle (zwei Dinge) | **14a** — Position als Tuple, Zeichen aus dem Raster | offen |
+| ⭐ *(Kür)* Der untersuchbare Datenkern — eine Zeile, die nichts auflöst | **15** — dort wird sie aufgelöst; der Guide fängt den Fall ab, dass die Kür damals entfiel | **eingelöst** ✓ (15) |
+| **Darstellung: die Anmarschbahn als eine Zeile** ⭐ | **7b** — wandert in `zeichne_bahn()` ✓; **14a** — `zeichne_bahn()` wird **gelöscht** und durch `zeichne_vorfeld()` ersetzt ✓ | **eingelöst** ✓ (7b, 14a) |
+| Gegnerposition ↔ Zeichen an dieser Stelle (zwei Dinge) | **14a** — Riegel 2: das Raster hält Gelände, Einheiten haben eigene Koordinaten | **eingelöst** ✓ (14a) |
 | Darstellung als Debugging-Werkzeug | **8** — sichtbare Fehler statt gelesener; **16** — Reihenfolgefehler im Tick | **teilweise eingelöst** ✓ (8) |
 | **Reihenfolge: zeichnen vor oder nach dem Bewegen?** (Kaputtmach-Experiment 6) | **16** — daraus wird eine eigene Bug-Jagd; **12** — die Tick-Phasen | **teilweise eingelöst** ✓ (12) |
 | **Baureihenfolge: ein Gegner → mehrere → entfernen** (drei Schritte, nicht einer) | **8** — genau dieses Halbieren ist das Suchverfahren; **14a** — dieselbe Staffelung beim Raster | **teilweise eingelöst** ✓ (8) |
@@ -182,13 +182,13 @@ Chronologisch nach Etappe. Spalte „Status": `offen` = noch nicht eingelöst, `
 | Was angelegt wird | Wo es eingelöst wird | Status |
 |---|---|---|
 | **Dictionary = Zuordnung Schlüssel → Wert** (zuerst an einem Nicht-Spiel-Beispiel) | **19** — genau diese Form ist JSON; **25** — Content-Format | offen |
-| `sektoren` als verschachteltes Dictionary | **13** — wird zur Laufzeit verändert | offen |
+| `sektoren` als verschachteltes Dictionary | **13** — wird zur Laufzeit verändert | **eingelöst** ✓ (13) |
 | `WAREN` als flaches Dictionary | **22** — bekommt Kosten, Voraussetzungen, Ausbaustufen | offen |
 | Die Wahl flach ↔ verschachtelt als bewusste Entscheidung | **14a** — Dict oder Raster; **19** — Struktur ↔ Dateiformat | offen |
 | Trennung Daten ↔ Code | **25** — Inhalt wandert komplett nach `content/` | offen |
-| **Entscheidung: versiegelter Sektor fehlt oder ist markiert** — **empfohlen ist „fehlt"**; bei „markiert" bekommt der Sektor ein zweites flaches Dictionary (Richtung → Grund) und `gehe` drei Fälle statt zwei | **13** — bestimmt, wie `raeume_frei()` gebaut wird; **18** — Zustand mit Bedingung ist dasselbe Muster | offen |
+| **Entscheidung: versiegelter Sektor fehlt oder ist markiert** — **empfohlen ist „fehlt"**; bei „markiert" bekommt der Sektor ein zweites flaches Dictionary (Richtung → Grund) und `gehe` drei Fälle statt zwei | **13** — bestimmt, wie `raeume_frei()` gebaut wird (beide Varianten sind im Guide ausgeführt); **18** — Zustand mit Bedingung ist dasselbe Muster | **teilweise eingelöst** ✓ (13) |
 | **Entscheidung: ausverkaufte Ware fliegt raus oder bleibt mit Bestand 0** | **22** — bestimmt, wie leicht Ausbaustufen einzubauen sind | offen |
-| Die Landeplattform als unerreichbarer Ort | **13** — wird freigeräumt; **17** — dort landet das Evakuierungsschiff | offen |
+| Die Landeplattform als unerreichbarer Ort | **13** — wird freigeräumt; **17** — dort landet das Evakuierungsschiff | **teilweise eingelöst** ✓ (13) |
 | `aktueller_sektor` als Zustandsvariable | **9** — wird zu `marine.sektor`; **19** — Teil des Speicherstands | offen |
 | `in` prüft beim Dict den **Schlüssel** | **6** — Gegenüberstellung Liste/Set/Dict | offen |
 | Verschachtelte Struktur (Dict im Dict) | **19** — genau diese Form ist JSON; **25** — Content-Format | offen |
@@ -196,7 +196,7 @@ Chronologisch nach Etappe. Spalte „Status": `offen` = noch nicht eingelöst, `
 | `.get()` für sicheren Zugriff — **eckige Klammern, wenn Fehlen ein Bug wäre; `.get()`, wenn es der Normalfall ist** | **20** — die leichtere Alternative zu `try` / `except` | offen |
 | Tippfehler **links vom `=`** legt still einen Eintrag an; Tippfehler beim **Lesen** stürzt ab | **8** — Typ-3-Fehler erkennen; **25** — Schlüssel aus fremden Dateien | **teilweise eingelöst** ✓ (8) |
 | `.items()` zum Iterieren | **12** — über alle Einheiten laufen | offen |
-| Zuweisung ändert die Karte zur Laufzeit | **13** — `welt.raeume_frei()` ist genau diese Zeile | offen |
+| Zuweisung ändert die Karte zur Laufzeit | **13** — `welt.raeume_frei()` ist genau diese Zeile | **eingelöst** ✓ (13) |
 | Der Kaufvorgang prüft drei Bedingungen | **20** — drei Bedingungen werden drei Exceptions | offen |
 | **Größe** eines Dictionaries nicht ändern, während man iteriert (Werte ändern ist erlaubt) — Python knallt hier, wo eine Liste still das Falsche tut | **12** — dasselbe bei Einheiten | **eingelöst** ✓ (12) |
 | Fehlerklasse „inkonsistente Daten" — **zwei Stufen: Richtung fehlt (wird abgefangen) gegen Zielname fehlt (stürzt trotz Prüfung ab)** | **25** — bei externem Content die häufigste Fehlerart | offen |
@@ -212,10 +212,10 @@ Chronologisch nach Etappe. Spalte „Status": `offen` = noch nicht eingelöst, `
 | **`STAPELBAR` als zweite flache Tabelle neben `WAREN`** — zwei parallele Dictionaries mit denselben Schlüsseln | **22** — dort werden sie zu **einer** verschachtelten Tabelle zusammengezogen; **25** — als JSON-Objekt pro Ware | offen |
 | **Der Kauf kennt keine Warennamen** ⭐ (Preis wird nachgeschlagen statt abgefragt) | **22** — die Tabellen funktionieren nach demselben Prinzip; **23a** — dieselbe Ablösung für die Befehlskette; **25** — Content aus JSON | offen |
 | ⭐ **Die Bedingung dafür: Es geht nur ohne Logikänderung, wenn *alles* in den Daten steht, was die Logik fragt** | **22** — dort scheitert es, wenn eine Eigenschaft fehlt; **25** — die Frage an jedes JSON-Feld; **26** — Tests prüfen die Vollständigkeit | offen |
-| **Ein Befehl hängt zum ersten Mal vom Ort ab** (`kaufe` nur im Depot) | **13** — Bauen nur in der Werkstatt; **14b** — Reichweite als Ortsbedingung | offen |
+| **Ein Befehl hängt zum ersten Mal vom Ort ab** (`kaufe` nur im Depot) | **13** — `raeume` nur am Osttor; **14b** — Reichweite als Ortsbedingung | **teilweise eingelöst** ✓ (13) |
 | `int()` beim Kauf einer Menge — Einlösung aus **1** | **20** — `ValueError` bei `drei` statt `3` wird abgefangen | offen |
 | Der Wirtschaftskreislauf schließt sich (Brut → Material → verkaufen → Vaporium → kaufen → Munition → Brut) | **21a** — Balancing hat ab hier einen Kreislauf zu balancieren | offen |
-| ⭐ *(Kür)* Die Werkbank, an der nichts geht | **13** — dort wird an ihr gebaut. *Entfällt, wenn die Kür entfällt.* | offen |
+| ⭐ *(Kür)* Die Werkbank, an der nichts geht | **13** — dort wird der **Basisturm** an ihr in Auftrag gegeben; die Werkstatt bekommt damit ihren ortsgebundenen Befehl. *Entfällt, wenn die Kür entfällt.* | **eingelöst** ✓ (13) |
 | ⭐ **`integritaet` pro Sektor** — ein Wert, der sich zur Laufzeit ändert **und** nach dem Laden noch stimmen muss | **11 (Konzept)** — das Beispiel für veränderlichen Laufzeitzustand; **13** — Sektoren nehmen einzeln Schaden, `repariere` hebt sie; **17b** — ein Sektor kann endgültig fallen; **19** — muss in den Spielstand, anders als die Beschreibungen | offen |
 | ⚠️⭐ **Der Kern wechselt die Rolle: von einer Zahl (seit 1) zu einem Ort (ab 5) — und bleibt beides** | **9a** — `kern_integritaet` bleibt draußen, wenn die Werte in den Marine ziehen; **12** — sie bekommt ihr Zuhause in der `Welt`, der Sektor bleibt bei der Karte | **eingelöst** ✓ (9a, 12) |
 | ⚠️ **Der Sektor `"kern"` bekommt *keine* eigene `integritaet`** — sonst zwei Zahlen für denselben Reaktor | **5 selbst** — Konzept 0, Auftragsschritt 1 und 3, Selbsttest ✓; **12** — dort wird sichtbar, wem welcher Wert gehört | **eingelöst** ✓ (5) |
@@ -250,12 +250,12 @@ Chronologisch nach Etappe. Spalte „Status": `offen` = noch nicht eingelöst, `
 | `"schnellfeuer"` — zwei Schuss in einer Runde, passiver Ausbau für alle Klassen | **18** — dort ist der **Durchschlag** des Heavy etwas anderes: ein Schuss auf mehrere Ziele in einer Reihe, als Fähigkeit mit Abklingzeit. Die Abgrenzung dort ausdrücklich benennen, sonst liest sie sich wie eine Wiederholung | offen |
 | ⚠️ **Die Ausbauten aus 6 wirken über Munition und Gegnerzahl, nicht über Schaden** — der Schadenswert aus **2** hat bis **11** keinen Verbraucher, weil ein Gegner mit einem Treffer fällt | **11** — Gegner bekommen eigene Trefferpunkte, ab da wirkt Schaden überhaupt; **21a** — die Formel | offen |
 | `KLASSEN` als Tuple | **11** — die Klassenhierarchie; **20** — Eingabe validieren | **teilweise eingelöst** ✓ (11b) |
-| Tuple als unveränderliche Liste (`KLASSEN`) — **ohne Koordinaten-Vorgriff** | **10** — `self.position` als Tuple, ohne Wirkung ✓; **14a** — dort wird `(x, y)` das eigentliche Beispiel | **teilweise eingelöst** ✓ (10) |
-| Tuple als Dictionary- und Set-Element | **14b** — Koordinaten in einer Menge | offen |
+| Tuple als unveränderliche Liste (`KLASSEN`) — **ohne Koordinaten-Vorgriff** | **10** — `self.position` als Tuple, ohne Wirkung ✓; **14a/b** — `(x, y)` als Set-Eintrag und als `welt.tor` ✓ | **eingelöst** ✓ (10, 14a, 14b) |
+| Tuple als Dictionary- und Set-Element | **14b** — Koordinaten in einer Menge | **eingelöst** ✓ (14b) |
 | Die Komma-Falle: `(5)` ist kein Tuple, `(5,)` schon | **21a** — Rückgabe zweier Werte; **16** — Kandidat für die Bug-Jagd | offen |
 | Tuple-Unpacking (`for a, b in ...`) | **12** — über Einheiten und ihre Zustände laufen | offen |
 | 👀 Mengenoperationen (`&`, `\|`, `-`) | **18** — „welche Voraussetzungen fehlen noch?" | offen |
-| Set für abgedeckte Felder | **14b** — Reichweite eines Geschützes | offen |
+| Set für abgedeckte Felder | **14b** — Reichweite von Turm und Kameraden | **eingelöst** ✓ (14b) |
 | Sets und Tuples lassen sich nicht als JSON speichern | **19** — Design-Entscheidung beim Speichern | offen |
 | Unterscheidung „kein gültiges Wort" ↔ „hier nicht möglich" | **20** — dieselbe Trennung bei allen Befehlen | offen |
 | „Modellierungsentscheidung" als Begriff | **14a** — Dict oder Raster; **19** — Struktur ↔ Dateiformat | offen |
@@ -265,14 +265,14 @@ Chronologisch nach Etappe. Spalte „Status": `offen` = noch nicht eingelöst, `
 
 | Was angelegt wird | Wo es eingelöst wird | Status |
 |---|---|---|
-| ⭐ **`GEGNERTYPEN` als verschachteltes Dictionary** (Kennung → langer und kurzer Text) | **15** — Erkenntnisse hängen sich an denselben Eintrag; **17a** — dieselben Einträge bekommen Kosten; **25** — wandert nach `content/` | offen |
+| ⭐ **`GEGNERTYPEN` als verschachteltes Dictionary** (Kennung → langer und kurzer Text) | **15** — Erkenntnisse hängen sich **daneben**, nicht hinein: der Katalog bleibt unverändert, die dritte Menge `erkenntnisse` steht neben `gesehene_gegnertypen` ✓; **17a** — dieselben Einträge bekommen Kosten; **25** — wandert nach `content/` | **teilweise eingelöst** ✓ (15) |
 | ⭐ **`gegner_typen` als zweite Liste parallel zu `gegner`**, über den Index verbunden | **11** — beide Listen kollabieren zu **einer** Liste von Objekten | **eingelöst** ✓ (11a) |
 | ⭐ **Der Schmerz paralleler Listen** — beim Entfernen muss an **zwei** Stellen derselbe Index getroffen werden; `remove()` nach Wert trägt nicht mehr | **11** — genau dieser Schmerz ist die Begründung für Objekte; **16** — Kandidat für die Bug-Jagd | **teilweise eingelöst** ✓ (11a) |
 | **`.pop(i)` und `del liste[i]` — über die Stelle entfernen statt über den Wert** — Einlösung aus **4** (Index schreiben) | **11** — eine Liste von Objekten braucht denselben Griff; **14a** — Felder des Rasters gezielt leeren | offen |
 | **Eine Liste über den Index aufbauen** (die Stelle entscheidet, was hineinkommt) | **14a** — jede Rasterzeile entsteht so; **17a** — der Wellengenerator ersetzt die feste Regel; **23a** — dieselbe Absicht als Comprehension | offen |
 | Entfernen über den **Index** statt über den Wert (`pop`), rückwärts oder mit gesammelten Indizes | **11** — entfällt, weil ein Objekt eine Sache ist; **12** — dasselbe Problem im Tick | **eingelöst** ✓ (11, 12) |
-| `gesehene_gegnertypen` als Set | **15** — Erkenntnisse bauen darauf auf; **25** — Gegnertypen kommen aus JSON | offen |
-| Erstbegegnung ausführlicher als jede spätere | **15** — Erkenntnisse verändern die Anzeige | offen |
+| `gesehene_gegnertypen` als Set | **15** — `erkenntnisse` ist dieselbe Bauform, dritte Menge derselben Familie ✓; **25** — Gegnertypen kommen aus JSON | **teilweise eingelöst** ✓ (15) |
+| Erstbegegnung ausführlicher als jede spätere | **15** — dritte Stufe: nie gesehen ↔ gesehen ↔ analysiert | **eingelöst** ✓ (15) |
 | Wellenzusammenstellung als `if`/`elif` über die Wellennummer | **17a** — der Budget-Generator ersetzt die Kette | offen |
 | Die Anmarschbahn zeigt **verschiedene Zeichen je Typ** | **14a** — dieselbe Zuordnung Typ → Zeichen im Raster; **29** — Typ → Kachel | offen |
 | `bestiarium` als Auskunftsbefehl, kostet keine Runde — Anwendung aus **3b** | **12** — welche Spieleraktion löst einen Tick aus | **eingelöst** ✓ (12) |
@@ -293,7 +293,7 @@ Chronologisch nach Etappe. Spalte „Status": `offen` = noch nicht eingelöst, `
 | 👀 **7a: `global` als verlockende Abkürzung, bewusst abgelehnt** | **9a** — Klassen lösen das Problem, das `global` nur zudeckt | offen |
 | **7a:** `berechne_schaden()` | **21a** — wird zur echten Kampfformel; **26** — erster `parametrize`-Test | offen |
 | 👀 **7b:** „Was muss immer gelten?" (Testdenken, **kein** Testeinstieg) | **21a** — drei `assert`-Zeilen zur Schadensformel; **26** — dieselben Fragen als `pytest` | offen |
-| 👀 **7b: `assert` als geprüfte Behauptung** — drei Zeilen, dann ist das Thema erledigt | **13** — Zähler-Invarianten; **20** — prüfen ↔ fangen; **26** — `pytest` ist derselbe `assert` im Rahmen | offen |
+| 👀 **7b: `assert` als geprüfte Behauptung** — drei Zeilen, dann ist das Thema erledigt | **13** — Zähler-Invarianten; **20** — prüfen ↔ fangen; **26** — `pytest` ist derselbe `assert` im Rahmen | **teilweise eingelöst** ✓ (13) |
 | Lesefrage: „welche Annahmen macht diese Funktion?" | **23** — Lesekriterium bei fremdem Code; **27** — bei einem ganzen Repo | offen |
 | Der Verhaltens-Beweis (Charakterisierungstest) | **26** — wird zum automatischen Testlauf | offen |
 | **7b: Entscheidung `return` statt `print` in der Logik** | **21a** — zwei Rückgabewerte statt einer Meldung; **26** — nur so ist die Kampffunktion testbar; **28** — nur so bleibt die Logik grafikfähig | offen |
@@ -317,7 +317,7 @@ Chronologisch nach Etappe. Spalte „Status": `offen` = noch nicht eingelöst, `
 | **7b:** `zeichne_balken(wert, maximum)` **ersetzt zwei fast gleiche Blöcke** | **14a** — dieselbe Funktion für Rasterzeilen; **28** — wird ausgetauscht | offen |
 | **7b: Reinheitsprüfung der Zeichenfunktionen** (rechnet nichts, entscheidet nichts, kennt die Welt nicht) | **28** — nur reine Zeichenfunktionen lassen sich austauschen; **29** — Kacheln statt Zeichen | offen |
 | **7b:** Die Balkenrechnung wohnt in der Zeichenfunktion — Einlösung aus **3c** | **14a** — dasselbe für das Raster | offen |
-| **7b:** Genau **ein** `assert` im Spielcode (`schaden >= 0`) | **13** — Zähler-Invarianten; **26** — wird zum Test | offen |
+| **7b:** Genau **ein** `assert` im Spielcode (`schaden >= 0`) | **13** — Zähler-Invarianten, aufgeschrieben statt geprüft; **26** — wird zum Test | **teilweise eingelöst** ✓ (13) |
 | 👀 **7a:** Der Aufrufstapel (Kür) | **8** — genau den liest man in jedem Traceback | **eingelöst** ✓ |
 
 ### Etappe 8 — Bug-Jagd I ⭐
@@ -328,17 +328,17 @@ Chronologisch nach Etappe. Spalte „Status": `offen` = noch nicht eingelöst, `
 | Tracebacks von unten nach oben lesen | durchgehend — bis **30** das häufigste Werkzeug | offen |
 | Der Debugger (Breakpoints, Step, Variablen) | **9b** — Objektzustand aufklappen; **12** — den Tick beobachten; **14a** — Bewegung im Raster | **teilweise eingelöst** ✓ (12) |
 | **Bedingte Breakpoints** | **12** — „halt an, wenn `welle == 7`"; **17b** — zusammen mit dem Seed die schärfste Kombination des Plans | **teilweise eingelöst** ✓ (12) |
-| Ursache und Symptom trennen | **16** — dort liegen sie weiter auseinander, und dort wird das Formular daraus | offen |
-| **Beobachtung → Hypothese → Experiment** (als Denkform angelegt) | **16** — wird zum verbindlichen Dreizeiler; **27** — dieselbe Form ohne Änderungserlaubnis | offen |
+| Ursache und Symptom trennen | **16** — der Abstand ist dort nicht in Zeilen, sondern in **Ticks** ✓ | **eingelöst** ✓ (16) |
+| **Beobachtung → Hypothese → Experiment** (als Denkform angelegt) | **16** — verbindlicher Dreizeiler, plus die **Rückwärtsprobe** ✓; **27** — dieselbe Form ohne Änderungserlaubnis | **teilweise eingelöst** ✓ (16) |
 | Halbieren als Suchverfahren | **24** — welches Modul ist schuld | offen |
-| Das schriftliche Debugging-Protokoll | **16** — wird nachgelesen und geschärft | offen |
+| Das schriftliche Debugging-Protokoll | **16** — drei vollständige Einträge, **mindestens einer mit falscher Hypothese** ✓ | **eingelöst** ✓ (16) |
 | Das Fehlertagebuch — **eine Zeile aus zwei Teilen: Symptom, dann der Fundweg** | **26** — jeder Eintrag ist ein Testkandidat; das Symptom ist dort das Material, der Fundweg bleibt der Schwerpunkt | offen |
 | Einen Fehler präzise beschreiben (vier Punkte) | **23** — dieselbe Fähigkeit bei fremdem Code | offen |
 | `git diff` / `git log` als Debugging-Werkzeug | **24** — dort zusammen mit Branches | offen |
 | Abgrenzung Debugging ↔ Fehlerbehandlung | **20** — warum nacktes `except:` gefährlich ist | offen |
-| Fehler in den **Daten** statt im Code | **16** — manipulierter Speicherstand; **25** — bei externem Content die häufigste Sorte | offen |
-| **Die Funktion, die ihren eigenen Docstring bricht** (Transferaufgabe: verändert die übergebene Liste, obwohl sie das Gegenteil zusagt) | **15** — dieselbe Sorte, dann als stille Annahme in fremdem Code; **20** — Zusagen an Funktionsgrenzen prüfen | offen |
-| Die Darstellung als Fehleranzeiger benutzen | **16** — Reihenfolgefehler im Tick werden sichtbar | offen |
+| Fehler in den **Daten** statt im Code | **16** — ⚠️ **Korrektur:** kein manipulierter Speicherstand, den gibt es erst ab **19**. Stattdessen der **Verweis ins Leere** zwischen zwei Tabellen aus **15** — beide Tabellen für sich fehlerfrei ✓; **19** — dort kommt der Speicherstand dazu; **25** — bei externem Content die häufigste Sorte | **teilweise eingelöst** ✓ (16) |
+| **Die Funktion, die ihren eigenen Docstring bricht** (Transferaufgabe: verändert die übergebene Liste, obwohl sie das Gegenteil zusagt) | **15** — Leseübung: `dringendster_fall()` nimmt stillschweigend an, die Liste sei nie leer ✓; **20** — Zusagen an Funktionsgrenzen prüfen | **teilweise eingelöst** ✓ (15) |
+| Die Darstellung als Fehleranzeiger benutzen | **16** — Phasenausgabe mit `### PHASE n` macht den Tick sichtbar ✓ | **eingelöst** ✓ (16) |
 | **Die repr-Form** (`!r` im f-String, und `p` im Debugger zeigt sie von selbst) | **9b** — `__repr__` macht dasselbe für eigene Objekte; ohne heute fehlt dort der Anlass | offen |
 | **Der bewusste Verzicht auf `try`/`except`** — ein Absturz beim Entwickeln ist ein Fund, kein Ärgernis | **20** — dort erst die Fehlerbehandlung, samt der Warnung vor nacktem `except:` | offen |
 
@@ -350,7 +350,7 @@ Chronologisch nach Etappe. Spalte „Status": `offen` = noch nicht eingelöst, `
 | **9a:** Klasse `Gegner` | **11** — gemeinsame Basis mit `Marine`; **17a** — wird aus Typen erzeugt | **teilweise eingelöst** ✓ (11a, 11b) |
 | **9a:** `self` bündelt den Zustand | **12** — `self.zeit`; durchgehend | **eingelöst** ✓ (12) |
 | **9a:** `trefferpunkte`, `erfahrung` und `level` werden Attribute des Marine — Einlösung aus **1** und **3c** | **11** — jede Unterklasse steigt anders; **18** — `level` schaltet Fähigkeiten frei; **19** — Teil des Speicherstands | offen |
-| **9a: `kern_integritaet` bleibt bei der Welt, nicht beim Marine** | **12** — `Welt` ist das Objekt, dem sie gehört; **13** — Basiswerte ticken mit | **teilweise eingelöst** ✓ (12) |
+| **9a: `kern_integritaet` bleibt bei der Welt, nicht beim Marine** | **12** — `Welt` ist das Objekt, dem sie gehört; **13** — Basiswerte ticken mit | **teilweise eingelöst** ✓ (12, 13) |
 | **9b:** `__repr__` | **12** — zwanzig Einheiten lesbar im Debugger; **8**-Rückgriff | **eingelöst** ✓ (12) |
 | **9b:** Doppelte Unterstriche sind Haken für Python | **11** — `__len__`, `__contains__`, `__iter__` (dort 👀) | **eingelöst** ✓ (11c) |
 | Erste Leseübung — **Stufe 1 der Leseleiter** | **12** — Stufe 2; **17** — Stufe 3; **23b** — Stufe 4; **27** — die Prüfung | **teilweise eingelöst** ✓ (12) |
@@ -365,9 +365,9 @@ Chronologisch nach Etappe. Spalte „Status": `offen` = noch nicht eingelöst, `
 | Slots mit `None` | **19** — `null` in JSON; **23** — `| None` in Typannotationen | offen |
 | **`None` ≠ `0`** (keine Waffe ≠ leere Waffe) | **18** — die `or`-Falle bei `0`; **20** — unterschiedliche Fehlermeldungen | offen |
 | `is None` statt `== None` | durchgehend — Lesegewohnheit für fremden Code | offen |
-| `self.position` als Tuple | **14a** — Position im Raster | offen |
+| `self.position` als Tuple | **14a** — Position im Raster; ⚠️ **Abweichung:** die Koordinate liegt als **zwei Attribute** `x` und `y` am Objekt, nicht als ein Tuple. Tuples bleiben für Adressen, die weitergereicht werden (`welt.tor`, Set-Einträge) — ein Tuple lässt sich nicht ändern, eine bewegte Einheit aber schon | **eingelöst** ✓ (14a) |
 | **Objektidentität: zwei Namen, ein Objekt** — Einlösung aus **4**, jetzt an eigenen Klassen | **14a** — `[["."] * 5] * 5`; **16** — Bug-Kandidat; **19** — was beim Laden neu erzeugt wird | offen |
-| Reflex: *„verändern sich zwei Dinge gemeinsam — sind es überhaupt zwei?"* | **16** — genau diese Frage findet den Bug | offen |
+| Reflex: *„verändern sich zwei Dinge gemeinsam — sind es überhaupt zwei?"* | **16** — Fahndung 6, 7 und 13 ✓ | **eingelöst** ✓ (16) |
 | Geteilte Objekte als Fehlerquelle | **16** — Kandidat für die Bug-Jagd | offen |
 | Veränderbarer Standardwert in `__init__` | **16** — subtiler, weil er erst beim zweiten Objekt auffällt | offen |
 | „hat ein" als Alternative zu „ist ein" | **11** — die Vererbungsfrage braucht diesen Vergleich | **eingelöst** ✓ (11b) |
@@ -380,19 +380,19 @@ Chronologisch nach Etappe. Spalte „Status": `offen` = noch nicht eingelöst, `
 
 | Was angelegt wird | Wo es eingelöst wird | Status |
 |---|---|---|
-| `Einheit` als gemeinsame Basis | **12** — der Tick läuft über alle Einheiten; **13** — Bauzeit und Nachschub teilen ein Muster | **teilweise eingelöst** ✓ (12) |
+| `Einheit` als gemeinsame Basis | **12** — der Tick läuft über alle Einheiten; **13** — Bauzeit und Nachschub teilen ein Muster | **teilweise eingelöst** ✓ (12, 13) |
 | Die vier Marine-Klassen | **21a** — unterschiedliche Formeln; **22** — die Frage, ob sie Daten sein sollten | offen |
 | **Vier Objekte gleichzeitig — hier entsteht der Trupp** (Einlösung aus **2**) | **12** — drei davon autonom; **14b** — sie bewegen sich; **18** — sie nutzen Fähigkeiten | **teilweise eingelöst** ✓ (12) |
-| ⭐ **Einer ist der gesteuerte Held, drei sind Kameraden** — gleiche Basisklasse, verschiedene Steuerungsquelle | **12** — der Held handelt auf Befehl, die drei im `update()`; **13** — nur der Held hat einen Respawn-Zähler, der das Spiel anhält; **18** — Fähigkeiten hat jeder, aber nur der Held wählt sie | **teilweise eingelöst** ✓ (12) |
-| ⭐ **Jede Marine-Klasse bekommt ihre eigene Fähigkeit** — das ist ab hier der eigentliche Unterschied zwischen den Unterklassen, nicht mehr nur die Werte | **13** — jede Fähigkeit bekommt einen Cooldown; **18** — Freischaltung über `level`; **22** — die Frage, ob Fähigkeiten Daten sein sollten | offen |
-| **Der mobile Geschützturm des Engineer** — eine *Fähigkeit*, kein Gebäude, und höchstens einer gleichzeitig | **12** — er landet im `trupp` und tickt mit (im Guide benannt, gebaut wird er in 13); **13** — Aufstelldauer und Cooldown; **14b** — er hat Reichweite wie der Trupp | offen |
+| ⭐ **Einer ist der gesteuerte Held, drei sind Kameraden** — gleiche Basisklasse, verschiedene Steuerungsquelle | **12** — der Held handelt auf Befehl, die drei im `update()`; **13** — nur der Held hat einen Respawn-Zähler, der das Spiel anhält; **18** — Fähigkeiten hat jeder, aber nur der Held wählt sie | **teilweise eingelöst** ✓ (12, 13) |
+| ⭐ **Jede Marine-Klasse bekommt ihre eigene Fähigkeit** — das ist ab hier der eigentliche Unterschied zwischen den Unterklassen, nicht mehr nur die Werte | **13** — die Abklingzeit sitzt in der Oberklasse, die Unterklassen rufen sie mit `super()` auf; **18** — Freischaltung über `level`; **22** — die Frage, ob Fähigkeiten Daten sein sollten | **teilweise eingelöst** ✓ (13) |
+| **Der mobile Geschützturm des Engineer** — eine *Fähigkeit*, kein Gebäude, und höchstens einer gleichzeitig | ⚠️ **Korrektur:** Er gehört **nicht** nach 13. Der Klassengerät-Faden sperrt Klassenbindung bis **18**; was 13 baut, ist der **Basisturm** (Gebäude, klassenunabhängig, Werkstatt). **18** — Aufstelldauer und Abklingzeit als echte Klassenfähigkeit; **14b** — Reichweite wie der Trupp | offen |
 | 👀 **Komposition als dritter Weg** (benannt, nicht gebaut) | **22** — dritte Spalte der Entscheidungstabelle; **10**-Rückgriff | offen |
 | **Die schriftliche Frage „brauchen wir Vererbung?"** | **22** — Wiedervorlage mit den Fähigkeitentabellen; **25** — die Antwort zeigt sich in JSON | offen |
 | `Item` → `Waffe`, `Panzerung`, `Modul`, `Verbrauchsgut` | **21b** — Schadenstypen; **22** — Ausbaustufen | offen |
 | 👀 `__len__`, `__contains__`, `__iter__` — **keine Implementierungsaufgabe** | **23a** — Comprehensions über eigene Objekte | offen |
 | 👀 `@property` (`am_leben`) — erkennen, nicht bauen | **12** — Prüfung im Tick; **23b** — Dekoratoren allgemein | offen |
 | `@property` ohne Klammern ist immer truthy | **16** — genau dieser Typ-3-Fehler | offen |
-| `super().__init__()` | **13** — gemeinsame Basis für Zähler-Objekte | offen |
+| `super().__init__()` | **13** — ⚠️ **Abweichung:** es entsteht **keine** Zähler-Basisklasse. Zähler sind Attribute an dem Objekt, dem sie gehören; `Geschuetz` erbt von `Einheit` wie alle anderen. Begründung im Guide zu 13 (Design-Entscheidung); Wiedervorlage in **22** | **eingelöst** ✓ (13) |
 | Die `elif`-Kette aus Etappe 2 stirbt hier | — Einlösung | offen |
 | **Die Vererbungsfrage schriftlich in `GELERNT.md`** | **22** — Gegenprobe an den Tabellen; **25** — Endprobe beim Verdaten | offen |
 | ⭐ **Der Ablauf Entscheidung → Erfahrung → Gegenprobe → Revision** — die Antwort wird mit Datum und Begründung festgehalten, weil man aus dem Gedächtnis immer die heutige Entscheidung rekonstruiert | **22** und **25** — dort wird sie herausgeholt und **vor** dem Urteil gelesen | offen |
@@ -407,23 +407,23 @@ Chronologisch nach Etappe. Spalte „Status": `offen` = noch nicht eingelöst, `
 
 | Was angelegt wird | Wo es eingelöst wird | Status |
 |---|---|---|
-| `Welt.tick()` und `self.zeit` | **13** — Bauzeiten; **17** — Ereignisse; **18** — Statuseffekte; **22** — alles auf demselben Takt | offen |
-| 👀 `update(self, welt)` — Einheiten kennen die Welt (**nur bemerken, nichts reparieren**) | **13** — der Kopplungs-Umweg; **15** — die Kopplungszeichnung; **23b** — Alternativen beim Lesen fremden Codes | offen |
+| `Welt.tick()` und `self.zeit` | **13** — Bauzeiten; **17** — Ereignisse; **18** — Statuseffekte; **22** — alles auf demselben Takt | **teilweise eingelöst** ✓ (13) |
+| 👀 `update(self, welt)` — Einheiten kennen die Welt (**nur bemerken, nichts reparieren**) | **13** — der Kopplungs-Umweg; **15** — die Kopplungszeichnung ✓; **23b** — Alternativen beim Lesen fremden Codes | **teilweise eingelöst** ✓ (13, 15) |
 | Status als String (`gegner.status = "tot"`) — zwei Zeilen, mehr nicht | **21b** — `Enum` löst die Strings ab | offen |
 | 👀 Der Begriff **Zustandsautomat** (benannt, nicht ausgebaut) | **21b** — dort bekommt er benannte Werte | offen |
 | Sammeln und danach entfernen | — Einlösung aus **4**; **16** — bleibt Bug-Kandidat | offen |
 | 👀 **Die Tick-Reihenfolge ist eine Entscheidung** — heute nur aufschreiben, nicht optimieren | **16** — dort wird sie zur Tick-Tabelle und zur eigenen Fehlerklasse | offen |
 | Einheiten merken sich, wo sie waren | **17** — Material für Ereignisse und Meldungen | offen |
 | Ein Tick pro Befehl | **20** — auch bei ungültigem Befehl?; **28** — ein Tick pro Bild | offen |
-| **Leseleiter Stufe 2** (Ablauf auf Papier verfolgen) | **16** — genau so findet man Reihenfolgefehler | offen |
+| **Leseleiter Stufe 2** (Ablauf auf Papier verfolgen) | **16** — zum ersten Mal auf **eigenen** Code angewandt, an `tick()` ✓ | **eingelöst** ✓ (16) |
 | **Trupp-KI Stufe 1: feuern, wenn in Reichweite** | **14b** — Bewegung kommt dazu; **18** — Fähigkeiten kommen dazu | offen |
-| Unterscheidung gesteuert ↔ autonom | **13** — autonome Objekte mit Zählern; **23a** — Strategien als Funktionen | offen |
-| **Die Einheitenliste nimmt Fremdkörper auf** — Trupp, Engineer-Turret, später Söldner ticken über denselben Weg | **13** — jeder von ihnen bringt einen eigenen Zähler mit; **22** — sie kommen aus Tabellen; **23a** — dieselbe Zielauswahl für alle | offen |
-| ⚠️ **Design-Entscheidung: zwei Listen statt einer** — `welt.trupp` und `welt.gegner`, **keine** gemeinsame `einheiten`-Liste. Der Turm aus **13** und die Söldner aus **22** kommen in den `trupp` | **16** — die zwei Schleifen machen die Tick-Reihenfolge im Code sichtbar; **22** — die Frage wird dort wiedervorgelegt | offen |
+| Unterscheidung gesteuert ↔ autonom | **13** — autonome Objekte mit Zählern, und `gesteuert` entscheidet die Ausfalldauer; **23a** — Strategien als Funktionen | **teilweise eingelöst** ✓ (13) |
+| **Die Einheitenliste nimmt Fremdkörper auf** — Trupp, Engineer-Turret, später Söldner ticken über denselben Weg | **13** — jeder von ihnen bringt einen eigenen Zähler mit; **22** — sie kommen aus Tabellen; **23a** — dieselbe Zielauswahl für alle | **teilweise eingelöst** ✓ (13) |
+| ⚠️ **Design-Entscheidung: zwei Listen statt einer** — `welt.trupp` und `welt.gegner`, **keine** gemeinsame `einheiten`-Liste. Der Basisturm aus **13** und die Söldner aus **22** kommen in den `trupp` | **16** — die zwei Schleifen machen die Tick-Reihenfolge im Code sichtbar; **22** — die Frage wird dort wiedervorgelegt | offen |
 | `welt.naechster_gegner()` — Zielsuche als Schleife von Hand, `None` bei leerer Liste | **14b** — aus „der Nächste" wird eine Rechnung auf dem Raster; **23a** — `min(..., key=...)` und Strategien lösen sie ab | offen |
-| **Die Aufräumphase als eigene Tick-Phase** — sterben und entfernt werden sind zwei Dinge | **15** — die Liste der Gefallenen wird Material für Meldungen; **19** — nur Aufgeräumtes wird gespeichert | offen |
+| **Die Aufräumphase als eigene Tick-Phase** — sterben und entfernt werden sind zwei Dinge | **15** — die Gefallenen hinterlassen an **ihrer** Koordinate ein Fundstück ✓; **19** — nur Aufgeräumtes wird gespeichert | **teilweise eingelöst** ✓ (15) |
 | `abschuesse` als Zähler am Objekt — Gedächtnis ohne Wirkung | **17** — daraus werden Meldungen zwischen den Wellen | offen |
-| ⚠️ **Offener Posten: Kameraden feuern ohne Munitionsverbrauch** — bewusst ausgelassen, im Guide benannt | **13** — dort kommen Zähler an Objekte und der Posten wird fällig | offen |
+| ⚠️ **Offener Posten: Kameraden feuern ohne Munitionsverbrauch** — bewusst ausgelassen, im Guide benannt | **13** — `magazin` und `nachladezeit`, dasselbe Zähler-Muster | **eingelöst** ✓ (13) |
 | 👀 **Nacktes `return`** — Werkzeuglücke aus **7**, hier geschlossen | — Einlösung | **eingelöst** ✓ (12) |
 
 ### Etappe 13 — Abklingzeiten und Nachschub ⭐
@@ -434,35 +434,54 @@ Chronologisch nach Etappe. Spalte „Status": `offen` = noch nicht eingelöst, `
 | **Die Abklingzeit als das eigentliche Thema** — eine Fähigkeit ist nicht „verfügbar\" oder „weg\", sondern *in soundso vielen Ticks wieder da* | **18** — jede Fähigkeit bekommt eine; **21b** — die Entscheidung, sie zu balancieren; **28** — aus Ticks werden Sekunden | offen |
 | **Der eigene Ausfall mit Respawn-Zähler** — Einlösung aus **1** (`trefferpunkte` als zweite Verlustbedingung) | **17b** — was passiert währenddessen mit dem Trupp?; **19** — Teil des Speicherstands | offen |
 | **Man kommt mit Restmunition zurück, nicht mit voller** — eine bewusste Entscheidung, keine Nebensache | **21b** — Balancing; **19** — der Restbestand muss gespeichert werden | offen |
-| Der Engineer-Turret mit Aufstelldauer | **14b** — steht auf einem Feld und hat Reichweite; **23a** — Zielauswahl-Strategien | offen |
-| Der Rekrut mit Nachschubzähler | **17b** — kann endgültig verloren gehen; **18** — Statuseffekte wirken auf ihn | offen |
+| **Der Basisturm mit Bauzeit** — genau einer, klassenunabhängig, in der Werkstatt in Auftrag gegeben; Einlösung der Werkbank-Kür aus **5** | **14b** — steht auf einem Feld und hat Reichweite; **22** — fünf Ausbaustufen desselben Turms; **23a** — Zielauswahl-Strategien | offen |
+| ⚠️ **Zwei Türme, die nicht verwechselt werden dürfen** — der Basisturm (Gebäude, ab 13) und der mobile Geschützturm des Engineer (Klassenfähigkeit, ab 18). Im Guide zu 13 steht die Abgrenzungstabelle | **18** — dort entsteht der zweite und die Unterscheidung wird praktisch; **22** — nur der Basisturm bekommt Ausbaustufen | offen |
+| Der Rekrut mit Nachschubzähler — **verschoben nach 22** (siehe die Zeile weiter unten) | **22** — entsteht dort mit den Söldnern; **17b** — kann endgültig verloren gehen; **18** — Statuseffekte wirken auf ihn | offen |
 | 👀 **Der Begriff *Scheduler*** — die Alternative zum Zähler im Objekt, benannt und nicht gebaut | **23b** — beim Lesen fremden Codes als gleichwertige Bauart erkennen | offen |
 | `welt.raeume_frei()` ändert Daten zur Laufzeit | — Einlösung aus **5**; **19** — der geänderte Zustand muss mitgespeichert werden | offen |
-| **Der Kopplungs-Umweg** (warum kennt das Geschütz die Welt?) | **15** — die Zeichnung macht es sichtbar; **23b** — Callbacks und Strategien als eine Antwort; **24** — Module machen Kopplung schmerzhaft | offen |
+| **Der Kopplungs-Umweg** (warum kennt das Geschütz die Welt?) | **15** — die Zeichnung macht es sichtbar ✓; **23b** — Callbacks und Strategien als eine Antwort; **24** — Module machen Kopplung schmerzhaft | **teilweise eingelöst** ✓ (15) |
 | **Zustand ↔ Ereignis als benannter Begriff** (*soll das gelten oder soll das passieren?*) | **17b** — Ereignisse zwischen den Wellen; **19** — was gespeichert wird ist Zustand; **28** — zeichnen ↔ aufblitzen | offen |
 | Ausgefallener Trupp-Kamerad mit `ausfallzeit` | **17b** — kann er endgültig fallen?; **19** — Teil des Speicherstands | offen |
 | **Der Unterschied Held ↔ Kamerad wird hier zum ersten Mal spürbar:** fällt ein Kamerad, läuft das Spiel weiter; fällt der Held, wartet es | **28** — in Echtzeit wird daraus eine sichtbare Wartezeit | offen |
 | Unterscheidung „ist fertig" ↔ „wurde gerade fertig" | **19** — Speicherformat; **26** — genau hier lauern Off-by-One-Tests | offen |
 | Entscheidung Tick-Zeit statt Echtzeit | **28** — `bauzeit = 180` sind drei Sekunden | offen |
+| ⚠️ **Verschoben: der Rekrut mit Nachschubzähler entsteht nicht in 13, sondern in 22** — ein Rekrut ist eine **gekaufte Stelle**, die neu besetzt wird, und damit etwas anderes als ein Kamerad, der ausfällt und wieder aufsteht. Er braucht Kauf- und Vertragstabellen, und die stehen in 22. Im Guide zu 13 ist die Abgrenzung unter *Was NICHT* benannt | **22** — dort zusammen mit den Söldnern; **17b** — die Frage, ob er endgültig verloren gehen kann, wandert mit | offen |
+| ⭐ **Die Bedeutung einer Zählerzahl wird schriftlich festgelegt** — was heißt `BAUZEIT = 3` für Tick 1, 2, 3? Einlösung des Beobachtbarkeitsfadens; gilt ab dort für alle fünf Zähler | **16** — Fahndung 2, und die Notiz ist dort Beweismittel ✓; **26** — daraus wird ein Test | **teilweise eingelöst** ✓ (16) |
+| **Invariante und Merksatz getrennt notiert** — „nie kleiner als `0`" ist prüfbar, „läuft oder ist abgelaufen" ist es nicht | **20** — nur die prüfbare wird zur Prüfung; **26** — nur sie wird zum Test | offen |
+| ⭐ **Das Zähler-Muster als benannte Bauform** — dieselben drei Zeilen an fünf Objekten, schriftlich gezählt | **22** — dort fällt die Entscheidung, ob daraus eine gemeinsame Struktur wird; **19** — jeder laufende Zähler gehört in den Spielstand | offen |
+| `welt.melde(text)` — ein einziger Ort für alle Meldungen aus dem Tick | **17** — wird zur gesammelten Meldungsliste zwischen den Wellen; **28** — trennt Zeichnen von Aufblitzen | offen |
+| **Der Startwert der Trefferpunkte als zweites Attribut** | **19** — muss gespeichert werden; **21b** — wird beim Balancing zur Tabellenzahl | offen |
+| ⚠️ **„Eine Strafe darf keine Belohnung sein"** — Rückkehr mit Restmunition, Fehlversuch ohne Abklingzeit | **21b** — dieselbe Prüffrage beim Balancing der Kampfformel | offen |
+| **`welt.turm` als „höchstens einer"** — ein Objekt unter eigenem Namen neben der Liste | **14b** — er bekommt Standort und Reichweite; **22** — Ausbaustufen statt zweitem Turm | offen |
 
-### Etappe 14 — Das Vorfeld ⭐  *(14a Raster · 14b Reichweite und Bewegung)*
+### Etappe 14 — Das Vorfeld ⭐  *(14a Raster · 14b Reichweite und Bewegung · 14c Barrikade, Kür)*
 
 | Was angelegt wird | Wo es eingelöst wird | Status |
 |---|---|---|
 | **14a:** Das Raster als Liste von Listen | **29** — unverändertes Format für die Tilemap; **30** — Grundlage der Isometrie | offen |
-| **14a:** Einlösung: aus einer Zeile werden viele | — Einlösung aus **4** | offen |
+| **14a:** Einlösung: aus einer Zeile werden viele | — Einlösung aus **4** | **eingelöst** ✓ (14a) |
 | **14a:** `vorfeld[y][x]` — Zeile vor Spalte | **29** — dieselbe Reihenfolge beim Zeichnen | offen |
-| **14a:** Randprüfung („liegt die Koordinate drauf?") | **14b** — dieselbe Form als Zonengrenze; **20** — wird zu einer abgefangenen Bewegung | offen |
+| **14a:** Randprüfung („liegt die Koordinate drauf?") | **14b** — dieselbe Form als Zonengrenze ✓; **14c** — ein drittes Mal beim Stellen der Barrikade ✓; **20** — wird zu einer abgefangenen Bewegung | **teilweise eingelöst** ✓ (14b, 14c) |
 | **14a:** Position als Tuple `(x, y)` — Einlösung aus **6** | **19** — Tuple überlebt JSON nicht | offen |
 | ⚠️ **14a: Wegfindung ausdrücklich ausgeschlossen** (kein A\*, kein Dijkstra) | **nach 27** — als notierte Idee in `GELERNT.md`, nicht im Plan | offen |
 | 👀 **14a:** `enumerate()` und die drei Schleifenformen — Erkennen, **kein Umbau** | **23a** — dieselben Formen als Comprehension; durchgehend beim Lesen | offen |
 | **14a:** Vergleich Dictionary ↔ Raster als Modellierungsfrage | **25** — welche Inhalte werden JSON, welche bleiben Struktur | offen |
-| **14a:** `zeichne_vorfeld()` | **28** — dieselbe Funktion, andere Ausgabe | offen |
+| **14a:** `zeichne_vorfeld()` | **28** — dieselbe Funktion, andere Ausgabe; **29** — dasselbe Raster als Tilemap | offen |
+| ⚠️ **14a, Riegel 2: Das Raster hält Gelände, keine Einheiten** — Einheiten haben eigene Koordinaten, gezeichnet wird eine Kopie | **19** — nur Zustand wird gespeichert, das Bild nicht; **29** — Tilemap und Sprites sind dieselbe Trennung | offen |
+| **14a: Die flache Kopie** — jede Zeile einzeln kopieren, sonst malt man ins Gelände | **19** — dasselbe Problem beim Laden; **28** — 60-mal pro Sekunde | offen |
+| ⭐ **14a: Entscheidung „eine Achse pro Tick oder beide?" und „welche Achse bei Gleichstand?"** — beides schriftlich | **14b** — die Abstandsrechnung muss dazu passen ✓; **16** — Off-by-one-Kandidat; **21b** — Gegnertempo als Stellschraube | offen |
+| ⭐ **14b: Entscheidung `<` gegen `<=` bei Reichweite** — schriftlich, nach dem Muster aus **13** | **16** — ausdrücklich als Bug-Kandidat benannt; **21a** — Teil der Trefferrechnung | offen |
+| **14b: `abs()`** | **21a** — Schadensformel; durchgehend beim Rechnen mit Koordinaten | offen |
+| ⚠️ **14a: Zwei Einheiten dürfen dasselbe Feld belegen** — `ist_frei()` fragt nur das Gelände, das Raster kennt keine Einheiten. Beim Zeichnen gewinnt die zuletzt gemalte | **nicht im Plan** — eine Kollisionsprüfung wäre ein eigenes System; im Guide als bewusste Regel benannt statt als Zufall | offen |
+| ⚠️ **14b: Kein Sichtlinien-Check** — der Turm schießt durch Wände, ausdrücklich benannt | **nicht im Plan** — als offener Posten in `GELERNT.md` | offen |
+| ⭐ **14c (Kür, Stufe 1): Barrikade kaufen und hinstellen** — lehrt nichts Neues, zeigt die Prüfkette aus **5** zum dritten Mal | **21b** — Preis als Stellschraube. *Entfällt mit der Kür.* | offen |
+| ⭐ **14c (Kür, Stufe 2, optional innerhalb der Kür): Die Barrikade** — eine Depotware, die auf ein Feld gestellt wird; **die erste räumliche Entscheidung des Spielers** | **21b** — Preis und Trefferpunkte als Stellschraube. ⚠️ Sie schießt nicht, hat keine Stufen und tickt nicht — wer ihr Schaden gibt, baut Tower Defense. *Entfällt, wenn die Kür entfällt.* | offen |
+| **14c (Kür): Entscheidung, ob Barrikaden zerstörbar sind** | **19** — nur zerstörbare haben Trefferpunkte, die gespeichert werden müssen. *Entfällt mit der Kür.* | offen |
 | **14b:** Reichweite als Set von Tuples | **21a** — wer ist im Feuerbereich; **23a** — als Comprehension | offen |
-| **14b: Trupp-KI Stufe 2: nächsten Gegner suchen, Zone halten** | **18** — Fähigkeiten; **23a** — `min`/`sorted` mit `key`, Strategien | offen |
+| **14b: Trupp-KI Stufe 2: nächsten Gegner suchen, Zone halten** | **15** — die Zone entscheidet mit, was eingesammelt wird, und bekommt damit zwei Seiten ✓; **18** — Fähigkeiten; **21b** — Balancing-Stellschraube; **23a** — `min`/`sorted` mit `key`, Strategien | **teilweise eingelöst** ✓ (15) |
 | **14b:** „Nächstes Ziel finden" als Suchalgorithmus | **23a** — `sorted(..., key=lambda ...)`; **26** — testbar mit festen Positionen | offen |
 | **14b:** Zonengrenze als Randprüfung | **20** — wird zu einer abgefangenen Bewegung | offen |
-| ⭐ **14b (Kür):** `erkundete_felder` als Set (Sensorabdeckung) | **19** — Set → JSON ist nicht trivial | offen |
+| ⭐ **14b (Kür):** `erkundete_felder` als Set (Sensorabdeckung) — im Guide als Auftragsschritt 15 mit ausdrücklichem „nur wenn 14b sich nicht zieht" | **19** — Set → JSON ist nicht trivial | offen |
 | ⭐ **14b (Kür): Entscheidung „erkundet" dauerhaft oder nur bei Sicht** | **19** — bestimmt, ob es gespeichert werden muss. *Entfällt, wenn die Kür entfällt.* | offen |
 
 ### Etappe 15 — Was die Brut hinterlässt
@@ -475,16 +494,27 @@ Chronologisch nach Etappe. Spalte „Status": `offen` = noch nicht eingelöst, `
 | Erkenntnisse ändern Schadensberechnung | **21b** — Schwachpunkte und Widerstände | offen |
 | Vorwissen über kommende Wellen | **17a** — der Generator macht das Vorwissen wertvoll | offen |
 | Erstes „erweitern ohne zu zerstören" | **26** — Tests machen daraus eine Gewissheit | offen |
+| ⭐ **Die Umkehrtabelle „Sache → Voraussetzung"** — die Wirkung steht in einer Tabelle, nicht als `if`-Kette in der Logik | **18** — Fähigkeiten prüfen ihre Voraussetzungen genauso; **21b** — Widerstände und Schwachpunkte werden Tabellenzeilen; **22** — der Ausbaubaum ist dieselbe Form | offen |
+| **Eine Quelle definiert die Flag-Wörter** — andere Tabellen verweisen, definieren nicht; ein Verweis ins Leere fällt nicht auf | **21b** — `Enum` macht daraus eine echte Prüfung | offen |
+| **Drei Stufen: Fundstück ↔ Besitz ↔ Erkenntnis** — der Übergang von 2 zu 3 ist eine Handlung des Spielers | **18** — dieselbe Trennung bei Skillpunkten: haben ↔ ausgeben | offen |
+| **`Fundstueck` erbt von `Item`** — Einlösung aus **11**; ⚠️ offener Posten: `x`/`y` bedeuten im Inventar nichts mehr | **23b** — dort lässt sich das billig sauber machen | offen |
+| **Fundstücke liegen an Koordinaten, eingesammelt wird nach der letzten Aufräumphase, nur in Zonen lebender Marines** — Einlösung aus **14b** | **19** — liegengebliebene Fundstücke gehören in den Spielstand; **21b** — Zonengröße wird zur Stellschraube mit zwei Seiten | offen |
+| ⭐ **Der Erweiterungstest: vierter Fund mit *vorhandener* Wirkungsart, Stellen zählen** — neue Daten ≠ neues Verhalten | **22** — derselbe Test noch einmal, die beiden Zahlen werden verglichen; **26** — Tests machen daraus Gewissheit | offen |
+| **Drei Tabellen mit demselben Schlüsselsatz — heute bemerkt, nicht zusammengeführt** | **22** — dort werden sie zusammengelegt; die Notiz aus 15 ist die Vorarbeit | offen |
+| ⚠️ **Entscheidung: Wird das Fundstück beim Analysieren verbraucht?** | **19** — bestimmt, ob Inventar und Erkenntnisse getrennt gespeichert werden müssen | offen |
 | 👀 **Die Kopplungszeichnung** (wer muss von wem wissen?) — **nur bemerken, nichts reparieren** | **23b** — dieselbe Zeichnung ein zweites Mal, dann als Werkzeug; **27** — die schwächste Stelle liegt zwischen zwei Teilen | offen |
 
 ### Etappe 16 — Bug-Jagd II
 
 | Was angelegt wird | Wo es eingelöst wird | Status |
 |---|---|---|
-| **Die Tick-Tabelle von Hand** (Phase für Phase, alle Einheiten nebeneinander) | **27** — dieselbe Geduld, angewandt auf fremden Code | offen |
+| **Die Tick-Tabelle von Hand** (Phase für Phase, alle Einheiten nebeneinander) | **17b** — nur mit Seed noch etwas wert, sobald Zufall dazukommt; **27** — dieselbe Geduld, angewandt auf fremden Code | offen |
 | **Beobachtung → Hypothese → Experiment als verbindlicher Dreizeiler** | — Einlösung aus **8**; **26** — erst der Test, dann der Fix; **27** — dieselbe Form ohne Änderungserlaubnis | offen |
 | Regel „nur eine Sache auf einmal ändern" | **21b** — Balancing auf einem Branch; **26** — ein Test prüft eine Annahme | offen |
-| **Reihenfolgefehler als vierte Fehlerursache** — Einlösung aus **12** | **17b** — mit Seed reproduzierbar; **28** — die Reihenfolge gilt 60-mal pro Sekunde | offen |
+| **Reihenfolgefehler als eigene Ursachenklasse** — Einlösung aus **12**. ⚠️ **Korrektur:** nicht der „vierte Fehlertyp" — Etappe 8 hat drei **Zeit**typen (wann fällt es auf) und die **Ort**frage (Code oder Daten). Die Reihenfolge ist eine dritte Antwort auf die Ortfrage und auf der Zeitachse immer Typ 3 | **17b** — mit Seed reproduzierbar; **28** — die Reihenfolge gilt 60-mal pro Sekunde | offen |
+| ⭐ **Die Fahndungsliste** — vierzehn Kandidaten aus neun Etappen, jeder mit einem von drei Wörtern versehen | **26** — jeder Fund ist ein Testkandidat; **27** — dieselbe Systematik ohne Änderungserlaubnis | offen |
+| **Die Rückwärtsprobe** — Änderung zurücknehmen, kommt der Fehler wieder? | **26** — dort wird daraus „erst der Test, dann der Fix" | offen |
+| **„Wann hätte ich es gemerkt, wenn es funktioniert hätte?"** — findet Mechaniken, die sich nicht beobachten lassen | **21b** — was man nicht beobachten kann, kann man nicht balancieren; **26** — und nicht testen | offen |
 | **Die entschiedene Tick-Reihenfolge in `GELERNT.md`** | **19** — sie gehört zum Zustand des Spiels; **28** — sie wandert unverändert in die Loop | offen |
 
 ### Etappe 17 — Der Wellengenerator ⭐  *(17a Zufall · 17b Reproduzierbarkeit und Ereignisse)*
@@ -548,7 +578,7 @@ Chronologisch nach Etappe. Spalte „Status": `offen` = noch nicht eingelöst, `
 | ⭐ **22: Genau ein Turm in der Basis, dafür mit Ausbaustufen** — die Tabelle beschreibt fünf Stufen desselben Turms, nicht fünf Turmtypen | **25** — Stufen als Content; **21b** — Balancing der Stufen | offen |
 | ⚠️ **22: Was ausdrücklich nicht gebaut wird — freies Bauen beliebig vieler Geschütze.** Das Spiel ist ein Hero-Survival, kein Tower Defense; Türme sind eine Beigabe, keine Mechanik | durchgehend — Riegel; **nach 27** als bewusste Erweiterungsoption | offen |
 | ⚠️ **22: Basisausbau bewusst zurückgestellt.** Er ist heute kein Teil des Spiels. **Der natürliche Ort wäre 22**, sobald die Ausbaustufen-Tabelle steht — dann ist ein zweites ausbaubares Objekt eine zweite Tabelle und keine neue Mechanik | **nach 27** — falls gewünscht, ohne Umbau am Rest | offen |
-| **22: Söldner als Tabelle** — Kosten, Vertragsdauer, Werte | — Einlösung aus **12** (Einheitenliste) und **13** (Zähler); **25** — Söldnertypen als Content | offen |
+| **22: Söldner und Rekruten als Tabelle** — Kosten, Vertragsdauer, Werte, **Nachschubzähler**. ⭐ Die Modellierungsfrage dahinter: **eine gekaufte Stelle, die neu besetzt wird, ist etwas anderes als eine Figur, die ausfällt und wieder aufsteht** | — Einlösung aus **12** (Einheitenliste), **13** (Zähler-Muster) und **11** (`Einheit` als Basis); **25** — Söldnertypen als Content | offen |
 | **22:** Voraussetzung als schlichtes Feld (*Stufe 3 braucht Energiezelle*) | **25** — dieselbe Prüfung, Daten von außen | offen |
 | **22:** Wiedervorlage der Vererbungsfrage | **25** — die Antwort zeigt sich beim Verdaten | offen |
 | 👀 **22:** Komposition als dritte Spalte — **erwähnt, nicht gebaut** | — Einlösung aus **11**; **nach 27** als Umbaumöglichkeit | offen |
@@ -662,7 +692,7 @@ Der Faden liegt bis 23b vollständig auf Stufe 👀. Das ist Absicht: Kopplung i
 
 **Der Held ist genau einer** — das ist die Prämisse des Spiels und keine Vereinfachung, die später fällt. Der Spieler steuert eine Figur; die anderen drei kämpfen mit, entscheiden aber selbst. Daran hängt, warum Etappe 11 zwei Steuerungsquellen auf einer Basisklasse braucht und warum Etappe 12 überhaupt zwischen *gesteuert* und *autonom* unterscheidet.
 
-**Das Klassengerät → die Klassenfähigkeit** ⭐ — der Faden, der die Klassenwahl aus Etappe 1 bis zum Ende trägt: **2 (`klassengeraet` als String pro Klasse — angezeigt, nie abgefragt)** → 4 (Sperre: es gehört nicht ins Inventar) → **5 (Sperre: es steht in keiner Warentabelle — das Depot verkauft keine Identität)** → 10 (Sperre: das Ausrüstungs-Objekt für *gekaufte* Teile ist etwas anderes und heißt deshalb anders) → 13 (Sperre: hier wird eine erfundene Fähigkeit geübt, nicht die echte) → **18 (Zahltag: Granatwerfer, Durchschlag, Mine und Turm, Heilung und Aura)** → **22 (wird zur Spalte `klasse` in der Fähigkeitentabelle)**.
+**Das Klassengerät → die Klassenfähigkeit** ⭐ — der Faden, der die Klassenwahl aus Etappe 1 bis zum Ende trägt: **2 (`klassengeraet` als String pro Klasse — angezeigt, nie abgefragt)** → 4 (Sperre: es gehört nicht ins Inventar) → **5 (Sperre: es steht in keiner Warentabelle — das Depot verkauft keine Identität)** → 10 (Sperre: das Ausrüstungs-Objekt für *gekaufte* Teile ist etwas anderes und heißt deshalb anders) → **13 (Sperre eingehalten: die geübte Fähigkeit bleibt erfunden, und der Turm, der dort gebaut wird, ist der klassenunabhängige Basisturm — nicht der Geschützturm des Engineer)** → **18 (Zahltag: Granatwerfer, Durchschlag, Mine und Turm, Heilung und Aura)** → **22 (wird zur Spalte `klasse` in der Fähigkeitentabelle)**.
 
 ⚠️ **Vier Sperren auf sechzehn Etappen — genauso viele wie beim Erfahrungszähler.** Das ist kein Zufall: Beide Fäden sind sichtbare Werte ohne Wirkung, und beide werden an jeder Etappe, an der sie „fast fertig" aussehen, ausdrücklich stillgelegt.
 
@@ -735,6 +765,10 @@ Der Plan baut mehrfach etwas Funktionierendes um. **Diese Übergänge müssen fe
 | **Inventar** | 4: Liste von Strings | 11: Liste von `Item`-Objekten | Die Liste bleibt, der Eintrag wird reicher. |
 | **Weltzustand** | 1–11: lose Variablen (`kern_integritaet`, `welle`, `gegner`, `trupp`, `sektoren`) | 12: `welt.*` | **Die losen Namen verschwinden.** Kein zweiter Speicher, keine Kopie bleibt zurück. Was pro Figur existiert, bleibt beim Marine. |
 | **Gegner entfernen** | 11: sofort bei `remove()` | 12: `status = "tot"`, Entfernen in der Aufräumphase | Sterben und Entferntwerden sind zwei Vorgänge. Niemand verschwindet mitten im Tick. |
+| **Die Karte** | 5–12: statische Daten, nur gelesen | 13: Zustand, der sich zur Laufzeit ändert | Ab dem Freiräumen gehört `sektoren` in den Spielstand (**19**) — die Beschreibungen nicht, die stehen im Code. |
+| **Ausfall des Helden** | 3a–12: `trefferpunkte <= 0` beendet den Lauf | 13: Respawn-Zähler | **Nur noch `kern_integritaet` beendet das Spiel.** Die zweite Verlustbedingung bleibt, sie kostet ab jetzt Zeit statt allem. |
+| **Gegnerposition** | 3c–13: `entfernung`, eine sinkende Zahl | 14a: `x` und `y` auf dem Raster | Das Wort `entfernung` verschwindet vollständig. „Wie weit" wird ab dort **gerechnet** (`welt.abstand`), nicht gespeichert. |
+| **Darstellung des Vorfelds** | 3c–13: `zeichne_bahn()`, eine Zeile | 14a: `zeichne_vorfeld()`, ein Raster | Die alte Funktion wird **gelöscht**. Die Schicht aus 7b bleibt unangetastet — nur ihr Inhalt wird getauscht. |
 | **Zustandsstrings** | 12: `"tot"` | 21b: `Enum` | Nur die Spielzustände, nicht jeder String im Programm. |
 
 **Und das Ritual dazu, ab Etappe 4 in jedem Guide vor einem Umbau:** *Was bleibt gleich? Was ändert sich nur in der Darstellung? Was ändert sich wirklich am Datenmodell?* Zweck: **Umbauen heißt nicht „alles neu".**
@@ -761,7 +795,7 @@ Der Plan baut mehrfach etwas Funktionierendes um. **Diese Übergänge müssen fe
 
 **Schreiben → Lesen** — Etappe 7a (Struktur in fremdem Code erkennen) → 9 (erste Leseübung) → 15 (fremde Funktion mit stiller Annahme) → alle Etappen ab dort → 23b (Code aus echten Projekten) → **27 (ein ganzes fremdes Repo, ohne Hilfe)**. Das ist der eigentliche Zweck des Projekts, und Etappe 27 ist seine Einlösung.
 
-**Die Prämisse** — Etappe 1 (vier Klassen, zwanzig Wellen, ein Kern) → 11 (die Klassen werden Code, **alle vier gleichzeitig**) → 13 (das erste Geschütz macht die Zeit spürbar) → 17b (ein Sektor fällt endgültig — Kür) → 22 (die Klassenfrage kommt zurück) → 25 (Vielfalt ohne Code).
+**Die Prämisse** — Etappe 1 (vier Klassen, zwanzig Wellen, ein Kern) → 11 (die Klassen werden Code, **alle vier gleichzeitig**) → 13 (der Basisturm macht die Zeit spürbar — **genau einer, und jede Klasse kann ihn bauen**) → 17b (ein Sektor fällt endgültig — Kür) → 22 (die Klassenfrage kommt zurück) → 25 (Vielfalt ohne Code).
 
 **Groß und klein geschriebene Namen** — Etappe 1 (die Regel, ohne eigenen Anwendungsfall) → **5 (die vier Depot-Tabellen sind die ersten festen Werte; `sektoren`, `inventar` und `vorrat` bleiben klein und sind die Gegenprobe)** → **6 (`KLASSEN`, `AUSBAUTEN`, `GEGNERTYPEN` — und `STAPELBAR` behält beim Umbau zum Set seinen Namen, weil sich die Struktur ändert und nicht die Rolle)** → 9 (dieselbe Frage für Klassen- und Objektnamen) → 25 (feste Werte wandern in Dateien und heißen dort anders). Zweck: Wer die Regel erst spät lernt, benennt rückwirkend um — deshalb steht sie in Etappe 1, obwohl sie dort noch nichts zu tun hat.
 

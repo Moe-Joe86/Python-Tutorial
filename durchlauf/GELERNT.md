@@ -230,3 +230,70 @@ freigeschaltet, gesehene_gegnertypen)` (neun Parameter, Etappe 11) wurde
 `verarbeite_befehl(eingabe, welt, freigeschaltet, gesehene_gegnertypen)` (vier). Ebenso
 überraschend: dass ein Kamerad tatsächlich ganz ohne eigenes Zutun einen Gegner erledigt —
 verifiziert per Testlauf (siehe `BERICHT.md`).
+
+## Etappe 13
+
+**Design-Entscheidung „Wo läuft der Zähler?" — am Objekt, wie vom Plan vorgegeben.**
+`abklingzeit`/`magazin`/`nachladezeit` gehören dem Marine, `bauzeit` dem Turm, `raeumzeit` der
+Welt (der Tunnel gehört niemandem) — jeweils nach der Etappe-9-Regel „gäbe es diesen Wert pro
+Figur oder pro Spiel?" entschieden. Ein eigenes `Abklingzeit`-Objekt oder ein Scheduler an der
+Welt wären für vier Marines und einen Turm reiner Mehraufwand ohne Gegenwert — lohnt sich laut
+Guide erst, wenn ein Zähler mehr kann als zählen (Etappe 18).
+
+**Auftragsschritt 7 — was bedeutet `ABKLINGZEIT = 3` exakt?** Eingesetzt bei `welt.zeit == 10`:
+Nach Tick 11 steht der Zähler auf 2, nach Tick 12 auf 1, nach Tick 13 auf 0 **und meldet sich
+in genau diesem Tick**. „Wieder bereit" heißt also `welt.zeit == 13` — drei Ticks lang gesperrt
+(11, 12, 13), danach frei. Verifiziert per Testlauf, stimmt mit der Vorhersage überein. Diese
+Bedeutung gilt ab heute für alle fünf Zähler (Abklingzeit, Ausfallzeit, Nachladezeit, Bauzeit,
+Räumzeit) — dieselbe `zaehler_runter()`-Form wird überall identisch verwendet.
+
+**Neue Tick-Reihenfolge, mit Zählerphase an zweiter Stelle:**
+1. `self.zeit += 1`
+2. Zählerphase: `zaehler_runter(self)` an jedem Trupp-Mitglied, danach `welt.raeumzeit`
+3. Trupp handelt (`update()`)
+4. Gegner handeln (`update()`)
+5. Aufräumen (tote Gegner entfernen, Ausfallzeit bei frisch gefallenen Trupp-Mitgliedern setzen)
+
+**„Soll das gelten, oder soll das passieren?"** Zustand-Beispiel aus dem eigenen Code:
+`marine.status == "tot"` — beliebig oft abfragbar, entscheidet z. B. in `verarbeite_befehl()`,
+ob ein Befehl abgewiesen wird. Ereignis-Beispiel: die Zeile `if self.abklingzeit == 0:
+welt.melde(...)` **innerhalb** des `if self.abklingzeit > 0:`-Blocks in `zaehler_runter()` —
+sie läuft nur in dem einen Tick, in dem der Zähler tatsächlich von 1 auf 0 fällt, nicht in
+jedem folgenden. Genau dieselbe Unterscheidung entscheidet, ob ein Stufenaufstieg einmal oder
+in jeder Statuszeile erneut gemeldet wird (gelöst über „alte Stufe merken, neu berechnen,
+vergleichen" — Konzept 4).
+
+**Invariante und Merksatz (Auftragsschritt 10):**
+- **Prüfbar:** Kein Zähler (`abklingzeit`, `ausfallzeit`, `nachladezeit`, `bauzeit`,
+  `raeumzeit`) ist jemals kleiner als 0. Würde brechen, wenn irgendwo `zaehler_runter()` ohne
+  die äußere `> 0`-Prüfung stünde (Kaputtmachen 2) — dann liefe der Zähler ins Negative und
+  `== 0` träfe nie wieder.
+- **Merksatz, nicht prüfbar:** Ein Zähler kann nicht gleichzeitig laufen und abgelaufen sein
+  — z. B. kann `marine.status` nicht gleichzeitig `"tot"` (Ausfallzeit läuft) und `"aktiv"`
+  sein. Würde brechen, wenn zwei Codepfade unabhängig voneinander über denselben Status
+  entscheiden, ohne sich gegenseitig zu kennen — bisher nicht der Fall, aber keine Maschine
+  könnte das automatisch prüfen.
+
+**Meine Entscheidung aus Etappe 5 — ausgezahlt.** „Der Weg fehlt einfach" bedeutete heute genau
+eine Zeile (`sektoren["osttor"]["nachbarn"]["osten"] = "landeplattform"`) statt der `del`-
+Variante mit ihrer `KeyError`-Falle bei doppeltem Aufruf. Die damalige Notiz hat die
+angekündigte halbe Stunde Suchen tatsächlich gespart.
+
+**Gefundener, seit Etappe 3c/9 mitgeführter Bug (siehe BERICHT.md):** Der Marine-Balken in
+`zeige_status()` verglich immer gegen die feste Zahl `100`, obwohl die vier Klassen seit
+Etappe 2 unterschiedliche Start-Trefferpunkte haben (80–140) — für Heavy (140 TP) hätte der
+Balken bei vollem Leben über 100 % angezeigt, für Medic (80 TP) nie ganz voll. Mit dem heute
+geforderten `max_trefferpunkte`-Attribut (Auftragsschritt 12: „ist das schon derselbe Wert wie
+in der Balkenanzeige? Dann kein zweiter Name") behoben.
+
+**Was mich überrascht hat:** Wie klar der Unterschied zwischen dem eigenen Ausfall und dem
+eines Kameraden tatsächlich spürbar war, obwohl es exakt derselbe Code ist (nur `gesteuert`
+entscheidet Wartezeit und Konsequenz) — beim Kameraden spielt man einfach zu dritt weiter, beim
+eigenen Ausfall steht das Spiel für den Spieler still, auch wenn der Tick technisch weiterläuft.
+Ebenso überraschend: wie oft dieselben drei Zeilen (Zähler abfragen, abziehen, bei 0 melden)
+heute tatsächlich wortgleich wiederkehrten — fünfmal, mit nur zwei Unterschieden (Name des
+Zählers, Text der Meldung).
+
+**Offener Posten:** Was dem Turm noch fehlt, bevor er sich richtig anfühlt — eine sichtbare
+Reichweitenbegrenzung (er feuert aktuell wie ein Kamerad ohne eigene Munition oder Position,
+Etappe 14b bringt echte Positionen und damit eine echte Reichweitenrechnung).

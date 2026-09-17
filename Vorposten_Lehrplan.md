@@ -1,8 +1,8 @@
 # Projekt-Lehrplan: Vorposten
 
-*v3.4.0 · 2026-09-16*
+*v4.0.1 · 2026-09-16*
 
-**Python lernen, indem die Verteidigung wächst — 30 Etappen in 41 Portionen**
+**Python lernen, indem die Verteidigung wächst — 30 Etappen in 44 Portionen**
 
 Dieses Tutorial ist selbsttragend. Es setzt keinen Kurs, kein Buch und kein Vorwissen über Python voraus: Jedes Zeichen und jeder Aufruf, den eine Aufgabe braucht, wird vorher in einem Etappen-Guide erklärt. Welches Werkzeug ab wann zur Verfügung steht, führt [`SYNTAX.md`](SYNTAX.md) Buch.
 
@@ -108,10 +108,12 @@ Die Leseübungen sind kein Beiwerk, sondern der Weg zum eigentlichen Ziel. Desha
 
 | Stufe | Etappen | Umfang | Die Leitfrage |
 |---|---|---|---|
-| 1 | 9–11 | 5–10 Zeilen | **Was passiert hier?** Was ist Objekt, was Attribut, was Aufruf? |
-| 2 | 12–16 | 15–30 Zeilen | **Was verändert sich — und wer verändert es?** |
+| 1 | 9, 11 | 5–15 Zeilen | **Was passiert hier?** Was ist Objekt, was Attribut, was Aufruf? |
+| 2 | 12, 14–16 | 15–30 Zeilen | **Was verändert sich — und wer verändert es?** |
 | 3 | 17–22 | 30–60 Zeilen | **Warum ist es so gebaut?** Welche Design-Entscheidung steckt dahinter? |
 | 4 | 23–27 | ganze Dateien | **Was könnte schiefgehen — und taugt der Code?** Echter KI-Code aus deinen Projekten. |
+
+⚠️ **Nicht jede Etappe hat eine Leseübung.** Etappe 10, 13 und die reinen Umbau-Etappen verzichten darauf, weil dort die Zeit im Bauen steckt. Die Stufe gilt für den Zeitraum, nicht für jede einzelne Nummer.
 
 Die Leitfragen sind die eigentliche Progression. Stufe 1 fragt nach dem *Was*, Stufe 2 nach dem *Wer*, Stufe 3 nach dem *Warum*, Stufe 4 nach dem *Urteil*. Wer bei Stufe 4 anfängt, rät.
 
@@ -532,23 +534,27 @@ Drei Dateien im Repo: `README.md` (dein Schaufenster), `GELERNT.md` (zwei Sätze
 
 **Kein Vibe Coding in diesem Projekt.** Du schreibst jede Zeile selbst. Wenn du feststeckst: „Ich will X, habe Y probiert, es passiert Z — woran könnte es liegen?"
 
-**Etappen dürfen halbiert werden — und sieben sind es bereits.** Der Plan ist ein Vorschlag, kein Vertrag.
+**Etappen dürfen halbiert werden — und elf sind es bereits.** Der Plan ist ein Vorschlag, kein Vertrag.
 
-Sieben Etappen tragen so viel Stoff, dass sie an einem Stück nur halb ankommen. Die sind ausdrücklich geteilt, mit einem eigenen Commit dazwischen:
+Elf Etappen tragen so viel Stoff, dass sie an einem Stück nur halb ankommen. Die sind ausdrücklich geteilt, mit einem eigenen Commit nach jeder Portion:
 
-| Geteilt | Erste Hälfte | Zweite Hälfte |
-|---|---|---|
-| **3a / 3b / 3c** ⭐ | siehe unten — als einzige **drei**geteilt | |
-| **7a / 7b** | Funktionen, Parameter, `return`, Scope | Darstellung als eigene Schicht, `assert` |
-| **9a / 9b** | Klasse, `__init__`, `self`, Methoden | `__repr__` fürs Debugging |
-| **14a / 14b** | Das Raster, `[y][x]`, Bewegung, Ränder | Reichweite, Sensorabdeckung, Trupp-Bewegung |
-| **17a / 17b** | Zufall und das Wellenbudget | Ereignisse und der Seed als Werkzeug |
-| **21a / 21b** | Trefferrechnung und Rückgabewerte | Schadenstypen, `Enum`, Balancing-Branch |
-| **23a / 23b** | Python lesen | Python modellieren |
+| Geteilt | Portionen |
+|---|---|
+| **3a / 3b / 3c** ⭐ | Die Schleife · die Befehle · Kampf und Anzeige |
+| **7a / 7b** | Funktionen, Parameter, `return`, Scope · Darstellung als eigene Schicht |
+| **9a / 9b** | Klasse, `__init__`, `self`, Methoden · `__repr__` fürs Debugging |
+| **11a / 11b / 11c** | Eine Gegnerliste statt zwei · Vererbung und der Trupp · Item-Hierarchie |
+| **12a / 12b** ⭐ | Loser Zustand wird zur `Welt` · der Tick |
+| **13a / 13b** ⭐ | Das Zähler-Muster · Ausfall, Nachschub, Basisturm |
+| **14a / 14b / 14c** ⭐ | Das Raster · Reichweite und Bewegung · die Barrikade *(Kür)* |
+| **15a / 15b** | Fundstücke und Erkenntnisse · Erkenntnisse wirken |
+| **17a / 17b** | Zufall und das Wellenbudget · Ereignisse und der Seed |
+| **21a / 21b** | Trefferrechnung und Rückgabewerte · Schadenstypen, `Enum`, Balancing |
+| **23a / 23b** | Python lesen · Python modellieren |
 
-**Etappe 3 ist die einzige mit drei Portionen:** 3a die Schleife, 3b die Befehle, 3c Kampf und Anzeige. Hier wird aus einem Skript ein Spiel, und das ist der dichteste Punkt des ganzen Fundaments.
+**Drei Etappen haben drei Portionen:** 3, 11 und 14. Bei Etappe 3 wird aus einem Skript ein Spiel — der dichteste Punkt des Fundaments. Bei 11 werden drei Schulden auf einmal zurückgezahlt. Bei 14 ist die dritte Portion Kür und darf entfallen.
 
-**Die Nummer bleibt, weil das Thema eines ist.** Es bleiben 30 Etappen — gerechnet in Portionen sind es 38, dazu Etappe 0. Und wenn dir eine ungeteilte Etappe zu groß vorkommt, teil sie selbst. Das ist keine Kapitulation, sondern die Anwendung derselben Regel.
+**Die Nummer bleibt, weil das Thema eines ist.** Es bleiben 30 Etappen — gerechnet in Portionen sind es 44, dazu Etappe 0. Und wenn dir eine ungeteilte Etappe zu groß vorkommt, teil sie selbst. Das ist keine Kapitulation, sondern die Anwendung derselben Regel.
 
 **Umwege haben Vorrang.** Wenn dein eigenes Programm eine Frage erzeugt, ist diese Frage die nächste Lektion — auch wenn sie hier nicht steht.
 
@@ -562,7 +568,7 @@ Bei 20–30 Minuten am Tag, Übungen eingerechnet — und mit den geteilten Etap
 |---|---|---|---|
 | Werkzeug | 0 | 1 | 1 Abend |
 | Fundament | 1–8 | 11 | 9–12 Wochen |
-| Einheiten und Zeit | 9–16 | 10 | 10–13 Wochen |
+| Einheiten und Zeit | 9–16 | 16 | 16–21 Wochen |
 | Der Vorposten reagiert | 17–27 | 14 | 14–18 Wochen |
 | Grafik (optional) | 28–30 | 3 | offen |
 
@@ -1536,7 +1542,7 @@ def am_leben(self):
 
 **Kaputtmachen:** Lass `super().__init__()` weg. Lies den `AttributeError` und überleg, was er dir eigentlich sagt. Danach: Schreib `if gegner.am_leben():` mit Klammern und dann `if gegner.am_leben:` ohne — bei einer der beiden Varianten ist einer davon ein stiller Typ-3-Fehler.
 
-**Commit:** `Etappe 11: Einheiten- und Item-Hierarchie`
+**Commits:** `Etappe 11a: Zwei Gegnerlisten werden eine` · `Etappe 11b: Vererbung und der Trupp` · `Etappe 11c: Item-Hierarchie und die Vererbungsfrage`
 
 ---
 
@@ -1791,7 +1797,7 @@ Diese drei Formen machen einen erheblichen Teil aller Schleifen aus, die dir je 
 
 **Kaputtmachen:** Vertausch `x` und `y`. Erzeug das Raster mit `[["."] * 5] * 5` und ändere ein Feld — das hängt direkt mit Etappe 4 und 10 zusammen und ist derselbe Gedanke: ein Objekt, viele Namen. Lass die Randprüfung weg und schick einen Gegner auf `x = -1`.
 
-**Commit dazwischen:** `Etappe 14a: Das Vorfeld ist ein Raster`
+**Commit dazwischen:** `Etappe 14a: Aus einer Zeile wird ein Feld`
 
 ---
 
@@ -1844,7 +1850,7 @@ Sobald es Felder gibt, gibt es etwas, das man auf sie stellen kann. **Die Barrik
 
 **Kaputtmachen:** Setz die Reichweitenprüfung auf `<=` statt `<` und schau, ob ein Gegner ein Feld zu früh beschossen wird. Das läuft durch, und es ist genau die Sorte Fehler, die dich in Etappe 16 beschäftigen wird.
 
-**Commits:** `Etappe 14b: Reichweite und Bewegung` · `Etappe 14c: Die Barrikade`
+**Commits:** `Etappe 14a: Aus einer Zeile wird ein Feld` · `Etappe 14b: Reichweite und Bewegung` · `Etappe 14c: Die Barrikade`
 
 ---
 
@@ -1939,7 +1945,7 @@ Probier es aus — vertausch zwei Zeilen in deinem Tick und lass dieselbe Welle 
 
 Damit hast du eine eigene Fehlerursache am eigenen Programm erlebt: **Reihenfolgefehler.**
 
-⚠️ **Und zwar keinen „vierten Fehlertyp".** Etappe 8 hat zwei Landkarten aufgespannt: die Zeitachse (Typ 1 sofort, Typ 2 irgendwann, Typ 3 nie) und die Ortfrage (sitzt der Fehler im Code oder in den Daten). **Die Reihenfolge ist eine dritte Antwort auf die Ortfrage** — der Fehler sitzt weder im Code noch in den Daten, sondern in der Abfolge, in der richtiger Code auf richtige Daten trifft. **Auf der Zeitachse ist er immer ein Typ 3.** Deshalb ist er teurer als alles aus Etappe 8. Es gibt keine richtige Reihenfolge, die ich dir nennen könnte — es gibt nur die, für die du dich entscheidest, und die dann überall gilt. Schreib sie in `GELERNT.md`.
+⚠️ **Und zwar keinen „vierten Fehlertyp".** Etappe 8 hat zwei Landkarten aufgespannt: die Zeitachse (Typ 1 sofort, Typ 2 irgendwann, Typ 3 nie) und die Ortfrage (sitzt der Fehler im Code oder in den Daten). **Die Reihenfolge ist eine dritte Antwort auf die Ortfrage** — die einzelnen Schritte sind alle richtig, aber ihre zeitliche Anordnung entspricht nicht der Spielregel. *(Die Anordnung steht natürlich im Code; sie ist nur nirgends als Regel aufgeschrieben, und deshalb fällt eine Abweichung niemandem auf.)* **Auf der Zeitachse ist er meistens ein Typ 3** — es läuft, es stürzt nicht ab, die Zahlen sind plausibel. Deshalb ist er teurer als alles aus Etappe 8. *(Nicht immer: Wer erst entfernt und danach zugreift, bekommt einen sauberen Typ 1 — den freundlichen Fall.)* Es gibt keine richtige Reihenfolge, die ich dir nennen könnte — es gibt nur die, für die du dich entscheidest, und die dann überall gilt. Schreib sie in `GELERNT.md`.
 
 **Und ab heute schreibst du jede Fehlersuche als drei Zeilen auf, bevor du eine Zeile Code änderst:**
 

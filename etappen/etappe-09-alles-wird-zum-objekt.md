@@ -1,6 +1,6 @@
 # Etappe 9 — Alles wird zum Objekt
 
-*v1.1.1 · 2026-09-08*
+*v1.1.2 · 2026-09-16*
 
 > **Block 2: Einheiten und Zeit** · Etappe 9 von 30 · [← Etappe 8](etappe-08-die-bug-jagd.md) · [Lehrplan](../Vorposten_Lehrplan.md) · [Etappe 10 →](etappe-10-komposition.md)
 
@@ -388,7 +388,7 @@ help(lieferung.melde)
 
 ### 13. Die Leseleiter, Stufe 1 — und eine neue Frage ⭐
 
-Ab heute gehört zu jeder Etappe eine **Leseübung**. Du tippst nichts ab und führst nichts aus — du liest fremden Code und beantwortest Fragen. Das ist nicht Beiwerk, sondern der eigentliche Zweck dieses ganzen Projekts: Am Ende sollst du fremden Code beurteilen können, statt ihn zu glauben.
+Ab heute gehört zu den meisten Etappen eine **Leseübung**. Du tippst nichts ab und führst nichts aus — du liest fremden Code und beantwortest Fragen. Das ist nicht Beiwerk, sondern der eigentliche Zweck dieses ganzen Projekts: Am Ende sollst du fremden Code beurteilen können, statt ihn zu glauben.
 
 **Stufe 1 umfasst fünf bis zehn Zeilen, und die Leitfrage ist: *Was passiert hier?*** Die fünf festen Fragen sind immer dieselben, und die Wiederholung ist der Punkt:
 

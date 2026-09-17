@@ -1,6 +1,6 @@
 # Etappe 11 — Vererbung, und die Frage, ob wir sie brauchen
 
-*v1.1.1 · 2026-09-16*
+*v1.2.0 · 2026-09-16*
 
 > **Block 2: Einheiten und Zeit** · Etappe 11 von 30 · [← Etappe 10](etappe-10-komposition.md) · [Lehrplan](../Vorposten_Lehrplan.md) · [Etappe 12 →](etappe-12-der-tick.md)
 
@@ -776,6 +776,51 @@ Setz die Trefferpunkte auf `0` und probier beide. **Eine der beiden lügt.** Wel
 **Experiment 1 und 2 sind das Paar.** Beide entstehen aus einer vergessenen Kleinigkeit — einmal knallt es sofort, einmal nie. Wer nur eines macht, lernt die halbe Wahrheit.
 
 Alles in `GELERNT.md` und ins Fehlertagebuch aus Etappe 8.
+
+---
+
+## Leseübung — Stufe 1 (10 Minuten)
+
+**Du tippst nichts ab und führst nichts aus.** Auf Papier verfolgen. *(Am oberen Ende von Stufe 1 — es ist die letzte, bevor die Leiter steigt.)*
+
+```python
+class Werkzeug:
+    def __init__(self, name, gewicht):
+        self.name = name
+        self.gewicht = gewicht
+
+    def beschreibung(self):
+        return f"{self.name} ({self.gewicht} g)"
+
+
+class Akkuwerkzeug(Werkzeug):
+    def __init__(self, name, gewicht, akku):
+        super().__init__(name, gewicht + akku)
+        self.akku = akku
+
+
+saege = Werkzeug("Handsäge", 400)
+bohrer = Akkuwerkzeug("Bohrmaschine", 1200, 300)
+
+print(saege.beschreibung())
+print(bohrer.beschreibung())
+```
+
+**Die fünf Fragen der Leseleiter:**
+
+1. Was kommt rein?
+2. Was passiert?
+3. Was verändert sich — und woran?
+4. Was kommt raus?
+5. Welche anderen Objekte oder Funktionen werden dabei aufgerufen?
+
+**Und die drei, die zu dieser Etappe gehören:**
+
+6. **Schreib beide Ausgabezeilen vollständig hin**, mit allen Zahlen. ⚠️ Eine davon ist nicht die, die man auf den ersten Blick erwartet.
+7. `Akkuwerkzeug` hat keine eigene `beschreibung()`. **Warum funktioniert `bohrer.beschreibung()` trotzdem — und welcher Körper läuft dabei?**
+8. In `super().__init__(...)` steht `gewicht + akku`. **Was steht danach in `bohrer.gewicht`, und was in `bohrer.akku`?** Gibt es das Akkugewicht damit einmal oder zweimal?
+
+⚠️ **Frage 8 ist die eigentliche Übung.** Sie ist dieselbe Frage wie „wem gehört dieser Wert?" aus Etappe 9 — nur dass hier zwei `__init__` beteiligt sind und die Zahl unterwegs verändert wird. **Wer das einmal von Hand nachrechnet, verwechselt `super()` nie wieder mit „einfach dasselbe noch mal".**
 
 ---
 

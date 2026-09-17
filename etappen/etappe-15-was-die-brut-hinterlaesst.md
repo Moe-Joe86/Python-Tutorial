@@ -1,6 +1,6 @@
 # Etappe 15 — Was die Brut hinterlässt
 
-*v1.1.1 · 2026-09-16*
+*v1.2.0 · 2026-09-16*
 
 > **Block 2: Einheiten und Zeit** · Etappe 15 von 30 · [← Etappe 14](etappe-14-das-vorfeld.md) · [Lehrplan](../Vorposten_Lehrplan.md) · [Etappe 16 →](etappe-16-bug-jagd-ii.md)
 
@@ -8,7 +8,14 @@
 
 ⚠️ **Das ist die erste Etappe, die fast nichts Neues lehrt — und trotzdem einen Stern trägt.** Alle Werkzeuge kennst du: Sets seit Etappe 6, Dictionaries seit Etappe 5, Klassen seit Etappe 9, Koordinaten seit gestern. **Was heute neu ist, ist keine Zeile Python, sondern die Frage, wie vier Systeme miteinander reden, ohne aneinander festzuwachsen.**
 
-**Zeitaufwand:** 4–5 Sitzungen à 20–30 Minuten. Rund 38 Minuten Lesestoff — **eine Portion**, aber mit einem sauberen Schnitt nach Auftragsschritt 8.
+**Zeitaufwand:** 15a: 2–3 Sitzungen · 15b: 2–3 Sitzungen, à 20–30 Minuten. Rund 38 Minuten Lesestoff, etwa zwanzig je Portion.
+
+**Die zwei Portionen:**
+
+| | Was passiert | Was danach anders ist |
+|---|---|---|
+| **15a** | Fundstücke fallen, werden eingesammelt und ausgewertet | Dein Spiel merkt sich etwas über eine Welle hinaus |
+| **15b** | Das Gemerkte wirkt — auf Schaden, Depot, Bestiarium, Vorschau | Vier Systeme reden miteinander |
 
 **Voraussetzung:** Etappe 14 abgeschlossen, mindestens 14a und 14b. Du brauchst das Raster, die Koordinaten und die Zonen. *(Ohne 14c geht alles; die Barrikade spielt heute keine Rolle.)*
 

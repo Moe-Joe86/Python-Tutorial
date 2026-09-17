@@ -1,6 +1,6 @@
 # Der Bogen — Register aller Vorausverweise
 
-*v3.5.0 · 2026-09-16*
+*v3.7.0 · 2026-09-16*
 
 > Verbindlicher Anhang zum [Lehrplan](Vorposten_Lehrplan.md). Das Gegenstück dazu ist [`SYNTAX.md`](SYNTAX.md), das Register der Werkzeuge: Der Bogen führt Buch über Versprechen zwischen Etappen, das Syntaxregister darüber, welches Werkzeug ab wann zur Verfügung steht. Diese Datei ist die einzige Quelle der Wahrheit für alles, was eine frühe Etappe verspricht und eine späte einlösen muss.
 
@@ -376,7 +376,7 @@ Chronologisch nach Etappe. Spalte „Status": `offen` = noch nicht eingelöst, `
 | `.copy()` kopiert nur eine Ebene tief | **19** — beim Speichern verschachtelter Objekte wird das zum Problem | offen |
 | ⭐ **Die Slot-Invariante: ein Platz existiert immer, leer heißt `None`, nie gelöscht** | **20** — daraus wird eine Prüfung; **26** — daraus wird ein Test | offen |
 
-### Etappe 11 — Vererbung
+### Etappe 11 — Vererbung  *(11a Eine Gegnerliste · 11b Vererbung und der Trupp · 11c Item-Hierarchie)*
 
 | Was angelegt wird | Wo es eingelöst wird | Status |
 |---|---|---|
@@ -391,7 +391,7 @@ Chronologisch nach Etappe. Spalte „Status": `offen` = noch nicht eingelöst, `
 | `Item` → `Waffe`, `Panzerung`, `Modul`, `Verbrauchsgut` | **21b** — Schadenstypen; **22** — Ausbaustufen | offen |
 | 👀 `__len__`, `__contains__`, `__iter__` — **keine Implementierungsaufgabe** | **23a** — Comprehensions über eigene Objekte | offen |
 | 👀 `@property` (`am_leben`) — erkennen, nicht bauen | **12** — Prüfung im Tick; **23b** — Dekoratoren allgemein | offen |
-| `@property` ohne Klammern ist immer truthy | **16** — genau dieser Typ-3-Fehler | offen |
+| ⚠️ **Korrektur (v3.7.0):** Truthy ist eine **normale Methode** ohne Klammern (`if e.am_leben:`), **nicht** eine `@property`. Bei einer `@property` sind die Klammern gerade falsch und geben `TypeError`. Etappe 11, Konzept 14 führt alle vier Fälle in einer Tabelle | **16** — Fahndung 8 prüft beide Richtungen | **eingelöst** ✓ (16) |
 | `super().__init__()` | **13** — ⚠️ **Abweichung:** es entsteht **keine** Zähler-Basisklasse. Zähler sind Attribute an dem Objekt, dem sie gehören; `Geschuetz` erbt von `Einheit` wie alle anderen. Begründung im Guide zu 13 (Design-Entscheidung); Wiedervorlage in **22** | **eingelöst** ✓ (13) |
 | Die `elif`-Kette aus Etappe 2 stirbt hier | — Einlösung | offen |
 | **Die Vererbungsfrage schriftlich in `GELERNT.md`** | **22** — Gegenprobe an den Tabellen; **25** — Endprobe beim Verdaten | offen |
@@ -403,7 +403,7 @@ Chronologisch nach Etappe. Spalte „Status": `offen` = noch nicht eingelöst, `
 | ⚠️ **Ein Gegner hat `name`, nicht `typ`** — der Typ *ist* sein Name; zwei Attribute wären zwei Wahrheiten über dieselbe Sache | **6** — `GEGNERTYPEN` wird über `.name` nachgeschlagen; **17a** — Gegner werden aus Typen erzeugt | offen |
 | ⚠️ **Eingebaute Werkzeuge verlieren an Objekten ihren Bezugspunkt** — `min(liste)` und `"medkit" in liste` funktionieren nicht mehr von selbst, weil Python nicht weiß, worauf es schauen soll | **23a** — `key=` und Comprehensions geben ihn zurück; **11c** — bis dahin eine Schleife von Hand ✓ | **teilweise eingelöst** ✓ (11) |
 
-### Etappe 12 — DER TICK ⭐
+### Etappe 12 — DER TICK ⭐  *(12a Die Welt · 12b Der Tick)*
 
 | Was angelegt wird | Wo es eingelöst wird | Status |
 |---|---|---|
@@ -426,7 +426,7 @@ Chronologisch nach Etappe. Spalte „Status": `offen` = noch nicht eingelöst, `
 | ⚠️ **Offener Posten: Kameraden feuern ohne Munitionsverbrauch** — bewusst ausgelassen, im Guide benannt | **13** — `magazin` und `nachladezeit`, dasselbe Zähler-Muster | **eingelöst** ✓ (13) |
 | 👀 **Nacktes `return`** — Werkzeuglücke aus **7**, hier geschlossen | — Einlösung | **eingelöst** ✓ (12) |
 
-### Etappe 13 — Abklingzeiten und Nachschub ⭐
+### Etappe 13 — Bauzeit und Abklingzeit ⭐  *(13a Das Zähler-Muster · 13b Ausfall, Nachschub und das Geschütz)*
 
 | Was angelegt wird | Wo es eingelöst wird | Status |
 |---|---|---|
@@ -469,7 +469,7 @@ Chronologisch nach Etappe. Spalte „Status": `offen` = noch nicht eingelöst, `
 | **14a:** `zeichne_vorfeld()` | **28** — dieselbe Funktion, andere Ausgabe; **29** — dasselbe Raster als Tilemap | offen |
 | ⚠️ **14a, Riegel 2: Das Raster hält Gelände, keine Einheiten** — Einheiten haben eigene Koordinaten, gezeichnet wird eine Kopie | **19** — nur Zustand wird gespeichert, das Bild nicht; **29** — Tilemap und Sprites sind dieselbe Trennung | offen |
 | **14a: Die flache Kopie** — jede Zeile einzeln kopieren, sonst malt man ins Gelände | **19** — dasselbe Problem beim Laden; **28** — 60-mal pro Sekunde | offen |
-| ⭐ **14a: Entscheidung „eine Achse pro Tick oder beide?" und „welche Achse bei Gleichstand?"** — beides schriftlich | **14b** — die Abstandsrechnung muss dazu passen ✓; **16** — Off-by-one-Kandidat; **21b** — Gegnertempo als Stellschraube | offen |
+| ⭐ **14a: Entscheidung „eine Achse pro Tick oder beide?" und „welche Achse bei Gleichstand?"** — beides schriftlich | **14b** — die Abstandsrechnung muss dazu passen ✓; **16** — ⚠️ **kein Off-by-one, sondern ein Tie-Break**: bei zwei gleich langen Wegen ist keiner um eins daneben, es gibt zwei richtige Antworten und der Code wählt eine ✓; **21b** — Gegnertempo als Stellschraube | **teilweise eingelöst** ✓ (16) |
 | ⭐ **14b: Entscheidung `<` gegen `<=` bei Reichweite** — schriftlich, nach dem Muster aus **13** | **16** — ausdrücklich als Bug-Kandidat benannt; **21a** — Teil der Trefferrechnung | offen |
 | **14b: `abs()`** | **21a** — Schadensformel; durchgehend beim Rechnen mit Koordinaten | offen |
 | ⚠️ **14a: Zwei Einheiten dürfen dasselbe Feld belegen** — `ist_frei()` fragt nur das Gelände, das Raster kennt keine Einheiten. Beim Zeichnen gewinnt die zuletzt gemalte | **nicht im Plan** — eine Kollisionsprüfung wäre ein eigenes System; im Guide als bewusste Regel benannt statt als Zufall | offen |
@@ -484,7 +484,7 @@ Chronologisch nach Etappe. Spalte „Status": `offen` = noch nicht eingelöst, `
 | ⭐ **14b (Kür):** `erkundete_felder` als Set (Sensorabdeckung) — im Guide als Auftragsschritt 15 mit ausdrücklichem „nur wenn 14b sich nicht zieht" | **19** — Set → JSON ist nicht trivial | offen |
 | ⭐ **14b (Kür): Entscheidung „erkundet" dauerhaft oder nur bei Sicht** | **19** — bestimmt, ob es gespeichert werden muss. *Entfällt, wenn die Kür entfällt.* | offen |
 
-### Etappe 15 — Was die Brut hinterlässt
+### Etappe 15 — Was die Brut hinterlässt  *(15a Fundstücke und Erkenntnisse · 15b Erkenntnisse wirken)*
 
 | Was angelegt wird | Wo es eingelöst wird | Status |
 |---|---|---|
@@ -785,7 +785,7 @@ Der Plan baut mehrfach etwas Funktionierendes um. **Diese Übergänge müssen fe
 
 **Das Formular dazu** — *Beobachtung → Hypothese → Experiment*, in 8 als Denkform angelegt, in **16** zum verbindlichen Dreizeiler gemacht, in **27** ohne Änderungserlaubnis angewandt. Es ist das Gegenstück zum Ritual *Vorhersagen → Ausführen → Vergleichen → Erklären*: Das eine gilt für Code, den du neu schreibst, das andere für Code, der sich falsch verhält.
 
-**Die drei Fehlertypen** — eingeführt im Lehrplan, erlebt in Etappe 1 (fehlendes `f`, vergessenes `int()`), Etappe 2 (falsche Einrückung in der Klassenkette), Etappe 3 (Rundenzähler an der falschen Stelle), Etappe 4 (`liste = liste.append(...)`, Gegner beim Iterieren entfernen), Etappe 5 (`vaporium - preis` ohne Zuweisung), **Etappe 4 (eine Liste verändern, während man über sie läuft — der erste Typ-3-Fehler, den der Lernende *sehen* kann, weil die Anmarschbahn ihn zeigt)**, **Etappe 5 (`x - y` statt `x -= y` beim Abbuchen — unendlich Geld ohne jede Meldung; und der Tippfehler im Schlüssel, der still einen neuen Eintrag anlegt)**, Etappe 10 (zwei Marines, ein Inventar), Etappe 11 (`@property` ohne Klammern ist immer truthy), Etappe 14a (`x = -1` greift von hinten), Etappe 14b (`<=` statt `<` bei der Reichweite) → **systematisch benannt und geübt in Etappe 8** → Etappe 12 (Tick zweimal pro Befehl), Etappe 16 (Reihenfolge im Tick), Etappe 20 (`except:` verwandelt Typ 1 in Typ 3), Etappe 21a (Panzerung größer als Schaden heilt den Gegner), Etappe 21b (`"weele"` gegen `Spielzustand.WEELE`), Etappe 25 (`"trefferpunkte": "sehr viel"` ist gültiges JSON).
+**Die drei Fehlertypen** — eingeführt im Lehrplan, erlebt in Etappe 1 (fehlendes `f`, vergessenes `int()`), Etappe 2 (falsche Einrückung in der Klassenkette), Etappe 3 (Rundenzähler an der falschen Stelle), Etappe 4 (`liste = liste.append(...)`, Gegner beim Iterieren entfernen), Etappe 5 (`vaporium - preis` ohne Zuweisung), **Etappe 4 (eine Liste verändern, während man über sie läuft — der erste Typ-3-Fehler, den der Lernende *sehen* kann, weil die Anmarschbahn ihn zeigt)**, **Etappe 5 (`x - y` statt `x -= y` beim Abbuchen — unendlich Geld ohne jede Meldung; und der Tippfehler im Schlüssel, der still einen neuen Eintrag anlegt)**, Etappe 10 (zwei Marines, ein Inventar), Etappe 11 (eine **normale Methode** ohne Klammern ist immer truthy — bei `@property` ist es umgekehrt), Etappe 14a (`x = -1` greift von hinten), Etappe 14b (`<=` statt `<` bei der Reichweite) → **systematisch benannt und geübt in Etappe 8** → Etappe 12 (Tick zweimal pro Befehl), Etappe 16 (Reihenfolge im Tick), Etappe 20 (`except:` verwandelt Typ 1 in Typ 3), Etappe 21a (Panzerung größer als Schaden heilt den Gegner), Etappe 21b (`"weele"` gegen `Spielzustand.WEELE`), Etappe 25 (`"trefferpunkte": "sehr viel"` ist gültiges JSON).
 
 **Zahlen als Lehrmittel** — dieses Setting rechnet überall, und deshalb ist Typ 3 hier der Normalfall statt der Ausnahme. Ab Etappe 3 zeigt die Balkendarstellung Rechenfehler an, die in einer Zahlenkolonne unsichtbar wären. Ab Etappe 4 zeigt die Anmarschbahn Listenfehler an. Das ist Absicht: Die Darstellung ist Teil des Debugging-Werkzeugkastens.
 

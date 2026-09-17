@@ -1,6 +1,6 @@
 # Das Syntaxregister — welches Werkzeug ab wann zur Verfügung steht
 
-*v1.20.0 · 2026-09-16*
+*v1.20.1 · 2026-09-16*
 
 > Verbindlicher Anhang zum [Lehrplan](Vorposten_Lehrplan.md). Diese Datei ist die einzige Quelle der Wahrheit darüber, was ein Lernender an einem bestimmten Punkt kennt.
 
@@ -316,7 +316,7 @@ Kein Python. Terminal, Git, virtuelle Umgebung, `pip`. Steht im Lehrplan, nicht 
 | Komposition („hat ein") als Begriff, gegen Vererbung („ist ein") | 1 | 👀 |
 | `TypeError: 'tuple' object does not support item assignment` | Kaputtmachen | 👀 |
 
-*(Vererbung, `super()` und Objekte statt Strings im Inventar gehören zu **11**. `@property` kommt im ganzen Plan nicht vor.)*
+*(Vererbung, `super()` und Objekte statt Strings im Inventar gehören zu **11**. `@property` wird in **11** als 👀 gezeigt und nirgends gebaut.)*
 
 ---
 
@@ -454,10 +454,10 @@ Kein Python. Terminal, Git, virtuelle Umgebung, `pip`. Steht im Lehrplan, nicht 
 | Werkzeug | Konzept | Stufe |
 |---|---|---|
 | **Die Tick-Tabelle von Hand** — Phase mal Einheit, **vor** dem Ausführen | 3 | 🔨 |
-| **Reihenfolgefehler als dritte Ursachenklasse** (weder Code noch Daten) — auf der Zeitachse immer Typ 3 | 1 | 🧠 |
+| **Reihenfolgefehler als eigene Ursachenklasse** — die Schritte stimmen, ihre Anordnung entspricht nicht der Spielregel; **meistens** Typ 3, bei Zugriff auf Entferntes auch Typ 1 | 1 | 🧠 |
 | Der Dreizeiler Beobachtung → Hypothese → Experiment als **Pflicht** (aus **8**) | 4 | 🔨 |
 | **Die Rückwärtsprobe:** Änderung zurücknehmen — ist der Fehler wieder da? | 4 | 🔨 |
-| Off-by-one als **Familie**: die drei schriftlichen Entscheidungen aus 13, 14a, 14b | 5 | 🧠 |
+| **Zwei Familien, drei Notizen**: Off-by-one (13 Zeitsemantik, 14b Grenzwert) gegen **Tie-Break** (14a Gleichstand) — verschiedene Suchverfahren | 5 | 🧠 |
 | Bisektion über die **Git-Historie** statt über den Code (aus **8**) | 7 | 🔨 |
 | **Verweis ins Leere** zwischen zwei Tabellen — beide für sich fehlerfrei (aus **15**) | 8 | 🧠 |
 | „Wann hätte ich es gemerkt, wenn es funktioniert hätte?" — fehlende Wirkung ist schwerer zu bemerken als falsche | 6 | 🧠 |

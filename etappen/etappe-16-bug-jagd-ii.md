@@ -1,12 +1,12 @@
 # Etappe 16 — Bug-Jagd II
 
-*v1.0.0 · 2026-09-16*
+*v1.1.0 · 2026-09-16*
 
 > **Block 2: Einheiten und Zeit** · Etappe 16 von 30 · [← Etappe 15](etappe-15-was-die-brut-hinterlaesst.md) · [Lehrplan](../Vorposten_Lehrplan.md) · Etappe 17 →
 
 **Neue Syntax heute:** Keine. Nicht eine Zeile.
 
-**Zeitaufwand:** 4–5 Sitzungen à 20–30 Minuten. Rund 28 Minuten Lesestoff, eine Portion. **Der Zeitaufwand liegt fast vollständig im Suchen, nicht im Lesen.**
+**Zeitaufwand:** 4–5 Sitzungen à 20–30 Minuten. Rund 32 Minuten Lesestoff, eine Portion. **Der Zeitaufwand liegt fast vollständig im Suchen, nicht im Lesen.**
 
 ⚠️ **Diese Etappe baut kein Feature.** Am Ende des Abends kann dein Spiel exakt so viel wie vorher — und es tut endlich, was du glaubst, dass es tut. **Das ist die letzte Etappe von Block 2, und sie ist der Grund, warum Block 3 tragfähig ist.** Wer mit vier stillen Fehlern in den Wellengenerator geht, sucht ab Etappe 17 in zwei Systemen gleichzeitig.
 
@@ -36,7 +36,9 @@ Etappe 8 hatte Abstürze, falsche Zahlen und einen Fehler in den Daten. Die ware
 
 > **Du schreibst einen einzigen Tick von Hand auf, Phase für Phase, Einheit für Einheit. Dann lässt du dasselbe von deinem Programm machen und vergleichst Zeile für Zeile.**
 
-Das klingt nach Fleißarbeit. Es ist Fleißarbeit. **Und es ist die einzige Methode, die bei dieser Fehlerklasse zuverlässig funktioniert** — Lesen findet sie nicht, Herumprobieren findet sie nicht, und ein Debugger zeigt dir nur, was passiert, nicht, was hätte passieren sollen.
+Das klingt nach Fleißarbeit. Es ist Fleißarbeit. **Und für dein Spiel in seinem heutigen Stand ist es der direkteste Weg, die Reihenfolge sichtbar zu machen** — Lesen findet sie nicht, Herumprobieren findet sie nicht, und ein Debugger zeigt dir nur, was passiert, nicht, was hätte passieren sollen.
+
+*(Es ist nicht der einzige Weg. Protokolle, ein fester Zufallsstartwert, Invarianten und Tests machen dieselben Fehler ebenfalls sichtbar — und alle vier bekommst du noch: 17b, 20 und 26.)*
 
 ---
 
@@ -64,13 +66,15 @@ Diese Etappe ist die am weitesten vorbereitete des ganzen Plans. **Neun Etappen 
 
 Etappe 8 hat dir zwei Landkarten gegeben. Die eine sagt, **wann** ein Fehler auffällt — Typ 1 sofort, Typ 2 irgendwann, Typ 3 nie. Die andere sagt, **wo** er sitzt: im Code oder in den Daten.
 
-**Heute kommt eine dritte Antwort auf die Wo-Frage dazu, und sie ist keine von beiden:**
+**Heute kommt eine dritte Ursachenklasse dazu:**
 
-> **Der Fehler sitzt weder im Code noch in den Daten. Er sitzt in der Reihenfolge, in der richtiger Code auf richtige Daten trifft.**
+> **Die einzelnen Schritte sind alle richtig. Ihre zeitliche Anordnung entspricht nicht der Spielregel, die du im Kopf hattest.**
 
-Jede einzelne Zeile ist korrekt. Jeder Wert stimmt. **Nur die Abfolge ist eine andere, als du im Kopf hattest** — und dein Kopf ist die einzige Stelle, an der die richtige Abfolge je gestanden hat.
+Jede einzelne Zeile ist korrekt. Jeder Wert stimmt. **Nur die Abfolge ist eine andere, als du erwartet hast** — und die Erwartung ist meist die einzige Stelle, an der die „richtige" Abfolge je gestanden hat. *(Die Reihenfolge selbst steht natürlich im Code — sie ist nur nirgends als Regel aufgeschrieben, und deshalb fällt niemandem auf, wenn sie abweicht.)*
 
-⚠️ **Auf der Zeitachse ist das immer ein Typ-3-Fehler.** Er läuft, er stürzt nie ab, er liefert plausible Zahlen. Deshalb ist er teurer als alles, was du in Etappe 8 gejagt hast.
+⚠️ **Und auf der Zeitachse ist sie meistens ein Typ-3-Fehler:** Es läuft, es stürzt nicht ab, die Zahlen sind plausibel. **Deshalb ist diese Klasse teurer als alles, was du in Etappe 8 gejagt hast.**
+
+*(„Meistens", nicht „immer": Eine falsche Reihenfolge kann auch knallen — wenn etwas erst entfernt und danach benutzt wird, bekommst du einen sauberen Typ 1. **Das ist dann der freundliche Fall.**)*
 
 **Und hier ist er, in vollständiger Länge.** Ein Turm mit sechs Schaden, ein Kriecher mit zwölf Trefferpunkten, ein Feld vor dem Tor. **Derselbe Code. Zwei vertauschte Zeilen im Tick.**
 
@@ -116,6 +120,12 @@ Du liest `for g in self.gegner: g.update(self)` und denkst *„dann bewegen sich
 | 4. Gegner handeln | Feld 1 | Feld 3 | bereit | Feld 2 |
 | 5. Aufräumen | Feld 1, 4 HP | Feld 3, 8 HP | bereit | Feld 2 |
 
+⚠️ **Zwei Dinge zum Lesen dieser Tabelle, bevor du sie nachbaust.**
+
+**Erstens: In jeder Zelle steht der Zustand *nach* dieser Phase.** Der Anfang der nächsten Zeile ist derselbe Zustand — du notierst keine Zwischenstände innerhalb einer Phase. Sonst wird die Tabelle selbst zur Fehlerquelle.
+
+**Zweitens: Der Turm handelt in Phase 3, obwohl die Zeile „Trupp handelt" heißt.** Das ist kein Versehen — seit Etappe 13 steht er in `welt.trupp`, und der Tick läuft über diese Liste. **Die 6 Schaden in Phase 3 kommen also entweder vom Turm oder vom Marine.** Genau solche Zuordnungsfragen sind der Grund für die Tabelle: Wenn du beim Ausfüllen nicht sagen kannst, *wer* eine Zahl verändert hat, hast du schon etwas gefunden. **Schreib die Ursache in Klammern dazu**, wenn eine Zelle mehrdeutig ist.
+
 **Drei Regeln, ohne die sie nichts wert ist:**
 
 - **Die Zeilen sind deine Phasen, nicht meine.** Schreib sie aus deiner Notiz aus Etappe 12 ab, in deiner Reihenfolge, mit der Zählerphase aus Etappe 13 und der Einsammelphase aus Etappe 15.
@@ -142,21 +152,27 @@ Zwei der drei Änderungen sind jetzt unbegründet im Code. Sie tun etwas. Nieman
 
 ⚠️ **Und die härtere Hälfte derselben Regel:** *„Ich habe etwas geändert und jetzt geht es"* ist **kein Ergebnis.** Es heißt: Der Fehler ist weg, und du weißt nicht, warum — also weißt du auch nicht, ob er weg ist oder nur woandershin gewandert.
 
-**Die Probe darauf ist billig und unbequem:** Mach deine Änderung rückgängig. Ist der Fehler wieder da? **Dann hast du ihn gefunden.** Ist er weg geblieben, hast du etwas anderes repariert und den eigentlichen noch vor dir.
+**Die Probe darauf ist billig und unbequem:** Mach deine Änderung rückgängig. Ist der Fehler wieder da, **hast du einen starken Beleg, dass deine Änderung und der Fehler zusammenhängen** — und für diese Etappe reicht das. Bleibt er weg, hast du etwas anderes repariert und den eigentlichen noch vor dir.
 
-### 5. Off-by-one ist eine Familie, keine Panne ⭐
+*(Streng genommen zeigt die Probe einen Zusammenhang, keine Ursache — eine Änderung kann auch einen zweiten Fehler verdecken. Für Gewissheit braucht es einen Test, und der ist Etappe 26.)*
 
-Du hast in den letzten drei Etappen **drei Entscheidungen aufgeschrieben**, und alle drei sind vom selben Typ:
+### 5. Zwei Familien, drei Notizen ⭐
 
-| Aus | Die Frage | Wenn sie falsch ist |
-|---|---|---|
-| **Etappe 13** | Was heißt `ABKLINGZEIT = 3` für Tick 1, 2, 3? | Alles ist einen Takt zu früh oder zu spät fertig |
-| **Etappe 14a** | Welche Achse bei Gleichstand? | Gegner nehmen einen anderen Weg als erwartet |
-| **Etappe 14b** | `<` oder `<=` bei der Reichweite? | Ein Feld zu früh oder zu spät geschossen |
+Du hast in den letzten drei Etappen **drei Entscheidungen aufgeschrieben**. Sie sehen gleich aus und gehören in **zwei verschiedene Familien** — und die Unterscheidung hilft beim Suchen:
+
+| Aus | Die Frage | Familie | Wenn sie falsch ist |
+|---|---|---|---|
+| **Etappe 13** | Was heißt `ABKLINGZEIT = 3` für Tick 1, 2, 3? | **Off-by-one**, Zeitsemantik | Alles ist einen Takt zu früh oder zu spät fertig |
+| **Etappe 14b** | `<` oder `<=` bei der Reichweite? | **Off-by-one**, Grenzwert | Ein Feld zu früh oder zu spät geschossen |
+| **Etappe 14a** | Welche Achse bei Gleichstand? | **Tie-Break**, Bestimmtheit | Gegner nehmen einen anderen Weg als erwartet |
+
+**Die ersten beiden sind Off-by-one:** Irgendwo ist es eins zu viel oder eins zu wenig, und beim Suchen zählst du nach.
+
+**Die dritte ist etwas anderes.** Bei zwei gleich langen Wegen ist keiner um eins daneben — es gibt schlicht zwei richtige Antworten, und dein Code wählt eine davon. **Beim Suchen zählst du hier nicht nach, sondern vergleichst deine Notiz mit der Reihenfolge deiner `if`-Zweige.**
 
 **Der Punkt ist nicht, dass eine dieser Entscheidungen falsch wäre.** Der Punkt ist:
 
-> **Ein Off-by-one ist nie ein Fehler im Code. Er ist ein Unterschied zwischen dem, was du aufgeschrieben hast, und dem, was du gebaut hast.**
+> **Keine der beiden Familien ist ein Fehler im Code. Beide sind ein Unterschied zwischen dem, was du aufgeschrieben hast, und dem, was du gebaut hast.**
 
 **Und deshalb sind deine drei Notizen heute Beweismittel.** Ohne sie kannst du nur raten, was richtig gewesen wäre. Mit ihnen vergleichst du in zehn Minuten Notiz gegen Code.
 
@@ -191,9 +207,9 @@ Etappe 14b
 Etappe 15  ← hier ist er
 ```
 
-Vier Commits, zwei Prüfungen, und du weißt, welche Etappe ihn eingebaut hat. **Das grenzt den Suchraum von „mein ganzes Programm" auf „ein Abend Arbeit" ein**, und mehr will man von einem Werkzeug nicht.
+**Vier Stände aus deiner Historie, zwei Prüfungen**, und du weißt, welche Etappe ihn eingebaut hat — welche Commits das genau sind, hängt davon ab, wie fein du committet hast. **Das grenzt den Suchraum von „mein ganzes Programm" auf „ein Abend Arbeit" ein**, und mehr will man von einem Werkzeug nicht.
 
-*(Git hat dafür sogar einen eigenen Befehl, der das Halbieren automatisch macht. Du brauchst ihn nicht — bei acht Commits geht es von Hand schneller, als die Bedienung nachzuschlagen.)*
+*(Git hat dafür einen eigenen Befehl, `git bisect`, der **genau dieses Verfahren** automatisiert. Der Guide lässt ihn heute weg, weil du das Verfahren lernen sollst und nicht seine Bedienung. Wenn du einmal von Hand halbiert hast, ist der Befehl in fünf Minuten gelernt.)*
 
 ### 8. Fehler in den Daten, zweite Sorte 🧠
 
@@ -285,13 +301,13 @@ Aus `GELERNT.md`:
 | 3 | **Gleichstand bei der Bewegung** | Gegner diagonal zum Ziel setzen, beide Abstände gleich. Welche Achse? Immer dieselbe? |
 | 4 | **Zähler läuft doppelt** | Einen Zähler auf 10 setzen, **einen** Tick. Steht er auf 9 — oder auf 8? |
 | 5 | **Sammeln und danach entfernen** | Vier Gegner auf `"tot"`, einmal aufräumen. Bleiben zwei übrig? |
-| 6 | **Zwei Namen, ein Objekt** | `p welt.trupp[0].inventar is welt.trupp[1].inventar` — muss `False` sein |
-| 7 | **Veränderbarer Standardwert** | Zwei Objekte erzeugen, dem einen etwas ins Inventar legen, beim **anderen** nachsehen |
-| 8 | **Methode ohne Klammern** | Such nach `if ...am_leben:` ohne `()`. Ohne Klammern ist das **immer** wahr |
+| 6 | **Geteiltes Objekt durch Zuweisung** (`b = a`) | `p welt.trupp[0].inventar is welt.trupp[1].inventar` — muss `False` sein |
+| 7 | **Geteiltes Objekt durch veränderbaren Standardwert** in `__init__` — *dieselbe Wirkung wie 6, andere Ursache* | Zwei Objekte erzeugen, dem einen etwas ins Inventar legen, beim **anderen** nachsehen |
+| 8 | **Klammern bei `am_leben`** | Normale **Methode**: `if e.am_leben():` — ohne Klammern ist die Bedingung immer wahr. **`@property`**: genau umgekehrt, dort sind die Klammern falsch. *(Etappe 11, Konzept 14 — die Tabelle mit allen vier Fällen)* |
 | 9 | **Verweis ins Leere** | Jedes Wort aus Schwachpunkt- und Depottabelle in der Fundtabelle nachschlagen |
 | 10 | **Zwei Werte für dieselbe Aussage** | Gibt es `nachladen_noetig` **und** `munition > 0`? Können sie sich widersprechen? |
 | 11 | **Namensfalle** | Zwei Gesundheitswerte — Kern und Marine. Werden sie irgendwo verwechselt? |
-| 12 | **Komma-Falle** | `(5)` ist ein `int`, `(5,)` ein Tuple. Steht irgendwo eine Klammer ohne Komma? |
+| 12 | **Komma-Falle** | Such Stellen, an denen ein Tuple mit **genau einem** Element entstehen soll — dort braucht es `(5,)`, nicht `(5)`. *(Klammern ohne Komma sind sonst normal; such nicht jede.)* |
 | 13 | **Raster geteilt** | `p welt.vorfeld[0] is welt.vorfeld[1]` — muss `False` sein |
 | 14 | **Einsammeln zu früh** | Fehlt die Beute des **letzten** Gegners einer Welle? |
 
@@ -333,7 +349,9 @@ Nach Konzept 8:
 - Spiel eine Welle, analysiere, schieß.
 - **Wie lange brauchst du, bis du es merkst — ohne in die Tabelle zu sehen?**
 
-⚠️ **Die Antwort auf diese Frage ist wichtiger als der Fehler.** Wenn du es gar nicht merken kannst, fehlt deinem Spiel eine Anzeige — und das ist ein Fund.
+⚠️ **Die Antwort auf diese Frage ist wichtiger als der Fehler.** Kannst du es gar nicht merken, notier den Satz: **„Die Wirkung dieser Mechanik ist im laufenden Spiel nicht beobachtbar."** Das ist ein Fund, und er ist mehr wert als der Tippfehler.
+
+**Repariert wird heute nichts davon.** Vielleicht fehlt eine Anzeige, vielleicht ist die Wirkung zu klein, vielleicht sitzt sie an der falschen Stelle. *(Was man nicht beobachten kann, lässt sich in 21b nicht balancieren und in 26 nicht testen — dort wird die Notiz eingelöst.)*
 
 ---
 
@@ -357,7 +375,7 @@ Commit: `Etappe 16: Bug-Jagd II — die Reihenfolge steht`
 
 **Keine Reparatur der Kopplung.** Die Zeichnung aus Etappe 15 bleibt, wie sie ist. Etappe 23b.
 
-**Kein `git bisect`.** Halbieren von Hand. Der Befehl ist nett und lenkt heute vom Verfahren ab.
+**Kein `git bisect`.** Halbieren von Hand — **nicht weil der Befehl schlecht wäre, sondern weil er genau das automatisiert, was du heute verstehen sollst.** Danach darfst du ihn gern benutzen.
 
 **Kein `Enum` gegen die Verweise ins Leere.** Etappe 21b.
 
@@ -385,7 +403,7 @@ Commit: `Etappe 16: Bug-Jagd II — die Reihenfolge steht`
 
 In `GELERNT.md`, ohne nachzuschlagen.
 
-1. **Was ist ein Reihenfolgefehler — und warum ist er auf der Zeitachse immer ein Typ-3-Fehler?**
+1. **Was ist ein Reihenfolgefehler — und warum ist er auf der Zeitachse meistens ein Typ-3-Fehler? Nenn den Fall, in dem er es nicht ist.**
 2. Warum findest du ihn nicht durch Lesen? Der Grund liegt nicht im Code.
 3. Warum muss die Tick-Tabelle **vor** dem Ausführen entstehen?
 4. Was bedeutet „nur eine Sache auf einmal ändern" — und was ist an *„ich habe etwas geändert und jetzt geht es"* falsch?
@@ -442,10 +460,10 @@ C: Einzahlung (50 Euro)
 
 **Und dann der eigentliche Teil:**
 
-4. **Welche der sechs Reihenfolgen würdest du als Bank wählen? Welche als Kunde?**
+4. **Welche Reihenfolge ergibt den größten, welche den kleinsten Endstand?** Begründe nur mit den Abhängigkeiten zwischen den Vorgängen — nicht damit, was dir fair vorkommt.
 5. Nimm die Zinsen heraus und rechne noch einmal. **Wie viele verschiedene Ergebnisse bleiben — und warum?**
 
-**Schritt 5 ist der Kern.** Ohne die Zinsen ist die Reihenfolge egal, weil Addition vertauschbar ist. **Reihenfolge zählt genau dann, wenn ein Schritt vom Ergebnis eines anderen abhängt** — und in deinem Tick tut das fast jeder.
+**Schritt 5 ist der Kern.** Ohne die Zinsen ist die Reihenfolge egal, weil Addition vertauschbar ist. **In diesem Beispiel wird die Reihenfolge genau deshalb relevant, weil ein Schritt vom aktuellen Zwischenstand abhängt** — und in deinem Tick tut das fast jeder.
 
 ---
 
@@ -453,7 +471,7 @@ C: Einzahlung (50 Euro)
 
 ⚠️ **Heute ist das Kaputtmachen der Auftrag, nicht der Nachtisch.** Die Schritte 4, 7 und 8 sind Kaputtmach-Experimente. Diese drei kommen dazu.
 
-**1. ⭐⭐ Zieh die Zählerphase ans Ende des Ticks.** Hinter das Aufräumen. Setz eine Abklingzeit auf `1` und beobachte, wann die Fähigkeit bereit ist. **Ein Takt Unterschied — und du hast ihn selbst herbeigeführt, also weißt du diesmal, wonach du suchst.** Genau das macht den Unterschied zu einem echten Fund aus.
+**1. ⭐⭐ Zieh die Zählerphase ans Ende des Ticks.** Hinter das Aufräumen. Nimm eine Fähigkeit, die gerade **nicht** bereit ist, setz ihre Abklingzeit auf `1` — und **schreib vorher auf, bei welchem `welt.zeit` du sie zurückerwartest.** Dann ausführen. **Ein Takt Unterschied — und du hast ihn selbst herbeigeführt, also weißt du diesmal, wonach du suchst.** Genau das macht den Unterschied zu einem echten Fund aus.
 
 **2. ⭐ Lass zwei Marines dasselbe Inventar teilen.** Setz `b.inventar = a.inventar` und spiel eine Welle. **Wann fällt es auf?** Schreib auf, nach wie vielen Aktionen — und ob es dir ohne Vorwissen aufgefallen wäre.
 
@@ -461,7 +479,11 @@ C: Einzahlung (50 Euro)
 
 ---
 
-**Diese drei sind bewusst Fehler, die du selbst einbaust.** Das ist der Unterschied zu Etappe 8: Dort hast du gelernt zu suchen. **Heute lernst du, wie ein Fehler aussieht, bevor du weißt, dass er da ist** — und dafür musst du ihn einmal bewusst erzeugt und dann gesucht haben.
+**Diese drei sind bewusst Fehler, die du selbst einbaust.** Das ist der Unterschied zu Etappe 8: Dort hast du gelernt zu suchen.
+
+> **Heute lernst du, welche Spuren typische Fehler hinterlassen.**
+
+Die Aufgabe ist deshalb **nicht**, den Fehler zu finden — du weißt ja, wo er steckt. **Sie ist, das Symptom zu beschreiben, ohne auf die geänderte Zeile zu sehen.** Genau dieses Symptom ist es, an dem du den Fehler wiedererkennst, wenn ihn beim nächsten Mal niemand absichtlich eingebaut hat.
 
 Alles ins Fehlertagebuch: **woran du es erkannt hättest.**
 

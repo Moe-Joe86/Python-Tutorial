@@ -1,6 +1,6 @@
 # Das Syntaxregister — welches Werkzeug ab wann zur Verfügung steht
 
-*v1.20.1 · 2026-09-16*
+*v1.23.1 · 2026-09-21*
 
 > Verbindlicher Anhang zum [Lehrplan](Vorposten_Lehrplan.md). Diese Datei ist die einzige Quelle der Wahrheit darüber, was ein Lernender an einem bestimmten Punkt kennt.
 
@@ -163,6 +163,7 @@ Kein Python. Terminal, Git, virtuelle Umgebung, `pip`. Steht im Lehrplan, nicht 
 | `", ".join(liste)` — Trennzeichen ruft auf, Liste in die Klammern | 14 | 🔨 |
 | `AttributeError` bei vertauschter Reihenfolge | 14 | 🧠 |
 | `print(dir(x))` und `help(x.methode)` — Ausgabe lesen, Dunder überspringen | Vorspann | 🔨 |
+| `BAHNLAENGE` als fester Wert, GROSS geschrieben — der erste im eigenen Code | Auftrag 9 | 🔨 |
 | *(Kür)* `import random` — nur als Gebrauchsanweisung, erklärt wird er in **24** | Kür | 🔨 |
 | *(Kür)* `random.choice(liste)` — ein zufälliger Eintrag, **gleichverteilt** | Kür | 🔨 |
 | ⚠️ Gewichte (`random.choices` mit `weights=`) gehören **nicht** hierher — Zahltag ist **17a** | — | ⛔ |
@@ -268,7 +269,7 @@ Kein Python. Terminal, Git, virtuelle Umgebung, `pip`. Steht im Lehrplan, nicht 
 | `if bedingung: breakpoint()` — der bedingte Breakpoint | 7 | 🔨 |
 | Grafischer Debugger: *Step Over/Into/Out* = `n`/`s`/`r` | 6 | 👀 |
 
-*(Diese Etappe führt keine Spielsyntax ein — alles hier sind Werkzeuge zur Fehlersuche. Das Traceback-Lesen steht bereits bei Etappe 1 auf 🧠 und wird hier nur aktiv geübt, deshalb kein neuer Eintrag. `git diff` und `git log --oneline` gehören in den Git-Faden des Bogens, nicht in dieses Register.)*
+*(Diese Etappe führt keine Spielsyntax ein — alles hier sind Werkzeuge zur Fehlersuche. Das Traceback-Lesen steht bereits bei Etappe 1 auf 🧠 und wird hier nur aktiv geübt, deshalb kein neuer Eintrag. `git diff` und `git log --oneline` gehören in den Git-Faden des Bogens, nicht in dieses Register. Ausnahme ist `git checkout` in Etappe 16, weil dort ein Auftragsschritt ihn verlangt.)*
 
 ---
 
@@ -312,7 +313,8 @@ Kein Python. Terminal, Git, virtuelle Umgebung, `pip`. Steht im Lehrplan, nicht 
 | **Objektidentität: zwei Namen, ein Objekt** | 6 | 🧠 |
 | `None` ≠ `0` — beide falsy, verschiedene Bedeutung | 4 | 🧠 |
 | `__repr__` der inneren Klasse trägt die des äußeren Objekts | 11 | 🧠 |
-| `is` gegen `==` — Ding gegen Wert | 5 | 👀 |
+| `a is b` als Nachweis, dass zwei Namen auf dasselbe Objekt zeigen | 5, 6 | 🔨 |
+| `is` gegen `==` als Regel für Vergleiche — Ding gegen Wert | 5 | 👀 |
 | Komposition („hat ein") als Begriff, gegen Vererbung („ist ein") | 1 | 👀 |
 | `TypeError: 'tuple' object does not support item assignment` | Kaputtmachen | 👀 |
 
@@ -331,11 +333,11 @@ Kein Python. Terminal, Git, virtuelle Umgebung, `pip`. Steht im Lehrplan, nicht 
 | Eine Schleife über gemischte Objekte, ein Methodenaufruf | 8 | 🔨 |
 | `.remove(objekt)` an einer Liste von Objekten — entfernt genau dieses | 2 | 🔨 |
 | `for obj in liste: obj.attribut -= 1` verändert die Objekte | 3 | 🔨 |
-| Ein Dictionary Eingabe → Klasse, statt einer `if`/`elif`-Kette | Auftrag 11 | 🔨 |
+| Eine Klasse als Wert: ein Dictionary Eingabe/Kennung → Klasse, Aufruf aus dem Dictionary, statt einer `if`/`elif`-Kette | 11b | 🔨 |
 | Begriffe: Ober-/Basis-/Elternklasse, Unter-/abgeleitete/Kindklasse | 6 | 🧠 |
 | `AttributeError` bei fehlendem `super().__init__()` — Absturzstelle ≠ Fehlerstelle | 7 | 🧠 |
 | ⚠️ Methode ohne Klammern im `if` ist **immer wahr** — stiller Typ 3 | 14 | 🧠 |
-| `type(self).__name__` — Klassenname im `__repr__` der Oberklasse | 11 | 👀 |
+| `type(self).__name__` — Klassenname im `__repr__` der Oberklasse oder als Anzeige | 11 | 🔨 |
 | `__len__`, `__contains__`, `__iter__` — **keine Implementierungsaufgabe** | 13 | 👀 |
 | `@property` — Methode ohne Klammern aufrufen | 14 | 👀 |
 | `TypeError: 'bool' object is not callable` — Klammern bei `@property` | 14 | 👀 |
@@ -392,7 +394,7 @@ Kein Python. Terminal, Git, virtuelle Umgebung, `pip`. Steht im Lehrplan, nicht 
 | Der Begriff **Scheduler** — die Welt führt Termine statt Zähler im Objekt | Design-Entscheidung | 👀 |
 | Entscheidung **Tick-Zeit statt Echtzeit** — `time.time()` wird benannt, nicht benutzt | Design-Entscheidung | 👀 |
 
-*(`is` auf Objekten bleibt 👀 — Konzept 7 rät im Auftrag ausdrücklich davon ab und nennt das Attribut als gedeckten Weg. `assert` bleibt 👀 aus 7b: Schritt 9 lässt die Invariante aufschreiben, nicht prüfen. Die Stufenberechnung stammt aus 9a und wird nicht neu eingeführt — Schritt 8 legt nur zwei Zeilen darum.)*
+*(`is` als Vergleich zwischen Objekten bleibt 👀 — der Identitätsnachweis `a is b` aus Etappe 10 ist davon unberührt. Konzept 7 rät im Auftrag ausdrücklich davon ab und nennt das Attribut als gedeckten Weg. `assert` bleibt 👀 aus 7b: Schritt 9 lässt die Invariante aufschreiben, nicht prüfen. Die Stufenberechnung stammt aus 9a und wird nicht neu eingeführt — Schritt 8 legt nur zwei Zeilen darum.)*
 
 ---
 
@@ -408,7 +410,7 @@ Kein Python. Terminal, Git, virtuelle Umgebung, `pip`. Steht im Lehrplan, nicht 
 | Die Doppelschleife `for y in range(len(r))` / `for x in range(len(r[y]))` | 4 | 🔨 |
 | `len(r[y])` statt `len(r[0])` — die Zeile fragen, in der man steht | 4 | 🧠 |
 | **Die Randprüfung** — `< 0` und `>= len(...)`, beide Achsen, vor jedem Zugriff | 5 | 🔨 |
-| Ein negativer Index greift **still** von hinten; über den oberen Rand knallt es | 5 | 🧠 |
+| Ein negativer Index greift **still** von hinten; über den unteren Rand knallt es | 5 | 🧠 |
 | Eine flache Kopie eines Rasters: **jede Zeile einzeln** mit `.copy()` | 8 | 🔨 |
 | `abs()` — der Betrag | 9 | 🔨 |
 | Abstand als `abs(dx) + abs(dy)` — und dass die Form zur Bewegung passen muss | 9 | 🧠 |
@@ -459,6 +461,7 @@ Kein Python. Terminal, Git, virtuelle Umgebung, `pip`. Steht im Lehrplan, nicht 
 | **Die Rückwärtsprobe:** Änderung zurücknehmen — ist der Fehler wieder da? | 4 | 🔨 |
 | **Zwei Familien, drei Notizen**: Off-by-one (13 Zeitsemantik, 14b Grenzwert) gegen **Tie-Break** (14a Gleichstand) — verschiedene Suchverfahren | 5 | 🧠 |
 | Bisektion über die **Git-Historie** statt über den Code (aus **8**) | 7 | 🔨 |
+| `git checkout <hash>` — einen alten Stand ansehen, nichts darauf committen; `git checkout main` (oder `master`) — zurück | 7 | 🔨 |
 | **Verweis ins Leere** zwischen zwei Tabellen — beide für sich fehlerfrei (aus **15**) | 8 | 🧠 |
 | „Wann hätte ich es gemerkt, wenn es funktioniert hätte?" — fehlende Wirkung ist schwerer zu bemerken als falsche | 6 | 🧠 |
 | Die Leseleiter **auf eigenen Code** angewandt | Leseübung | 🔨 |

@@ -1,6 +1,6 @@
 # Etappe 6 — Liste, Dictionary, Set, Tuple
 
-*v1.8.0 · 2026-09-15*
+*v1.9.1 · 2026-09-21*
 
 > **Block 1: Fundament** · Etappe 6 von 30 · [← Etappe 5](etappe-05-vorposten-und-depot.md) · [Lehrplan](../Vorposten_Lehrplan.md) · [Etappe 7 →](etappe-07-aufraeumen.md)
 
@@ -100,8 +100,6 @@ Bisher hast du `remove()` benutzt: „nimm den Eintrag mit diesem Wert raus". Da
 
 **Ich empfehle dir keine Variante, und das ist ausnahmsweise Absicht.** Beide funktionieren, beide sind in echtem Code verbreitet, und die Falle bei der ersten ist genau die aus Etappe 4 — nur diesmal mit zwei Listen statt einer.
 
-**Was ich dir stattdessen mitgebe, ist ein Satz zum Aufschreiben:**
-
 **Und jetzt die Invariante dazu — sie hat zwei Stufen, und die zweite ist die eigentliche:**
 
 > **1. Nach jeder Änderung sind `len(gegner)` und `len(gegner_typen)` gleich.**
@@ -123,13 +121,11 @@ Beide Listen sind zwei Einträge lang. `len()` ist zufrieden. Und dein Spiel zei
 
 Das ist eine **Invariante** — die zweite in diesem Projekt nach denen aus Etappe 4 und 5. Schreib sie in `GELERNT.md`. Im Kaputtmach-Teil brichst du sie absichtlich und siehst zu, was passiert.
 
-**Und warum baust du das überhaupt so?**
+**Und warum baust du das überhaupt so?** Weil es unbequem ist.
 
 > **Du baust diese Struktur nicht, weil sie gute Softwarearchitektur ist. Du baust sie, weil du mit deinem heutigen Werkzeug genau an ihre Grenze stößt — und weil sich die Verbesserung in Etappe 11 dann wie eine Lösung anfühlen soll und nicht wie eine neue Syntaxlektion.**
 
-Das ist die Arbeitsweise dieses ganzen Tutorials, und hier ist sie am deutlichsten: erst der Schmerz, dann das Werkzeug.
-
-Weil es unbequem ist. Der naheliegende Gedanke — *„ein Gegner sollte ein Ding sein, das Position und Typ zusammen hat"* — ist völlig richtig, und dafür fehlt dir heute das Werkzeug. Es kommt in Etappe 11, und dort kollabieren deine zwei Listen zu einer:
+Das ist die Arbeitsweise dieses ganzen Tutorials, und hier ist sie am deutlichsten: erst der Schmerz, dann das Werkzeug. Der naheliegende Gedanke — *„ein Gegner sollte ein Ding sein, das Position und Typ zusammen hat"* — ist völlig richtig, und dafür fehlt dir heute das Werkzeug. Es kommt in Etappe 11, und dort kollabieren deine zwei Listen zu einer:
 
 ```
 gegner = [Gegner("kriecher", 7), Gegner("kriecher", 4), Gegner("speier", 2)]
@@ -297,7 +293,7 @@ werkzeuge.remove("saege")   # nicht drin? KeyError.
 werkzeuge[0]            # TypeError — ein Set hat keine Positionen
 ```
 
-**Drei Dinge zum Mitnehmen.** Erstens: Doppeltes Hinzufügen ist kein Fehler, es ist ein Nichts. Zweitens: `discard()` und `remove()` unterscheiden sich genau darin, ob dir das Fehlen wichtig ist — dieselbe Frage wie `.get()` gegen eckige Klammern in Etappe 5. Drittens: Die Ausgabereihenfolge kann sich zwischen zwei Programmläufen unterscheiden. **Verlass dich nie darauf.** Wenn du ein Set sortiert ausgeben willst, sortierst du beim Ausgeben — die Struktur tut es nicht für dich.
+**Drei Dinge zum Mitnehmen.** Erstens: Doppeltes Hinzufügen ist kein Fehler, es ist ein Nichts. Zweitens: `discard()` und `remove()` unterscheiden sich genau darin, ob dir das Fehlen wichtig ist — dieselbe Frage wie `.get()` gegen eckige Klammern in Etappe 5. Drittens: Die Ausgabereihenfolge kann sich zwischen zwei Programmläufen unterscheiden. **Verlass dich nie darauf.** Wenn du den Inhalt eines Sets in fester Reihenfolge ausgeben willst, läufst du über eine Sammlung, die eine Reihenfolge hat, und fragst bei jedem Eintrag mit `in`, ob er im Set steht — die Struktur tut es nicht für dich.
 
 ### 4. ⭐ Das Set *ist* die Regel — und was es nicht leistet
 
@@ -361,27 +357,7 @@ In Etappe 5 stand: Ein Dictionary-Schlüssel muss **hashbar** sein, Listen sind 
 
 Die dritte Zeile ist die Einlösung aus Etappe 5: `in` schaut beim Dictionary nur links vom Doppelpunkt. Wenn du nach Werten suchen willst, `in ....values()` — **und das ist wieder eine Suche von vorne**, weil `.values()` keine Menge ist, sondern eine Aufzählung.
 
-👀 **Optional — der Teil, den du fühlen kannst statt ihn zu glauben.**
-
-*(Fünf Minuten in einer Wegwerf-Datei. Überspring das ruhig, wenn die Etappe sich zieht — es ist **nicht** der Grund, warum du heute Sets baust. Der steht in Konzept 4.)*
-
-```python
-zahlen_liste = list(range(3_000_000))
-zahlen_set   = set(zahlen_liste)
-
-import time
-start = time.perf_counter()
-for _ in range(50):
-    2_999_999 in zahlen_liste
-print("Liste:", time.perf_counter() - start)
-
-start = time.perf_counter()
-for _ in range(50):
-    2_999_999 in zahlen_set
-print("Set:  ", time.perf_counter() - start)
-```
-
-Der Unterschied ist keine Prozentzahl. Die Liste geht drei Millionen Einträge durch, fünfzigmal. Das Set rechnet einmal aus, wo der Wert liegen müsste, und sieht nach.
+**Was dabei unter der Haube passiert:** Eine Liste geht beim `in` Eintrag für Eintrag durch. Ein Set rechnet einmal aus, wo der Wert liegen müsste, und sieht nach.
 
 👀 **Der Fachbegriff dafür ist Laufzeit, und mehr als diesen einen Satz brauchst du heute nicht:** Bei einer Liste wächst die Suchzeit mit der Menge, beim Set nicht. Bei zehn Einträgen ist das egal. Bei zehntausend nicht mehr.
 
@@ -585,15 +561,12 @@ KLASSEN:  soldat, heavy, engineer, medic
 
 ### 2. Prüf die Klasseneingabe gegen `KLASSEN`
 
-- Diese Prüfung läuft **vor** deiner `elif`-Kette aus Etappe 2.
-- Eine ungültige Eingabe wird gemeldet und erreicht die Kette gar nicht erst.
+- Diese Prüfung sitzt in deiner Wiederholungsschleife aus Etappe 3a, **vor** deiner `elif`-Kette aus Etappe 2.
+- Eine ungültige Eingabe wird gemeldet, erreicht die Kette gar nicht erst, und die Schleife fragt neu.
 
-Zwei Fälle, je nachdem wie du die Klasse speicherst:
+**An dieser Stelle ist deine Eingabe eine Zahl** — seit Etappe 1, egal ob du später den Namen speicherst. Also: prüfen, dass die Zahl zwischen 1 und `len(KLASSEN)` liegt. Danach liefert `KLASSEN[eingabe - 1]` den Namen.
 
-- **Als Name** (`"heavy"`) → die Prüfung ist `in KLASSEN`, fertig.
-- **Als Zahl** → übersetzen: `KLASSEN[eingabe - 1]` liefert den Namen. Vorher prüfen, dass die Zahl zwischen 1 und `len(KLASSEN)` liegt.
-
-**So prüfst du es:** Drei Starts — gültige Wahl, `9`, `zwei`. Der zweite Fall muss jetzt sauber melden. Der dritte stürzt weiterhin ab, das ist Etappe 20.
+**So prüfst du es:** Drei Starts — gültige Wahl, `9`, `zwei`. Bei `9` muss die Meldung jetzt aus der Prüfung gegen `KLASSEN` kommen, danach fragt das Spiel neu. Der dritte stürzt weiterhin ab, das ist Etappe 20.
 
 *(Deine `elif`-Kette bleibt stehen. Sie stirbt erst in Etappe 11.)*
 
@@ -615,7 +588,7 @@ Ein Dictionary, Name → Preis in Vaporium:
 | Kennung | Preis | Wirkung |
 |---|---|---|
 | `"zielhilfe"` | 60 | keine — siehe Schritt 7 |
-| `"grossmagazin"` | 80 | Das Magazin fasst 60 Schuss statt 40 |
+| `"grossmagazin"` | 80 | Das Magazin fasst 8 Schuss statt 5 |
 | `"schnellfeuer"` | 120 | `feuern` gibt zwei Schuss in derselben Runde ab |
 
 Gehört zu deinen festen Werten, wie `KLASSEN`.
@@ -630,6 +603,8 @@ Gehört zu deinen festen Werten, wie `KLASSEN`.
 - Bind ihn an den Sektor `"depot"`, wie `depot` und `kaufe` in Etappe 5.
 
 **So prüfst du es:** Trag testweise einen vierten Ausbau ein. Er muss erscheinen, ohne dass du die Anzeige anfasst. Danach wieder herausnehmen.
+
+**Und die Frage aus Etappe 4:** Kostet `ausbauten` eine Runde? Und `schalte frei` aus dem nächsten Schritt? Entscheide bei beiden nach der Regel aus Etappe 3b und notier es in `GELERNT.md`. *(Für `bestiarium` legt Schritt 11 die Antwort fest.)*
 
 ---
 
@@ -658,12 +633,12 @@ Kennung ins Set aufnehmen
 
 Beide fragen mit `in freigeschaltet` — die erste ist eine Zeile, die zweite ein kleiner Block.
 
-- `"grossmagazin"` setzt `magazin_groesse` von 40 auf **60** — den festen Wert aus Etappe 5, Schritt 12b. Am Nachschub ändert das nichts: Nachladen verschiebt, es erschafft nicht. Liegen weniger als 60 im Vorrat, kommt eben weniger.
+- `"grossmagazin"` setzt `magazin_groesse` von 5 auf **8** — den Wert aus Etappe 5, Schritt 12b. Am Nachschub ändert das nichts: Nachladen verschiebt, es erschafft nicht. Liegen weniger als 8 im Vorrat, kommt eben weniger.
 - `"schnellfeuer"` lässt `feuern` **zwei Schuss in derselben Runde** abgeben: zwei Munition, zwei Gegner. Der Befehl kostet weiterhin genau **eine** Runde.
 
 ⚠️ **Beim Schnellfeuer entscheiden zwei Obergrenzen mit, und beide gehören geprüft, bevor du abbuchst:** Es wird nie mehr geschossen, als Munition im Magazin liegt, und nie auf mehr Gegner, als überhaupt stehen. Steht nur noch einer, fällt einer — und nur ein Schuss wird verbraucht. Dieselbe Reihenfolge wie beim Kauf in Etappe 5: erst alles prüfen, dann verändern.
 
-⚠️ **Die Wirkung gehört an den Wert, nicht an die Handlung.** Du kannst die 60 auch direkt ins Nachladen schreiben — es läuft, und nichts stürzt ab. Dann gibt es aber zwei Wahrheiten über dieselbe Zahl: Das Magazin hält 60 Schuss, während dein Munitionsbalken weiter gegen 40 misst und bei vollem Magazin 150 % anzeigt. Änderst du dagegen `magazin_groesse`, ziehen Nachladen **und** Balken **und** Statusanzeige von selbst nach, ohne dass du eine davon anfasst. Das ist derselbe Maßstab wie der Architekturtest aus Etappe 5, Schritt 13: Wer eine Zahl an zwei Stellen kennt, hat sie an einer zu viel.
+⚠️ **Die Wirkung gehört an den Wert, nicht an die Handlung.** Du kannst die 8 auch direkt ins Nachladen schreiben — es läuft, und nichts stürzt ab. Dann gibt es aber zwei Wahrheiten über dieselbe Zahl: Das Magazin hält 8 Schuss, während dein Munitionsbalken weiter gegen 5 misst und bei vollem Magazin 160 % anzeigt. Änderst du dagegen `magazin_groesse`, ziehen Nachladen **und** Balken **und** Statusanzeige von selbst nach, ohne dass du eine davon anfasst. Das ist derselbe Maßstab wie der Architekturtest aus Etappe 5, Schritt 13: Wer eine Zahl an zwei Stellen kennt, hat sie an einer zu viel.
 
 `"zielhilfe"` bekommt **absichtlich keine Wirkung** und wird in der Ausbautenliste als *„kalibriert noch"* gekennzeichnet — ein Platzhalter wie der Datenkern aus Etappe 4. In Etappe 18 wird eine Fähigkeit daraus.
 
@@ -781,12 +756,13 @@ Du holst sie dir mit `.index()` aus der Positionsliste (**Konzept 0**, zweiter T
 
 ### 10. Melde neue Typen ausführlich, bekannte kurz
 
-- Zu Wellenbeginn: für jeden Typ dieser Welle, der **noch nicht** in `gesehene_gegnertypen` steht, den langen Text ausgeben. Für die übrigen den kurzen.
+- Zu Wellenbeginn: Lauf über `GEGNERTYPEN` — dort ist die Reihenfolge fest — und frag bei jedem Typ mit `in wellen_typen`, ob er in dieser Welle vorkommt.
+- Für jeden vorkommenden Typ, der **noch nicht** in `gesehene_gegnertypen` steht, den langen Text ausgeben. Für die übrigen den kurzen.
 - Danach alle Typen der Welle ins Set aufnehmen.
 
 ⚠️ **Reihenfolge beachten** — wer zuerst aufnimmt und dann prüft, sieht nie einen langen Text.
 
-*(Die neuen Typen sind `wellen_typen - gesehene_gegnertypen`, wenn du magst. Eine Schleife mit `in` tut es genauso.)*
+*(Warum nicht einfach über `wellen_typen` laufen? Weil ein Set keine Reihenfolge hat — die Meldungen kämen je nach Lauf in anderer Folge, Konzept 3. Die neuen Typen wären auch `wellen_typen - gesehene_gegnertypen`, Konzept 10 — aber das Ergebnis ist wieder ein Set, und für seine Ausgabe stellt sich dieselbe Frage.)*
 
 **So prüfst du es:** Welle 1, dann Welle 2 spielen. Beim zweiten Mal muss der Kriecher kurz gemeldet werden.
 
@@ -794,7 +770,7 @@ Du holst sie dir mit `.index()` aus der Positionsliste (**Konzept 0**, zweiter T
 
 ### 11. Bau den Befehl `bestiarium`
 
-- Zeigt alle Typen aus `gesehene_gegnertypen` mit Kurztext.
+- Zeigt alle Typen aus `gesehene_gegnertypen` mit Kurztext — in der Reihenfolge von `GEGNERTYPEN`, auf demselben Weg wie in Schritt 10.
 - Schließt mit einer Zeile: wie viele von wie vielen erfasst sind — **beide Zahlen aus `len()`**, keine fest im Code.
 - **Nicht ortsgebunden, keine Runde.** Dieselbe Regel wie bei `status` seit 3b.
 
@@ -895,8 +871,8 @@ Prüft den Zustand deines Programms, nicht dein Gefühl. Führ jeden Punkt tats�
 - [ ] Freischalten mit zu wenig Vaporium meldet das — und bucht **nichts** ab
 - [ ] Mit Schnellfeuer sinken Munition **und** Gegnerzahl bei einem `feuern` um 2, ohne Schnellfeuer um 1
 - [ ] ⭐ Schnellfeuer auf den **letzten** stehenden Gegner verbraucht nur einen Schuss, und die Gegnerzahl bleibt bei 0
-- [ ] Nach dem Großmagazin füllt `nachladen` bis 60 auf, und der Vorrat sinkt um genau dieselbe Zahl
-- [ ] ⭐ Der Munitionsbalken misst nach dem Großmagazin gegen 60 und zeigt bei vollem Magazin 100 % — **ohne dass du die Balkenzeile angefasst hast**
+- [ ] Nach dem Großmagazin füllt `nachladen` bis 8 auf, und der Vorrat sinkt um genau dieselbe Zahl
+- [ ] ⭐ Der Munitionsbalken misst nach dem Großmagazin gegen 8 und zeigt bei vollem Magazin 100 % — **ohne dass du die Balkenzeile angefasst hast**
 - [ ] ⭐ **`len(gegner)` und `len(gegner_typen)` sind nach jedem Schuss gleich** — über drei volle Wellen geprüft, nicht angenommen
 - [ ] Auf der Anmarschbahn haben verschiedene Typen verschiedene Zeichen
 - [ ] Fällt der Gegner in der Mitte, verschwinden Position **und** Typ an derselben Stelle — die übrigen behalten ihren Typ
@@ -943,7 +919,7 @@ Ohne Nachschlagen, in eigenen Worten. Dein Mentor fragt sie ab.
 4. Häng an die erste Liste einen Eintrag an, den sie schon enthält. Wiederhol Schritt 2. Was ändert sich am Ergebnis, und warum?
 5. **Und der eigentliche Punkt:** Gib das Ergebnis aus Schritt 2 dreimal hintereinander aus, jedes Mal in einem neu gestarteten Programm. Notier, ob die Reihenfolge gleich bleibt.
 
-Schritt 5 ist der Grund, warum diese Aufgabe existiert. Wenn du je Ausgaben aus einem Set sortiert brauchst, sortierst du beim Ausgeben — die Struktur tut es nicht.
+Schritt 5 ist der Grund, warum diese Aufgabe existiert. Wenn du je eine Ausgabe aus einem Set in fester Reihenfolge brauchst, läufst du über eine Sammlung mit Reihenfolge und fragst das Set mit `in` — die Struktur tut es nicht.
 
 ---
 
@@ -1012,7 +988,7 @@ Die folgenden drei sind Kür.
 
 **7. Leg ein Set an, das ein Tuple mit einer Liste darin enthalten soll** — `{([1, 2], 3)}`. Erklär die Fehlermeldung mit Konzept 7.
 
-**8. Lass ein Komma weg.** Bau eine Funktion, die `return 5, 7` macht, und dann eine mit `return (5)`. Pack beide Ergebnisse mit `a, b = ...` aus. Welche Fehlermeldung bekommst du, und an welcher Zeile — an der Rückgabe oder am Auspacken?
+**8. Lass ein Komma weg.** Schreib `paar = 5, 7` und daneben `paar = (5)`. Pack beide mit `a, b = paar` aus. Welche Fehlermeldung bekommst du, und an welcher Zeile — an der Zuweisung oder am Auspacken?
 
 **9. Sortier ein Set.** Ruf `sorted()` darauf auf und sieh dir an, was zurückkommt. Ist das noch ein Set?
 
@@ -1027,7 +1003,7 @@ Die folgenden drei sind Kür.
 | `TypeError: unhashable type: 'list'` | Eine Liste in ein Set gelegt oder als Dictionary-Schlüssel benutzt | Konzept 5 |
 | `TypeError: 'tuple' object does not support item assignment` | Ein Tuple verändert | Entweder Liste nehmen oder neu bauen — Konzept 7 |
 | `KeyError` bei `.remove()` auf einem Set | Element war nicht drin | `.discard()` nimmt es hin, `.remove()` nicht |
-| Die Reihenfolge der Ausgabe ändert sich zwischen zwei Läufen | Sets haben keine Reihenfolge | Beim **Ausgeben** sortieren, nicht beim Speichern |
+| Die Reihenfolge der Ausgabe ändert sich zwischen zwei Läufen | Sets haben keine Reihenfolge | Über eine Sammlung mit fester Reihenfolge laufen und das Set mit `in` fragen — Auftragsschritt 10 |
 | Der lange Bestiariumstext erscheint nie | `add()` läuft vor der Prüfung | Auftragsschritt 10, Reihenfolge |
 | Der lange Text erscheint **jedes Mal** | Der Typ wird nie ins Set aufgenommen | Dieselbe Stelle, andere Hälfte |
 | Kein Fehler, aber Vaporium verschwindet mehrfach | Die „schon freigeschaltet?"-Prüfung fehlt | Auftragsschritt 6 |
@@ -1159,7 +1135,7 @@ Trag einen Typ ein, der in Schritt 9 in keiner Wellenzusammenstellung vorkommt. 
 
 Das ist der beste Zusatz dieser Etappe, aus demselben Grund wie der Datenkern in Etappe 4 und die Werkbank in Etappe 5: **Ein Spiel wird groß, wenn es zeigt, dass es größer ist als das, was man gesehen hat.** Der Eintrag kostet dich zwei Minuten. In Etappe 17 baust du den Wellengenerator, und dann entscheidest du, ab welcher Welle dieser Typ zum ersten Mal wirklich anrückt.
 
-**Ein `G` für Gruppen.** Stehen mehrere Gegner auf demselben Feld, zeigt die Anmarschbahn dort ein `G` statt eines einzelnen Zeichens. Dafür musst du vor dem Eintragen zählen, wie viele Positionen in `gegner_pos` auf denselben Wert fallen — ein Zwischenschritt, den der Guide dir heute nirgends vorgibt.
+**Ein `G` für Gruppen.** Stehen mehrere Gegner auf demselben Feld, zeigt die Anmarschbahn dort ein `G` statt eines einzelnen Zeichens. Dafür musst du vor dem Eintragen zählen, wie viele Positionen in `gegner` auf denselben Wert fallen — ein Zwischenschritt, den der Guide dir heute nirgends vorgibt.
 
 ---
 

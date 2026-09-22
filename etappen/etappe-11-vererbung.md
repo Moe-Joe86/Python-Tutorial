@@ -1,10 +1,10 @@
 # Etappe 11 — Vererbung, und die Frage, ob wir sie brauchen
 
-*v1.2.0 · 2026-09-16*
+*v1.3.2 · 2026-09-22*
 
 > **Block 2: Einheiten und Zeit** · Etappe 11 von 30 · [← Etappe 10](etappe-10-komposition.md) · [Lehrplan](../Vorposten_Lehrplan.md) · [Etappe 12 →](etappe-12-der-tick.md)
 
-**Neue Syntax heute:** `class Kind(Eltern):` · `super().__init__(...)` · Methoden überschreiben · 👀 `__len__`, `__contains__`, `__iter__` · 👀 `@property` · 👀 `type(self).__name__`
+**Neue Syntax heute:** `class Kind(Eltern):` · `super().__init__(...)` · Methoden überschreiben · `type(self).__name__` · eine Klasse als Wert in einem Dictionary · 👀 `__len__`, `__contains__`, `__iter__` · 👀 `@property`
 
 **Zeitaufwand:** 11a: 3–4 Sitzungen · 11b: 5–6 Sitzungen · 11c: 3–4 Sitzungen, à 20–30 Minuten. Rund 35 Minuten Lesestoff, verteilt auf drei Portionen — die Zeit steckt hier im Bauen, nicht im Lesen. **Das ist die größte Etappe des Blocks** — und sie ist geteilt, weil sie drei Schulden auf einmal zurückzahlt.
 
@@ -21,7 +21,7 @@
 | | 🔨 Bauen | 🧠 Verstehen | 👀 Nur erkennen |
 |---|---|---|---|
 | **11a** | Eine Liste von `Gegner`-Objekten statt zweier paralleler Listen | Warum die beiden Fehlerarten aus Etappe 6 jetzt unmöglich sind | — |
-| **11b** | `Einheit` als Basis · `super()` · `faehigkeit_einsetzen()` überschreiben · vier Marine-Klassen | „ist ein" gegen „hat ein" · Held und Kamerad auf einer Basisklasse | `type(self).__name__` |
+| **11b** | `Einheit` als Basis · `super()` · `faehigkeit_einsetzen()` überschreiben · vier Marine-Klassen · `type(self).__name__` · Klasse als Wert im Dictionary | „ist ein" gegen „hat ein" · Held und Kamerad auf einer Basisklasse | — |
 | **11c** | `Item`-Hierarchie · **die Vererbungsfrage schriftlich** | Wann Vererbung *nicht* passt | `__len__`, `__contains__`, `__iter__`, `@property` |
 
 ---
@@ -146,11 +146,11 @@ print(lager)           # alle Mengen sind gesunken
 
 > **Der Unterschied: `z -= 1` weist der Variablen etwas Neues zu. `w.menge -= 1` verändert das Ding, auf das die Variable zeigt.**
 
-⚠️ **Die falsche Regel, die man daraus ziehen könnte, lautet: *bei Objekten wirkt die Schleife, bei Zahlen nicht*.** Das stimmt nicht. **Die Schleifenvariable ist in beiden Fällen nur ein Name.** Entscheidend ist, was du damit tust: einen Namen auf etwas Neues zeigen zu lassen ändert die Liste nie; ein veränderbares Objekt zu verändern wirkt immer, auch außerhalb der Schleife. Das ist „Name zeigt auf Wert" aus Etappe 4, unverändert.
+⚠️ **Die falsche Regel, die man daraus ziehen könnte, lautet: *bei Objekten wirkt die Schleife, bei Zahlen nicht*.** Das stimmt nicht. **Die Schleifenvariable ist in beiden Fällen nur ein Name.** Entscheidend ist, was du damit tust: einen Namen auf etwas Neues zeigen zu lassen ändert die Liste nie; ein veränderbares Objekt zu verändern wirkt immer, auch außerhalb der Schleife. Das ist „Name zeigt auf Wert" aus Etappe 4, unverändert — nur diesmal von der praktischen Seite.
 
-Das ist wieder „Name zeigt auf Wert" aus Etappe 4 — nur diesmal von der praktischen Seite. Deine Bewegungslogik wird dadurch einfacher: Aus `for i in range(len(gegner)): gegner[i] -= 1` wird `for g in gegner: g.entfernung -= 1`.
+Deine Bewegungslogik wird dadurch einfacher: Aus `for i in range(len(gegner)): gegner[i] += 1` wird `for g in gegner: g.entfernung -= 1`. *(Dass dabei aus `+=` ein `-=` wird, ist kein Tippfehler — Auftragsschritt 2 sagt, warum.)*
 
-⚠️ **Was sich dabei *nicht* ändert:** Du darfst weiterhin keine Einträge entfernen, während du über die Liste läufst. Das ist derselbe `RuntimeError`-Bereich wie in Etappe 5. Lauf über eine Kopie (`.copy()` aus Etappe 4) oder sammle erst und entferne danach.
+⚠️ **Was sich dabei *nicht* ändert:** Du darfst weiterhin keine Einträge entfernen, während du über die Liste läufst. Das ist die Falle aus Etappe 4, Konzept 13: kein Absturz, sondern still übersprungene Einträge — ein Typ-3-Fehler. Lauf über eine Kopie (`.copy()` aus Etappe 4) oder sammle erst und entferne danach.
 
 ### 4. Der Zugriff auf ein Feld
 
@@ -187,7 +187,15 @@ Ergänz `befehle.txt` um alles, was seit Etappe 10 dazugekommen ist. **Ohne dies
 *(`typ` hält, was bisher in `gegner_typen` stand: `"kriecher"`, `"speier"`. In 11b bekommt dieses Attribut einen anderen Namen — dort erfährst du, warum. Bau es heute so.)*
 - Ein `__repr__`, das Typ und Entfernung zeigt. Kurz halten — du druckst gleich Listen davon.
 
-**So prüfst du es:** In einer Wegwerf-Datei drei Gegner erzeugen und die Liste drucken. Lesbar?
+⚠️ **`entfernung` ist der Abstand zum Tor — nicht deine Position aus Etappe 4.** Die zählte vom Spawnpunkt aus hoch; die Entfernung zählt herunter. Feld 11, direkt vor dem Tor, hat Entfernung 0. Der Spawnpunkt, Feld 0, hat Entfernung 11.
+
+- **Rechne beim Erzeugen eines Gegners einmal um** — mit `BAHNLAENGE`, nicht mit einer nackten Zahl.
+- **Deine Zeichenfunktion der Bahn rechnet für die Anzeige zurück.** So bleibt das Bild dasselbe, und der `diff` in Schritt 7 bleibt still.
+- **Aus Vorrücken wird Herunterzählen:** Ein Gegner rückt vor, solange seine Entfernung größer als 0 ist. Das ist die Regel aus Etappe 4, von der anderen Seite gesehen.
+
+*(Warum überhaupt umdrehen? Ab Etappe 12 fragen die Kameraden „Wer ist am nächsten dran?" und „Ist er in Reichweite?". Beides ist mit dem Abstand zum Tor eine kleine Zahl — mit der Position vom Spawn aus wäre der nächste Gegner der mit der größten Zahl.)*
+
+**So prüfst du es:** In deiner Probedatei (Etappe 9, Schritt 7) drei Gegner erzeugen und die Liste drucken. Lesbar?
 
 ---
 
@@ -269,7 +277,7 @@ Beide haben Trefferpunkte. Beide haben Schaden. Beide können getroffen werden, 
 
 > **Vererbung sagt: Das Gemeinsame wird einmal geschrieben, an einer Stelle, die beide benutzen.**
 
-Und heute passiert noch etwas Größeres. Seit Etappe 2 wählst du eine Spielerklasse, und eine `if`/`elif`-Kette setzt Werte. **Drei der vier Klassen kamen dabei nie zur Anwendung** — sie waren Zweige, die nie liefen.
+Und heute passiert noch etwas Größeres. Seit Etappe 2 wählst du eine Spielerklasse, und eine `if`/`elif`-Kette setzt Werte. **In jedem Lauf war nur eine der vier da.**
 
 **Ab heute existieren alle vier gleichzeitig.** Vier Marines stehen nebeneinander: der, den du gewählt hast, und drei Kameraden. Das ist der **Trupp**, und er ist die Prämisse des Spiels — du bist eine Figur im Gefecht, kein Bauherr über der Karte.
 
@@ -409,7 +417,7 @@ Beim Helden aus `input()`. Bei den anderen — ab Etappe 12 — aus ihrer eigene
 
 **Und die Frage, die sich aufdrängt:** Wenn alle vier gleichzeitig da sind — wozu dann noch die Klassenwahl aus Etappe 1? **Antwort: Sie bestimmt, wer auf deinen Befehl hört.** Die Klassenwahl ist keine Auswahl aus vier Möglichkeiten mehr, sondern die Wahl deiner Rolle im Trupp.
 
-### 11. 👀 `type(self).__name__` — der Klassenname im `__repr__`
+### 11. `type(self).__name__` — der Klassenname im `__repr__`
 
 Eine Kleinigkeit, die dir viel Tipparbeit spart. Statt in jeder Unterklasse ein eigenes `__repr__` zu schreiben:
 
@@ -421,7 +429,39 @@ class Fahrzeug:
 
 `type(self)` ist die Klasse des Objekts, `.__name__` ihr Name als String. Ein `Auto` druckt sich damit als `Auto(...)`, ein `Fahrrad` als `Fahrrad(...)` — **eine Methode in der Oberklasse, richtige Namen in allen Unterklassen.**
 
-Du musst das nicht benutzen. Aber du wirst es in fremdem Code sehen, und jetzt weißt du, was es tut.
+Du musst das nicht benutzen — Auftragsschritt 10 lässt dir die Wahl. Aber du wirst es auch in fremdem Code sehen, und jetzt weißt du, was es tut.
+
+### 11b. Eine Klasse ist ein Wert ⭐
+
+Ein Klassenname ohne Klammern ist ein Name wie jeder andere — er zeigt auf die Klasse selbst. Erst die Klammern bauen ein Objekt. **Deshalb kann eine Klasse in einem Dictionary stehen**, genau wie eine Zahl oder ein String:
+
+```python
+class Fahrzeug:
+    def __init__(self, name, km):
+        self.name = name
+        self.km = km
+
+    def __repr__(self):
+        return f"{type(self).__name__}(name={self.name!r}, km={self.km})"
+
+class Auto(Fahrzeug):
+    """Vier Räder."""
+
+class Fahrrad(Fahrzeug):
+    """Zwei Räder."""
+
+FUHRPARK = {"a": Auto, "f": Fahrrad}   # ohne Klammern: die Klassen selbst
+
+bauplan = FUHRPARK["f"]                # bauplan zeigt jetzt auf Fahrrad
+rad = bauplan("Rosi", 120)             # erst hier entsteht ein Objekt
+print(rad)                             # Fahrrad(name='Rosi', km=120)
+```
+
+*(Eine Klasse, deren Körper nur aus einem Docstring besteht, ist erlaubt — sie übernimmt alles von der Oberklasse.)*
+
+Die beiden Zeilen mit `bauplan` lassen sich auch zu einer zusammenziehen: `FUHRPARK["f"]("Rosi", 120)`. Erst wird nachgeschlagen, dann aufgerufen.
+
+**Das ist derselbe Unterschied wie bei Methoden aus Etappe 9:** ohne Klammern der Name, mit Klammern der Aufruf. Und es ist derselbe Gedanke wie der Kauf aus Etappe 5: Die Logik kennt keine einzelnen Namen, sie schlägt nach.
 
 ---
 
@@ -433,7 +473,7 @@ Du musst das nicht benutzen. Aber du wirst es in fremdem Code sehen, und jetzt w
 - Methode `nimm_schaden(menge)` — zieht ab und gibt zurück, ob die Einheit noch lebt.
 - Ein `__repr__`.
 
-**So prüfst du es:** In einer Wegwerf-Datei eine Einheit erzeugen, Schaden nehmen lassen, drucken.
+**So prüfst du es:** In deiner Probedatei eine Einheit erzeugen, Schaden nehmen lassen, drucken.
 
 ---
 
@@ -457,20 +497,40 @@ Dein Gegner hat seit 11a ein Attribut `typ` mit Werten wie `"kriecher"`. Die Bas
 
 ---
 
+### 9b. Lass den Schuss des Helden über Trefferpunkte wirken
+
+Seit Etappe 3 fällt ein Gegner mit einem Treffer, und der Wert aus `berechne_schaden()` (Etappe 7) hatte keinen Verbraucher. Ab heute haben Gegner eigene Trefferpunkte — also bekommt der Schaden eine Wirkung.
+
+- **`feuern` verrechnet den Schaden des Helden über `nimm_schaden()` des Ziels.** Das Ziel ist dasselbe, das dein `feuern` schon heute trifft.
+- **Ein Gegner fällt erst, wenn seine Trefferpunkte bei 0 oder darunter sind.** Erst dann wird er entfernt — wie in Schritt 5.
+- **Die Trefferpunkte je Gegnertyp legst du selbst fest.** Wo sie stehen, entscheidest du — an einer Stelle, nicht an zweien. Notier deine Werte in `GELERNT.md`. Nimm Werte, bei denen ein Kriecher zwei oder drei Treffer braucht; feiner abgestimmt wird in Etappe 21.
+- **Das Schnellfeuer aus Etappe 6 gibt weiterhin zwei Schuss ab.** Mit Trefferpunkten passt die Grenzfall-Regel von damals nicht mehr ganz. **Entscheide:** Darf der zweite Schuss denselben Gegner treffen, wenn der erste ihn nicht erlegt hat? Und wenn der erste ihn erlegt — geht der zweite auf den nächsten Gegner, oder verfällt er? Notier deine Regel in `GELERNT.md`.
+
+*(Warum jetzt: `nimm_schaden()` steht seit Schritt 8 in `Einheit`. Ab Etappe 12 kämpfen die Kameraden nach genau dieser Regel — und dann kämpft der Held nach derselben.)*
+
+**So prüfst du es:** Feuer mehrmals auf denselben Gegner. Er muss genau nach so vielen Treffern fallen, wie deine Werte vorhersagen — nachgerechnet, nicht angenommen.
+
+---
+
 ### 10. Bau die vier Marine-Klassen
 
 - `class Soldat(Marine):`, `Heavy`, `Engineer`, `Medic`.
 - **Jede setzt ihre eigenen Werte** — Trefferpunkte, Schaden, Panzerung, Klassengerät — im `super().__init__()`-Aufruf oder danach.
 - Nimm die Zahlen aus deiner Tabelle von Etappe 2. Unverändert.
 
-**So prüfst du es:** Erzeug alle vier in einer Wegwerf-Datei und druck sie. Stimmen die Werte mit Etappe 2 überein?
+**So prüfst du es:** Erzeug alle vier in deiner Probedatei und druck sie. Stimmen die Werte mit Etappe 2 überein?
+
+⚠️ **Und eine Frage, die du jetzt entscheiden musst: Dein Marine hat seit Etappe 9 noch `klasse` — ist das jetzt eine zweite Wahrheit?** Dort steht ein String wie `"Heavy"`, und ab heute *ist* das Objekt ein `Heavy`. Das ist dieselbe Frage wie bei `typ` und `name` in Schritt 9. Entscheide und notier deine Antwort in `GELERNT.md`. Zwei Wege sind gedeckt:
+
+- **Die Unterklasse setzt den Anzeigenamen selbst**, so wie sie auch ihr `klassengeraet` setzt.
+- **Der Klassenname selbst ist die Anzeige** — mit `type(self).__name__` aus Konzept 11. Dann steht in der Ausgabe genau das, was hinter `class` steht, mit derselben Groß- und Kleinschreibung. Stand bei dir bisher etwas anderes dort, ändert sich die Anzeige; Schritt 14 nennt das mit.
 
 ---
 
 ### 11. ⭐ Töte die `if`/`elif`-Kette
 
 - Die Kette aus Etappe 2, die Klassenwerte setzt, wird **gelöscht**.
-- An ihre Stelle tritt eine Zuordnung von Eingabe zu Klasse — ein Dictionary aus Etappe 5 leistet das in vier Zeilen.
+- An ihre Stelle tritt eine Zuordnung von Eingabe zu Klasse — ein Dictionary, in dem Klassen stehen. Wie das geht, zeigt Konzept 11b.
 - Die Klassenwahl erzeugt jetzt ein Objekt der passenden Klasse.
 
 **So prüfst du es:** Wähl nacheinander alle vier Klassen. Stimmen die Startwerte jedes Mal?
@@ -487,6 +547,8 @@ Dein Gegner hat seit 11a ein Attribut `typ` mit Werten wie `"kriecher"`. Die Bas
 
 ⚠️ **Keine Wirkung. Kein Schaden, keine Heilung, keine Kosten, keine Abklingzeit.** Etappe 18.
 
+**Und die Frage aus Etappe 4:** Kostet `faehigkeit` eine Runde? Entscheide nach der Regel aus Etappe 3b und notier es in `GELERNT.md`.
+
 **So prüfst du es:** Spiel mit zwei verschiedenen Klassen und ruf `faehigkeit` auf. Kommen verschiedene Meldungen, ohne dass irgendwo eine Abfrage nach der Klasse steht?
 
 ---
@@ -499,13 +561,15 @@ Dein Gegner hat seit 11a ein Attribut `typ` mit Werten wie `"kriecher"`. Die Bas
 
 ⚠️ **Die drei anderen handeln heute nicht.** Sie stehen da. Etappe 12 gibt ihnen den Tick.
 
+⚠️ **Eine Frage, bevor du die drei erzeugst:** Dein Marine bekommt seit Etappe 9 den `vorrat` übergeben — das ganze Dictionary. **Was bekommen die Kameraden als Vorrat — und wie stellst du sicher, dass es nicht der des Helden ist?** Der Vorrat bleibt beim Helden; wie du die drei anderen versorgst, entscheidest du. Etappe 10, Konzept 6 sagt dir, woran du einen Fehler hier erkennst. Notier deine Entscheidung in `GELERNT.md`.
+
 **So prüfst du es:** `status` zeigt vier Marines. Nur einer ist als gesteuert markiert.
 
 ---
 
 ### 14. Beweis und Commit
 
-Der `diff` **darf** hier abweichen — die Statusanzeige zeigt jetzt vier Marines. Prüf stattdessen von Hand: Läuft ein voller Durchgang, feuert der Held, sinken Trefferpunkte wie vorher?
+Der `diff` **darf** hier abweichen — die Statusanzeige zeigt jetzt vier Marines, Gegner fallen erst nach mehreren Treffern, und je nach deiner Entscheidung in Schritt 10 sieht die Klassenanzeige anders aus. Prüf stattdessen von Hand: Läuft ein voller Durchgang, feuert der Held, fallen Gegner nach der erwarteten Zahl Treffer, sinken deine Trefferpunkte wie vorher?
 
 Commit: `Etappe 11b: Vererbung und der Trupp`
 
@@ -635,6 +699,18 @@ Es gibt keine richtige Antwort, die ich dir vorsagen könnte. **Aber die Frage z
 - Die Prüfung, ob etwas im Inventar ist, vergleicht ab jetzt **Kennungen**, nicht Objekte.
 - Die Anzeige nimmt `name`, die Logik nimmt `kennung`.
 
+**Beantworte zuerst zwei Fragen, schriftlich in `GELERNT.md`:**
+
+1. **An welchen Stellen entsteht ab heute ein `Item`?** Denk an `kaufe`, an `nimm` aus dem Vorfeld und an `ablege` zurück dorthin.
+2. **Woher weiß jede dieser Stellen, welche Klasse sie bauen soll?** Das Werkzeug kennst du aus Schritt 11: ein Dictionary, in dem Klassen stehen (Konzept 11b) — dasselbe Muster ein zweites Mal, diesmal mit Kennungen als Schlüssel.
+
+Zwei Festlegungen gelten dabei:
+
+- **`name` kommt aus `ANZEIGENAMEN`.** Ein zweiter Name irgendwo im Code wäre eine zweite Wahrheit über dasselbe Ding — Etappe 5.
+- **Der Datenkern ist ein schlichtes `Item`.** Er braucht keine eigene Unterklasse.
+
+Den Weg baust du selbst.
+
 ⚠️ **Die Stelle, an der Alt und Neu aufeinanderprallen:** Deine Liste enthält jetzt `Item`-Objekte, aber der Spieler tippt weiterhin einen String. `"medkit" in inventar.gegenstaende` findet deshalb **nichts** — du vergleichst einen String mit Objekten. **Der Vergleich muss über `.kennung` jedes Eintrags laufen**, nicht über den Eintrag selbst. Eine Schleife aus Etappe 3 reicht dafür.
 
 *(Das ist derselbe Fehler wie `min(gegner)` in 11a: Ein eingebautes Werkzeug, das auf Strings oder Zahlen selbstverständlich war, weiß bei deinen Objekten nicht mehr, worauf es schauen soll.)*
@@ -699,12 +775,17 @@ In `GELERNT.md`, ein Satz, keine Übung: *Woran erkennst du beim Lesen, dass ein
 - [ ] `gegner_typen` existiert nicht mehr — auch nicht auskommentiert.
 - [ ] Die Gegnerliste enthält Objekte, und das Entfernen läuft über `remove(objekt)` ohne Index-Abgleich.
 - [ ] `diff vorher.txt nachher.txt` nach 11a zeigt keinen Unterschied.
+- [ ] `entfernung` zählt zum Tor hin herunter; ein Gegner direkt vor dem Tor hat Entfernung 0, und die Bahn sieht aus wie vorher.
 - [ ] Du kannst die zwei Fehlerarten aus Etappe 6 nennen, die jetzt unmöglich sind.
 
 **11b**
 - [ ] `Marine` und `Gegner` erben von `Einheit`, und `nimm_schaden` steht **einmal**.
 - [ ] Jede Unterklasse ruft `super().__init__()` als erste Zeile.
 - [ ] Ein Gegner hat **entweder** `name` **oder** `typ` — nicht beides. Du kannst sagen, warum.
+- [ ] Ein Gegner fällt erst nach so vielen Treffern, wie deine Trefferpunkte je Typ vorhersagen.
+- [ ] Das Schnellfeuer verhält sich so, wie deine Regel aus Schritt 9b es sagt — geprüft an einem Gegner, der den ersten Schuss überlebt, und an einem, der daran fällt.
+- [ ] Deine Entscheidung zu `klasse` neben der Unterklasse steht in `GELERNT.md`.
+- [ ] Munition, die der Held verbraucht, fehlt keinem Kameraden.
 - [ ] Die `if`/`elif`-Kette aus Etappe 2 ist gelöscht.
 - [ ] Vier Marines existieren gleichzeitig, einer ist als gesteuert markiert.
 - [ ] `faehigkeit` gibt je nach Klasse Verschiedenes aus — **ohne** dass irgendwo nach der Klasse gefragt wird.
@@ -769,7 +850,7 @@ Setz die Trefferpunkte auf `0` und probier beide. **Eine der beiden lügt.** Wel
 
 **4. Bau die zweite Liste zurück.** Leg testweise wieder ein `gegner_typen` an und halte es *nicht* synchron. Entferne einen Gegner nur aus einer Liste. **Wie lange dauert es, bis etwas Falsches angezeigt wird?** Das ist der Schmerz, den 11a beseitigt hat.
 
-**5. Erzeug zwei Marines derselben Klasse.** Ändere bei einem die Trefferpunkte. Ändert sich der andere mit? *(Wenn ja: Etappe 10, Konzept 6 — und dann hast du in Schritt 13 einen echten Fehler gebaut.)*
+**5. Erzeug zwei Marines derselben Klasse.** Ändere bei einem die Trefferpunkte. Ändert sich der andere mit? *(Wenn ja: Etappe 10, Konzept 6 — und dann hast du in Schritt 13 einen echten Fehler gebaut.)* Hast du den Kameraden in Schritt 13 einen eigenen Vorrat gegeben, mach dasselbe damit: Nimm beim Helden Munition weg und sieh bei einem Kameraden nach.
 
 ---
 
@@ -835,7 +916,7 @@ print(bohrer.beschreibung())
 | `NameError: gegner_typen` | Eine Zugriffsstelle wurde in 11a übersehen | Auftragsschritt 4 — die Fahndung ist unvollständig |
 | `TypeError: '<' not supported between instances of 'Gegner'` | `min(gegner)` auf Objekten | Konzept 4 — eine Schleife, die nach `entfernung` sucht |
 | Das `if` ist immer wahr | Klammern bei einer Methode vergessen | Konzept 14 — der stille Typ-3 |
-| `RuntimeError` beim Entfernen | Entfernen während der Schleife über dieselbe Liste | Konzept 3 — über eine Kopie laufen |
+| Ein Gegner wird beim Entfernen übersprungen, ohne Fehlermeldung | Entfernen während der Schleife über dieselbe Liste | Konzept 3 — über eine Kopie laufen |
 | Ein Marine ändert sich, alle ändern sich | Geteiltes Objekt | Etappe 10, Konzept 6 — `is` prüfen |
 | Die Anmarschbahn zeigt Unsinn | Die Bahn liest noch `gegner[i]` als Zahl | `gegner[i].entfernung` |
 
@@ -855,7 +936,7 @@ Im Debugger beantwortet `s` die Frage in einem Schritt: Es springt in die Method
 
 **Etappe 13 gibt jeder Fähigkeit eine Abklingzeit.** Deine vier Methoden von heute bekommen ihren Zähler.
 
-**Etappe 14a macht aus `entfernung` ein `(x, y)`.** Deine Gegnerobjekte sind darauf vorbereitet — ein Attribut ändern statt zwei Listen umbauen.
+**Etappe 14a macht aus `entfernung` zwei Attribute `x` und `y`.** Deine Gegnerobjekte sind darauf vorbereitet — ein Attribut ersetzen statt zwei Listen umbauen.
 
 **Etappe 16 ist die Bug-Jagd II**, und die Klammerfalle aus Konzept 14 ist dort ein Hauptverdächtiger.
 

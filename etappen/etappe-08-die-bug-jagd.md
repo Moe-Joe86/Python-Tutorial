@@ -1,6 +1,6 @@
 # Etappe 8 — Die Bug-Jagd I
 
-*v1.2.0 · 2026-09-08*
+*v1.3.2 · 2026-09-22*
 
 > **Block 1: Fundament** · Etappe 8 von 30 · [← Etappe 7](etappe-07-aufraeumen.md) · [Lehrplan](../Vorposten_Lehrplan.md) · [Etappe 9 →](etappe-09-alles-wird-zum-objekt.md)
 
@@ -43,7 +43,7 @@ Diese Etappe ist eine **Sammelstelle**. Sechs frühere Etappen haben etwas hinte
 
 - **Der `print`-Reflex aus Etappe 1 bis 7** wird heute zum Debugger. Er war immer nur der Notbehelf für das eigentliche Werkzeug.
 - **Das `Strg + C` aus Etappe 3a** — der Notausgang, den du einmal absichtlich benutzt hast — gehört ab heute in den Werkzeugkasten. Ein hängendes Programm ist selbst ein Fund.
-- **Die Entwicklerbefehle aus Etappe 3, die du am Ende jeder Etappe entfernst,** bekommen heute ihren tieferen Grund: Bei der Fehlersuche wäre jeder von ihnen ein Verdächtiger. Ein Programm, in dem man `gott`-Befehle stehen lässt, debuggt man doppelt so lange.
+- **Die Entwicklerbefehle aus Etappe 3, die du am Ende jeder Etappe entfernst,** bekommen heute ihren tieferen Grund: Bei der Fehlersuche wäre jeder von ihnen ein Verdächtiger. Ein Programm, in dem man einen `test`-Befehl stehen lässt, debuggt man doppelt so lange.
 - **Der Balken aus Etappe 3c, der 110 % und negative Werte zeigt, statt sie zu kappen** — heute erntest du diese Entscheidung. Ein Balken, der Unsinn *anzeigt*, ist ein Fehlermelder. Einer, der Unsinn *versteckt*, ist ein Komplize.
 - **Die Anmarschbahn aus Etappe 4** wird heute ausdrücklich zum Messgerät. Ein Listenfehler, der in einer Zahlenkolonne unsichtbar bliebe, springt auf der Bahn ins Auge.
 - **Die Baureihenfolge aus Etappe 4** — ein Gegner, dann mehrere, dann entfernen, in drei Schritten statt einem — war schon das Suchverfahren dieser Etappe. Es heißt **Halbieren**, und heute bekommt es seinen Namen.
@@ -140,12 +140,13 @@ Traceback (most recent call last):
     return teile(rechnung, gaeste)
   File "kasse.py", line 2, in teile
     return a / b
-ZeroDivisionError: float division by zero
+ZeroDivisionError: division by zero
 ```
 
 **So liest du das:**
 
-- **Die unterste Zeile** ist die Diagnose: `ZeroDivisionError: float division by zero`. Sie sagt dir, *was* passiert ist. Fang hier an.
+- **Die unterste Zeile** ist die Diagnose: `ZeroDivisionError: division by zero`. Sie sagt dir, *was* passiert ist. Fang hier an.
+  *(Neuere Python-Versionen markieren die Stelle zusätzlich mit `^` oder `~` unter der Zeile. Gelesen wird der Stapel genauso.)*
 - **Die Zeile direkt darüber** ist der Tatort: `return a / b` in `teile`, Zeile 2. Dort ist es passiert.
 - **Alles darüber ist der Weg dorthin** — von unten nach oben: `teile` wurde von `rechne_pro_gast` gerufen, das wurde ganz oben aufgerufen. Diese Kette heißt **Aufrufstapel**, und du hast sie in Etappe 7a schon einmal von Hand gesehen.
 
@@ -170,7 +171,7 @@ Bevor der Debugger kommt, ein letzter Schliff an deinem alten Werkzeug. Zwei Kle
 **Erstens ein Präfix**, damit du deine Debug-Zeilen in der Ausgabe wiederfindest und hinterher sicher löschst:
 
 ```python
-print("### vaporium jetzt:", vaporium)
+print("### vaporium jetzt:", vorrat["vaporium"])
 ```
 
 Das `###` kennst du aus den letzten Etappen. Es hat einen zweiten Zweck: Vor dem Commit suchst du nach `###` und weißt, dass **jede** solche Zeile raus muss.
@@ -203,7 +204,7 @@ Wo du sie einfügst, hält das Programm an, sobald es dort ankommt, und du lande
 
 | Befehl | Kurz für | Was er tut |
 |---|---|---|
-| `p name` | *print* | Druckt den Wert einer Variablen. `p vaporium` |
+| `p name` | *print* | Druckt den Wert einer Variablen. `p vorrat` |
 | `n` | *next* | Führt die aktuelle Zeile aus und geht zur nächsten — **über** Funktionsaufrufe hinweg |
 | `s` | *step* | Wie `n`, aber springt **in** einen Funktionsaufruf hinein |
 | `r` | *return* | Läuft bis zum Ende der aktuellen Funktion und hält dort |
@@ -291,7 +292,7 @@ Die Funktion ist fehlerfrei — **solange ihre Annahme stimmt**, dass sie einen 
 
 > **Wenn es knallt, prüf nicht nur die Zeile, sondern auch die Annahme, mit der sie aufgerufen wurde.** Das ist Konzept 4 noch einmal, aus einem anderen Winkel.
 
-Und noch subtiler ist die stille Variante aus Etappe 5: Ein Tippfehler **links** vom `=` stürzt nicht ab. `vorrat["vaporum"] = 40` legt klammheimlich einen neuen Eintrag `"vaporum"` an, während dein `"vaporium"` unverändert bei null bleibt. Kein Traceback, keine Meldung — ein lupenreiner **Typ 3**.
+Und noch subtiler ist die stille Variante aus Etappe 5: Ein Tippfehler **links** vom `=` stürzt nicht ab. `vorrat["vaporum"] = 40` legt klammheimlich einen neuen Eintrag `"vaporum"` an, während dein `"vaporium"` unverändert bei null bleibt. Kein Traceback, keine Meldung — ein lupenreiner **Typ 3**. *(Das gilt nur für die reine Zuweisung. Mit `-=` oder `+=` knallt es sofort mit `KeyError`, weil Python den Eintrag zuerst lesen muss.)*
 
 > **Wenn der Code stimmt und trotzdem etwas schiefgeht, verdächtige die Daten.** Diese Fehlerklasse kommt in Etappe 25 groß zurück, wenn deine Daten aus fremden Dateien stammen, die du beim Schreiben nicht im Blick hattest.
 
@@ -343,7 +344,7 @@ Anders als sonst baust du heute kein Spielfeature. Du legst **zwei Dokumente** a
 ### 1. Leg das Fehlertagebuch an
 
 - Erstell im Repo eine Datei `FEHLERTAGEBUCH.md`.
-- Jeder Eintrag ist **eine Zeile aus zwei Teilen**: das Symptom, dann — und das ist der wichtige Teil — **wie du den Fehler gefunden hast**. Etwa: *„Vaporium blieb nach dem Kauf unverändert — mit `p vaporium` vor und nach dem Kauf gefunden."*
+- Jeder Eintrag ist **eine Zeile aus zwei Teilen**: das Symptom, dann — und das ist der wichtige Teil — **wie du den Fehler gefunden hast**. Etwa: *„Vaporium blieb nach dem Kauf unverändert — mit `p vorrat["vaporium"]` vor und nach dem Kauf gefunden."*
 - Schreib als ersten Eintrag den letzten echten Fehler hinein, an den du dich aus einer früheren Etappe erinnerst.
 
 *(Warum der Fundweg der wichtige Teil ist: Der Fehler selbst kommt nie wieder. Das Verfahren, mit dem du ihn gefunden hast, schon. Das Symptom steht nur deshalb daneben, weil du in Etappe 26 aus jedem dieser Einträge einen Test baust — und dafür musst du wissen, **was** falsch war, nicht nur wie du es gemerkt hast. Zwei knappe Halbsätze reichen; das hier soll kein Fehlerbericht werden.)*
@@ -367,7 +368,7 @@ Ordne jeden der drei **beiden** Landkarten zu (klassisch **und** Typ 1/2/3).
 
 - Setz ein `breakpoint()` an eine Stelle in deiner Hauptschleife, an der eine Runde abgehandelt wird.
 - Starte das Spiel. Wenn `(Pdb)` erscheint, tipp zuerst `l` — wo genau stehst du gerade?
-- Sieh dir mit `p` drei Variablen an — etwa `p vaporium`, `p munition`, und was bei dir gerade interessant ist. **Achte darauf, bei welchen davon Anführungszeichen erscheinen.** Das ist die repr-Form aus Konzept 5, und sie sagt dir auf einen Blick, was ein String ist und was eine Zahl.
+- Sieh dir mit `p` drei Variablen an — etwa `p vorrat`, `p geladen`, und was bei dir gerade interessant ist. **Achte darauf, bei welchen davon Anführungszeichen erscheinen.** Das ist die repr-Form aus Konzept 5, und sie sagt dir auf einen Blick, was ein String ist und was eine Zahl.
 - Geh mit `n` ein paar Zeilen weiter. Steig mit `s` einmal **in** eine deiner Funktionen hinein und mit `r` wieder heraus.
 - Beende mit `c` oder `q`. **Nimm das `breakpoint()` danach wieder heraus.**
 
@@ -404,10 +405,10 @@ Jetzt die eigentliche Jagd. **Sie ist die große Knobelstelle dieser Etappe** �
 
 ### 9. Aufräumen und committen
 
-- **Führ zuerst `git diff` aus, bevor du irgendetwas aufräumst.** Was du dort grün siehst, ist alles, was du in dieser Etappe angefasst hast — jedes `breakpoint()`, jede `###`-Zeile. Das ist der Beweis, dass `diff` dein Suchraum ist: Statt die ganze Datei zu durchsuchen, liest du nur, was neu ist.
-- Führ danach einmal `git log --oneline` aus. Wie viele Commits stehen da inzwischen?
+- Führ einmal `git log --oneline` aus. Wie viele Commits stehen da inzwischen?
 - Durchsuch dein Spiel nach `###`-Zeilen und nach `breakpoint()`. **Jede** muss raus.
-- Prüf, dass keine Entwicklerbefehle (`gott`, `+munition` und dergleichen aus Etappe 3) im Spielcode stehen geblieben sind — bei der nächsten Jagd wären sie Verdächtige.
+- Prüf, dass keine Entwicklerbefehle (`test` aus Etappe 3a und was du selbst dazugebaut hast) im Spielcode stehen geblieben sind — bei der nächsten Jagd wären sie Verdächtige.
+- **Führ dann `git diff` aus.** Er zeigt dir, was seit dem letzten Commit noch verändert ist — dort darf kein Überbleibsel der Jagd mehr stehen: kein `breakpoint()`, keine `###`-Zeile, kein eingebauter Fehler. Das ist der Beweis, dass `diff` dein Suchraum ist: Statt die ganze Datei zu durchsuchen, liest du nur, was neu ist.
 - Führ das Spiel ein letztes Mal ganz durch. Läuft es wie vorher?
 - Commit: `Etappe 8: Bug-Jagd bestanden`
 
@@ -511,13 +512,13 @@ Acht Trainingsbugs — einer je Fehlertyp, dazu die klassischen Fallen:
 
 **3. Ein logischer Fehler (Typ 3).** Ändere in einer Rechnung ein `+` zu `-` oder ein `>` zu `<`. Das Spiel läuft weiter — **woran** merkst du überhaupt, dass etwas falsch ist? (Das ist die schwerste und wichtigste Übung.)
 
-**4. Der fast richtige Vergleich.** Ändere die Wellen-Abbruchbedingung von `>` auf `>=` (oder umgekehrt). Läuft eine Welle zu viel oder zu wenig? Das ist ein **Off-by-One** — die eigene Fehlerkategorie für alles, was um genau eins danebenliegt, weil der Mensch ab 1 zählt und Python ab 0.
+**4. Der fast richtige Vergleich.** Verschieb eine Grenze um eins — in deiner Wellenende-Prüfung oder im `range` deiner Wellen. Läuft eine Welle zu viel oder zu wenig? Das ist ein **Off-by-One** — die eigene Fehlerkategorie für alles, was um genau eins danebenliegt, weil der Mensch ab 1 zählt und Python ab 0.
 
-**5. Das vergessene `return`.** Nimm aus deiner Schadensrechnung das `return` heraus. Was steht danach in der Variablen, die das Ergebnis aufnehmen sollte — und wo genau knallt es? *(Dieselbe Falle wie das `None` von `append()` in Etappe 4.)*
+**5. Das vergessene `return`.** Nimm aus deiner Schadensrechnung das `return` heraus. Was steht danach in der Variablen, die das Ergebnis aufnehmen sollte — knallt es überhaupt, und woran merkst du es? *(Dieselbe Falle wie das `None` von `append()` in Etappe 4.)*
 
 **6. Der Fehler in den Daten, nicht im Code.** Frag einen Nachbar-Sektor ab, den es nicht gibt — einen Namen, der in deiner Karte fehlt. Der Code ist korrekt, der `KeyError` kommt trotzdem. Woran erkennst du, dass die Ursache in den Daten liegt und nicht in der Funktion?
 
-**7. Der stille Tippfehler links vom `=`.** Verschreib dich beim Anlegen eines Vorrats-Schlüssels (`vorrat["vaporum"]` statt `"vaporium"`). Kein Absturz. Was passiert stattdessen mit deinem echten Vaporium, und wie findest du es? *(Reiner Typ 3, aus Etappe 5.)*
+**7. Der stille Tippfehler links vom `=`.** Verschreib dich in einer reinen Zuweisung an den Vorrat: `vorrat["vaporum"] = 40` statt `"vaporium"`. Kein Absturz. *(Schreib dasselbe danach mit `-=` — dann knallt es, weil erst gelesen wird.)* Was passiert stattdessen mit deinem echten Vaporium, und wie findest du es? *(Reiner Typ 3, aus Etappe 5.)*
 
 **8. Zwei Fehler gleichzeitig.** Bau zwei der obigen zusammen ein. Jetzt zählt das Halbieren: Kannst du sie **einzeln** einkreisen, statt beide auf einmal zu suchen?
 
@@ -598,7 +599,7 @@ Erst bei grünem Selbsttest. Alles freiwillig.
 
 **Lies einen deiner alten Tracebacks noch einmal — den ganzen Stapel.** Nimm einen Absturz aus einer früheren Etappe (oder bau einen tief verschachtelten nach) und schreib zu **jeder** Zeile des Stapels dazu, was sie bedeutet: Diagnose, Tatort, Weg. Du wirst merken, dass du sie vorher nur überflogen hast.
 
-**Bau den `git bisect`-Gedanken von Hand nach.** Du hast einen Fehler, der vor fünf Commits noch nicht da war. Statt alle fünf zu lesen, spring per `git log --oneline` in die Mitte, prüf dort, und halbier weiter. Das ist Halbieren auf der Zeitachse — und genau das automatisiert Etappe 24.
+**Bau den `git bisect`-Gedanken von Hand nach.** Du hast einen Fehler, der vor fünf Commits noch nicht da war. Statt alle fünf zu lesen, such dir mit `git log --oneline` den mittleren Commit heraus, prüf dort, und halbier weiter. Das ist Halbieren auf der Zeitachse. *(Wie du einen alten Stand tatsächlich aufrufst und wieder zurückkommst, zeigt Etappe 16. Heb dir die Übung bis dahin auf.)*
 
 **Schreib die zehn Sabotagen aus Auftrag 7 zu Ende, auch wenn du nur drei gebraucht hast.** Die Liste ist Gold für später: In Etappe 16 und 26 hast du damit sofort Übungsmaterial, das du dir nicht neu ausdenken musst. Leg sie unter `sabotagen.md` ab.
 

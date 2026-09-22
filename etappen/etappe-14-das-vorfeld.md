@@ -1,6 +1,6 @@
 # Etappe 14 — Das Vorfeld
 
-*v1.1.1 · 2026-09-16*
+*v1.2.2 · 2026-09-22*
 
 > **Block 2: Einheiten und Zeit** · Etappe 14 von 30 · [← Etappe 13](etappe-13-bauzeit-und-abklingzeit.md) · [Lehrplan](../Vorposten_Lehrplan.md) · [Etappe 15 →](etappe-15-was-die-brut-hinterlaesst.md)
 
@@ -16,7 +16,7 @@
 
 | | Was passiert | Was danach anders ist |
 |---|---|---|
-| **14a** | Aus einer Zeile wird ein Feld | Deine Gegner haben `(x, y)` statt einer Zahl, und du siehst, wo sie stehen |
+| **14a** | Aus einer Zeile wird ein Feld | Deine Gegner haben `x` und `y` statt einer Zahl, und du siehst, wo sie stehen |
 | **14b** | Auf dem Feld wird gerechnet | Reichweite deckt Felder ab, und dein Trupp läuft los |
 | **14c** | Ein Gegenstand steht im Weg | Du triffst zum ersten Mal eine **räumliche** Entscheidung |
 
@@ -32,7 +32,7 @@
 
 ## Worum es geht
 
-Seit Etappe 3c hat dein Spiel eine Anmarschbahn. Sie ist **eine Zeile**:
+Seit Etappe 4 hat dein Spiel eine Anmarschbahn. Sie ist **eine Zeile**:
 
 ```
 [ . . K . . . @ ]
@@ -68,12 +68,12 @@ Alles andere kannst du längst. Du zeichnest seit Etappe 4 mit `.join()`, du lä
 ## Der lange Bogen — was heute fällig wird
 
 - **Die größte Schuld des ganzen Plans wird eingelöst:** *„Aus einer Zeile werden viele."* Sie steht seit Etappe 4 offen, und der Guide von damals hat dir gesagt, dass es so kommt.
-- **Das Tuple aus Etappe 6** war ein Werkzeug ohne Zweck. In Etappe 10 bekam dein Marine ein `self.position = (0, 0)`, ausdrücklich ohne Bewegung. **Heute ist es endlich das, wofür es gemacht ist.**
+- **Das Tuple aus Etappe 6** war ein Werkzeug ohne Zweck. In Etappe 10 bekam dein Marine ein `self.position = (0, 0)`, ausdrücklich ohne Bewegung. **Heute trägt es, wofür es gemacht ist:** `welt.tor` und die Felder einer Reichweite — Adressen, die weitergereicht und verglichen werden. Die Position einer Einheit dagegen wird zu zwei einzelnen Zahlen `x` und `y`, und `position` am Marine wird abgelöst. Schritt 4 sagt, warum.
 - **Das Set aus Etappe 6** zahlt sich in 14b zum ersten Mal richtig aus — bei einer Frage, die mit einer Liste umständlich und mit einem Set trivial ist.
 - **`range(len(...))` aus Etappe 4** — die Regel lautete: *nur bei echtem Indexbedarf.* Heute ist der Bedarf echt, zum ersten Mal.
 - **`[["."] * 5] * 5`** bringt den Fehler aus Etappe 4 und 10 in seiner gemeinsten Form zurück: *zwei Namen, ein Objekt* — nur dass es diesmal fünf Namen sind und du es erst beim Zeichnen merkst.
 - **`zeichne_bahn()` aus Etappe 7b** wird zu `zeichne_vorfeld()`. Die Schicht, die du damals gezogen hast, hält — du tauschst eine Funktion aus, nicht das Spiel.
-- **Die Design-Entscheidung aus Etappe 3c** — *ist die Bahn der Zustand oder nur sein Bild?* — wird heute endgültig fällig. Wer sie damals falsch beantwortet hat, merkt es heute.
+- **Die Design-Entscheidung aus Etappe 4** — *ist die Bahn der Zustand oder nur sein Bild?* — wird heute endgültig fällig. Wer sie damals falsch beantwortet hat, merkt es heute.
 
 ---
 
@@ -103,7 +103,7 @@ Die Versuchung ist groß, den Gegner ins Raster zu schreiben — `vorfeld[y][x] 
 | Was steht unter dem Gegner? | verloren — das Feld hieß mal `.` | steht noch im Raster |
 | Trefferpunkte des Gegners | wo? Ein `"K"` hat keine | im Objekt, wo sie seit Etappe 11 sind |
 
-**Das ist die Design-Entscheidung aus Etappe 3c, zum dritten Mal:** *Positionen sind der Zustand, das Zeichen ist nur sein Bild.* Du hast sie damals getroffen, in Etappe 12 hat sie den Tick getragen, und heute trägt sie das Raster.
+**Das ist die Design-Entscheidung aus Etappe 4, zum dritten Mal:** *Positionen sind der Zustand, das Zeichen ist nur sein Bild.* Du hast sie damals getroffen, in Etappe 12 hat sie den Tick getragen, und heute trägt sie das Raster.
 
 ---
 
@@ -199,7 +199,7 @@ ebene[0][0] = "belegt"
 
 ⚠️ **Das Innere ist übrigens harmlos.** `["frei"] * 3` erzeugt drei Strings nebeneinander, und Strings lassen sich nicht ändern — da kann nichts geteilt kaputtgehen. **Die äußere Vervielfachung ist das Problem**, weil Listen *mutable* sind. Genau die Unterscheidung aus Etappe 6, an einem Fall, der weh tut.
 
-**Der Reflex dazu kennst du seit Etappe 10:**
+**Den Reflex dazu kennst du seit Etappe 10:**
 
 ```
 (Pdb) p ebene[0] is ebene[1]     → True bedeutet: dieselbe Zeile, nicht zwei gleiche
@@ -263,7 +263,7 @@ print(ebene[1][-1])
 
 > **Ein Gegner, der bei `x = -1` landet, stürzt nicht ab. Er taucht am rechten Rand wieder auf.**
 
-Das ist einer der schönsten Typ-3-Fehler der Sprache: kein Traceback, keine Meldung, und dein Gegner ist auf der anderen Seite der Karte. **Am oberen Rand knallt es dagegen** — `y >= len(ebene)` gibt einen `IndexError`. Dieselbe Sorte Fehler, zwei völlig verschiedene Symptome, je nachdem, in welche Richtung du danebengreifst.
+Das ist einer der schönsten Typ-3-Fehler der Sprache: kein Traceback, keine Meldung, und dein Gegner ist auf der anderen Seite der Karte. **Am unteren Rand knallt es dagegen** — `y >= len(ebene)` gibt einen `IndexError`. Dieselbe Sorte Fehler, zwei völlig verschiedene Symptome, je nachdem, in welche Richtung du danebengreifst.
 
 ⚠️ **`>= len(...)`, nicht `> len(...)`.** Bei drei Zeilen sind die gültigen Indizes `0`, `1`, `2` — `3` ist schon zu viel. Das ist die Index-ab-null-Regel aus Etappe 3a, an der Stelle, an der sie das dritte Mal beißt.
 
@@ -314,7 +314,7 @@ def zeichne(ebene, autos):
 
 **Drei Zeilen, die zusammengehören, und jede hat einen Grund:**
 
-- `bild = []` und dann Zeile für Zeile — ein frisches Bild, jedes Mal. Das ist die Regel aus Etappe 3c: *die Bahn wird neu erzeugt, nicht verändert.*
+- `bild = []` und dann Zeile für Zeile — ein frisches Bild, jedes Mal. Das ist die Regel aus Etappe 4: *die Bahn wird neu erzeugt, nicht verändert.*
 - **`zeile.copy()`, nicht `zeile`.** Ohne die Kopie schreibst du das `"A"` in dein echtes Gelände, und beim nächsten Zeichnen steht es immer noch da. Ein Auto, das eine Spur aus Autos hinterlässt.
 - `"".join(zeile)` — seit Etappe 4, unverändert.
 
@@ -332,6 +332,8 @@ Nach **jedem** Schritt ausführen und einen Tick auslösen.
 
 ### 1. Leg das Vorfeld in der Welt an
 
+⚠️ **Heißt deine Liste der liegenden Dinge aus Etappe 4 schon `vorfeld`, benenn sie zuerst um** — Fahndung wie gewohnt. Sonst überschreibt das Raster sie, oder sie das Raster.
+
 - Attribut `vorfeld` in `Welt.__init__`, als Liste von Listen, **hingeschrieben** wie in Konzept 1.
 - Größe: klein anfangen. **Sieben Spalten, sechs Zeilen reichen.**
 - Zeichen: `#` Wand, `.` frei, `@` dein Tor, `S` der Spawnpunkt der Brut.
@@ -340,7 +342,7 @@ Nach **jedem** Schritt ausführen und einen Tick auslösen.
 
 ⚠️ **Lass zwischen `S` und `@` einen Weg frei, auf dem niemand hängenbleibt.** Riegel 1 — es gibt keine Wegfindung, und ein Gegner vor einer Wand bleibt einfach stehen.
 
-**So prüfst du es:** In einer Wegwerf-Datei `print(len(welt.vorfeld))` und `print(len(welt.vorfeld[0]))`. Sechs und sieben. Und `print(welt.vorfeld[0])` gibt eine **ganze Zeile** aus, kein einzelnes Zeichen.
+**So prüfst du es:** In deiner Probedatei `print(len(welt.vorfeld))` und `print(len(welt.vorfeld[0]))`. Sechs und sieben. Und `print(welt.vorfeld[0])` gibt eine **ganze Zeile** aus, kein einzelnes Zeichen.
 
 ---
 
@@ -369,12 +371,16 @@ Nach Konzept 5. Gibt `True` oder `False` zurück, verändert nichts.
 
 - `Gegner.__init__` bekommt `x` und `y` statt `entfernung`.
 - Ein neuer Gegner entsteht auf dem Spawnpunkt.
-- **Fahndung, wie seit Etappe 5:** Such alle Stellen, an denen `entfernung` vorkommt, zähl sie und schreib die Zahl auf. Es sind mehr, als du denkst — Bewegung, Zielsuche, Reichweitenprüfung des Turms und der Kameraden, die Anmarschbahn, vermutlich die Statusanzeige.
+- **Fahndung, wie seit Etappe 5:** Such alle Stellen, an denen `entfernung` vorkommt, zähl sie und schreib die Zahl auf. Es sind mehr, als du denkst — Bewegung, die Anmarschbahn, vermutlich die Statusanzeige.
 - Arbeite eine Stelle nach der anderen ab.
+
+⚠️ **Eine Ausnahme lässt du bewusst stehen:** Die Zielsuche und die Reichweitenprüfung von Turm und Kameraden brauchen einen Abstand, und das Werkzeug dafür kommt erst in 14b. Bis dahin rechnen sie ihn vorläufig selbst aus: den Abstand des Gegners zum Tor, aus seinem `x`/`y` und `welt.tor`, in einer **lokalen Variablen**. Die darf weiter `entfernung` heißen — ein Attribut ist sie nicht mehr. Ist eine Differenz negativ, drehst du ihr Vorzeichen mit einem `if` um (mal `-1`). In Schritt 10 räumst du das auf.
+
+*(Warum zwei einzelne Zahlen und kein Tuple wie `position` aus Etappe 10? Weil sich eine Einheit pro Tick auf **einer** Achse bewegt, Schritt 5. Mit zwei Zahlen ist ein Schritt eine Zuweisung an eine Achse; mit einem Tuple müsstest du jedes Mal ein neues bauen. Das Tuple bleibt für Adressen, die weitergereicht und verglichen werden — `welt.tor` und die Reichweite in 14b.)*
 
 ⚠️ **Das Spiel ist zwischendurch kaputt, und das ist normal.** Ein `AttributeError: 'Gegner' object has no attribute 'entfernung'` ist der freundliche Fall — er zeigt dir die nächste Stelle. Arbeite dich an ihnen entlang.
 
-**So prüfst du es:** Kein `AttributeError` mehr. Das Wort `entfernung` kommt in deinem Code nicht mehr vor — such danach.
+**So prüfst du es:** Kein `AttributeError` mehr. Such nach `.entfernung`: Es darf keinen Treffer geben. `entfernung` steht nur noch als lokale Variable in Zielsuche und Reichweitenprüfung.
 
 ---
 
@@ -410,7 +416,7 @@ In `Gegner.update()`, anstelle des bisherigen `entfernung -= 1`:
 Nach Konzept 8, in deiner Zeichenschicht aus Etappe 7b.
 
 - Kopie anlegen, **Zeile für Zeile**.
-- Trupp und Gegner hineinmalen — unterschiedliche Zeichen.
+- Die Gegner hineinmalen. Den Trupp malst du ab Schritt 12 dazu — vorher hat er keine Koordinaten.
 - Jede Zeile mit `.join()` ausgeben.
 - **Die Funktion bekommt Werte und gibt aus. Sie verändert nichts.** Die Reinheitsregel aus 7b gilt unverändert.
 
@@ -422,7 +428,7 @@ Nach Konzept 8, in deiner Zeichenschicht aus Etappe 7b.
 
 `zeichne_bahn()` aus Etappe 7b wird nicht mehr aufgerufen. **Lösch die Funktion**, nicht auskommentieren.
 
-*(Sie hat elf Etappen gehalten und ist heute erledigt. Das ist kein Verlust, sondern der Normalfall: Code, der seinen Zweck erfüllt hat, wird entfernt. Git erinnert sich für dich.)*
+*(Sie hat seit Etappe 7b gehalten und ist heute erledigt. Das ist kein Verlust, sondern der Normalfall: Code, der seinen Zweck erfüllt hat, wird entfernt. Git erinnert sich für dich.)*
 
 ---
 
@@ -523,7 +529,7 @@ def felder_in_reichweite(ebene, x, y, r):
 |---|---|---|
 | Ein Feld doppelt drin | möglich — du müsstest prüfen | **unmöglich, ohne dass du etwas tust** |
 | *Liegt der Gegner im Feuerbereich?* | durchlaufen, Stück für Stück | `in` — eine Abfrage |
-| Zwei Türme, gemeinsame Abdeckung | von Hand zusammenführen | *(Etappe 6, Konzept 10 — die Mengenoperationen)* |
+| Turm und Kamerad, gemeinsame Abdeckung | von Hand zusammenführen | *(Etappe 6, Konzept 10 — die Mengenoperationen)* |
 
 Die zweite Zeile ist die, die du heute spürst:
 
@@ -592,9 +598,11 @@ Nach Konzept 9. Eine Zeile Rumpf.
 
 ### 10. Stell die Zielsuche auf den Abstand um
 
-Deine `naechster_gegner()` aus Etappe 12 vergleicht noch `entfernung`. Sie bekommt jetzt zwei Parameter — von wo aus gesucht wird — und vergleicht Abstände.
+Deine `naechster_gegner()` aus Etappe 12 rechnet seit Schritt 4 eine vorläufige `entfernung` zum Tor aus. **Jetzt räumst du das auf:** Sie bekommt zwei Parameter — von wo aus gesucht wird — und vergleicht Abstände mit `abstand()` aus Schritt 9.
 
 ⚠️ **Die Methode braucht einen Startpunkt, weil „am nächsten" ab heute vom Standort abhängt.** Für den Turm ist das ein anderer Gegner als für einen Kameraden am anderen Ende. In Etappe 12 gab es diesen Unterschied nicht.
+
+⚠️ **Dabei bricht ein Aufruf, den man leicht vergisst: der in deinem eigenen `feuern`.** Er braucht ab jetzt einen Startpunkt, und der Held bekommt seinen Standort erst in Schritt 12. Gib ihm bis dahin vorläufig die Koordinate deines Tors mit — sonst stürzt `feuern` ab. Schritt 13 macht ihn fertig.
 
 **So prüfst du es:** Zwei Gegner setzen, die Suche von zwei verschiedenen Punkten aus aufrufen. **Zwei verschiedene Antworten.**
 
@@ -612,7 +620,9 @@ Nach Konzept 10. Gibt ein Set von Tuples zurück.
 
 - Jede Einheit, die feuert, bekommt `x` und `y` in `__init__`, und eine `reichweite`.
 - Der Turm steht an einem festen Feld im Vorposten.
-- Die Kameraden starten verteilt, nicht alle auf demselben Feld.
+- Die Kameraden starten verteilt, nicht alle auf demselben Feld. Der Held auch.
+- **`self.position` aus Etappe 10 wird gelöscht.** Neben `x` und `y` wäre es eine zweite Wahrheit über denselben Ort.
+- **Zeichne den Trupp ab jetzt mit** — in `zeichne_vorfeld()` aus Schritt 6.
 
 ⚠️ **Der Turm aus Etappe 13 wird dabei nicht neu gebaut.** Er bekommt zwei Attribute dazu — das ist alles. Seine Bauzeit, sein `welt.turm`, sein Platz im `trupp` bleiben, wie sie sind.
 
@@ -620,11 +630,13 @@ Nach Konzept 10. Gibt ein Set von Tuples zurück.
 
 ### 13. Stell das Feuern auf Reichweite um
 
-In `update()` von Turm und Kameraden: Ziel suchen, Abstand prüfen, nur bei `<=` feuern.
+In `update()` von Turm und Kameraden: Ziel suchen, Abstand prüfen, nur bei `<=` feuern. Die vorläufige `entfernung` aus Schritt 4 verschwindet dabei auch aus der Reichweitenprüfung.
 
 ⚠️ **`<=` und nicht `<`.** Bei Reichweite 3 soll ein Gegner in Abstand 3 noch getroffen werden. Das ist die Sorte Entscheidung, die durchläuft und trotzdem falsch sein kann — **schreib sie auf**, wie die Zählersemantik in Etappe 13.
 
-**So prüfst du es:** Einen Gegner genau auf Abstand `reichweite` setzen — er wird beschossen. Ein Feld weiter — nicht mehr.
+**Und dein Held gehört dazu.** Seit Etappe 2 steht in deiner Feuerbedingung ein `ziel_in_sicht`, das immer `True` war. **Ab heute bekommt es seine Bedeutung: ein Gegner in Reichweite.** Dein `feuern` sucht das Ziel vom Standort des Helden aus und schießt nur, wenn es in Reichweite ist. Sonst: eine Meldung. Ob ein Schuss ins Leere eine Runde kostet, entscheidest du — nach der Regel aus Etappe 12.
+
+**So prüfst du es:** Einen Gegner genau auf Abstand `reichweite` setzen — er wird beschossen. Ein Feld weiter — nicht mehr. Dasselbe mit `feuern`: Ohne Gegner in Reichweite fällt kein Schuss.
 
 ---
 
@@ -760,7 +772,7 @@ Commit: `Etappe 14c: Die Barrikade`
 - [ ] `welt.vorfeld[0]` gibt eine ganze Zeile aus, nicht ein Zeichen.
 - [ ] `welt.vorfeld[0] is welt.vorfeld[1]` ergibt `False`. *(Sonst hast du `* 5` benutzt.)*
 - [ ] `ist_auf_dem_raster(-1, 2)` ergibt `False` — und nicht still das letzte Feld der Zeile.
-- [ ] Das Wort `entfernung` kommt in deinem Code nicht mehr vor.
+- [ ] `.entfernung` kommt in deinem Code nicht mehr vor; `entfernung` steht nur noch als lokale Variable in Zielsuche und Reichweitenprüfung.
 - [ ] Ein Gegner bewegt sich **ein** Feld pro Tick, nicht zwei.
 - [ ] Ein Gegner vor einer Wand bleibt stehen, ohne Absturz.
 - [ ] **Bei gleichem x- und y-Abstand nimmt die Bewegung immer dieselbe Achse zuerst** — und die Regel steht in `GELERNT.md`.
@@ -775,6 +787,9 @@ Commit: `Etappe 14c: Die Barrikade`
 - [ ] Ein Gegner genau auf Abstand `reichweite` wird noch beschossen — **einer auf `reichweite + 1` nicht.**
 - [ ] Kameraden laufen auf ein Ziel zu und bleiben an der Zonengrenze stehen.
 - [ ] Kein Marine steht jemals in einem `#`.
+- [ ] `position` gibt es nicht mehr — Einheiten tragen `x` und `y`.
+- [ ] Das Wort `entfernung` kommt in deinem Code nicht mehr vor, auch nicht als lokale Variable.
+- [ ] Dein `feuern` schießt nur auf einen Gegner in Reichweite; ohne einen kommt eine Meldung.
 
 **14c** *(falls gebaut)*
 - [ ] Ein abgewiesener `stelle`-Versuch kostet keine Barrikade.

@@ -1,21 +1,21 @@
 # Etappe 3 — Die Wellenschleife ⭐
 
-*v1.3.0 · 2026-09-08*
+*v1.4.2 · 2026-09-22*
 
 > **Block 1: Fundament** · Etappe 3 von 30 · [← Etappe 2](etappe-02-der-erste-kontakt.md) · [Lehrplan](../Vorposten_Lehrplan.md) · [Etappe 4 →](etappe-04-ausruestung-und-beute.md)
 
-**Neue Syntax heute:** `while` · `+=` und `-=` · `for x in range(...)` · `range()` in drei Formen · `break` · `while True:` · `.lower()` · `/` `//` `%` · `round()` · `"#" * 7` · 👀 `continue` · 👀 `_` · 👀 `f"{wert:.0%}"`
+**Neue Syntax heute:** `while` · `+=` und `-=` · `for x in range(...)` · `range()` in drei Formen · `break` · `while True:` · die Zustandsvariable als Schleifenbedingung (`while laeuft:`) · `.lower()` · `/` `//` `%` · `round()` · `"#" * 7` · 👀 `continue` · 👀 `_` · 👀 `f"{wert:.0%}"`
 
 **Zeitaufwand:** 3a: 2–3 Sitzungen · 3b: 2 Sitzungen · 3c: 3 Sitzungen, à 20–30 Minuten. Die Konzepte aller drei Portionen zusammen sind rund vierzig Minuten Lesestoff — lies jeweils nur die Portion, an der du gerade sitzt.
 
 **Voraussetzung:** Etappe 2 abgeschlossen, Selbsttest grün
 
-**Diese Etappe hat drei Portionen** — die einzige im ganzen Plan, die so weit aufgeteilt ist. Hier wird aus einem Skript ein Spiel, und dabei kommt mehr zusammen, als an einem Abend ankommt. Nach jeder Portion steht ein Commit.
+**Diese Etappe hat drei Portionen** — eine von dreien im ganzen Plan, die so weit aufgeteilt sind, und die erste davon. Hier wird aus einem Skript ein Spiel, und dabei kommt mehr zusammen, als an einem Abend ankommt. Nach jeder Portion steht ein Commit.
 
 | | Thema | 🔨 Bauen | 👀 Nur erkennen |
 |---|---|---|---|
 | **3a** | Die Schleife | `for` außen, `while` innen, `range()`, `+=`, `break`, `while True:`, **wo Variablen leben** | `continue`, `_` |
-| **3b** | Die Befehle | Befehlskette, `.lower()`, Rundenzähler | Die zwei Bauformen für Schleifen |
+| **3b** | Die Befehle | Befehlskette, `.lower()`, Rundenzähler, die Zustandsvariable als Schleifenbedingung | — |
 | **3c** | Kampf und Anzeige | Gegner, Feuern, Nachladen, Rechnen mit `/` `//` `%` `round()`, Balken | Formatangaben im f-String |
 
 **Nach 3a wartet dein Programm auf dich. Nach 3b kannst du mit ihm reden. Nach 3c kannst du verlieren.**
@@ -73,7 +73,7 @@ Bei Schleifen zahlt das ab heute doppelt: Der häufigste Schleifenfehler ist nic
 | `kern_integritaet = 100` hatte keine Wirkung | **1** | Wird zur Abbruchbedingung |
 | Der ASCII-Kopf war reine Kulisse | **1** | Der `status`-Befehl bekommt Balken |
 | `f"{anteil:.0%}"` als Vorgeschmack | **1**, optional | Wird für die Prozentanzeige gebraucht |
-| Ungültige Eingabe beendete das Programm | **2** | Führt jetzt zu einer neuen Frage |
+| Ungültige Klassenwahl stürzte nach der Meldung ab | **2** | Führt jetzt zu einer neuen Frage (Schritt 2b) |
 | `.lower()` wurde vertagt | **2** | Jetzt tippt der Spieler Wörter |
 | Feuern ging genau einmal | **2** | Wird zu einem Befehl unter mehreren |
 
@@ -85,7 +85,7 @@ Bei Schleifen zahlt das ab heute doppelt: Der häufigste Schleifenfehler ist nic
 |---|---|
 | **Die Hauptschleife selbst** | **12** — jeder Durchlauf löst einen Tick aus · **28** — sie wird zur Pygame-Loop |
 | **Die `elif`-Kette der Befehle** | **7a** — wandert in eine Funktion · **23a** — stirbt durch ein Befehls-Dictionary |
-| **Deine Befehlssprache** | **4** — `nimm vaporium` · **5** — `kaufe medkit` |
+| **Deine Befehlssprache** | **4** — `nimm chitinpanzer` · **5** — `kaufe medkit` |
 | **Die Platzhalter-Kampfformel** | **21a** — wird zur echten Trefferrechnung |
 
 ---
@@ -96,7 +96,7 @@ Bei Schleifen zahlt das ab heute doppelt: Der häufigste Schleifenfehler ist nic
 
 **A — ein Wort:** `feuern`, `status`, `nachladen`, `beenden`. Der Vergleich ist ein simples `==`, genau wie in Etappe 2.
 
-**B — Verb und Ziel:** `feuern nordtor`, `nimm vaporium`, `kaufe medkit`. Braucht ein Werkzeug, das die Eingabe zerlegt — das ist Etappe 4.
+**B — Verb und Ziel:** `feuern nordtor`, `nimm chitinpanzer`, `kaufe medkit`. Braucht ein Werkzeug, das die Eingabe zerlegt — das ist Etappe 4.
 
 **Bau heute A.** Und schreib in `GELERNT.md`:
 
@@ -389,7 +389,19 @@ Wie lange das ist, weißt du beim Start der Welle noch nicht — also ist das di
 
 Implementiere zunächst nur den Befehl `beenden` — er beendet die Welle. Jede andere Eingabe soll eine Meldung ausgeben und erneut fragen. Die übrigen Befehle kommen in 3b.
 
-*(Damit ist die Schuld aus Etappe 1 und 2 eingelöst: Eine ungültige Eingabe beendet das Programm nicht mehr.)*
+*(Ein unbekannter Befehl beendet das Programm damit nicht mehr. Für die Klassenwahl kommt dasselbe im nächsten Schritt.)*
+
+**2b. Frag bei ungültiger Klassenwahl erneut.** Seit Etappe 2 meldet dein `else`-Zweig die Eingabe `9` — und danach stürzt das Programm mit `NameError` ab, weil kein Zweig die Klassenwerte gesetzt hat. Heute hast du das Werkzeug dagegen.
+
+- Leg die Klassenwahl — `input()`, `int()` und die ganze `if`/`elif`/`else`-Kette — in ein `while True:` mit `break`, die Form aus Konzept 6b.
+- Eine gültige Wahl verlässt die Schleife. Eine ungültige meldet sich und fragt erneut.
+- Die Schleife steht **vor** der `for`-Schleife der Wellen: Die Klasse wählst du einmal, nicht pro Welle.
+
+*(Wo genau das `break` hingehört, damit nur eine gültige Wahl die Schleife verlässt, entscheidest du. Denk an die Regel aus Konzept 6b: Das `break` schreibst du hin, bevor du den Rest der Schleife tippst — wo es im Block steht, ist eine andere Frage.)*
+
+**So prüfst du es:** Tipp `9`, dann ` 2`. Erst kommt deine Meldung, dann eine neue Frage, dann das Briefing des Heavy — und kein `NameError` mehr. *(Die Eingabe `zwei` stürzt weiterhin ab, mit `ValueError` aus `int()`. Das fängt erst Etappe 20.)*
+
+Damit sind die Termine aus Etappe 1 („wiederholt fragen, bis die Antwort stimmt") und Etappe 2 (der Absturz nach der Meldung) eingelöst.
 
 **3. Lass die Welle von selbst enden.** Leg eine Variable für die Gegnerzahl an — **auf Ebene 2 aus Konzept 5**, also innerhalb der `for`-Schleife und vor der `while`-Schleife. Heute reicht eine feste Zahl wie 3.
 
@@ -446,6 +458,7 @@ git commit -m "Etappe 3a: Die Wellenschleife läuft"
 - [ ] Das Spiel läuft zwanzig Wellen durch, wenn du nichts tust, um es zu beenden
 - [ ] Innerhalb einer Welle kannst du beliebig viele Eingaben machen
 - [ ] Eine unbekannte Eingabe beendet nichts — es kommt eine Meldung und die nächste Frage
+- [ ] Eine ungültige Klassenwahl (`9`) führt zu einer neuen Frage, nicht zu einem `NameError`
 - [ ] Klassenwahl und Lagebriefing erscheinen **einmal**, nicht pro Welle
 - [ ] Eine Welle endet von selbst, wenn kein Gegner mehr steht
 - [ ] Bei `kern_integritaet = 0` endet das **ganze** Spiel, auch mitten in einer Welle
@@ -501,7 +514,7 @@ Technisch ist das ein `if` — der Zähler wird nicht mehr bedingungslos erhöht
 
 *(In Etappe 12 kommt genau diese Frage wieder, dann unter anderem Namen: Welche Spieleraktion löst einen Tick aus? Deine heutige Antwort ist die erste Fassung davon.)*
 
-### 11. 👀 Die zweite Bauform — und welche du gebaut hast
+### 11. Die zweite Bauform — und welche du gebaut hast
 
 **Erst weiterlesen, wenn die Knobelstelle aus 3a gelöst ist.** Hier bekommt das, was du dort selbst gefunden hast, seinen Namen.
 
@@ -750,6 +763,8 @@ Deine Anzeige ist ab heute ein Messgerät. Das ist der Anfang des Fadens, der im
 
 Die Bedingung dafür schreibst du wie in Etappe 2 — eine Prüfung vor der Aktion. Danach kannst du den `test`-Befehl aus Schritt 3 löschen.
 
+*(`ziel_in_sicht` bleibt in der Bedingung stehen, obwohl es immer `True` ist — ein Ziel kannst du heute noch nicht verfehlen. Es bekommt seine Bedeutung in Etappe 14b: Dort heißt es „ein Gegner ist in Reichweite".)*
+
 **15b. Zähl die Erfahrung mit.** Leg vor den Schleifen `erfahrung = 0` an. Jedes Mal, wenn `feuern` einen Gegner erledigt, steigt sie um 10.
 
 **Mehr nicht.** Keine Stufen, keine Belohnung, keine Freischaltung — nur eine Zahl, die wächst und die du in Schritt 19 mit anzeigst.
@@ -791,11 +806,12 @@ Arbeite in dieser Reihenfolge:
 1. **Zuerst in `uebung.py`**, mit festen Zahlen statt Variablen. Die drei Rechenschritte stehen als Fragen in Konzept 14.
    *(Und beachte den Warnkasten dort: Die Rechnung gehört später **in** den `status`-Befehl, nicht an den Programmanfang.)*
 2. **Prüf ihn mit drei Werten:** voll, halb, leer. Sieht er bei allen dreien richtig aus?
-3. **Dann ins Spiel übernehmen**, in den `status`-Befehl. Dreimal: für Kernintegrität (Obergrenze 100), deine eigene `trefferpunkte` (Obergrenze 100) und Munition (Obergrenze 40).
+3. **Dann ins Spiel übernehmen**, in den `status`-Befehl. Dreimal: für Kernintegrität (Obergrenze 100), deine eigenen `trefferpunkte` und Munition (Obergrenze 40).
+   **Die Obergrenze deiner Trefferpunkte ist der Startwert deiner Klasse** — 140 beim Heavy, 80 beim Medic. Den kennst du nach dem ersten Treffer nicht mehr, weil `trefferpunkte` dann schon gesunken ist. Halt ihn deshalb gleich nach der Klassenwahl in einer eigenen Variable `trefferpunkte_max` fest — eine Zuweisung, mehr nicht.
 4. **Schreib die Erfahrung als schlichte Zahl dazu** — kein Balken, weil es keine Obergrenze gibt, gegen die man sie messen könnte. Genau das ändert sich in Etappe 5.
 5. **Den ASCII-Kopf aus Etappe 1 nicht anfassen.** Die Balken gehören zum Status.
 
-⚠️ *Zwei Balken mit derselben Obergrenze nebeneinander sind eine Verwechslungsfalle. Beschrifte sie so, dass ein Fremder auf einen Blick sieht, welcher die Anlage meint und welcher dich.*
+⚠️ *Zwei Balken, die beide eine Gesundheit zeigen, sind nebeneinander eine Verwechslungsfalle. Beschrifte sie so, dass ein Fremder auf einen Blick sieht, welcher die Anlage meint und welcher dich.*
 
 **20. Der Test, der zeigt, wofür der Balken da ist.** Setz `kern_integritaet = 150`, ruf `status` auf und sieh dir den Balken an. Dann dasselbe mit `-20`.
 
@@ -834,7 +850,8 @@ Danach: einmal von vorne durchspielen, zwanzig Wellen, ohne zu debuggen. Das ist
 - [ ] Nach dem Aufräumen gibt es keinen `test`-Befehl mehr und keine `###`-Zeilen
 - [ ] Du kannst das Spiel verlieren — und es endet dann tatsächlich
 - [ ] Spätere Wellen haben mehr Gegner als frühe
-- [ ] Beide Balken sehen bei vollem, halbem und leerem Stand richtig aus
+- [ ] Alle drei Balken sehen bei vollem, halbem und leerem Stand richtig aus
+- [ ] Bei vollen Trefferpunkten ist dein eigener Balken voll — auch als Heavy oder Medic
 - [ ] Der Balken bei `kern_integritaet = 150` sieht auffällig falsch aus — und du kannst sagen, warum
 
 ---
@@ -987,7 +1004,7 @@ Das Werkzeug ist dasselbe wie in Etappe 2: eine `print()`-Zeile am Anfang jedes 
 - **Welche Befehle bei dir eine Runde kosten** — und welche nicht
 - **Wie du die Knobelstelle gelöst hast** (Auftragsschritt 6) — und was du zuerst probiert hast
 - Die drei stillen Fehler aus dem Kaputtmachen, mit *woran du sie erkannt hättest*
-- Deine Liste aus Auftragsschritt 14: was sich beim Spielen falsch angefühlt hat
+- Deine Liste aus Auftragsschritt 18: was sich beim Spielen falsch angefühlt hat
 - Der Satz: *„Gegner sind heute eine Zahl. Ab Etappe 4 eine Liste."*
 
 Vor jedem Commit: Sind alle `###`-Debugzeilen raus?

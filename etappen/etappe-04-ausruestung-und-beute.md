@@ -1,6 +1,6 @@
 # Etappe 4 — Ausrüstung und Beute
 
-*v1.5.0 · 2026-09-08*
+*v1.6.1 · 2026-09-21*
 
 > **Block 1: Fundament** · Etappe 4 von 30 · [← Etappe 3](etappe-03-die-wellenschleife.md) · [Lehrplan](../Vorposten_Lehrplan.md) · [Etappe 5 →](etappe-05-vorposten-und-depot.md)
 
@@ -28,7 +28,7 @@ Sieh dir an, was in deinem Programm gerade einen Gegner darstellt: eine Variable
 
 Das kannst du nicht beantworten. Nicht weil dir Python fehlt, sondern weil in deinem Programm gar keine einzelnen Gegner existieren. Es gibt eine Anzahl. Eine Anzahl hat keine Position, keinen Zustand und keine Reihenfolge. Man kann sie hochzählen und runterzählen, mehr nicht.
 
-Dasselbe von der anderen Seite: Nach einer Welle liegt Zeug im Vorfeld. Ein Chitinpanzer, ein Organ, irgendein Ding von der Brut. Mit Einzelvariablen könntest du das aufheben — `hat_vaporium = True`, `hat_kasten = True` — und beim dritten Fundstück merkst du, dass du eine Variable pro möglichem Gegenstand brauchst und beim vierten wieder den Code anfassen musst.
+Dasselbe von der anderen Seite: Nach einer Welle liegt Zeug im Vorfeld. Ein Chitinpanzer, ein Organ, irgendein Ding von der Brut. Mit Einzelvariablen könntest du das aufheben — `hat_chitinpanzer = True`, `hat_kasten = True` — und beim dritten Fundstück merkst du, dass du eine Variable pro möglichem Gegenstand brauchst und beim vierten wieder den Code anfassen musst.
 
 **Beides ist dasselbe Problem, und es hat einen Namen, unter dem diese ganze Etappe steht:**
 
@@ -60,7 +60,7 @@ Fünf Gegner bleiben fünf Gegner. Dein Spiel soll sich nach dem Umbau **genau s
 Und weil du die Gegner jetzt einzeln hast, kannst du sie zum ersten Mal **zeigen**:
 
 ```
-S..K...K....@
+S...K..K....@
 ```
 
 Das ist die Anmarschbahn. Links kommt die Brut heraus, rechts steht dein Tor, dazwischen laufen zwei Krabbler. **Sie wird aus `gegner` erzeugt und ist selbst kein Zustand** — das `"K"` steht nirgends in deinen Daten, nur in der Ausgabe.
@@ -106,7 +106,7 @@ Die dritte Zeile ist die kürzeste und die einzige, bei der du wirklich aufpasse
 
 | Was du heute anlegst | Wo es wieder auftaucht |
 |---|---|
-| Die Gegnerliste der laufenden Welle | **12** — sie wird zu `self.einheiten`, über die der Tick läuft |
+| Die Gegnerliste der laufenden Welle | **12** — sie wird zu `welt.gegner`, über die der Tick läuft |
 | „Eine Liste nicht verändern, während man über sie läuft" | **12** — als echtes Problem; **16** — als Kandidat der Bug-Jagd |
 | Zwei Namen können auf dasselbe Objekt zeigen | **10** — zwei Marines teilen sich versehentlich ein Inventar; **14a** — `[["."] * 5] * 5` |
 | `inventar` als Liste von Strings | **11** — wird zur Liste von `Item`-Objekten |
@@ -128,13 +128,13 @@ Die dritte Zeile ist die kürzeste und die einzige, bei der du wirklich aufpasse
 | Die Darstellung als Debugging-Werkzeug | **8** — Fehler sehen statt sie zu lesen; **16** — Reihenfolgefehler im Tick |
 | Bauen in drei Schritten statt einem | **8** — genau dieses Halbieren ist das Suchverfahren |
 
-**Sieben Schulden werden heute eingelöst — mehr als in jeder Etappe zuvor.** Das ist kein Zufall: Etappe 4 ist der Punkt, an dem das Fundament aus 1 bis 3 zum ersten Mal zusammenläuft.
+**Sieben Schulden werden heute eingelöst.** Das ist kein Zufall: Etappe 4 ist der Punkt, an dem das Fundament aus 1 bis 3 zum ersten Mal zusammenläuft.
 
 | Aus Etappe | Was versprochen wurde | Wo es heute passiert |
 |---|---|---|
 | **1** | „Ein Name zeigt auf einen Wert" statt „eine Variable ist ein Behälter" | Konzept 9 — zwei Namen, ein Objekt |
 | **2** | Truthy und Falsy, besonders die `0` | Konzept 11 — die leere Liste ist falsy |
-| **2** | `.strip()` auf Eingaben | Konzept 12 — beim Zerlegen von `nimm  vaporium` |
+| **2** | `.strip()` auf Eingaben | Konzept 12 — beim Zerlegen von `nimm  chitinpanzer` |
 | **3a** | `range()` zählt ab 0, die zweite Zahl ist nicht dabei | Konzept 3 — derselbe Grund, warum der erste Index 0 ist |
 | **3b** | `.lower()` auf der Eingabe | Konzept 12 — dieselbe Kette, jetzt mit `.split()` |
 | **3b** | Die einwortige Befehlssprache, bewusst gewählt | Konzept 12 — heute wird sie umgebaut, und du merkst, was das kostet |
@@ -740,9 +740,11 @@ Kein Vaporium — das ist Währung. Keine Munition — die wird gekauft. **Keine
 - `ablege` bewegt ihn zurück.
 - **Prüf zuerst, ob der Gegenstand überhaupt da ist.** Erst danach entfernen und hinzufügen.
 
-**So prüfst du es:** `nimm vaporium`, dann `inventar`, dann `nimm vaporium` noch einmal. Beim zweiten Mal muss eine Meldung kommen, dass dort nichts mehr liegt.
+**So prüfst du es:** `nimm chitinpanzer`, dann `inventar`, dann `nimm chitinpanzer` noch einmal. Beim zweiten Mal muss eine Meldung kommen, dass dort nichts mehr liegt.
 
 *(Warum erst prüfen: Konzept 10. Wer zuerst entfernt und dann merkt, dass es nicht geht, hat den Gegenstand gelöscht statt bewegt.)*
+
+**Und eine Frage, die ab heute jeder neue Befehl stellt:** Kostet er eine Runde? `inventar` hat die Tabelle aus Etappe 3b schon beantwortet. Für `nimm` und `ablege` entscheidest du selbst — nach derselben Regel: Auskunft oder Handlung? Bau es so ein und notier deine Entscheidung mit einem Satz Begründung in `GELERNT.md`.
 
 ---
 
@@ -794,15 +796,19 @@ Beides ohne `try`/`except` — das ist Etappe 20. Mit dem, was du in Schritt 2 g
 
 **Nach jedem Teilschritt ausführen.** Warum einzeln und nicht auf einmal, steht in Konzept 15.
 
+**9.0 — Leg die Bahnlänge fest.**
+Die Bahn hat **12 Felder**: Feld 0 ist der Spawnpunkt, Feld 11 liegt direkt vor dem Tor. Diese Zahl brauchst du gleich an zwei Stellen — beim Zeichnen und beim Vorrücken. Schreib sie deshalb **einmal** hin, oben bei deinen Lagewerten, als `BAHNLAENGE = 12`. Großgeschrieben, weil sie feststeht (Etappe 1, Konzept 10) — das ist der erste solche Name in deinem eigenen Code.
+
 **9.1 — Ein Gegner bewegt sich.**
 Setz `gegner = [7]`. Erhöh die Zahl am Ende jeder Runde um eins. Zeichne die Bahn neu. Du siehst ein `K`, das nach rechts wandert. Noch kein Feuern, noch kein Entfernen.
 
 **9.2 — Mehrere bewegen sich.**
 Setz `gegner = [7, 4, 9]`. Alle rücken pro Runde ein Feld vor.
+**Ein Gegner rückt nur vor, solange er danach noch auf der Bahn steht.** Steht er schon auf Feld 11, bleibt er dort — direkt vor dem Tor. Das ist ein `if` vor dem Erhöhen. Schaden macht er dort weiter, so wie jeder stehende Gegner seit Etappe 3c; dafür brauchst du nichts Neues.
 ⚠️ *Die Schleifenvariable zu ändern reicht nicht — du musst die Einträge selbst ersetzen. **Konzept 3b** zeigt beide Wege dafür; nimm einen davon.*
 
 **9.3 — Die Bahn entsteht aus den Positionen.**
-Erzeug eine Bahn aus lauter Punkten (`["."] * n`), setz an den Positionen ein Zeichen (Konzept 3b), füg alles mit `.join()` zu einer Zeile zusammen (Konzept 14).
+Erzeug eine Bahn aus lauter Punkten (`["."] * n`, mit `BAHNLAENGE` als `n`), setz an den Positionen ein Zeichen (Konzept 3b), füg alles mit `.join()` zu einer Zeile zusammen (Konzept 14).
 **Die Gegnerliste bleibt unangetastet** — die Bahn wird jede Runde neu gebaut.
 
 **9.4 — Getroffene verschwinden.**
@@ -832,7 +838,7 @@ Wenn etwas davon nicht mehr geht, hast du nicht erweitert, sondern umgebaut.
 - ❌ **Gegenstände als Objekte mit Eigenschaften** (Gewicht, Schaden, Haltbarkeit) → Etappe 11
 - ❌ **Mengen und Stapel** („3× Chitinpanzer" statt dreimal `"chitinpanzer"`) → Etappe 5, mit einem Dictionary
 - ❌ **Kaufen, Verkaufen, ein Depot** → Etappe 5
-- ❌ **Gegner mit eigenen Trefferpunkten und Typen** → Etappe 11 und 17a
+- ❌ **Gegner mit Typen und eigenen Trefferpunkten** → Typen in Etappe 6, Trefferpunkte in Etappe 11
 - ❌ **`try` / `except` beim Entfernen** → Etappe 20
 - ❌ **Ein zweidimensionales Vorfeld** → Etappe 14a
 - ❌ **Zeichenfunktionen, die als eigene Schicht leben** → Etappe 7b
@@ -852,12 +858,12 @@ Notier diese Momente. Jedes Mal, wenn dir heute ein String zu dünn vorkommt, sc
 Prüft den Zustand deines Programms, nicht dein Gefühl. Führ jeden Punkt tatsächlich aus.
 
 - [ ] `inventar` bei leerem Inventar sagt etwas anderes als bei vollem — und stürzt nicht ab
-- [ ] `nimm vaporium` funktioniert, `NIMM  Vaporium` mit Großbuchstaben und zwei Leerzeichen auch
+- [ ] `nimm chitinpanzer` funktioniert, `NIMM  Chitinpanzer` mit Großbuchstaben und zwei Leerzeichen auch
 - [ ] `nimm` allein tippen führt nicht zum Absturz
 - [ ] Enter drücken, ohne etwas zu tippen, führt nicht zum Absturz
 - [ ] `nimm hubschrauber` sagt, dass hier so etwas nicht liegt
 - [ ] Ein genommener Gegenstand liegt danach **nicht mehr** im Vorfeld — und `nimm` desselben Dings ein zweites Mal meldet, dass da nichts mehr ist
-- [ ] `ablege vaporium` legt ihn zurück; danach kannst du ihn erneut nehmen
+- [ ] `ablege chitinpanzer` legt ihn zurück; danach kannst du ihn erneut nehmen
 - [ ] Beim elften Gegenstand kommt eine Meldung, und der Gegenstand bleibt liegen, wo er lag
 - [ ] Alle Befehle aus Etappe 3b (`feuern`, `status`, `nachladen`, `beenden`) tun genau das, was sie vorher taten
 - [ ] In `gegner` stehen **Zahlen, keine Zeichen** — such nach `"K"` in deiner Gegnerliste; es darf dort nicht vorkommen
@@ -866,6 +872,8 @@ Prüft den Zustand deines Programms, nicht dein Gefühl. Führ jeden Punkt tats�
 - [ ] Fällt ein Gegner, verschwindet er aus der Liste, und die übrigen bewegen sich normal weiter
 - [ ] Über eine ganze Welle hinweg wird **kein** Gegner übersprungen (auf der Bahn nachzählen)
 - [ ] Die Bahn ist bei jeder Runde gleich lang — Spawnpunkt links, Tor rechts, dazwischen der Rest
+- [ ] Ein Gegner, der das Tor erreicht, bleibt auf Feld 11 stehen — über mehrere Runden, ohne Absturz und ohne dass die Bahn länger wird
+- [ ] Die Bahnlänge steht genau einmal in deiner Datei, als `BAHNLAENGE`
 - [ ] Eine komplette Welle lässt sich von Anfang bis Ende spielen, ohne dass etwas abstürzt
 - [ ] ⭐ **Such in `spiel.py` nach der alten Gegnerzahl.** Es gibt sie nirgends mehr — keine Variable, die zählt, wie viele Gegner übrig sind. Die Liste *ist* der Zustand, die Anzahl liest du mit `len()` daraus ab. Damit ist der Satz eingelöst, den du nach Etappe 3 in `GELERNT.md` geschrieben hast: *„Gegner sind heute eine Zahl. Ab Etappe 4 eine Liste."*
 - [ ] Alle Gegner rücken pro Runde ein Feld vor — nachgezählt über drei Runden, nicht angenommen
@@ -935,7 +943,7 @@ Wenn die Schritte 10 und 11 dich nicht überrascht haben, hast du Konzept 9 vers
 4. **Ändere eine Liste über einen zweiten Namen** und gib die erste aus. Mach dasselbe mit einem String. Erklär den Unterschied in einem Satz.
 5. ⭐ **Entferne Gegner mitten im Durchlauf**, während die Anmarschbahn läuft. **Das ist der Typ-3-Fehler dieser Etappe:** Es gibt keine Fehlermeldung, keinen Traceback, nichts Rotes. Nur eine Bahn, auf der etwas nicht stimmt. Zähl die Gegner vor und nach der Runde und vergleiche mit dem, was du siehst.
 6. **Zeichne die Bahn, bevor die Gegner sich bewegen, statt danach.** Was ändert sich für den Spieler? Und was verrät dir das darüber, an welcher Stelle deiner Schleife die Anzeige stehen sollte?
-7. **Setz die Bahnlänge auf 5**, während ein Gegner auf Feld 9 steht. Was passiert — und was *sollte* passieren?
+7. **Setz `BAHNLAENGE` auf 5**, während ein Gegner auf Feld 9 steht. Was passiert — und was *sollte* passieren?
 8. **Bau Munition testweise als Liste** aus vierzig gleichen Einträgen. Lass das Spiel eine Welle laufen. Was wird umständlicher? Danach zurückbauen — das ist der Sinn der Übung. **Eine Struktur zu verstehen heißt auch, sie einmal am falschen Problem benutzt zu haben.**
 9. **Ändere die Schleifenvariable** in einem `for`-Durchlauf über deine Beute (`ding = "kaugummi"`) und gib die Liste danach aus. Was hast du geändert — den Eintrag oder nur den Namen?
 
@@ -992,7 +1000,7 @@ Alle vier Reflexe folgen demselben Grundsatz, und er ist der eigentliche Ertrag 
 
 **Etappe 6** stellt Liste, Dictionary, Set und Tuple nebeneinander — und beantwortet die Frage aus Konzept 2 für alle vier auf einmal. Dann verstehst du rückwirkend, welche Eigenschaft einer Liste du heute eigentlich benutzt hast — und an welchen zwei Stellen sie dir im Weg war.
 
-**Etappe 7b** holt das Zeichnen der Bahn aus deiner Spiellogik heraus. Ab dann liefert eine Zeichenfunktion Zeilen und gibt sie nicht selbst aus. Das klingt nach einer Feinheit und ist der Grund, warum in Etappe 14a Raster und Statusspalte nebeneinander passen.
+**Etappe 7b** holt das Zeichnen der Bahn aus deiner Spiellogik heraus. Ab dann rechnet die Logik und gibt ihre Ergebnisse zurück; eine Zeichenfunktion bekommt fertige Werte und gibt nur noch aus. Das klingt nach einer Feinheit und ist die Trennung, auf der die Anzeige ab Etappe 14a aufbaut.
 
 **Etappe 8** ist die Bug-Jagd, und deine Anmarschbahn ist dort Werkzeug, nicht Zierde: Ein Fehler, den man sieht, ist ein Fehler, den man findet.
 
@@ -1000,7 +1008,7 @@ Alle vier Reflexe folgen demselben Grundsatz, und er ist der eigentliche Ertrag 
 
 **Etappe 11** macht aus deiner Liste von Strings eine Liste von Objekten. Deine Notizzettel aus dem „Was NICHT"-Abschnitt sind dort die Begründung.
 
-**Etappe 12** ist der Punkt, an dem deine Gegnerliste zur `self.einheiten`-Liste der Welt wird, über die der Tick läuft. Und dort ist „nicht entfernen, während man darüber läuft" kein Übungsfall mehr, sondern dein Spiel.
+**Etappe 12** ist der Punkt, an dem deine Gegnerliste zur Liste `welt.gegner` wird, über die der Tick läuft. Und dort ist „nicht entfernen, während man darüber läuft" kein Übungsfall mehr, sondern dein Spiel.
 
 **Etappe 14a** löst die Schuld ein, die du heute anlegst: Aus einer Zeile werden viele. Der einzige neue Gedanke ist die zweite Ebene — eine Liste, deren Elemente selbst Listen sind. Zeichnen kannst du dann längst.
 

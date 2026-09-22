@@ -1,6 +1,6 @@
 # Etappe 2 — Der erste Kontakt
 
-*v1.3.0 · 2026-09-08*
+*v1.4.1 · 2026-09-21*
 
 > **Block 1: Fundament** · Etappe 2 von 30 · [← Etappe 1](etappe-01-der-abwurf.md) · [Lehrplan](../Vorposten_Lehrplan.md) · [Etappe 3 →](etappe-03-die-wellenschleife.md)
 
@@ -40,7 +40,7 @@ Wer heute vier Wertesätze anlegt, erzeugt Daten, die das Spiel monatelang nicht
 
 **Zweitens: Der erste Schuss.** Ob du feuern kannst, hängt an mehreren Dingen gleichzeitig — Munition, Nachladezustand, ob überhaupt ein Ziel da ist. Das ist die erste Stelle, an der eine Bedingung aus mehreren Teilen besteht, und die Form, in der du das schreibst, entscheidet darüber, ob dein Code in Etappe 18 noch lesbar ist.
 
-Und ganz nebenbei löst du eine Schuld ein, die Etappe 1 offen gelassen hat: Als du dort `9` eingegeben hast, hat dein Programm behauptet, du spielst eine Klasse, die es nicht gibt. Heute hast du das Werkzeug dagegen.
+Und ganz nebenbei löst du eine Schuld ein, die Etappe 1 offen gelassen hat: Als du dort `9` eingegeben hast, hat dein Programm behauptet, du spielst eine Klasse, die es nicht gibt. Heute bekommst du das erste Werkzeug dagegen: Dein Programm merkt, dass die Eingabe ungültig ist. Das zweite — noch einmal fragen — braucht eine Schleife und kommt in Etappe 3.
 
 ---
 
@@ -52,7 +52,7 @@ Und ganz nebenbei löst du eine Schuld ein, die Etappe 1 offen gelassen hat: Als
 
 - `=` heißt „bekommt den Wert" — heute kommt `==` dazu, die Feststellung neben dem Befehl.
 - Die Klassenwahl war eine gespeicherte Zahl ohne Wirkung — ab heute bestimmt sie deine Werte.
-- Eingabe `9` lief stillschweigend durch — der `else`-Zweig fängt sie ab.
+- Eingabe `9` lief stillschweigend durch — ab heute meldet der `else`-Zweig sie. Danach stürzt dein Programm noch ab; warum, steht in Konzept 5.
 
 **Was heute entsteht und später wieder auftaucht** — die drei, auf die es ankommt:
 
@@ -226,7 +226,9 @@ else:
 
 **`else` läuft, wenn kein Zweig davor zugetroffen hat.** Es hat selbst keine Bedingung — deshalb steht es immer ganz am Ende.
 
-Genau dafür brauchst du es heute: Eingabe `9` trifft auf keinen der vier Zweige, landet im `else` und wird als ungültige Klassennummer gemeldet. Damit ist die Schuld aus Etappe 1 beglichen, wo dieselbe `9` stillschweigend durchlief.
+Genau dafür brauchst du es heute: Eingabe `9` trifft auf keinen der vier Zweige, landet im `else` und wird als ungültige Klassennummer gemeldet. In Etappe 1 lief dieselbe `9` noch stillschweigend durch.
+
+⚠️ **Und dann stürzt dein Programm trotzdem ab.** Nach der Meldung läuft es weiter, bis zur Werteanzeige — und dort fehlen `schaden`, `panzerung` und `klassengeraet`, weil kein Zweig sie gesetzt hat. Python meldet `NameError`. **Das ist kein Fehler in deinem `else`, sondern ein Termin**, genau wie `zwei` in Etappe 1: Dein Programm erkennt die falsche Eingabe jetzt, aber es kann den Spieler noch nicht erneut fragen. Dafür braucht es eine Schleife — Etappe 3.
 
 *(Dass `else` auf Dauer zu grob ist — es kann nicht unterscheiden, warum etwas danebenging — merkst du selbst in Auftragsschritt 7. Das saubere Werkzeug dafür ist Etappe 20.)*
 
@@ -401,13 +403,17 @@ Die Klassenwahl aus Etappe 1 bekommt `.strip()`, bevor `int()` darauf losgeht. F
 >
 > **Nach der Kette stehen in diesen vier Variablen die Werte genau einer Klasse.** Es gibt keine `heavy_trefferpunkte` und kein `medic_schaden` — nur `trefferpunkte`, `schaden`, `panzerung`, `klassengeraet`, jeweils einmal.
 
-Vier Zweige mit `if` und `elif`, jeder setzt vier Variablen. Ja, das sind vier fast identische Blöcke. Ja, das darf sich falsch anfühlen — warum, steht unten unter „Was NICHT".
+**Und der Klassenname aus der zweiten Spalte:** Das Briefing in Schritt 4 zeigt ihn an. Hier setzt du deine Design-Entscheidung aus Etappe 1 um. Wer sich für den Namen entschieden hat, setzt `klasse` in jedem Zweig auf ihn. Wer die Zahl behält, braucht für die Anzeige eine eigene Variable mit dem Namen — ebenfalls eine Zeile pro Zweig.
 
-**3. Setz den `else`-Zweig.** Die fünfte Zeile der Tabelle: Ungültige Eingabe wird gemeldet, statt stillschweigend durchzulaufen. Damit ist die Schuld aus Etappe 1 beglichen. Testeingabe: `9`.
+Vier Zweige mit `if` und `elif`, jeder setzt vier Variablen und den Klassennamen. Ja, das sind vier fast identische Blöcke. Ja, das darf sich falsch anfühlen — warum, steht unten unter „Was NICHT".
+
+**3. Setz den `else`-Zweig.** Die fünfte Zeile der Tabelle: Ungültige Eingabe wird gemeldet, statt stillschweigend durchzulaufen. Testeingabe: `9`.
+
+**So prüfst du es:** Erst kommt deine Meldung, danach — spätestens nach Schritt 4 — ein `NameError`. Lies ihn: Welcher Name fehlt, und warum hat ihn niemand gesetzt? *(Konzept 5. Der Absturz bleibt bis Etappe 3.)*
 
 **4. Zeig die Werte an — und heute ist das ausdrücklich keine Bastelarbeit.**
 
-Dein Lagebriefing aus Etappe 1 bekommt vier Zeilen dazu, in genau derselben Form wie die vorhandenen:
+Dein Lagebriefing aus Etappe 1 bekommt drei Zeilen dazu, und eine vorhandene wird ersetzt — alles in genau derselben Form wie bisher. **Dafür rückt es hinter die Klassenwahl** — bisher stand es davor, und dort gibt es die Klassenwerte noch nicht:
 
 ```
 Klasse:        Heavy
@@ -416,7 +422,9 @@ Schaden:       14
 Panzerung:     10
 ```
 
-Dieselben f-Strings, dieselbe `print()`-Technik, nur mehr Variablen darin. **Der ASCII-Kopf von gestern wird heute nicht angefasst** — er bleibt, wie er ist, und die neuen Zeilen kommen darunter zum übrigen Briefing.
+Dieselben f-Strings, dieselbe `print()`-Technik, nur mehr Variablen darin. **Der ASCII-Kopf von gestern wird heute nicht angefasst** — er bleibt ganz oben, wie er ist; nur das Briefing darunter wandert hinter die Klassenwahl, und die neuen Zeilen kommen dazu.
+
+⚠️ **Die Zeile `Trefferpunkte` hattest du schon.** Seit Etappe 1 steht sie im Briefing, mit dem Startwert 100. Sie wird durch die neue ersetzt, nicht verdoppelt — sonst zeigt dein Briefing zwei verschiedene Zahlen für denselben Wert.
 
 Das ist Absicht: Die Darstellung wächst nur, wenn das jeweilige Python-Thema das Werkzeug dafür mitbringt. Heute lernst du Verzweigungen. Der nächste sichtbare Schritt ist Etappe 3c, wo aus Zahlen Balken werden.
 
@@ -478,8 +486,8 @@ Beobachtbare Zustände, keine Selbsteinschätzung.
 - [ ] Alle vier Klassen ergeben unterschiedliche Werte — du kannst sie einzeln vorführen
 - [ ] `trefferpunkte` und `kern_integritaet` sind **zwei** Variablen — änderst du eine im Code, ändert sich die Ausgabe der anderen nicht
 - [ ] Nach der Kette steht in `trefferpunkte` **ein** Wert, nicht vier — es gibt keine Variablen für die nicht gewählten Klassen
-- [ ] Der ASCII-Kopf aus Etappe 1 erscheint unverändert, die Klassenwerte stehen darunter im Briefing
-- [ ] Eingabe `9` erzeugt eine verständliche Meldung statt einer erfundenen Klasse
+- [ ] Der ASCII-Kopf aus Etappe 1 erscheint unverändert, das Briefing steht **hinter** der Klassenwahl, und `Trefferpunkte` erscheint darin genau einmal
+- [ ] Eingabe `9` erzeugt eine verständliche Meldung statt einer erfundenen Klasse — und du kannst erklären, warum danach ein `NameError` kommt
 - [ ] Eingabe mit Leerzeichen davor funktioniert trotzdem
 - [ ] Du kannst zeigen, welche Zeile deines Codes bei welcher Eingabe läuft
 - [ ] Die Feuer-Bedingung steht in **einer** Zeile, nicht als verschachtelter Turm
@@ -502,7 +510,7 @@ Ohne Nachschlagen, in eigenen Worten.
 5. Warum reicht ein Boolean nicht, um „Munition" darzustellen?
 6. Was bedeutet der Punkt in `eingabe.strip()`?
 7. Was passiert, wenn du `eingabe.strip()` schreibst, ohne das Ergebnis zuzuweisen?
-8. Wann läuft der `else`-Zweig?
+8. Wann läuft der `else`-Zweig — und warum stürzt dein Programm bei `9` danach trotzdem ab?
 9. Warum setzt deine Kette nur die Werte **einer** Klasse und nicht aller vier?
 
 **Frage 1 und 4 sind die wichtigen.**

@@ -1,6 +1,6 @@
 # Etappe 15 — Was die Brut hinterlässt
 
-*v1.2.0 · 2026-09-16*
+*v1.3.1 · 2026-09-21*
 
 > **Block 2: Einheiten und Zeit** · Etappe 15 von 30 · [← Etappe 14](etappe-14-das-vorfeld.md) · [Lehrplan](../Vorposten_Lehrplan.md) · [Etappe 16 →](etappe-16-bug-jagd-ii.md)
 
@@ -33,7 +33,7 @@ Eine Welle endet, die nächste beginnt, und außer ein paar Zahlen ist nichts ü
 
 > **Heute bedeutet sie etwas.**
 
-Ab heute hinterlassen gefallene Gegner nicht nur Vaporium, sondern **Spuren**: eine Chitinprobe mit einer Naht, wo keine sein sollte. Einen halb geschmolzenen Datenkern mit einer Bestellnummer darauf. Sporen, die Chitin in einer zweiten Schicht tragen — von etwas, das noch nicht gekommen ist.
+Ab heute hinterlassen gefallene Gegner nicht nur Material, sondern **Spuren**: eine Chitinprobe mit einer Naht, wo keine sein sollte. Einen halb geschmolzenen Datenkern mit einer Bestellnummer darauf. Sporen, die Chitin in einer zweiten Schicht tragen — von etwas, das noch nicht gekommen ist.
 
 Und jede dieser Spuren lässt sich **auswerten**. Was dabei herauskommt, verschwindet nicht mehr:
 
@@ -297,6 +297,8 @@ Ein Gegner fällt bei `(7, 3)`. Sein Fundstück liegt bei `(7, 3)`. **Wie kommt 
 | Spielerisch | Beute ist garantiert | **Beute hängt davon ab, wo dein Trupp stand** |
 | Zone aus 14b | ohne Wirkung | **entscheidet mit** |
 
+**Die Zone entscheidet, *ob* eingesammelt wird. Wohin, steht fest: immer zum Helden** — in seinen `vorrat`, wenn das Ding gezählt wird, sonst in sein Inventar. Läge ein Fund, den ein Kamerad aufgehoben hat, bei diesem Kameraden, fände dein `analysiere` ihn nie.
+
 **Der Plan empfiehlt den zweiten Weg**, und zwar aus einem Grund, der nichts mit Python zu tun hat: Er macht die Zonen aus Etappe 14b zum ersten Mal zu einer **Entscheidung mit zwei Seiten.** Bisher war eine enge Zone einfach sicherer. Ab heute heißt eine enge Zone auch: Du siehst weniger von dem, was da draußen liegt.
 
 **Die einfachste Form davon**, und sie reicht völlig — aber sie braucht drei genaue Angaben, sonst entsteht die Regel zufällig aus deinem Code:
@@ -368,7 +370,7 @@ Ein Dictionary, oben in der Datei, mit **allen** Angaben zu einem Fund an einer 
 
 ⚠️ **Das ist die eine Stelle, an der jedes Erkenntnis-Wort steht.** Ab hier tippst du keines mehr ab, sondern holst es aus dieser Tabelle. Konzept 1 sagt, warum.
 
-**So prüfst du es:** `print(FUNDE["chitinprobe"]["erkenntnis"])` in einer Wegwerf-Datei.
+**So prüfst du es:** `print(FUNDE["chitinprobe"]["erkenntnis"])` in deiner Probedatei.
 
 ---
 
@@ -387,6 +389,9 @@ Nach Konzept 6: **erbt von `Item`** aus Etappe 11, bringt `x` und `y` mit, ruft 
 - Eine Tabelle **Gegnertyp → Fundkennung**. Nicht jeder Typ muss etwas hinterlassen.
 - In deiner Aufräumphase aus Etappe 12: Wer gerade gefallen ist, legt an **seiner** Koordinate ein `Fundstueck` in `welt.fundstuecke`.
 - `.get()` für den Typ, `is None` für „hinterlässt nichts" — dann brauchst du keine Sonderbehandlung.
+- **Das Material aus Etappe 5 gehört dazu.** Bisher landete es in der ortlosen Liste aus Etappe 4. Ab heute liegt **alles**, was ein Gegner hinterlässt, als `Fundstueck` auf seinem Feld. Die alte Liste geht in `welt.fundstuecke` auf und wird gelöscht — zwei Orte für liegende Dinge wären zwei Wahrheiten. Ein Gefallener kann damit zwei Fundstücke auf seinem Feld hinterlassen: sein Material und einen Fund aus der Tabelle. *(Material bleibt eine Menge: Nur solange es liegt, ist es ein Fundstück. Beim Einsammeln wird daraus wieder eine Zahl im `vorrat`.)*
+
+⚠️ **Und damit stellt sich eine Frage, die du entscheiden musst: Was wird aus `nimm` und `ablege`?** Beide arbeiteten auf der alten Liste. Eingesammelt wird ab heute in der Einsammelphase. Brauchst du `nimm` noch? Und wohin legt `ablege` etwas — etwa an deine eigene Position? Entscheide und notier es in `GELERNT.md`.
 
 **So prüfst du es:** Eine Welle spielen, danach `print(welt.fundstuecke)`. Die Koordinaten müssen dort liegen, wo Gegner gefallen sind — nicht am Spawnpunkt.
 
@@ -405,7 +410,7 @@ Eine Zeile in `zeichne_vorfeld()` aus Etappe 14: ein eigenes Zeichen für ein Fu
 Nach Konzept 7 — **nach der letzten Aufräumphase der Welle, vor dem Beginn der nächsten.** Trag die Phase in deine Reihenfolge-Notiz aus Etappe 12 ein.
 
 - Über `welt.fundstuecke` laufen.
-- Liegt eines in der Zone eines Marines, der **nicht** auf `"tot"` steht: ins Inventar, aus der Liste entfernen.
+- Liegt eines in der Zone eines Marines, der **nicht** auf `"tot"` steht: zum **Helden**, egal wer es eingesammelt hat — Gezähltes in seinen `vorrat`, Einzelstücke in sein Inventar, nach der Regel aus Etappe 5. Danach aus der Liste entfernen.
 - **Sammeln, dann entfernen** — der Griff aus Etappe 12, Konzept 11.
 - Eine Meldung, was eingesammelt wurde, und **eine zweite, wie viel liegen blieb.**
 
@@ -459,12 +464,14 @@ Commit: `Etappe 15a: Fundstücke und Erkenntnisse`
 Nach Konzept 4, mit der **Umkehrtabelle**:
 
 - Eine Tabelle **Gegnertyp → nötige Erkenntnis**.
-- In deiner `berechne_schaden()` aus Etappe 7: Nachschlagen mit `.get()`, prüfen mit `is not None` und `in`, Zuschlag draufrechnen.
+- In deiner Schadensberechnung (aus Etappe 7, vielleicht seit Etappe 9 eine Methode): Nachschlagen mit `.get()`, prüfen mit `is not None` und `in`, Zuschlag draufrechnen.
 - **Keine `if`-Kette mit Erkenntnis-Namen in der Funktion.** Das ist der ganze Punkt.
 
-⚠️ **`berechne_schaden()` ist seit Etappe 7 deine sauberste Funktion.** Sie bekommt Werte und gibt eine Zahl zurück. **Gib ihr nicht die ganze Welt** — nur das Set. Ein Parameter mehr, und die Reinheit bleibt erhalten. *(Das ist die Kopplungsfrage aus Etappe 12 und 13, hier zum ersten Mal mit einer billigen Antwort.)*
+⚠️ **Deine Schadensberechnung ist seit Etappe 7 deine sauberste Funktion.** Sie bekommt Werte und gibt eine Zahl zurück. **Gib ihr nicht die ganze Welt** — nur das Set. Ein Parameter mehr, und die Reinheit bleibt erhalten. *(Das ist die Kopplungsfrage aus Etappe 12 und 13, hier zum ersten Mal mit einer billigen Antwort.)*
 
-**So prüfst du es:** Denselben Gegnertyp einmal vor und einmal nach dem Analysieren beschießen. **Die Zahl muss sich ändern — und bei einem anderen Typ nicht.**
+⚠️ **Und eine Frage, bevor du prüfst: Wer profitiert von deiner Erkenntnis — nur du, oder jeder, der schießt?** Die Erkenntnis gehört dem ganzen Spiel, sie steht in `welt.erkenntnisse`. Kameraden und Turm feuern aber seit Etappe 12 und 13 mit ihrem eigenen Schaden an deiner Schadensberechnung vorbei. Entscheide und notier es in `GELERNT.md`. Den Weg wählst du selbst.
+
+**So prüfst du es:** Denselben Gegnertyp einmal vor und einmal nach dem Analysieren beschießen. **Die Zahl muss sich ändern — und bei einem anderen Typ nicht.** Prüf das für jeden, der nach deiner Entscheidung profitiert.
 
 ---
 
@@ -590,17 +597,19 @@ dann weiß diese eine Zeile sehr viel über sehr viele Teile deines Spiels. **Si
 ## Selbsttest
 
 - [ ] Jedes Erkenntnis-Wort, das irgendwo verwendet wird, **existiert in der Fundtabelle** — kein Verweis ins Leere.
-- [ ] Ein Fundstück ist ein `Item` und lässt sich mit `nimm` und `ablege` behandeln wie alles seit Etappe 11.
+- [ ] Ein Fundstück ist ein `Item`. Was aus `nimm` und `ablege` geworden ist, steht in `GELERNT.md`, und beide verhalten sich so, wie du es entschieden hast.
+- [ ] Es gibt nur noch einen Ort für liegende Dinge: `welt.fundstuecke`. Die Liste aus Etappe 4 ist gelöscht.
+- [ ] Eingesammeltes landet beim Helden — Material im `vorrat`, Einzelstücke im Inventar —, auch wenn ein Kamerad es eingesammelt hat.
 - [ ] Ein Fundstück in der Zone eines **ausgefallenen** Marines wird nicht eingesammelt.
 - [ ] Das Einsammeln steht **nach** der letzten Aufräumphase — die Beute des letzten Gegners fehlt nicht.
 - [ ] Ein Fundstück liegt dort, wo der Gegner gefallen ist, nicht am Spawnpunkt.
 - [ ] Was außerhalb aller Zonen liegt, wird **nicht** eingesammelt — und du erfährst davon.
 - [ ] `analysiere` hat vier verschiedene Ausgaben für vier verschiedene Lagen.
 - [ ] Zweimal dasselbe analysieren ändert nichts und meldet es.
-- [ ] Derselbe Gegnertyp nimmt nach dem Analysieren mehr Schaden, ein anderer nicht.
+- [ ] Derselbe Gegnertyp nimmt nach dem Analysieren mehr Schaden — von jedem, der nach deiner Entscheidung profitiert —, ein anderer nicht.
 - [ ] Die neue Depotware lässt sich vorher **weder sehen noch kaufen** — beides geprüft.
-- [ ] `berechne_schaden()` bekommt weiterhin keine ganze Welt.
-- [ ] In `berechne_schaden()` steht kein einziges Erkenntnis-Wort.
+- [ ] Deine Schadensberechnung bekommt weiterhin keine ganze Welt.
+- [ ] In deiner Schadensberechnung steht kein einziges Erkenntnis-Wort.
 - [ ] Ein Fundstück steht nicht im `trupp`.
 - [ ] Der vierte Fund benutzt eine **vorhandene** Wirkungsart, und die Zahl aus Schritt 13 steht in `GELERNT.md`.
 - [ ] Die Kopplungszeichnung existiert und ist aufgehoben.
@@ -727,11 +736,11 @@ Alles in `GELERNT.md` und ins Fehlertagebuch aus Etappe 8: **woran du es erkannt
 
 | Symptom | Ursache | Wo du suchst |
 |---|---|---|
-| Die Erkenntnis wirkt nicht | Tippfehler im Wort — an einer der beiden Stellen | Konzept 1 — jedes Wort **einmal** in der Tabelle |
+| Die Erkenntnis wirkt nicht | Tippfehler im Wort — an einer der beiden Stellen | Konzept 1 — jedes Wort muss in der Fundtabelle stehen, Verweise dürfen keins erfinden |
 | `KeyError: 'chitinprobe'` | Direkter Zugriff statt `.get()` auf einen Typ ohne Beute | Schritt 3 — `.get()` und `is None` |
 | `AttributeError: 'NoneType' object has no attribute ...` | Der Rückgabewert einer Suche wurde nicht geprüft | Konzept 5 — jede Suche kann `None` liefern |
 | Fundstücke liegen alle am selben Ort | Die Koordinate des Gefallenen wurde nicht mitgegeben | Schritt 3 — `g.x`, `g.y`, nicht der Spawnpunkt |
-| Beim zweiten Analysieren kommt der Text noch einmal | Die Prüfung „schon vorhanden" fehlt | Schritt 7 — dritte Zeile der Kette |
+| Beim zweiten Analysieren kommt der Text noch einmal | Die Prüfung „schon vorhanden" fehlt | Schritt 7 — zweite Zeile der Kette |
 | Die versteckte Ware lässt sich kaufen | Nur die Anzeige filtert, der Kauf nicht | Schritt 10 — beide Stellen |
 | Jeder neue Fund kostet fünf Änderungen | Die Wirkung steht als `if`-Kette in der Logik | Konzept 4 — Umkehrtabelle |
 | Das Fundstück verschwindet beim Zeichnen | Es wird nach den Einheiten gemalt und überdeckt | Schritt 4 — Reihenfolge |
@@ -781,7 +790,7 @@ print(welt.erkenntnisse)
 - Was hat mich überrascht? *(Kandidaten: dass ein Tippfehler nichts anzeigt · dass die Zone plötzlich zwei Seiten hat · wie wenig Code eine Verzahnung braucht.)*
 - Offener Posten, falls du ihn hast: Was fehlt den Erkenntnissen noch, damit sie sich lohnen?
 
-**Vor dem Commit:** Beide Verlustbedingungen geprüft? `berechne_schaden()` noch ohne Welt? Kein `breakpoint()` drin?
+**Vor dem Commit:** Beide Verlustbedingungen geprüft? Schadensberechnung noch ohne Welt? Kein `breakpoint()` drin?
 
 ---
 

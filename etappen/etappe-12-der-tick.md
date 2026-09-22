@@ -1,6 +1,6 @@
 # Etappe 12 — Der Tick
 
-*v1.1.2 · 2026-09-16*
+*v1.2.0 · 2026-09-21*
 
 > **Block 2: Einheiten und Zeit** · Etappe 12 von 30 · [← Etappe 11](etappe-11-vererbung.md) · [Lehrplan](../Vorposten_Lehrplan.md) · [Etappe 13 →](etappe-13-bauzeit-und-abklingzeit.md)
 
@@ -255,7 +255,7 @@ Lies in `GELERNT.md` nach, welche Werte du damals als „gehört der Welt" einge
 
 ### 3. Bau die Klasse `Welt`
 
-Ein Parameter: der gesteuerte Marine. Diese Attribute:
+Ein Parameter: der gesteuerte Marine. Mindestens diese Attribute:
 
 | Attribut | Startwert | Woher es kommt |
 |---|---|---|
@@ -266,11 +266,13 @@ Ein Parameter: der gesteuerte Marine. Diese Attribute:
 | `gegner` | `[]` | war eine lose Liste |
 | `trupp` | `[]` | war eine lose Liste aus Etappe 11 |
 | `held` | der übergebene Marine | neu — Konzept 4 |
-| `laeuft` | `True` | falls du in 3b die Zustandsvariable gebaut hast |
+| `laeuft` | `True` | deine Zustandsvariable aus 3b |
+
+⚠️ **Die Tabelle ist ein Anfang, nicht vollständig.** Jede übrige lose Variable prüfst du mit der Frage aus Etappe 9: *pro Figur oder pro Spiel?*
 
 Der übergebene Marine wird **auch** an `trupp` angehängt. Er steht in der Liste *und* unter `held` — ein Objekt, zwei Namen.
 
-**So prüfst du es:** In einer Wegwerf-Datei eine Welt erzeugen und `welt.held is welt.trupp[0]` drucken. Muss `True` ergeben.
+**So prüfst du es:** In deiner Probedatei eine Welt erzeugen und `welt.held is welt.trupp[0]` drucken. Muss `True` ergeben.
 
 ---
 
@@ -280,7 +282,7 @@ Der übergebene Marine wird **auch** an `trupp` angehängt. Er steht in der List
 - Sie wird **gelöscht**, nicht auskommentiert.
 - Die Wellenschleife bleibt, wo sie ist. Sie setzt am Anfang jeder Welle nur noch `welt.welle`.
 
-⚠️ **Diese Werte bleiben, wo sie sind:** `trefferpunkte`, `vorrat`, `erfahrung`, `inventar`, `sektor` und `standort` gehören dem Marine, seit Etappe 9. Wer sie heute in die Welt zieht, macht die Entscheidung von damals rückgängig, ohne es zu merken.
+⚠️ **Diese Werte bleiben, wo sie sind:** `trefferpunkte`, `vorrat`, `erfahrung`, `inventar`, `sektor` und `position` gehören dem Marine, seit Etappe 9 und 10. Wer sie heute in die Welt zieht, macht die Entscheidung von damals rückgängig, ohne es zu merken.
 
 **So prüfst du es:** Das Spiel startet nicht mehr. Ein `NameError` ist der freundliche Fall — er zeigt dir die nächste Stelle.
 
@@ -569,6 +571,8 @@ Damals kostete dich eine falsche Antwort einen Rundenzähler, der zu schnell lie
 | `status`, `inventar`, `umsehen` | **nein** | Auskunft |
 | `hdsjkfh` (ungültig) | **du entscheidest** | siehe unten |
 
+*(Die ersten beiden Zeilen sind Beispiele. Für jeden Befehl, den du seit Etappe 4 gebaut hast, steht deine eigene Entscheidung in `GELERNT.md` — sie gilt, nicht diese Tabelle.)*
+
 **Die dritte Zeile ist die interessante**, und sie hat keine richtige Antwort. Kostet Unsinn keinen Tick, ist die Eingabe ein kostenloser Zeitstopp. Kostet er einen, bestraft das Vertipper. Entscheide dich, schreib es auf — und probier im Kaputtmachen aus, was die andere Fassung tut.
 
 ---
@@ -580,7 +584,7 @@ Damals kostete dich eine falsche Antwort einen Rundenzähler, der zu schnell lie
 - Parameter: `self` und `welt`.
 - Körper: ein Docstring, der sagt, warum hier nichts steht.
 
-**So prüfst du es:** In einer Wegwerf-Datei eine `Einheit` erzeugen und `update()` aufrufen. Kein Fehler, keine Ausgabe.
+**So prüfst du es:** In deiner Probedatei eine `Einheit` erzeugen und `update()` aufrufen. Kein Fehler, keine Ausgabe.
 
 ---
 
@@ -614,9 +618,11 @@ Die Regel, die bei dir bisher irgendwo in der Rundenschleife stand, zieht in die
 
 - Status `"tot"`? Sofort `return`.
 - Entfernung größer als `0`? Um eins verringern, dann `return`.
-- Sonst: Schaden auf `welt.kern_integritaet`.
+- Sonst: Schaden auf `welt.kern_integritaet` **und** auf eine Einheit des Trupps — so wie seit Etappe 3c ein Gegner auch dich getroffen hat.
 
-**So prüfst du es:** Eine Welt mit einem Gegner in Entfernung 2 bauen und dreimal `update()` aufrufen. Beim dritten Mal sinkt die Kernintegrität.
+⚠️ **Welche Einheit getroffen wird, entscheidest du** — etwa die erste im Trupp, die noch nicht gefallen ist. Notier deine Regel in `GELERNT.md`. Nur eines muss sie leisten: **Held und Kameraden müssen treffbar sein.** Sonst kann ab heute niemand aus dem Trupp mehr fallen, und deine zweite Verlustbedingung läuft ins Leere.
+
+**So prüfst du es:** In deiner Probedatei eine Welt mit einem Gegner in Entfernung 2 bauen und dreimal `update()` aufrufen. Beim dritten Mal sinkt die Kernintegrität — und die Einheit, die nach deiner Regel dran ist, verliert Trefferpunkte.
 
 ---
 
@@ -635,9 +641,9 @@ Die Regel, die bei dir bisher irgendwo in der Rundenschleife stand, zieht in die
 
 Leg `REICHWEITE` als festen Wert oben in der Datei an, groß geschrieben, Startwert `5`. *(Die Schreibweise ist die Verabredung aus Etappe 1.)*
 
-⚠️ **Feuern kostet die Kameraden heute keine Munition.** Das ist eine bewusste Auslassung — ein Vorrat pro Kamerad wäre ein eigenes Thema, und es steht in Etappe 13, wo Zähler an Objekten drankommen. Notier es in `GELERNT.md` als offenen Posten.
+⚠️ **Feuern kostet die Kameraden heute keine Munition.** Das ist eine bewusste Auslassung. Munition für die Kameraden kommt in Etappe 13, als eigenes Magazin, das sich über Zeit füllt. Notier es in `GELERNT.md` als offenen Posten.
 
-**So prüfst du es:** Starte das Spiel und tipp `status`, ohne zu feuern. Sobald der erste Gegner nah genug ist, verliert er Trefferpunkte, ohne dass du etwas getan hast. **Das ist der Moment, für den du Etappe 11 gebaut hast.**
+**So prüfst du es:** In deiner Probedatei: eine Welt, ein Kamerad, der nicht gesteuert ist, und ein Gegner in Reichweite. Ruf die `update()` des Kameraden von Hand auf, mit der Welt als Argument. Der Gegner muss Trefferpunkte verlieren. *(Im laufenden Spiel siehst du das erst nach Schritt 16 — dort gibt es den Tick, der `update()` aufruft.)*
 
 ---
 
@@ -650,7 +656,7 @@ Vier Phasen, in dieser Reihenfolge:
 3. Über `self.gegner` laufen, ebenso
 4. Aufräumen (Schritt 15)
 
-**So prüfst du es:** In einer Wegwerf-Datei eine Welt mit drei Gegnern bauen und fünfmal `tick()` aufrufen. Druck nach jedem Tick `print(welt)` — dafür hast du das `__repr__` in Schritt 7 gebaut.
+**So prüfst du es:** In deiner Probedatei eine Welt mit drei Gegnern bauen und fünfmal `tick()` aufrufen. Druck nach jedem Tick `print(welt)` — dafür hast du das `__repr__` in Schritt 7 gebaut.
 
 ---
 
@@ -669,12 +675,12 @@ Vier Phasen, in dieser Reihenfolge:
 ### 16. Häng den Tick an den Befehl
 
 - Nach jedem Befehl, der Zeit kostet, ruft die Hauptschleife `welt.tick()` auf — **genau einmal.**
-- Deine Entscheidung aus Etappe 3b, welche Befehle Zeit kosten, bleibt gültig.
+- Deine Entscheidungen, welche Befehle Zeit kosten, bleiben gültig — die aus Etappe 3b und die, die du seit Etappe 4 für jeden neuen Befehl in `GELERNT.md` notiert hast. Hol sie heraus.
 - Entscheide neu, was bei einer **ungültigen** Eingabe passiert, und schreib die Entscheidung auf.
 
 ⚠️ **Genau einmal.** Wenn das alte Vorrücken der Gegner bei dir noch in der Rundenschleife steht, hast du es jetzt doppelt: einmal dort, einmal im Tick. **Lösch die alte Stelle.** Das ist der wahrscheinlichste Fehler dieser Etappe.
 
-**So prüfst du es:** Tipp zehnmal `status`. Die Gegner dürfen sich keinen Schritt bewegt haben. Dann zehnmal `nachladen`: Sie müssen zehn Schritte näher sein.
+**So prüfst du es:** Tipp zehnmal `status`. Die Gegner dürfen sich keinen Schritt bewegt haben. Dann zehnmal einen Befehl, der nach deiner Entscheidung Zeit kostet: Sie müssen zehn Schritte näher sein. Sobald einer in Reichweite ist, verliert er Trefferpunkte, ohne dass du feuerst. **Das ist der Moment, für den du Etappe 11 gebaut hast.**
 
 ---
 
@@ -703,7 +709,7 @@ In `GELERNT.md`, als nummerierte Liste, mit einem Satz dazu: **Was wäre anders,
 Ohne `diff`, denn das Verhalten hat sich absichtlich geändert. Von Hand:
 
 - Kaufen, nachladen, Sektor wechseln, Fähigkeit einsetzen — alles wie vorher?
-- Sinkt die Kernintegrität, wenn ein Gegner ankommt?
+- Sinkt die Kernintegrität, wenn ein Gegner ankommt — und verliert dabei eine Einheit des Trupps Trefferpunkte, nach deiner Regel aus Schritt 12?
 - Endet das Spiel noch, wenn sie auf `0` fällt — **und ebenso, wenn deine eigenen Trefferpunkte auf `0` fallen?**
 
 ⚠️ **Die letzte Frage ist die, die übersehen wird.** Du hast seit Etappe 1 zwei Verlustbedingungen. Prüf beide, jedes Mal.
@@ -749,11 +755,12 @@ Commit: `Etappe 12b: Der Vorposten tickt`
 - [ ] `trefferpunkte` und `vorrat` gehören immer noch dem Marine.
 
 **12b**
-- [ ] Zehnmal `status` bewegt keinen Gegner. Zehnmal `nachladen` bewegt sie zehn Schritte.
+- [ ] Zehnmal `status` bewegt keinen Gegner. Zehnmal ein Befehl, der nach deiner Entscheidung Zeit kostet, bewegt sie zehn Schritte.
 - [ ] Ein Kamerad erledigt einen Gegner, ohne dass du etwas tust.
 - [ ] Vier tote Gegner verschwinden bei einem Aufräumen **alle vier**.
 - [ ] Ein Gegner, der in der Trupp-Phase eines Ticks fällt, schlägt in der Gegner-Phase **desselben** Ticks nicht mehr zu.
 - [ ] Nirgends fragt der Code, welche Klasse eine Einheit hat.
+- [ ] Ein Gegner am Tor trifft den Kern **und** eine Einheit des Trupps; deine Regel dafür steht in `GELERNT.md`.
 - [ ] Beide Verlustbedingungen beenden das Spiel.
 - [ ] Die Tick-Reihenfolge steht in `GELERNT.md`.
 - [ ] Beide Commits sind gesetzt.
@@ -931,7 +938,7 @@ if self.zeit == 40:
 
 **Etappe 13 hängt sich als Erstes an den Tick.** Abklingzeiten, die Bauzeit des Basisturms, Nachladen und dein eigener Ausfall mit Respawn-Zähler — alle sind dasselbe Muster: ein Zähler, der pro Tick um eins sinkt. Dein `tick()` von heute bekommt eine Phase dazu, und mehr passiert dort nicht.
 
-**Etappe 14a macht aus `entfernung` ein `(x, y)`** — und deine `update()`-Methoden sind die Stellen, die das merken. In 14b lernen die Kameraden laufen, und aus „in Reichweite" wird eine Rechnung.
+**Etappe 14a macht aus `entfernung` zwei Attribute `x` und `y`** — und deine `update()`-Methoden sind die Stellen, die das merken. In 14b lernen die Kameraden laufen, und aus „in Reichweite" wird eine Rechnung.
 
 **Etappe 15 zeichnet deine Kopplung auf Papier.** Fünf Minuten, nichts wird repariert. Du wirst sehen, wie viele Pfeile bei der `Welt` zusammenlaufen.
 

@@ -1,6 +1,6 @@
 # Projekt-Lehrplan: Vorposten
 
-*v4.0.1 · 2026-09-16*
+*v4.7.2 · 2026-09-22*
 
 **Python lernen, indem die Verteidigung wächst — 30 Etappen in 44 Portionen**
 
@@ -306,7 +306,7 @@ Deshalb wächst die Darstellung von Etappe 1 an mit:
 |---|---|---|
 | 1 | Ein fester Kopf mit der Lage | mehrzeiliger String, f-Strings |
 | 3 | Balken statt Zahlen: `Kern [#######...]` | `"#" * anzahl` |
-| **4** | **Die Anmarschbahn als eine Zeile:** `S..K...K....@` | Liste, Index, `len()`, `remove()` |
+| **4** | **Die Anmarschbahn als eine Zeile:** `S...K..K....@` | Liste, Index, `len()`, `remove()` |
 | 5 | Grundriss des Vorpostens, aktueller Sektor markiert | Dictionary |
 | 14 | Aus der einen Zeile werden mehrere | verschachtelte Listen |
 | 29 | Aus Zeichen werden Kacheln | Pygame |
@@ -583,7 +583,7 @@ Ein halbes Jahr ist lang, und Fortschritt fühlt sich in der Mitte nach nichts a
 | Etappe | Was passiert | Warum es sich anders anfühlt |
 |---|---|---|
 | **3a** | Das Programm wartet auf dich | Ab hier ist es ein Spiel und kein Skript |
-| **4** | `S..K...K....@` — Gegner rücken sichtbar auf | Dein Spiel hat ein Bild, aus einer Liste gebaut |
+| **4** | `S...K..K....@` — Gegner rücken sichtbar auf | Dein Spiel hat ein Bild, aus einer Liste gebaut |
 | **12** | Die Welt tickt, auch wenn du nichts tust | Der Motor läuft, nicht mehr nur die Anzeige |
 | **13** | Hinter dir feuert ein Geschütz, das du vor fünf Runden bestellt hast | Der Beweis, dass der Tick echt ist — der schönste Moment des ganzen Plans |
 | **14a** | Ein Raster, auf dem sich etwas bewegt | Dein Spiel hat eine Karte |
@@ -599,7 +599,7 @@ Das kommt. Bei sechs Monaten ist es keine Frage, ob, sondern wann. Drei Auswege,
 
 1. **`GELERNT.md` öffnen und die letzten drei Einträge lesen.** Das zählt als Sitzung. Du wirst überrascht sein, was du vor vier Wochen noch nicht konntest.
 2. **`git log --oneline` laufen lassen.** Vierzig Commits sind vierzig Abende, an denen du es doch gemacht hast.
-3. **Eine Etappe halbieren.** Sieben sind es schon; bei den übrigen darfst du es selbst tun. Der Plan ist ein Vorschlag.
+3. **Eine Etappe halbieren.** Elf sind es schon; bei den übrigen darfst du es selbst tun. Der Plan ist ein Vorschlag.
 
 **Was du nicht tun solltest: eine Etappe überspringen, weil sie langweilig aussieht.** Etappe 6 (Datenstrukturen) und Etappe 7 (Aufräumen) sehen beide nach nichts aus und sind beide der Grund, warum die nächsten fünf Etappen funktionieren.
 
@@ -733,14 +733,14 @@ Dazu ein Boolean, der sich etwas merkt: Beim ersten Kontakt siehst du etwas — 
 
 ## Etappe 3 — Die Wellenschleife ⭐
 
-**Neue Syntax:** `while` · `+=` und `-=` · `for` mit `range()` · `break` · `while True:` · `.lower()` · `/` `//` `%` · `round()` · Text mal Zahl · 👀 `continue` · 👀 Formatangaben im f-String
+**Neue Syntax:** `while` · `+=` und `-=` · `for` mit `range()` · `break` · `while True:` · die Zustandsvariable als Schleifenbedingung (`while laeuft:`) · `.lower()` · `/` `//` `%` · `round()` · Text mal Zahl · 👀 `continue` · 👀 Formatangaben im f-String
 
-**Die einzige Etappe mit drei Portionen.** Hier wird aus einem Skript ein Spiel — und dabei kommt mehr zusammen, als an einem Abend ankommt. Nach jeder Portion ein Commit.
+**Die erste von drei Etappen mit drei Portionen** (3, 11, 14). Hier wird aus einem Skript ein Spiel — und dabei kommt mehr zusammen, als an einem Abend ankommt. Nach jeder Portion ein Commit.
 
 | | 🔨 Bauen | 🧠 Verstehen | 👀 Nur erkennen |
 |---|---|---|---|
 | **3a** | `for` außen, `while` innen, `range()`, `break` | Wann `for`, wann `while` — und warum das keine Geschmacksfrage ist | `continue`, `_` |
-| **3b** | Befehlskette, `.lower()`, Rundenzähler | Wo eine Variable angelegt wird, entscheidet, wann sie neu gesetzt wird | — |
+| **3b** | Befehlskette, `.lower()`, Rundenzähler, `while laeuft:` | Wo eine Variable angelegt wird, entscheidet, wann sie neu gesetzt wird | — |
 | **3c** | Gegner, Feuern, Nachladen, Balken | Warum die Anzeige ein Messgerät ist | Formatangaben im f-String |
 
 **Nach 3a wartet das Programm auf den Spieler. Nach 3b kann er mit ihm reden. Nach 3c kann er verlieren.**
@@ -762,6 +762,8 @@ Zwei Ebenen, zwei Schleifenarten:
 
 **Zwei Prüfungen, zwei Meldungen, ein Ausstieg.** Das ist heute etwas mehr Arbeit als eine einzelne Bedingung und es ist der Grund, warum der Lernende in Etappe 13 sofort versteht, warum nur eine der beiden einen Respawn-Zähler bekommt.
 
+**Und die Klassenwahl bekommt ihre eigene kleine Schleife:** Seit Etappe 2 meldet sie eine ungültige Eingabe und stürzt danach ab. In 3a steht sie in einem `while True:` mit `break` und fragt neu — damit ist der Termin aus Etappe 1 („wiederholt fragen") eingelöst.
+
 **Dazu zwei Kleinigkeiten, die hier zum ersten Mal gebraucht werden:** `Strg + C` als Notausgang aus der Endlosschleife — einmal absichtlich herbeiführen — und die Regel, dass `break` immer nur *eine* Schleife verlässt.
 
 ⭐ **Die Knobelstelle:** Fällt die Kernintegrität auf null, muss auch die äußere Schleife enden. `break` allein reicht dafür nicht. Der Lernende soll das selbst lösen; alle Bausteine sind vorhanden. **Das ist die erste Stelle im Tutorial, an der ein Problem gestellt wird, ohne dass das Verfahren gezeigt wurde** — und sie ist ausdrücklich als solche markiert, damit niemand denkt, er habe etwas Grundlegendes nicht verstanden.
@@ -774,7 +776,7 @@ Zwei Ebenen, zwei Schleifenarten:
 
 Befehle: `feuern`, `status`, `nachladen`, `beenden`, plus `else` für Unbekanntes. Die `if`/`elif`-Kette aus Etappe 2, nur mit Wörtern statt Zahlen — und **jetzt** wird `.lower()` gebraucht, das in Etappe 2 bewusst vertagt wurde.
 
-**Die Design-Entscheidung dieser Etappe ist die Befehlssprache.** Ein Wort pro Befehl (`feuern`) oder Verb plus Ziel (`nimm vaporium`)? Heute wird bewusst einwortig gebaut; Etappe 4 erzwingt den Umbau. Der kostet zehn Minuten und lehrt, wie sich eine frühe Entscheidung anfühlt, die später Arbeit macht — hier ist diese Erfahrung billig zu haben.
+**Die Design-Entscheidung dieser Etappe ist die Befehlssprache.** Ein Wort pro Befehl (`feuern`) oder Verb plus Ziel (`nimm chitinpanzer`)? Heute wird bewusst einwortig gebaut; Etappe 4 erzwingt den Umbau. Der kostet zehn Minuten und lehrt, wie sich eine frühe Entscheidung anfühlt, die später Arbeit macht — hier ist diese Erfahrung billig zu haben.
 
 **Dazu eine zweite Design-Entscheidung, die erst beim Spielen auffällt: Welche Befehle kosten eine Runde?** Wenn der Zähler bei jedem Schleifendurchlauf hochzählt, kostet auch `status` Zeit — der Spieler schaut auf seine Munition, und die Gegner rücken auf. Auskunft sollte nichts kosten, Handlung schon. Technisch ein `if`, didaktisch die erste Fassung der Frage, die in Etappe 12 lautet: Welche Spieleraktion löst einen Tick aus?
 
@@ -796,7 +798,7 @@ Mehr als diese Beobachtung braucht es heute nicht. **Der Fachbegriff — Scope �
 
 ⚠️ **Hier wird die Balancing-Falle zum ersten Mal akut.** Sobald das Spiel läuft, will man an den Zahlen drehen. Deckel: fünfzehn Minuten — und was sich falsch anfühlt, wird **notiert statt geändert**. Die Notizliste ist die Grundlage für Etappe 21a.
 
-**Zur Darstellung, zehn Minuten ganz am Ende:** Der Befehl `status` zeigt Kernintegrität und Munition als Balken — `Kern [#######···] 70%`. Das ist Stringmultiplikation und eine Division. Der Rechenweg wird nicht vorgegeben, nur die drei Fragen dazu.
+**Zur Darstellung, zehn Minuten ganz am Ende:** Der Befehl `status` zeigt Kernintegrität, die eigenen Trefferpunkte und Munition als Balken — `Kern [#######···] 70%`. Jeder misst gegen seine eigene Obergrenze; bei den Trefferpunkten ist das der Startwert der Klasse, festgehalten gleich nach der Klassenwahl. Das ist Stringmultiplikation und eine Division. Der Rechenweg wird nicht vorgegeben, nur die drei Fragen dazu.
 
 ⚠️ **Die Stelle, an der hier fast jeder hängenbleibt, ist nicht die Rechnung, sondern ihr Zeitpunkt:** Wer die Balkenlänge einmal oben bei den Startwerten ausrechnet, bekommt einen Balken, der sich nie ändert — ohne Fehlermeldung. Die Rechnung gehört in den `status`-Befehl. Derselbe Gedanke trägt in Etappe 4 die Anmarschbahn: **Was aus Zustand entsteht, wird beim Anzeigen erzeugt, nicht aufbewahrt.**
 
@@ -873,10 +875,10 @@ Ein Gegner, der nur als Zeichen in einer Anzeigezeile existiert, hat nichts, was
 
 **Und hier wird dein Spiel zum ersten Mal sichtbar: die Anmarschbahn.**
 
-Eine Liste fester Länge, ein Zeichen pro Feld — der Spawnpunkt links, dein Tor rechts, dazwischen die Gegner:
+Eine Liste fester Länge, ein Zeichen pro Feld — der Spawnpunkt links, dein Tor rechts, dazwischen die Gegner. Die Länge steht einmal als `BAHNLAENGE = 12` im Code, der erste großgeschriebene Name im eigenen Programm. Ein Gegner, der das Tor erreicht, bleibt davor stehen und macht weiter Schaden:
 
 ```
-S..K...K....@
+S...K..K....@
 ```
 
 **Der Weg von der Zeichenliste zur Zeile wird nicht vorgegeben.** Es gibt eine eingebaute String-Methode, die genau das tut, und sie soll selbst gefunden werden — mit `dir("")` und `help()`. *Woher weiß ich, was dieses Objekt kann?* ist eine der Fähigkeiten, um die es im ganzen Projekt geht; in Etappe 27 stehen genau diese zwei Werkzeuge vor einem fremden Repo.
@@ -990,9 +992,11 @@ Dazu **Bewegung**: `umsehen` liest Beschreibung und Ausgänge aus den Daten, `ge
 
 Damit läuft ab heute die Wirtschaft, und sie ist **ein Kreislauf mit vier Stationen**: Brut fällt → **Material** (Chitinpanzer, Organe) → `verkaufe` → Vaporium → `kaufe <ware>` → Munition → Brut fällt.
 
+Das Material fällt ins Vorfeld und wird mit `nimm` aus Etappe 4 aufgesammelt. `nimm` entscheidet ab jetzt, wohin ein Ding gehört: Gezähltes in den `vorrat`, Einzelstücke wie der Datenkern ins Inventar — ohne einen Materialnamen in der Logik.
+
 ⚠️ **Weder Vaporium noch Munition sind Beute.** Vaporium ist Währung und entsteht ausschließlich durch Verkaufen; Munition wird gekauft. Ein Gegner, der Munition fallen lässt, finanziert das eigene Erlegen und macht das Depot überflüssig, bevor es gebaut ist — und in Etappe 21a gibt es dann nichts mehr zu balancieren. Was die Brut hinterlässt, ist die Brut selbst.
 
-⚠️ **Und Etappe 5 reißt ein Loch auf, das sie selbst schließen muss:** Das `nachladen` aus Etappe 3 setzt Munition auf einen festen Wert — harmlos, solange Munition nichts kostet. Ab hier ist es ein Cheat, der das Depot entwertet. **Auftragsschritt 12b trennt deshalb `geladen` vom `vorrat`:** Nachladen verschiebt, es erschafft nicht. Das ist die erste Stelle im Plan, an der zwei Zahlen für einen Vorgang nötig sind — Vorbereitung auf Etappe 12.
+⚠️ **Und Etappe 5 reißt ein Loch auf, das sie selbst schließen muss:** Das `nachladen` aus Etappe 3 setzt Munition auf einen festen Wert — harmlos, solange Munition nichts kostet. Ab hier ist es ein Cheat, der das Depot entwertet. **Auftragsschritt 12b trennt deshalb `geladen` vom `vorrat`:** Das Magazin fasst 5 Schuss, 35 liegen im Vorrat, und Nachladen verschiebt, es erschafft nicht. Das ist die erste Stelle im Plan, an der zwei Zahlen für einen Vorgang nötig sind — Vorbereitung auf Etappe 12.
 
 **Der Verkauf ist deshalb kein Beiwerk, sondern trägt.** Er braucht eine **zweite flache Tabelle** (`VERKAUFSWERTE`) und übt damit die Kernlektion dieser Etappe ein zweites Mal: In der Verkaufslogik darf kein Materialname vorkommen. Der Kaufvorgang prüft drei Dinge (gibt es die Ware, reicht das Vaporium, ist Platz im Inventar) und ist damit dein erstes Stück Logik, das mehr als eine Bedingung braucht. Die Mengenabfrage (*„wie viele?"*) löst dabei die `int()`-Schuld aus Etappe 1 ein.
 
@@ -1203,7 +1207,7 @@ Auf der einen Seite steht alles, was *rechnet und entscheidet*. Auf der anderen 
 
 **Die Darstellung wird zur eigenen Schicht.** Was seit Etappe 1 gewachsen ist — Kopf, Balken, Anmarschbahn, Grundriss — wandert in vier Funktionen, die nur zeichnen: `zeichne_kopf()`, `zeichne_balken(wert, maximum)`, `zeichne_bahn(gegner, gegner_typen)`, `zeichne_grundriss(sektor)`. Sie rechnen nichts und entscheiden nichts. Sie bekommen fertige Werte und geben Zeichen aus.
 
-**`zeichne_balken()` ersetzt dabei zwei fast gleiche Blöcke** — Kern und Munition —, und genau das ist der sichtbare Gewinn der Trennung. Dazu gehört ein eigener Prüfschritt: Greift eine Zeichenfunktion auf eine äußere Variable zu, ist sie nicht rein und in Etappe 28 nicht austauschbar.
+**`zeichne_balken()` ersetzt dabei drei fast gleiche Blöcke** — Kern, Trefferpunkte und Munition —, und genau das ist der sichtbare Gewinn der Trennung. Dazu gehört ein eigener Prüfschritt: Greift eine Zeichenfunktion auf veränderlichen Zustand von außen zu, ist sie nicht rein und in Etappe 28 nicht austauschbar. Feste, großgeschriebene Tabellen darf sie lesen.
 
 Das ist die wichtigste Trennung dieser Etappe, und sie ist dieselbe wie die nächste:
 
@@ -1409,7 +1413,7 @@ Die Antwort hängt daran, **wo** `Inventar()` steht. Steht es in `__init__`, bek
 
 **Der Reflex, den du daraus mitnimmst:** Wenn sich zwei Dinge unerklärlich gemeinsam verändern, frag nicht *„wo wird das falsch gesetzt?"*, sondern **„sind das überhaupt zwei Dinge?"**
 
-**Hier lernst du `None` richtig.** `None` heißt „hier ist bewusst nichts" — etwas völlig anderes als `0`, `""` oder `False`. Leerer Slot, kein aktuelles Ziel, kein laufender Bauauftrag: alles `None`. Und der Unterschied ist in diesem Spiel besonders scharf: `munition = 0` heißt „Waffe da, leer". `waffe = None` heißt „keine Waffe". Wer beides gleich behandelt, baut sich einen Fehler vom Typ 3.
+**Hier lernst du `None` richtig.** `None` heißt „hier ist bewusst nichts" — etwas völlig anderes als `0`, `""` oder `False`. Leerer Slot, kein aktuelles Ziel, kein laufender Bauauftrag: alles `None`. Und der Unterschied ist in diesem Spiel besonders scharf: `geladen = 0` heißt „Waffe da, leer". `waffe = None` heißt „keine Waffe". Wer beides gleich behandelt, baut sich einen Fehler vom Typ 3.
 
 Und `if waffe is None:` — nicht `== None`. Kein Stil, echter Unterschied; frag mich danach.
 
@@ -1431,7 +1435,7 @@ Und `if waffe is None:` — nicht `== None`. Kein Stil, echter Unterschied; frag
 
 ## Etappe 11 — Vererbung — und die Frage, ob wir sie brauchen
 
-**Neue Syntax:** `class Kind(Eltern)` · `super().__init__()` · Methoden überschreiben · `.remove(objekt)` an Objektlisten · 👀 `type(self).__name__` · 👀 `__len__`/`__contains__`/`__iter__` · 👀 `@property`
+**Neue Syntax:** `class Kind(Eltern)` · `super().__init__()` · Methoden überschreiben · `.remove(objekt)` an Objektlisten · `type(self).__name__` · eine Klasse als Wert in einem Dictionary · 👀 `__len__`/`__contains__`/`__iter__` · 👀 `@property`
 
 ⚠️ **Diese Etappe ist in drei Portionen geteilt** — sie zahlt drei Schulden auf einmal zurück, und jede hat ihr eigenes abgeschlossenes Ergebnis:
 
@@ -1474,7 +1478,9 @@ Ein Eintrag, eine Sache. Kein Index-Abgleich mehr, kein Synchronhalten, kein „
 
 **Das ist der stärkste Moment, den diese Etappe zu bieten hat, und er funktioniert nur, weil der Schmerz echt war.** Der Guide soll ausdrücklich darauf zurückkommen: erst die alten zwei Listen zeigen, dann die neue eine, dann die Frage, welche der beiden Fehlermöglichkeiten aus Etappe 6 jetzt gar nicht mehr existieren kann.
 
-Es gilt weiter die Migrationsregel: **Die Liste bleibt — nur was ein Eintrag bedeutet, wird reicher.** Schleifen, `len()` und die Bewegungslogik funktionieren unverändert.
+Es gilt weiter die Migrationsregel: **Die Liste bleibt — nur was ein Eintrag bedeutet, wird reicher.** Schleifen und `len()` funktionieren unverändert. Eine Sache dreht sich dabei um: Aus der Position vom Spawnpunkt aus wird `entfernung`, der Abstand zum Tor. Umgerechnet wird einmal beim Erzeugen, und die Bahn rechnet für die Anzeige zurück, damit der `diff` leer bleibt.
+
+**Und der Schaden bekommt seine Wirkung.** Gegner haben ab 11b eigene Trefferpunkte; `feuern` verrechnet den Schaden des Helden über `nimm_schaden()`, und ein Gegner fällt erst bei 0. Die Werte je Typ legt der Lernende fest.
 
 **Was du baust:**
 - `Einheit` → `Marine`, `Rekrut`, `Geschuetz`, `Gegner` — alles, was Trefferpunkte hat und Schaden nehmen kann
@@ -1503,7 +1509,7 @@ Die eigentliche Lektion dieser Etappe lautet deshalb nicht *„unterschiedliches
 
 Dieser Ablauf — **Entscheidung → Erfahrung → Gegenprobe → Revision** — ist der Kern dessen, was Softwareentwicklung von Syntaxkenntnis unterscheidet. Er funktioniert nur, wenn die ursprüngliche Entscheidung aufgeschrieben ist. Aus dem Gedächtnis rekonstruiert man immer die Entscheidung, die man heute treffen würde.
 
-**Und hier wird der Trupp zum ersten Mal sichtbar.** Bis gestern waren drei deiner vier Klassen Werte in einer Verzweigung, die nie zur Anwendung kamen. Heute sind sie vier Objekte in einer Liste — alle vier existieren, alle vier haben `faehigkeit_einsetzen()`, und du kannst sie ausgeben und vergleichen. Ohne den Trupp wäre Vererbung hier eine Behauptung; mit ihm ist sie eine Beobachtung.
+**Und hier wird der Trupp zum ersten Mal sichtbar.** Bis gestern war in jedem Lauf nur eine deiner vier Klassen da, als Zweig einer Verzweigung. Heute sind sie vier Objekte in einer Liste — alle vier existieren, alle vier haben `faehigkeit_einsetzen()`, und du kannst sie ausgeben und vergleichen. Ohne den Trupp wäre Vererbung hier eine Behauptung; mit ihm ist sie eine Beobachtung.
 
 **Die Gegenfrage dazu, weil sie sich aufdrängt:** Wenn alle vier gleichzeitig da sind — wozu dann noch die Klassenwahl? Antwort: Sie bestimmt, wer auf deinen Befehl hört. Die anderen drei tun ab Etappe 12, was ihre `update()`-Methode sagt.
 
@@ -1569,7 +1575,7 @@ class Welt:
 
 **Warum diese Etappe in diesem Setting der Angelpunkt ist:** Ein RPG kann ohne Tick existieren — dann ist es eben statisch. Dein Spiel kann das nicht. Ohne Tick rücken keine Gegner vor, laufen keine Abklingzeiten ab, baut sich kein Geschütz, kommt kein Rekrut nach. Der Tick ist hier nicht ein Feature, sondern der Motor.
 
-Ein Tick läuft bei jedem Spielerbefehl. Und in ihm passiert alles gleichzeitig: Gegner nähern sich, Geschütze feuern, Verbände heilen, Zähler zählen.
+Ein Tick läuft bei jedem Spielerbefehl, der nach der Entscheidung des Lernenden Zeit kostet — seine Notizen seit Etappe 4 werden hier zur Antwort. Und in ihm passiert alles gleichzeitig: Gegner nähern sich, Geschütze feuern, Verbände heilen, Zähler zählen.
 
 💡 **Nur merken — der Tick hat eine Reihenfolge, und die ist eine Entscheidung.**
 
@@ -1590,6 +1596,8 @@ Die drei nicht gesteuerten Marines bekommen `update()` wie jede andere Einheit. 
 Dein Marine und die drei anderen sind derselbe Typ, unterscheiden sich aber genau in diesem einen Punkt. Wenn du das an vier fast identischen Objekten siehst, hast du verstanden, wofür der Tick da ist — besser als jede Erklärung es könnte.
 
 **🚨 KI-Code-Warnsignal — nur bemerken, nichts reparieren:** `def update(self, welt)` — deine Einheiten bekommen die ganze Welt übergeben, nur um ein Ziel zu finden. Das ist bequem, und es hat einen Namen: **Kopplung**. Für dein Spiel ist es heute völlig richtig so. Merk dir nur die Frage — *muss dieses Ding wirklich alles kennen?* — denn in fremdem Code ist sie eine der nützlichsten, die du stellen kannst.
+
+**Ein Gegner am Tor trifft den Kern und eine Einheit des Trupps**, wie seit 3c den Helden. Welche Einheit, entscheidet der Lernende; Held und Kameraden müssen treffbar bleiben, sonst läuft die zweite Verlustbedingung ins Leere.
 
 **Erweiterung:** Einheiten merken sich, wo sie waren. „Rekrut Vasquez hat das Nordtor zwei Wellen lang allein gehalten." Billig zu bauen, große Wirkung. Grundlage für Etappe 17.
 
@@ -1743,7 +1751,7 @@ vorfeld = [
 
 **Hier wird die Schuld aus Etappe 4 eingelöst.** Deine Anmarschbahn war eine Zeile. Heute wird sie ein Feld. Der einzige wirklich neue Gedanke ist die zweite Ebene — eine Liste, deren Elemente selbst Listen sind, und ein zweiter Index. Das Zeichnen kannst du längst; du machst es jetzt in einer Schleife statt einmal.
 
-Das Gelände vor dem Tor: Wände, offene Felder, der Spawnpunkt der Brut (`S`), dein Tor (`@`). Positionen als Tuple `(x, y)` — und jetzt ist auch klar, wofür das Tuple aus Etappe 6 gut war. Gegner bewegen sich Feld für Feld auf dein Tor zu.
+Das Gelände vor dem Tor: Wände, offene Felder, der Spawnpunkt der Brut (`S`), dein Tor (`@`). Einheiten tragen ihre Position als zwei Attribute `x` und `y` — sie bewegen sich pro Tick auf einer Achse, und eine Zuweisung an eine Achse ist einfacher als jedes Mal ein neues Tuple. `position` aus Etappe 10 wird dafür gelöscht. Das Tuple aus Etappe 6 trägt, wofür es gut ist: Adressen wie `welt.tor` und die Felder einer Reichweite. Gegner bewegen sich Feld für Feld auf dein Tor zu.
 
 **Der Star dieser Portion ist eine einzige Zeile:**
 
@@ -1848,7 +1856,7 @@ Sobald es Felder gibt, gibt es etwas, das man auf sie stellen kann. **Die Barrik
 - Was steht bei den drei Schleifenformen jeweils in den Schleifenvariablen?
 - Wann passt ein Raster, wann ein Dictionary?
 
-**Kaputtmachen:** Setz die Reichweitenprüfung auf `<=` statt `<` und schau, ob ein Gegner ein Feld zu früh beschossen wird. Das läuft durch, und es ist genau die Sorte Fehler, die dich in Etappe 16 beschäftigen wird.
+**Kaputtmachen:** Setz die Reichweitenprüfung auf `<` statt `<=` und schau, ob ein Gegner ein Feld zu spät beschossen wird. Das läuft durch, und es ist genau die Sorte Fehler, die dich in Etappe 16 beschäftigen wird.
 
 **Commits:** `Etappe 14a: Aus einer Zeile wird ein Feld` · `Etappe 14b: Reichweite und Bewegung` · `Etappe 14c: Die Barrikade`
 
@@ -1874,7 +1882,9 @@ if "chitinprobe" in erkenntnisse:
 
 Etwas passiert einmal. Es wird gemerkt. Es wird später abgefragt. Damit hat dein Spiel zum ersten Mal ein Gedächtnis, das über eine Welle hinausreicht.
 
-Gefallene Gegner hinterlassen mehr als Vaporium: Chitinproben, einen halb geschmolzenen Datenkern, Sporen, die auf etwas hindeuten, das noch nicht gekommen ist.
+Gefallene Gegner hinterlassen mehr als Material: Chitinproben, einen halb geschmolzenen Datenkern, Sporen, die auf etwas hindeuten, das noch nicht gekommen ist.
+
+Alles, was ein Gegner hinterlässt — auch das Material aus Etappe 5 —, liegt ab hier als Fundstück auf seinem Feld; die ortlose Liste aus Etappe 4 geht darin auf. Die Zone entscheidet, ob eingesammelt wird; was eingesammelt wird, landet immer beim Helden. Was aus `nimm` und `ablege` wird, entscheidet der Lernende.
 
 ⭐ **Und es sind drei Stufen, nicht zwei:** Das **Fundstück** liegt auf dem Feld, an dem der Gegner fiel (Einlösung aus 14). Der **Besitz** entsteht beim Einsammeln. Die **Erkenntnis** entsteht erst, wenn der Spieler *analysiert* — und nur sie verschwindet nie wieder. Wer beim Aufheben sofort die Erkenntnis setzt, hat dem Spieler eine Entscheidung genommen.
 
@@ -1961,7 +1971,9 @@ Das dritte Wort ist das schwerste: **nur diese.** Wer drei Dinge gleichzeitig ä
 
 ⚠️ **Der Datenfehler dieser Etappe ist kein manipulierter Speicherstand** — den gibt es erst ab Etappe 19. Er ist der **Verweis ins Leere** aus Etappe 15: Ein Erkenntnis-Wort steht in zwei Tabellen, in einer davon mit einem Buchstaben Unterschied. Beide Tabellen sind für sich fehlerfrei; falsch ist nur die Beziehung zwischen ihnen, und die prüft niemand.
 
-**Und die Fahndungsliste.** Neun Etappen haben Bug-Kandidaten hinterlegt — geteilte Objekte, veränderbare Standardwerte, eine Methode ohne Klammern, parallele Listen, die Komma-Falle, drei Off-by-one-Entscheidungen. Der Guide führt sie als vierzehn Punkte auf, und jeder bekommt eines von drei Wörtern: *geprüft*, *Fund*, *trifft nicht zu*. **Man muss nicht alle finden. Man muss alle geprüft haben.**
+**Und die Fahndungsliste.** Neun Etappen haben Bug-Kandidaten hinterlegt — geteilte Objekte, veränderbare Standardwerte, eine Methode ohne Klammern, parallele Listen, die Komma-Falle, drei schriftliche Entscheidungen (zwei Off-by-one, ein Tie-Break). Der Guide führt sie als vierzehn Punkte auf, und jeder bekommt eines von drei Wörtern: *geprüft*, *Fund*, *trifft nicht zu*. **Man muss nicht alle finden. Man muss alle geprüft haben.**
+
+**Und die Bisektion über die Git-Historie.** Zwei Befehle kommen dafür dazu: `git checkout <hash>` ruft einen alten Stand auf, `git checkout main` (oder `master`) führt zurück. Auf einem alten Stand wird nur geschaut, nichts committet; eigene Zweige bleiben bei 21b.
 
 **Zusatzaufgabe:** Nimm einen der Fehler und schreib in `GELERNT.md`, *wie du vorgegangen bist* — nicht, was der Fehler war.
 

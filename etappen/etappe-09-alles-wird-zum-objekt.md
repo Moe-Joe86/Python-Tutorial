@@ -1,6 +1,6 @@
 # Etappe 9 — Alles wird zum Objekt
 
-*v1.1.2 · 2026-09-16*
+*v1.2.1 · 2026-09-21*
 
 > **Block 2: Einheiten und Zeit** · Etappe 9 von 30 · [← Etappe 8](etappe-08-die-bug-jagd.md) · [Lehrplan](../Vorposten_Lehrplan.md) · [Etappe 10 →](etappe-10-komposition.md)
 
@@ -82,7 +82,7 @@ Das Ritual seit Etappe 4. Heute ist es besonders nützlich, weil sich viel *anf�
 
 Das ist die eigentliche Denkarbeit dieser Etappe, und sie fällt schwerer als die Syntax.
 
-Du hast zwei Gesundheitswerte, seit Etappe 1, und beide stehen auf 100:
+Du hast zwei Gesundheitswerte, seit Etappe 1:
 
 - `trefferpunkte` — deine Figur
 - `kern_integritaet` — die Anlage, die du verteidigst
@@ -299,7 +299,7 @@ Der zweite ist die Buchführung: **Der Zusammenbruch der zwei Listen ist der Zah
 
 Wozu die Klasse dann heute? **Damit sie in Etappe 11 neben `Marine` steht und die Frage überhaupt gestellt werden kann.** Zwei Baupläne nebeneinander, die sich verdächtig ähneln, sind ein besseres Argument für Vererbung als jede Erklärung.
 
-*(Und damit du sie einmal angefasst hast, erzeugst du im Auftrag ein paar Gegner-Objekte in einer Wegwerf-Datei. Wegwerfcode ist ausdrücklich erlaubt, wenn etwas erst später richtig gebaut wird.)*
+*(Und damit du sie einmal angefasst hast, erzeugst du im Auftrag ein paar Gegner-Objekte in einer Probedatei. Wegwerfcode ist ausdrücklich erlaubt, wenn etwas erst später richtig gebaut wird.)*
 
 ---
 
@@ -377,9 +377,9 @@ Dieser Kasten steht hier aus **einem** Grund: Wenn du in fremdem Code auf `f"{ei
 Die Technik aus Etappe 4 und 5 — `dir()` und `help()`, statt nachzuschlagen — funktioniert an deinen eigenen Klassen genauso:
 
 ```python
-lieferung = Lieferung("Nord", 3)
-print(dir(lieferung))
-help(lieferung.melde)
+ofen = Backofen("Nord", 180)
+print(dir(ofen))
+help(ofen.heize)
 ```
 
 `dir()` liefert wieder eine lange Liste, in der die Dunder-Einträge die Mehrheit bilden. **Überspring sie und lies nur die Namen ohne Unterstriche** — das sind genau die Attribute und Methoden, die du selbst geschrieben hast. Bei einem fremden Objekt sind es genau die, die dich interessieren.
@@ -423,7 +423,7 @@ Durchlaufende Nummerierung über beide Portionen. **Nach jedem einzelnen Schritt
 python spiel.py < befehle.txt > vorher.txt
 ```
 
-**So prüfst du es:** Öffne `vorher.txt`. Steht dort ein vollständiger Durchlauf? Bricht das Programm vorher ab, fehlt eine Eingabe.
+**So prüfst du es:** Öffne `vorher.txt`. Steht dort alles, was du eingegeben hast, bis die Datei zu Ende war?
 
 ⚠️ **Ohne diese Datei fängst du nicht an.** Sie ist der einzige Beweis, dass dein Umbau nichts kaputt gemacht hat.
 
@@ -431,14 +431,14 @@ python spiel.py < befehle.txt > vorher.txt
 
 ### 2. Schreib die Klasse `Marine` mit ihrem `__init__`
 
-Leg die Klasse oben in `spiel.py` an, über allem anderen. Sie bekommt diese Attribute:
+Leg die Klasse oben in `spiel.py` an, über allem anderen. Sie bekommt mindestens diese Attribute:
 
 | Attribut | Woher der Wert kommt | Hinweis |
 |---|---|---|
 | `name` | Parameter | der Name deiner Figur |
 | `klasse` | Parameter | die **Spieler**klasse als String: `"Soldat"`, `"Heavy"`, `"Engineer"`, `"Medic"` |
 | `klassengeraet` | Parameter | der String aus Etappe 2: `"Sturmgewehr"`, `"Schweres MG"`, `"Multiwerkzeug"`, `"Bio-Injektor"` |
-| `trefferpunkte` | Parameter | dein bisheriger Wert, üblicherweise 100 |
+| `trefferpunkte` | Parameter | der Startwert deiner Klasse aus Etappe 2 |
 | `panzerung` | Parameter | dein bisheriger Wert |
 | `schaden` | Parameter | dein bisheriger Wert |
 | `sektor` | Parameter | dein bisheriger `aktueller_sektor` |
@@ -446,6 +446,8 @@ Leg die Klasse oben in `spiel.py` an, über allem anderen. Sie bekommt diese Att
 | `inventar` | Parameter | deine Inventarliste aus Etappe 4 |
 | `erfahrung` | Startwert `0` | die Zahl aus 3c |
 | `level` | Startwert `1` | |
+
+⚠️ **Die Tabelle ist ein Anfang, nicht vollständig.** Jede weitere lose Variable, die dir beim Umbau begegnet, prüfst du mit der Frage aus der Design-Entscheidung: *Hätte ein zweiter Marine seinen eigenen Wert davon?*
 
 ⚠️ **`klassengeraet` wandert mit, bleibt aber ein toter String.** Es wird angezeigt und nirgends abgefragt — genau wie seit Etappe 2. Die Versuchung, jetzt eine Methode `setze_faehigkeit_ein()` daneben zu stellen, ist groß, weil du gerade gelernt hast, wie man Methoden schreibt. **Das ist Etappe 18**, und dort braucht es Sets, Statuseffekte und Abklingzeiten, die du alle noch nicht hast.
 
@@ -495,7 +497,7 @@ Nach **jeder** verschobenen Funktion ausführen.
 ### 6. Bau eine Methode, die die Stufe berechnet
 
 - Hol die Stufentabelle aus Etappe 5 (`{1: 0, 2: 120, 3: 300}` oder deine eigenen Schwellen).
-- Schreib eine Methode, die aus `self.erfahrung` die passende Stufe ermittelt und in `self.level` schreibt.
+- **Deine Stufenberechnung aus Etappe 5, Schritt 14b wird eine Methode:** Sie ermittelt die Stufe aus `self.erfahrung` und schreibt sie in `self.level`.
 - Ruf sie an der Stelle auf, an der die Erfahrung steigt.
 
 ⚠️ **Die Stufe hat weiterhin keine Wirkung** — sie steht in der Anzeige und sonst nirgends. Keine Freischaltungen, keine Boni, keine Fähigkeiten. Das ist Etappe 18, und wer es vorzieht, nimmt ihr den Gegenstand.
@@ -509,9 +511,18 @@ Nach **jeder** verschobenen Funktion ausführen.
 - Attribute: `trefferpunkte`, `schaden`, `entfernung`, `typ`.
 - Nur `__init__`, keine Methoden.
 - **Bau sie nicht in dein Spiel ein.** Deine zwei Gegnerlisten bleiben unangetastet — siehe Konzept 8.
-- Erzeug in einer **Wegwerf-Datei** drei Gegner-Objekte und druck ihre Attribute aus, damit du die Klasse einmal in der Hand hattest.
+- Erzeug in einer **Probedatei** drei Gegner-Objekte und druck ihre Attribute aus, damit du die Klasse einmal in der Hand hattest.
 
-**So prüfst du es:** Läuft die Wegwerf-Datei? Steht in `spiel.py` weiterhin die alte Gegnerlogik, unverändert?
+**Die Probedatei — ein Handgriff, den du ab heute oft brauchst.** Eine leere Wegwerf-Datei kennt deine Klassen nicht, denn die stehen in `spiel.py`. Und `spiel.py` selbst zu starten, startet das ganze Spiel. Deshalb:
+
+1. Leg eine Kopie von `spiel.py` an, die `probe.py` heißt — im Dateimanager oder im Editor über „Speichern unter". Arbeite danach wieder in `spiel.py` weiter.
+2. Lösch in `probe.py` den Teil, der das Spiel tatsächlich startet — Klassenwahl, Briefing, Hauptschleife. Stehen bleiben deine festen Werte, Klassen und Funktionen.
+3. Schreib an dieselbe Stelle deine Prüfzeilen und starte mit `python probe.py`.
+4. **Lösch `probe.py`, bevor du committest** — sonst nimmt `git add .` sie mit.
+
+Brauchst du später wieder eine, legst du sie neu an: Sie ist eine Kopie deines aktuellen Stands, keine Datei, die man pflegt.
+
+**So prüfst du es:** Läuft die Probedatei? Steht in `spiel.py` weiterhin die alte Gegnerlogik, unverändert?
 
 ---
 
@@ -530,7 +541,7 @@ diff vorher.txt nachher.txt
 
 - Sind alle losen Marine-Variablen weg, oder liegen noch Leichen herum?
 - Gibt es irgendwo einen zweiten Speicher für die Munition?
-- Keine `###`-Zeilen, kein `breakpoint()`.
+- Keine `###`-Zeilen, kein `breakpoint()`, keine `probe.py` mehr im Ordner.
 - Commit: `Etappe 9a: Alles wird zum Objekt`
 
 ---
@@ -541,13 +552,13 @@ diff vorher.txt nachher.txt
 - **`!r` bei jedem String-Attribut**, keines bei den Zahlen.
 - `return`, kein `print`.
 
-**So prüfst du es:** `print(marine)` in einer Wegwerf-Zeile. Steht dort eine lesbare Zeile statt einer Speicheradresse?
+**So prüfst du es:** `print(marine)` in deiner Probedatei (Schritt 7) — dort erzeugst du vorher einen Marine. Steht dort eine lesbare Zeile statt einer Speicheradresse?
 
 ---
 
 ### 11. Gib `Gegner` ein `__repr__`
 
-Dasselbe für die zweite Klasse. **Druck danach in deiner Wegwerf-Datei eine *Liste* mit drei Gegner-Objekten aus** — `print(meine_gegner)`.
+Dasselbe für die zweite Klasse. **Druck danach in deiner Probedatei eine *Liste* mit drei Gegner-Objekten aus** — `print(meine_gegner)`.
 
 Das ist der Moment, auf den es ankommt: Eine Liste von Objekten ist ohne `__repr__` unlesbar und mit `__repr__` eine saubere Tabelle. **Ab Etappe 12 hast du zwanzig davon gleichzeitig.**
 
@@ -563,6 +574,8 @@ Das ist der Moment, auf den es ankommt: Eine Liste von Objekten ist ohne `__repr
 ---
 
 ### 13. Befrag dein eigenes Objekt
+
+In deiner Probedatei, mit einem frisch erzeugten Marine:
 
 - `print(dir(marine))` — überspring die Dunder-Einträge und lies die übrigen. Stehen dort genau die Attribute und Methoden, die du geschrieben hast?
 - `help(marine.zeige_status)` — kommt ein brauchbarer Satz, oder zeigt sich, dass dein Docstring aus Etappe 7 nichts sagt?
@@ -598,7 +611,7 @@ Beantworte die fünf Fragen der Leseleiter, und dazu diese:
 
 ### 15. Committe 9b
 
-- Keine `###`-Zeilen, kein `breakpoint()`, keine Wegwerf-Zeilen in `spiel.py`.
+- Keine `###`-Zeilen, kein `breakpoint()`, keine Wegwerf-Zeilen in `spiel.py`, keine `probe.py` im Ordner.
 - Führ `diff` noch einmal — hat `__repr__` versehentlich etwas an der Ausgabe geändert?
 - Commit: `Etappe 9b: Objekte zeigen, was in ihnen steckt`
 
@@ -701,7 +714,7 @@ Als Fragen, in `GELERNT.md` zu beantworten, ohne nachzuschlagen.
 
 Die folgenden zwei sind Kür.
 
-**5. Ruf eine Methode ohne Klammern auf.** `if marine.ist_am_leben:` statt `if marine.ist_am_leben():`. Was gibt der Zweig aus, und zwar bei **jedem** Wert? Warum ist das schlimmer als ein Absturz?
+**5. Ruf eine Methode ohne Klammern auf.** `if marine.ist_am_leben:` statt `if marine.ist_am_leben():`. Was gibt der Zweig aus, und zwar bei **jedem** Wert? Warum ist das schlimmer als ein Absturz? *(Dafür baust du vorher kurz eine Methode `ist_am_leben()`, die `True` oder `False` zurückgibt — in deiner Probedatei genügt das.)*
 
 **6. Lass `__repr__` sich selbst aufrufen.** Schreib `return f"Marine({self})"` und druck das Objekt. Lies die Fehlermeldung und erklär in einem Satz, warum sie so lang ist.
 
@@ -781,7 +794,7 @@ Seit Etappe 8 gilt *halt an und sieh nach*. Heute kommt eine Frage dazu, die der
 
 Erst bei grünem Selbsttest. Alles freiwillig.
 
-**Erzeug einen zweiten Marine in einer Wegwerf-Datei.** Nicht im Spiel — nur um zu sehen, dass es geht. Ändere bei einem die Trefferpunkte und druck beide. **Das ist der Beweis für den Satz aus „Worum es geht"**, und es ist ein Vorgeschmack auf Etappe 11.
+**Erzeug einen zweiten Marine in deiner Probedatei.** Nicht im Spiel — nur um zu sehen, dass es geht. Ändere bei einem die Trefferpunkte und druck beide. **Das ist der Beweis für den Satz aus „Worum es geht"**, und es ist ein Vorgeschmack auf Etappe 11.
 
 **Zähl deine Parameter.** Notier vor und nach dieser Etappe, wie viele Parameter deine längste Funktion hatte. Die Differenz ist das, was `self` für dich getan hat — und sie ist überzeugender als jede Erklärung.
 

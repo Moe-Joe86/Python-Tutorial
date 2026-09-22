@@ -1,6 +1,6 @@
 # Etappe 5 — Der Vorposten und das Depot
 
-*v1.19.0 · 2026-09-14*
+*v1.20.1 · 2026-09-21*
 
 > **Block 1: Fundament** · Etappe 5 von 30 · [← Etappe 4](etappe-04-ausruestung-und-beute.md) · [Lehrplan](../Vorposten_Lehrplan.md) · [Etappe 6 →](etappe-06-datenstrukturen.md)
 
@@ -16,7 +16,7 @@
 |---|---|---|
 | Sektorenkarte, Bewegung, Depot, Kaufvorgang, Vorrat | Flach oder verschachtelt? · `.get()` gegen eckige Klammern · warum der Kauf keine Warennamen kennt | `.keys()` / `.values()` als eigene Objekte · warum Schlüssel unveränderlich sein müssen |
 
-**Diese Etappe ist groß.** Sie ist nicht offiziell geteilt, aber es gibt einen sauberen Schnitt in der Mitte — er steht im Auftrag zwischen Schritt 8 und 9. Nimm ihn, wenn dir die Luft ausgeht.
+**Diese Etappe ist groß.** Sie ist nicht offiziell geteilt, aber es gibt einen sauberen Schnitt in der Mitte — er steht im Auftrag nach Schritt 9. Nimm ihn, wenn dir die Luft ausgeht.
 
 ---
 
@@ -24,7 +24,7 @@
 
 Dein Vorposten hat seit Etappe 3 zwanzig Wellen und seit Etappe 4 ein Inventar. Was er nicht hat, ist ein **Ort**.
 
-Alles passiert nirgendwo. Du feuerst, du nimmst Vaporium auf, du siehst eine Anmarschbahn — aber es gibt keine Stelle, an der du stehst, keine, an der du nicht stehst, und nichts, wohin du gehen könntest. Ein Vorposten ohne Räume ist eine Zahlenkolonne mit Atmosphäre.
+Alles passiert nirgendwo. Du feuerst, du nimmst Material auf, du siehst eine Anmarschbahn — aber es gibt keine Stelle, an der du stehst, keine, an der du nicht stehst, und nichts, wohin du gehen könntest. Ein Vorposten ohne Räume ist eine Zahlenkolonne mit Atmosphäre.
 
 Und daneben liegt ein zweites Problem, das du selbst mitgebracht hast. In Etappe 4 hast du Brut-Material aufgesammelt. Fünf Chitinpanzer stehen fünfmal als `"chitinpanzer"` in deiner Liste. Bei fünfzig wird das lächerlich — und du hast damals gemerkt, dass dir hier etwas fehlt.
 
@@ -136,7 +136,7 @@ In Etappe 4 lagen Chitinpanzer und Organe in deiner `inventar`-Liste, weil du ni
 
 **Vaporium fällt nicht vom Himmel.** Es ist Währung, keine Beute — ein raffinierter Stoff, den die Forschung ausgibt, nicht die Brut. Was die Brut hinterlässt, ist die Brut selbst, und die Forschungsabteilung zahlt dafür — verschieden viel, je nachdem, was du bringst. **Munition ebenfalls nicht:** Sie wird gekauft, nicht gefunden. Ein Gegner, der Munition fallen lässt, finanziert das eigene Erlegen und macht das Depot überflüssig, bevor du es gebaut hast.
 
-**Prüf das ausdrücklich, wenn du Schritt 9 gebaut hast.** Wenn Material gleichzeitig in `inventar` und in `vorrat` steht, hast du es zweimal — und irgendwann verkaufst oder verbrauchst du eines von beidem, und der Rest bleibt stehen. Das ist keine Kleinigkeit, sondern zwei Wahrheiten über dieselbe Sache.
+**Prüf das ausdrücklich, wenn du Schritt 14 gebaut hast.** Wenn Material gleichzeitig in `inventar` und in `vorrat` steht, hast du es zweimal — und irgendwann verkaufst oder verbrauchst du eines von beidem, und der Rest bleibt stehen. Das ist keine Kleinigkeit, sondern zwei Wahrheiten über dieselbe Sache.
 
 ⚠️ **Und prüf nicht nur, was gerade drinliegt, sondern was hineinkommen kann.** Ein leeres Inventar beweist gar nichts — es kann in der nächsten Runde wieder Material enthalten, wenn irgendeine Stelle es dorthin legt. **Such nach der Quelle, nicht nach dem Zustand:** Wo im Code kann `"chitinpanzer"` überhaupt ins Inventar gelangen? Beim Aufsammeln, aus einer Beutetabelle, als Belohnung am Wellenende? Solange eine solche Stelle existiert, ist die Doppelung nicht behoben, sondern nur gerade nicht sichtbar.
 
@@ -165,7 +165,7 @@ Dieselbe Frage stellt sich für Munition und Vaporium. Für Medkit, Panzerplatte
 
 **Diese vier Tabellen überschneiden sich absichtlich nicht vollständig.** Die Panzerplatte steht in `WAREN` und in `STAPELBAR`, aber nicht in `VERKAUFSWERTE` — man kann sie kaufen, nicht verkaufen. Chitinpanzer und Organ stehen nur in `VERKAUFSWERTE` — man kann sie verkaufen, nicht kaufen. **Vaporium steht in keiner der ersten drei**, denn es ist der Preis, nicht die Ware — in `ANZEIGENAMEN` steht es sehr wohl, denn der Spieler liest es in der Statusanzeige.
 
-⭐ **Alle vier stehen in Großbuchstaben.** Das ist die Verabredung aus Etappe 1, Konzept 10 — hier zum ersten Mal in deinem eigenen Code. Preise, Verkaufswerte, Stapelbarkeit und Anzeigenamen stehen fest, sobald du sie geschrieben hast; im laufenden Spiel fasst sie niemand an.
+⭐ **Alle vier stehen in Großbuchstaben.** Das ist die Verabredung aus Etappe 1, Konzept 10 — nach `BAHNLAENGE` aus Etappe 4 die ersten festen Tabellen in deinem eigenen Code. Preise, Verkaufswerte, Stapelbarkeit und Anzeigenamen stehen fest, sobald du sie geschrieben hast; im laufenden Spiel fasst sie niemand an.
 
 **Und die Gegenprobe im selben Atemzug:** `sektoren`, `inventar` und `vorrat` bleiben klein. Sie sehen ähnlich aus und sind etwas völlig anderes — in `sektoren` sinkt die Integrität, das Inventar füllt sich, der Vorrat schrumpft bei jedem Nachladen. Die Schreibweise ist die einzige Stelle, an der dieser Unterschied im Code überhaupt sichtbar wird.
 
@@ -672,7 +672,7 @@ Trotzdem kostet dich diese Entscheidung heute eine halbe Stunde.
 
 ## Dein Auftrag
 
-**Diese Etappe ist groß.** Schritt 1 und Schritt 11 sind die aufwendigsten — bei Schritt 1 entstehen zwei Verschachtelungsebenen auf einmal, bei Schritt 11 vier Prüfungen in der richtigen Reihenfolge. Beide dürfen dich länger beschäftigen als der Rest zusammen.
+**Diese Etappe ist groß.** Schritt 1, 11 und 14 sind die aufwendigsten — bei Schritt 1 entstehen zwei Verschachtelungsebenen auf einmal, bei Schritt 11 vier Prüfungen in der richtigen Reihenfolge, und Schritt 14 baut das Aufsammeln um und spiegelt den Kauf samt Menge. Alle drei dürfen dich länger beschäftigen als der Rest zusammen.
 
 Nach jedem Schritt ausführen, vorher sagen, was passieren wird.
 
@@ -721,6 +721,8 @@ Nach jedem Schritt ausführen, vorher sagen, was passieren wird.
 ⚠️ **Der Kern hat keine `integritaet`.** Wer blind `aktueller_sektor["integritaet"]` schreibt, bekommt dort einen `KeyError` — frag vorher mit `in` (Konzept 4), ob der Schlüssel da ist. Das erlaubt dir auch zwei verschiedene Meldungen: „Wandzustand" am Tor, „Anlagenzustand" im Kern.
 
 **So prüfst du es:** Ändere eine Richtung in deinen Daten, ruf `umsehen` auf. Die Ausgabe muss sich mitändern, ohne dass du die Ausgabe selbst anfasst. Und: `umsehen` im Kern darf nicht abstürzen.
+
+**Die Frage aus Etappe 4, ab hier bei jedem neuen Befehl:** Kostet `umsehen` eine Runde? Dieselbe Frage stellen dir heute noch `gehe`, `depot`, `kaufe` und `verkaufe`. Entscheide bei jedem, sobald du ihn baust — Auskunft oder Handlung, die Regel aus Etappe 3b — und notier die Entscheidung in `GELERNT.md`.
 
 ---
 
@@ -825,7 +827,7 @@ vorrat: vaporium → 0, munition → 40, chitinpanzer → 0, organ → 0
 **So prüfst du es:**
 - Feuern senkt Munition, der Balken aus Etappe 3c stimmt weiterhin.
 - Die Suche nach deinen alten Variablennamen findet **null** Treffer.
-- Material aufsammeln erhöht `vorrat["chitinpanzer"]` — und taucht **nicht** zusätzlich im Inventar auf.
+- `vorrat` enthält Chitinpanzer und Organ, beide mit 0. Wie Material dort hineinkommt, baust du in Schritt 14.
 
 **Notier in `GELERNT.md`, wie viele Fundstellen es am Ende waren** — und was dich die Entscheidung aus Etappe 1 damit gekostet hat. Konzept 17 sagt, warum das keine Strafe ist.
 
@@ -843,7 +845,7 @@ vorrat: vaporium → 0, munition → 40, chitinpanzer → 0, organ → 0
   STAPELBAR: medkit → False, munition → True, panzerplatte → False
   ```
 
-⚠️ *Was du nicht tun solltest: die Stapelbarkeit daran ablesen, ob der Name schon im `vorrat` steht. Das sieht aus, als würde es funktionieren, beantwortet aber eine andere Frage — nämlich ob der Spieler die Ressource gerade besitzt.*
+⚠️ *Was du nicht tun solltest: die Kaufmenge daran ablesen, ob der Name im `vorrat` steht. Das sieht aus, als würde es funktionieren, beantwortet aber eine andere Frage als die nach der Kaufmenge. Ob beim **Kauf** nach einer Menge gefragt wird, beantwortet `STAPELBAR`.*
 
 ⚠️ **Und jetzt eine Begriffsfalle, über die fast jeder stolpert: „stapelbar" bedeutet hier zwei verschiedene Dinge.**
 
@@ -902,8 +904,9 @@ Solange `nachladen` deine Munition auf einen festen Wert setzt, erschafft es Mun
 
 **Die Ursache: Du brauchst eine Zahl für zwei verschiedene Dinge.** Was im Gewehr steckt und was du im Rucksack trägst, ist nicht dasselbe — aber aktuell ist beides `vorrat["munition"]`.
 
-- Leg eine zweite Variable an: `geladen`, die Schuss im Magazin. Dazu `magazin_groesse` als festen Wert.
-- **`feuer` verbraucht ab jetzt `geladen`**, nicht den Vorrat.
+- Leg eine zweite Variable an: `geladen`, die Schuss im Magazin. Dazu `magazin_groesse`, wie viel hineinpasst: **5**. *(Klein geschrieben, weil ein Ausbau in Etappe 6 sie verändert.)*
+- **Startwerte:** Das Magazin ist voll, `geladen = 5`, und im Vorrat liegen noch `35` — zusammen die 40 Schuss aus Etappe 1. Die Aufteilung passiert hier; in Schritt 9 standen noch alle 40 im Vorrat.
+- **`feuern` verbraucht ab jetzt `geladen`**, nicht den Vorrat.
 - **`nachladen` verschiebt** vom Vorrat ins Magazin — es erschafft nichts.
 - Ist der Vorrat leer, schlägt Nachladen fehl. **Dann bleibt nur das Depot.**
 
@@ -912,7 +915,7 @@ Solange `nachladen` deine Munition auf einen festen Wert setzt, erschafft es Mun
 **So prüfst du es:**
 - Feuer bis leer, dann `nachladen`: Der Vorrat muss um genau so viel sinken, wie das Magazin gewinnt.
 - Vorrat auf 0, dann `nachladen`: Es muss fehlschlagen, nicht zaubern.
-- Vorrat auf 5 bei leerem Magazin: Du hast 5 geladen, nicht 30.
+- Vorrat auf 3 bei leerem Magazin: Du hast 3 geladen, nicht 5.
 - **Die Summe aus `geladen` und `vorrat["munition"]` darf beim Nachladen niemals steigen.**
 
 **Das ist eine Invariante** — schreib sie in `GELERNT.md`. Nachladen ist eine Verschiebung, keine Quelle.
@@ -942,7 +945,10 @@ Danach alles zurücksetzen.
 
 Bis hierher kannst du kaufen, aber du hast nichts, wovon. **Vaporium entsteht durch Verkaufen.**
 
-- Gefallene Gegner hinterlassen **Material und den Datenkern.** Chitinpanzer und Organe erhöhen jetzt `vorrat`, nicht das Inventar — der Datenkern bleibt Einzelstück und wandert wie bisher ins Inventar.
+- **Jeder gefallene Gegner legt ab jetzt Material ins Vorfeld** — die Liste aus Etappe 4. Der Datenkern bleibt dort ein Einzelstück.
+- **`nimm` holt beides und entscheidet, wohin:** gezählte Dinge wie Chitinpanzer und Organ in den `vorrat`, Einzelstücke wie der Datenkern ins `inventar`.
+
+  **Die Frage dabei: Woran erkennt `nimm`, ob ein Ding gezählt wird — ohne dass in deiner Logik ein Materialname steht (Konzept 8)?** Alles, was du dafür brauchst, hast du in Schritt 9 schon angelegt. Wenn die Antwort stimmt, ist ein neues Material später nur ein weiterer Eintrag im `vorrat`.
 - Leg eine **zweite flache Tabelle** an: `VERKAUFSWERTE`, Material → Vaporium pro Stück. Ein Organ ist deutlich mehr wert als ein Panzerstück.
 - Bau `verkaufe <material>` — nur im Depot, wie `kaufe`.
 
@@ -968,7 +974,7 @@ Bis hierher kannst du kaufen, aber du hast nichts, wovon. **Vaporium entsteht du
 Brut fällt → Material → verkaufen → Vaporium → kaufen → Munition → Brut fällt
 ```
 
-**So prüfst du es:** Erleg Gegner, bis Material im Vorrat liegt. Verkauf es. Kauf davon Munition. Wenn du an keiner Stelle nachhelfen musstest, steht deine Wirtschaft.
+**So prüfst du es:** `nimm chitinpanzer` erhöht `vorrat["chitinpanzer"]` und taucht **nicht** im Inventar auf; `nimm datenkern` landet im Inventar. Dann: Erleg Gegner und sammel ihr Material auf, bis etwas im Vorrat liegt. Verkauf es. Kauf davon Munition. Wenn du an keiner Stelle nachhelfen musstest, steht deine Wirtschaft.
 
 ⛔ **Der Datenkern wird nicht verkauft.** Er steht in keiner `VERKAUFSWERTE`-Tabelle und bleibt im Inventar. Etappe 15 braucht ihn.
 
@@ -1081,9 +1087,9 @@ Prüft den Zustand deines Programms, nicht dein Gefühl. Führ jeden Punkt tats�
 - [ ] Kaufen bei vollem Inventar sagt das — und das Vaporium wird **nicht** abgebucht
 - [ ] `kaufe hubschrauber` meldet, dass es die Ware nicht gibt
 - [ ] Gekaufte Munition erhöht den Vorrat, ein gekauftes Medkit landet im Inventar
-- [ ] ⭐ **Vaporium steht nur an einer Stelle** — im `vorrat`, nicht mehr in der `inventar`-Liste. Sammel welchen auf und prüf beide
+- [ ] ⭐ **Vaporium steht nur an einer Stelle** — im `vorrat`, nicht mehr in der `inventar`-Liste. Verkauf Material und prüf beide
 - [ ] Feuern senkt weiterhin die Munition, der Balken aus Etappe 3c stimmt weiterhin
-- [ ] **Drei volle Wellen** lassen sich spielen — inklusive mindestens eines Kaufs und eines aufgesammelten Vaporiums — ohne dass etwas abstürzt
+- [ ] **Drei volle Wellen** lassen sich spielen — inklusive mindestens eines aufgesammelten Materials, eines Verkaufs und eines Kaufs — ohne dass etwas abstürzt
 - [ ] Im Grundriss ist der aktuelle Sektor markiert und wandert beim Gehen mit
 - [ ] Der `status` zeigt Erfahrung **und** Stufe, und die Stufe stimmt bei einem Wert genau auf einer Schwelle
 - [ ] Die Stufe hat **keine** Wirkung — sie verändert keinen einzigen anderen Wert

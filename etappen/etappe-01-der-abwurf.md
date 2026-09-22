@@ -1,6 +1,6 @@
 # Etappe 1 — Der Abwurf
 
-*v1.4.0 · 2026-09-14*
+*v1.4.2 · 2026-09-21*
 
 > **Block 1: Fundament** · Etappe 1 von 30 · [← Etappe 0](../Vorposten_Lehrplan.md#etappe-0--das-repo) · [Lehrplan](../Vorposten_Lehrplan.md) · [Etappe 2 →](etappe-02-der-erste-kontakt.md)
 
@@ -71,9 +71,11 @@ Meine Empfehlung, falls du keine hast: durchgehend deutsch, ohne Umlaute. Der Gr
 Der Spieler tippt eine Zahl. Aber was steht danach in deiner Variable?
 
 - **Die Zahl** (`klasse = 2`) — kurz, aber `if klasse == 2:` sagt in Etappe 2 niemandem, was gemeint ist. Auch dir nicht, in drei Wochen.
-- **Der Name** (`klasse = "heavy"`) — eine Umwandlung mehr heute, dafür liest sich `if klasse == "heavy":` von selbst.
+- **Der Name** (`klasse = "heavy"`) — dafür liest sich `if klasse == "heavy":` von selbst.
 
-Das ist keine Kleinigkeit. In Etappe 2 baust du auf dieser Variable eine Verzweigung auf, in Etappe 11 wird daraus eine Klassenhierarchie. Wer die Zahl behält, schreibt in Etappe 11 eine Übersetzungstabelle, die er heute hätte sparen können.
+**Heute speicherst du in jedem Fall die Zahl.** Aus einer `2` einen Namen zu machen, braucht eine Verzweigung, und die kommt erst in Etappe 2. Die Entscheidung triffst du trotzdem heute: Wer den Namen will, setzt ihn in Etappe 2 in der `if`-Kette, die er dort ohnehin baut — eine Zeile pro Zweig.
+
+Das ist keine Kleinigkeit. In Etappe 2 baust du auf dieser Variable eine Verzweigung auf, in Etappe 11 wird daraus eine Klassenhierarchie. Welche der beiden Formen dort bequemer ist, merkst du erst, wenn du angekommen bist — und dann liest du nach, warum du dich heute so entschieden hast.
 
 Beide Entscheidungen kommen in `GELERNT.md`. Nicht als Notiz, sondern als Satz mit Begründung — du wirst ihn wieder brauchen.
 
@@ -315,7 +317,7 @@ WOCHENTAGE = ("Mo", "Di", "Mi")  # steht fest, sobald es dasteht
 
 Python erzwingt das nicht. Es hindert dich niemand daran, `WOCHENTAGE` später zu überschreiben — die Großschreibung ist kein Schloss, sondern eine Nachricht an den Leser: *Das ist Einrichtung, kein Zustand.*
 
-⚠️ **Von deinen sechs Lagewerten in Schritt 3 ist keiner so einer** — alle sechs verändern sich ab Etappe 3. Deshalb schreibst du sie klein, und deshalb hast du heute kein Beispiel im eigenen Code. Der erste großgeschriebene Name entsteht in Etappe 5, wenn das Depot seine Preisliste bekommt.
+⚠️ **Von deinen sechs Lagewerten in Schritt 3 ist keiner so einer** — alle sechs verändern sich ab Etappe 3. Deshalb schreibst du sie klein, und deshalb hast du heute kein Beispiel im eigenen Code. Der erste großgeschriebene Name entsteht in Etappe 4, wenn die Anmarschbahn ihre feste Länge bekommt.
 
 **Lern die Regel trotzdem heute.** Wer sie erst kennenlernt, nachdem er drei feste Tabellen kleingeschrieben hat, benennt sie alle nachträglich um — und das ist Arbeit, die nichts beibringt.
 
@@ -429,7 +431,7 @@ Nach jedem Schritt ausführen. Nicht alles schreiben und dann testen — das ist
 
 5. **Leg `letzte_meldung` an** und gib sie als aufgezeichnete Durchsage aus. Ein Satz oder zwei, in einer Variable, in deinen eigenen Worten. Sie tut heute nichts weiter — und wird in Etappe 17 zitiert, deshalb kommt der Wortlaut in `GELERNT.md`.
 
-6. **Bau die Klassenwahl.** Vier Klassen (Soldat, Heavy, Engineer, Medic), nummeriert 1 bis 4. Eingabe mit `input()`, Umwandlung mit `int()`, Speicherung nach deiner Design-Entscheidung von oben. Gib zur Bestätigung aus, was gewählt wurde.
+6. **Bau die Klassenwahl.** Vier Klassen (Soldat, Heavy, Engineer, Medic), nummeriert 1 bis 4. Eingabe mit `input()`, Umwandlung mit `int()`, gespeichert wird die Zahl — deine Design-Entscheidung von oben setzt du in Etappe 2 um. Gib zur Bestätigung aus, was gewählt wurde.
 
    Setz auch hier einmal `print(type(...))` vor und nach dem `int()` und sieh dir den Unterschied an. Erst dann löschen.
 
@@ -480,7 +482,7 @@ Prüft den Zustand des Programms, nicht dein Selbstbild. Alles muss beobachtbar 
 - [ ] `kern_integritaet` und `trefferpunkte` stehen beide im Briefing, und zwar so, dass ein Fremder sofort erkennt, welche Zahl die Anlage meint und welche dich
 - [ ] Die gewählte Klasse wird bestätigt und steht danach in einer Variable
 - [ ] `letzte_meldung` existiert als Variable und wird zweimal ausgegeben — bei der Durchsage und beim Funkspruch
-- [ ] Alle fünf Lagewerte existieren als Variablen mit den vorgegebenen Startwerten
+- [ ] Alle sechs Lagewerte existieren als Variablen mit den vorgegebenen Startwerten
 - [ ] `print(type(munition))` meldet `int`, nicht `str`
 - [ ] Der ASCII-Kopf erscheint ganz oben, ist mindestens drei Zeilen hoch und nicht verrutscht
 - [ ] Bei Eingabe `zwei` erscheint ein `ValueError` — und du kannst zeigen, welche Zeile ihn ausgelöst hat

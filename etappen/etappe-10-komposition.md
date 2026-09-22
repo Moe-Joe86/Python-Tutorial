@@ -1,10 +1,10 @@
 # Etappe 10 — Komposition
 
-*v1.1.0 · 2026-09-08*
+*v1.2.1 · 2026-09-21*
 
 > **Block 2: Einheiten und Zeit** · Etappe 10 von 30 · [← Etappe 9](etappe-09-alles-wird-zum-objekt.md) · [Lehrplan](../Vorposten_Lehrplan.md) · [Etappe 11 →](etappe-11-vererbung.md)
 
-**Neue Syntax heute:** Objekte als Attribute anderer Objekte · `None` als bewusster Leerwert · `is None` und `is not None` · `self.position` als Tuple · 👀 `is` gegen `==` · 👀 Komposition als Begriff
+**Neue Syntax heute:** Objekte als Attribute anderer Objekte · `None` als bewusster Leerwert · `is None` und `is not None` · `def __init__(self, x=None)` statt `=[]` · `a is b` als Nachweis derselben Identität · `self.position` als Tuple · 👀 `is` gegen `==` als Regel für Vergleiche · 👀 Komposition als Begriff
 
 **Zeitaufwand:** 4–5 Sitzungen à 20–30 Minuten. Rund 30 Minuten davon sind Lesestoff. **Die Etappe ist kleiner als 9** — der Umbau ist überschaubar, und die Zeit steckt im Kaputtmachen, wo sie hingehört.
 
@@ -14,7 +14,7 @@
 
 | | 🔨 Bauen | 🧠 Verstehen | 👀 Nur erkennen |
 |---|---|---|---|
-| **Werkzeuge** | `Inventar` und `Ausruestung` als eigene Klassen · Slots mit `None` · `is None` · `self.position` als Tuple | **Zwei Namen, ein Objekt** · `None` ≠ `0` · wo `Inventar()` steht, entscheidet alles | `is` gegen `==` · Komposition als Begriff |
+| **Werkzeuge** | `Inventar` und `Ausruestung` als eigene Klassen · Slots mit `None` · `is None` · `a is b` als Identitätsnachweis · `self.position` als Tuple | **Zwei Namen, ein Objekt** · `None` ≠ `0` · wo `Inventar()` steht, entscheidet alles | `is` gegen `==` als Regel · Komposition als Begriff |
 | **Denken** | „hat ein" gegen „ist ein" · der Reflex *„sind das überhaupt zwei Dinge?"* | Warum Komposition vor Vererbung kommt | Warum diese Fehler nie abstürzen |
 
 ---
@@ -162,7 +162,7 @@ Ein Werkzeugplatz ohne Werkzeug ist `None`. Ein Bäcker ohne aktuellen Auftrag h
 
 | Wert | Bedeutung |
 |---|---|
-| `munition = 0` | **Es gibt eine Waffe.** Sie ist leer. |
+| `geladen = 0` | **Es gibt eine Waffe.** Sie ist leer. |
 | `waffe = None` | **Es gibt keine Waffe.** |
 
 Das sind zwei völlig verschiedene Zustände, und sie brauchen verschiedene Meldungen: *„Nachladen!"* gegen *„Du hast keine Waffe."* Wer beides gleich behandelt, baut einen **Typ-3-Fehler** aus Etappe 8 — das Programm läuft und sagt etwas Falsches.
@@ -364,21 +364,21 @@ Der zweite bricht die Invariante, und zwar **still**. Alles läuft weiter — bi
 ### 10. Ein Tuple als Position
 
 ```python
-self.standort = (0, 0)
+self.position = (0, 0)
 ```
 
 Zwei Zahlen, die zusammengehören und sich nur gemeinsam ändern — das ist genau der Fall, für den du in Etappe 6 das Tuple kennengelernt hast. Heute brauchst du zum ersten Mal eines.
 
-⚠️ **Es tut heute nichts.** Es wird gesetzt, angezeigt und sonst nirgends abgefragt. **Das ist Absicht** — dieselbe Sorte geplanter Leerlauf wie beim Erfahrungszähler und beim Klassengerät. Das Raster, auf dem eine Position Bedeutung bekommt, ist Etappe 14a. Wer heute Bewegung einbaut, braucht Grenzen, Kollisionen und eine Zeichenfunktion — den Stoff von vier Etappen auf einmal.
+⚠️ **Es tut heute nichts.** Es wird gesetzt und ist im `__repr__` sichtbar, sonst nirgends — auch nicht in der Anzeige des Spiels, sonst bräche der `diff` in Schritt 8. **Das ist Absicht** — dieselbe Sorte geplanter Leerlauf wie beim Erfahrungszähler und beim Klassengerät. Das Raster, auf dem eine Position Bedeutung bekommt, ist Etappe 14a. Wer heute Bewegung einbaut, braucht Grenzen, Kollisionen und eine Zeichenfunktion — den Stoff von vier Etappen auf einmal.
 
-*(Warum ein Tuple und keine Liste: Eine Position wird nicht bearbeitet, sondern ersetzt. `(3, 4)` wird zu `(3, 5)`, nicht „an Stelle 1 eine 5 schreiben". Das Tuple sagt genau das — und weil eine Position hier aus zwei Zahlen besteht, kann sie nicht versehentlich geteilt kaputtgehen, anders als alles andere in dieser Etappe.)*
+*(Warum ein Tuple und keine Liste: Eine Position wird nicht bearbeitet, sondern ersetzt. `(3, 4)` wird zu `(3, 5)`, nicht „an Stelle 1 eine 5 schreiben". Das Tuple sagt genau das — und weil eine Position hier aus zwei Zahlen besteht, kann sie nicht versehentlich geteilt kaputtgehen, anders als alles andere in dieser Etappe. Sobald sich Einheiten in Etappe 14 bewegen, tauschst du das Tuple gegen zwei einzelne Zahlen — Etappe 14a sagt, warum, und 14b löst `position` ab.)*
 
 ### 11. `__repr__` bei verschachtelten Objekten 🧠
 
 Deine `__repr__` aus 9b bekommt heute eine Bewährungsprobe. Enthält ein Objekt ein anderes, greift die Darstellung des äußeren auf die des inneren zu:
 
 ```
-Baecker(name='Ada', regal=Regal(faecher=3, inhalt=['brot']), standort=(0, 0))
+Baecker(name='Ada', regal=Regal(faecher=3, inhalt=['brot']))
 ```
 
 Das funktioniert von selbst — **wenn** die innere Klasse ein `__repr__` hat. Fehlt es, steht mitten in deiner sauberen Zeile plötzlich `<__main__.Regal object at 0x7f3a…>`.
@@ -411,12 +411,12 @@ Ergänz `befehle.txt` um alles, was seit Etappe 9 dazugekommen ist — vor allem
 
 ### 2. Bau die Klasse `Inventar`
 
-- Attribute: `plaetze` (die Obergrenze, bisher deine 10) und `gegenstaende` (die Liste).
+- Attribute: `kapazitaet` (die Obergrenze, bisher deine 10) und `gegenstaende` (die Liste).
 - Methode `hinzufuegen(gegenstand)` — gibt `False` zurück, wenn kein Platz ist, sonst `True`.
 - Methode `entfernen(gegenstand)` — gibt `False` zurück, wenn der Gegenstand nicht da ist.
 - **Keine `print`-Zeile in der Klasse.** Sie entscheidet, der Aufrufer redet.
 
-**So prüfst du es:** Leg in einer Wegwerf-Datei ein `Inventar(2)` an, füll es mit drei Gegenständen. Der dritte muss `False` liefern.
+**So prüfst du es:** Leg in deiner Probedatei (Etappe 9, Schritt 7) ein `Inventar(2)` an, füll es mit drei Gegenständen. Der dritte muss `False` liefern.
 
 ---
 
@@ -430,7 +430,9 @@ Ergänz `befehle.txt` um alles, was seit Etappe 9 dazugekommen ist — vor allem
 
 ⚠️ **Das Klassengerät aus Etappe 2 belegt keinen Slot.** Der Medic legt seinen Bio-Injektor nicht ab, um eine Panzerplatte anzuziehen. `klassengeraet` bleibt ein eigenes Attribut am Marine, unverändert seit Etappe 2.
 
-**So prüfst du es:** Leg zweimal hintereinander etwas auf denselben Platz. Der zweite Versuch muss `False` liefern.
+**So prüfst du es:** Leg in deiner Probedatei zweimal hintereinander etwas auf denselben Platz. Der zweite Versuch muss `False` liefern.
+
+*(Im Spiel bleiben die Plätze heute leer. Das ist Absicht, wie beim Erfahrungszähler und beim Klassengerät: Diese Etappe ist ein reiner Umbau, der `diff` in Schritt 8 muss still bleiben. Der Befehl, mit dem du etwas anlegst, kommt später.)*
 
 ---
 
@@ -438,7 +440,7 @@ Ergänz `befehle.txt` um alles, was seit Etappe 9 dazugekommen ist — vor allem
 
 Kurz halten. Beim `Inventar` reichen Belegung und Kapazität, bei der `Ausruestung` die belegten Plätze.
 
-**So prüfst du es:** `print()` auf beide. Steht dort eine lesbare Zeile?
+**So prüfst du es:** `print()` auf beide, in deiner Probedatei. Steht dort eine lesbare Zeile?
 
 ---
 
@@ -470,13 +472,13 @@ Jetzt die Fahndung, die du aus Etappe 5 kennst. Such nach `inventar` im ganzen F
 
 ### 7. ⭐ Beweis dir die Objektidentität
 
-**In einer Wegwerf-Datei, nicht im Spiel.**
+**In deiner Probedatei, nicht im Spiel.**
 
 - Erzeug zwei Marines.
 - **Schreib zuerst auf, was du erwartest, und begründe es in einem Satz** — bevor du Python startest. Dann erst prüf mit `is`, ob ihre Inventare dasselbe Objekt sind.
 - Stimmte deine Vorhersage? Wenn nicht: Was hast du über den Ort der Erzeugung angenommen, das nicht stimmte?
 - Leg bei einem etwas ins Inventar und sieh beim anderen nach.
-- **Bau es dann absichtlich kaputt:** Erzeug *ein* `Inventar` außerhalb und gib es beiden mit. Prüf noch einmal mit `is`.
+- **Bau es dann absichtlich kaputt:** Sorg dafür, dass beide Marines dasselbe `Inventar`-Objekt haben. Den Weg wählst du selbst. Prüf noch einmal mit `is`.
 
 **Schreib beide Ergebnisse in `GELERNT.md`.** Das ist die Übung, auf die es heute ankommt.
 
@@ -495,7 +497,7 @@ diff vorher.txt nachher.txt
 
 ### 9. Aufräumen und committen
 
-- Keine `###`-Zeilen, kein `breakpoint()`, keine Wegwerf-Zeilen in `spiel.py`.
+- Keine `###`-Zeilen, kein `breakpoint()`, keine Wegwerf-Zeilen in `spiel.py`, keine `probe.py` im Ordner.
 - Steht irgendwo noch eine nackte `10` für die Inventargröße?
 - Commit: `Etappe 10: Komposition`
 
@@ -507,9 +509,9 @@ diff vorher.txt nachher.txt
 
 **Keine `Waffe`- und `Gegenstand`-Klassen.** Es ist verlockend, jetzt jeden String zu einem Objekt zu machen. **Deine Inventareinträge bleiben Strings.** Der Moment, in dem ein String zu dünn wird, ist ausdrücklich Etappe 11 — und deine Notiz aus Etappe 4 ist die Begründung dafür.
 
-**Kein zweiter Marine im Spiel.** Du erzeugst heute zwei in einer Wegwerf-Datei, um dir die Objektidentität zu beweisen. Der Trupp ist Etappe 11.
+**Kein zweiter Marine im Spiel.** Du erzeugst heute zwei in deiner Probedatei, um dir die Objektidentität zu beweisen. Der Trupp ist Etappe 11.
 
-**Keine Bewegung.** `position` wird gesetzt und angezeigt, sonst nichts. Etappe 14a.
+**Keine Bewegung.** `position` wird gesetzt und ist im `__repr__` sichtbar, sonst nirgends. Etappe 14a.
 
 **Kein `@property`, keine Getter und Setter.** Attribute liest und schreibst du direkt. Das ist in Python normal und bleibt es.
 
@@ -577,11 +579,11 @@ In `GELERNT.md`, ohne nachzuschlagen.
 
 **Vor jedem Experiment aufschreiben, was passieren wird.** Die ersten vier gehören dazu, die letzten zwei sind Kür.
 
-**1. ⭐ Der veränderbare Standardwert.** Schreib `def __init__(self, gegenstaende=[])` in dein `Inventar` und erzeug zwei Marines. Leg bei einem etwas hinein, sieh beim anderen nach.
+**1. ⭐ Der veränderbare Standardwert.** Schreib `def __init__(self, kapazitaet, gegenstaende=[])` in dein `Inventar` und erzeug zwei Marines. Leg bei einem etwas hinein, sieh beim anderen nach.
 
 **Das ist der berühmteste Stolperstein der Sprache.** Beantworte danach: Wie viele Listen gibt es hier, und wann genau ist sie entstanden?
 
-**2. Das geteilte Objekt.** Erzeug ein `Inventar` außerhalb und gib es beiden Marines mit. Vergleich das Verhalten mit Experiment 1 — es sieht gleich aus. **Ist die Ursache dieselbe?**
+**2. Das geteilte Objekt.** Sorg wie in Schritt 7 dafür, dass beide Marines dasselbe `Inventar`-Objekt haben. Vergleich das Verhalten mit Experiment 1 — es sieht gleich aus. **Ist die Ursache dieselbe?**
 
 **3. `None` gegen `0`.** Setz einen Ausrüstungsplatz auf `0` statt `None` und prüf ihn mit `if not platz:`. Dann mit `is None`. Welche der beiden Prüfungen merkt den Unterschied?
 
@@ -635,7 +637,7 @@ Etappe 9 fragte *wem gehört dieser Wert*. Heute kommt die Frage davor:
 
 **Etappe 12 gibt die `Welt`.** Was heute noch lose herumliegt — `kern_integritaet`, die Gegner, die Wellennummer — bekommt seinen Besitzer. Und dort zeigt sich, ob deine Antwort auf die Design-Entscheidung aus Etappe 9 trug.
 
-**Etappe 14a macht die Position wirklich.** Aus `(0, 0)` wird eine Stelle auf einem Raster — und dort trifft dich die Objektidentität ein zweites Mal, in ihrer bösesten Form: `[["."] * 5] * 5` erzeugt fünf Namen für **dieselbe** Zeile.
+**Etappe 14 macht die Position wirklich.** Aus `(0, 0)` wird eine Stelle auf einem Raster, und das Tuple am Objekt weicht in 14b zwei Attributen `x` und `y`: Eine Einheit bewegt sich pro Tick auf einer Achse, und mit zwei Zahlen ist das eine Zuweisung statt eines neuen Tuples. Und dort trifft dich die Objektidentität ein zweites Mal, in ihrer bösesten Form: `[["."] * 5] * 5` erzeugt fünf Namen für **dieselbe** Zeile.
 
 **Etappe 16 ist die Bug-Jagd II**, und geteilte Objekte sind dort ein Hauptkandidat. Der Reflex aus Konzept 6 ist das Werkzeug, mit dem du sie findest.
 

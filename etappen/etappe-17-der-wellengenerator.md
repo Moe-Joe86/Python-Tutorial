@@ -1,8 +1,8 @@
 # Etappe 17 — Der Wellengenerator
 
-*v2.1.0 · 2026-09-30*
+*v2.2.0 · 2026-09-30*
 
-> **Block 3: Der Vorposten reagiert** · Etappe 17 von 30 · [← Etappe 16](etappe-16-bug-jagd-ii.md) · [Lehrplan](../Vorposten_Lehrplan.md) · Etappe 18 →
+> **Block 3: Der Vorposten reagiert** · Etappe 17 von 30 · [← Etappe 16](etappe-16-bug-jagd-ii.md) · [Lehrplan](../Vorposten_Lehrplan.md) · [Etappe 18 →](etappe-18-faehigkeiten-und-statuseffekte.md)
 
 **Neue Syntax heute:** 17a: `import random` als erste Zeile und `random.choice(liste)` — beide aus der Kür von Etappe 4, ab heute im Auftrag · `random.randint(a, b)` · gewichtete Auswahl von Hand · Zufall prüfen durch Zählen mit `d[k] = d.get(k, 0) + 1` · `if not d:` beim Dictionary · das Budget-Muster · 🧠 `random.random()` · 🧠 Gewicht gegen Wahrscheinlichkeit, Wurfbereich und Grenze · 🧠 `ValueError: empty range` und die verdeckende `random.py` · 👀 `random.choices(..., weights=...)` — 17b: `random.seed(n)` · `SEED = None` als Schalter · 🧠 was ein Seed nicht festnagelt — Eingaben und Sets · 🧠 der Debugger liest aus derselben Eingabe wie `input()` — 17c: ein Standardargument an einer bestehenden Methode nachrüsten · einzelne `if` füllen einen Topf, eine `elif`-Kette führt das Gezogene aus · ein Zähler in Wellen statt in Takten
 
@@ -622,7 +622,7 @@ Diese fünf Würfe sind **bei jedem Start dieselben** — bei `seed(7)` sind es 
 
 **Drei Regeln, und jede davon hat einen eigenen Fehler, wenn man sie bricht:**
 
-1. **Einmal, am Anfang.** Bevor das Spiel zum ersten Mal für sich würfelt, und nie wieder. *(Die Zahl, die du übergibst, darf selbst gewürfelt sein — das ist Regel 3.)* Wer den Seed in die Wellenschleife schreibt, setzt die Folge vor jeder Welle auf denselben Anfang zurück — dann beginnt jede Welle mit denselben Würfen. Das stürzt nicht ab und fühlt sich nur seltsam an. *(Kaputtmachen 6.)*
+1. **Einmal, am Anfang.** Bevor das Spiel zum ersten Mal für sich würfelt, und nie wieder. *(Die Zahl, die du übergibst, darf selbst gewürfelt sein — das ist Regel 3.)* Wer den Seed in die Wellenschleife schreibt, setzt die Folge vor jeder Welle auf denselben Anfang zurück — dann beginnt jede Welle mit denselben Würfen. Das stürzt nicht ab und fühlt sich nur seltsam an. *(Kaputtmachen 6.)* *(In Etappe 19 wird diese Regel genauer gefasst: Beim Speichern und beim Laden wird noch einmal gesät — mit einem neuen Seed, der im Spielstand steht, nie mit einem alten. Bis dahin gilt sie wörtlich.)*
 2. **Ein fester Seed ist kein Spiel mehr.** Mit `random.seed(42)` im Code ist jedes Spiel gleich, für immer. Das ist zum Jagen eines Fehlers Gold und zum Spielen wertlos.
 3. **Deshalb wird der Seed gezogen und angezeigt.** Normalerweise würfelt dein Spiel beim Start eine Startzahl, merkt sie sich, übergibt sie an `random.seed()` — und **zeigt sie an.** Siehst du einen Fehler, schreibst du die Zahl ab, trägst sie oben in deine Datei ein, und das Spiel läuft genauso noch einmal.
 
@@ -1367,7 +1367,7 @@ Alles in `GELERNT.md` und ins Fehlertagebuch aus Etappe 8: **woran du es erkannt
 
 **Etappe 18 gibt den Fähigkeiten Wirkung** und baut das zentrale Flag-Set. `meldung_abgesetzt` und `welt.erkenntnisse` gehen dort darin auf — deine Funkentscheidung wird ein Eintrag neben den anderen.
 
-**Etappe 19 speichert das Spiel.** Der Seed steht dort als Erstes im Spielstand, zusammen mit `funk_gehoert` und einem laufenden `generatorausfall`. **Und dort stellt sich eine Frage, die heute schon angelegt ist:** Reicht es, den Seed zu speichern, um nach dem Laden denselben Zufall zu bekommen? *(Konzept 11 kennt die Antwort.)*
+**Etappe 19 speichert das Spiel.** Der Seed steht dort als Erstes im Spielstand, zusammen mit `funk_gehoert` und einem laufenden `generatorausfall`. **Und dort stellt sich eine Frage, die heute schon angelegt ist:** Reicht es, den Seed zu speichern, um nach dem Laden denselben Zufall zu bekommen? *(Konzept 11 kennt die Antwort.)* Dort wird auch die Regel „einmal, am Anfang“ aus Konzept 10 genauer gefasst.
 
 **Etappe 20 trennt Ausgaben.** Deine Debug-Zeile und dein Wellenbericht sind zwei Sorten Meldung mit zwei Adressaten — dort bekommen sie getrennte Wege.
 

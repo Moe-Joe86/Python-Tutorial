@@ -1,6 +1,6 @@
 # Das Syntaxregister — welches Werkzeug ab wann zur Verfügung steht
 
-*v1.25.0 · 2026-09-29*
+*v1.28.0 · 2026-09-30*
 
 > Verbindlicher Anhang zum [Lehrplan](Vorposten_Lehrplan.md). Diese Datei ist die einzige Quelle der Wahrheit darüber, was ein Lernender an einem bestimmten Punkt kennt.
 
@@ -87,7 +87,7 @@ Kein Python. Terminal, Git, virtuelle Umgebung, `pip`. Steht im Lehrplan, nicht 
 | `.strip()` | 10 | 🔨 |
 | Punkt-Schreibweise `wert.methode()` | 10 | 👀 |
 | `print()`-Marker zur Zweigverfolgung | 12 | 🔨 |
-| `and` / `or` geben Werte zurück, nicht `True`/`False` | 7 | 👀 |
+| `and` / `or` geben Werte zurück, nicht `True`/`False` — **in 18b als Lesestoff wiederholt** (Etappe 18, Konzept 12), bleibt 👀 | 7 | 👀 |
 
 ---
 
@@ -211,8 +211,9 @@ Kein Python. Terminal, Git, virtuelle Umgebung, `pip`. Steht im Lehrplan, nicht 
 | `TypeError: 'tuple' object does not support item assignment` | 7 | 🧠 |
 | `(5,)` — die Komma-Falle | 8 | 🔨 |
 | Tuple-Unpacking `a, b = t` und `for a, b in ...` | 9 | 🔨 |
-| `&` `\|` `-` — Mengenoperationen | 10 | 👀 |
-| Sets und Tuples lassen sich nicht als JSON speichern | 14 | 👀 |
+| `&` `\|` — Mengenoperationen | 10 | 👀 |
+| `a - b` — Differenzmenge. **Hochgestuft in 18b** (Etappe 18, Konzept 10) | 10 | 👀 → 🔨 |
+| Sets und Tuples lassen sich nicht als JSON speichern — **in 19a auf 🧠 hochgestuft** (Etappe 19, Konzept 5) | 14 | 👀 → 🧠 |
 | `.index(wert)` — von einem Wert zu seiner Stelle | **0** | 🔨 |
 | `ValueError: x is not in list` | **0** | 🧠 |
 | `.pop(i)` — entfernt über die Stelle und gibt zurück | **0** | 🔨 |
@@ -235,7 +236,7 @@ Kein Python. Terminal, Git, virtuelle Umgebung, `pip`. Steht im Lehrplan, nicht 
 | Standardargument `def f(x, y=0)` | 6 | 🔨 |
 | Docstring als erster String im Funktionskörper | 9 | 🔨 |
 | `return a, b` — zwei Werte zurückgeben | **5b** (in v1.5.0 aus 7b nach 7a verschoben) | 🔨 |
-| `assert` | 15 | 👀 |
+| `assert` — **in 20c auf 🔨 hochgestuft** (Etappe 20, Konzept 12) | 15 | 👀 → 🔨 |
 | `UnboundLocalError` — Zuweisung im Körper macht den Namen im ganzen Körper lokal | 5 | 🧠 |
 | Seiteneffekt gegen Rückgabewert | 5 | 🧠 |
 | `cd` und `ls` (Windows: `dir`) — das Terminal muss im Projektordner stehen | 11 | 🔨 |
@@ -512,11 +513,124 @@ Kein Python. Terminal, Git, virtuelle Umgebung, `pip`. Steht im Lehrplan, nicht 
 
 ---
 
+## Etappe 18 — Fähigkeiten, Skillpunkte, Statuseffekte
+
+### 18a — Statuseffekte
+
+| Werkzeug | Konzept | Stufe |
+|---|---|---|
+| **Ein Dictionary *Name → Restdauer* herunterzählen** — Werte ändern beim Durchlaufen, Abgelaufenes erst sammeln, danach mit `del` löschen (aus **5**, **12** und **13**) | 2 | 🔨 |
+| **Ein abgeleiteter Wert als Methode** (`aktueller_schaden()`) — der Grundwert wird nie „vorübergehend" verändert | 4 | 🔨 |
+| **Eine Tabelle, die beschreibt, *was* ein Effekt tut** (Dauer, Schaden pro Takt, was halbiert wird) — der Code fragt die Spalten, nicht die Namen | 5 | 🔨 |
+| `return` in der Fassung der Oberklasse beendet **nur diese Fassung** — `super().methode()` kehrt zurück, die Fassung der Unterklasse läuft weiter | Auftrag 4 | 🧠 |
+
+### 18b — Skillpunkte und Voraussetzungen
+
+| Werkzeug | Konzept | Stufe |
+|---|---|---|
+| `a - b` — **die Differenzmenge**, aktiv gebaut *(Eintrag aus Etappe 6 hochgestuft)* | 10 | 🔨 |
+| **Ein leeres Set ist falsy** — `if fehlt:` fragt „fehlt überhaupt etwas?" | 10 | 🔨 |
+| **Ein Set als Wert in einem Dictionary** (`"braucht": {"grundkurs"}`) — leer ist `set()`, nicht `{}` | 9 | 🔨 |
+| **Eine Prüfkette, die einen Grund oder `None` liefert** — jeder Zweig ein `return` mit Text, am Ende `return None`; der Aufrufer fragt `is None` | 11 | 🔨 |
+| **Die `or`-Falle bei `0`** — `wert or ersatz` ersetzt auch eine gültige `0` | 12 | 🧠 |
+
+### 18c — Fähigkeiten wirken
+
+| Werkzeug | Konzept | Stufe |
+|---|---|---|
+| **Die Oberklasse ruft `self.methode()` auf, und die Fassung der Unterklasse läuft** — der Ablauf steht oben, die Wirkung unten; `return super().methode(...)` als Rückfallebene | 14 | 🔨 |
+| **Ein fehlendes `return` liefert `None`, und `None` sieht aus wie `False`** — stiller Typ 3 | 14 | 🧠 |
+
+*(Kein neuer Eintrag, weil nur Registriertes kombiniert wird: das Abklingzeiten-Dictionary in 18c ist das Muster aus 18a; `RuntimeError` beim Größenändern stammt aus **5**; die Zeitsemantik-Tabelle aus **13**; die Reichweitenmenge, `abstand()` und die Randprüfung aus **14**; die Umkehrtabelle und die Suchschleife mit `return None` aus **15**; der Beweislauf mit festem Seed und `diff` aus **17b**; `and`/`or` als Rückgabewerte bleiben 👀 aus **2** und werden in Konzept 12 nur wieder gelesen. Dass die Reihenfolge einer Differenzmenge nicht zugesagt ist, folgt aus **17b** — die Ausgabe läuft deshalb über `FUNDE`. `max()` und `sorted()` werden nicht gebraucht; das beste Ziel wird wie in **12** von Hand gesucht. `//=` wird nicht eingeführt: halbiert wird mit `wert = wert // 2`. Die Mine ist eine eigene Klasse ohne `Einheit` als Oberklasse — `class` aus **9**. Die `elif`-Ketten in `wirke()` und in der Kameraden-KI sind gewollt und sterben in **23a**.)*
+
+---
+
+## Etappe 19 — Speichern und Laden
+
+### 19a — Dateien und JSON
+
+| Werkzeug | Konzept | Stufe |
+|---|---|---|
+| `import json` und `from pathlib import Path` — Gebrauchsanweisung, erklärt in **24**; `from … import …` holt einen einzelnen Namen, der danach ohne Kastennamen dasteht | 2 | 🔨 |
+| `Path("ordner") / "datei.json"` — ein Pfad, `/` hängt ein Stück an; links muss ein Pfad stehen | 3 | 🔨 |
+| `.exists()` und `.mkdir(exist_ok=True)` — ein Argument mit Namen an einem fremden Werkzeug (Form aus **17c**) | 3 | 🔨 |
+| Ein relativer Pfad meint den Ordner, in dem das Terminal steht (aus **7**, Konzept 11) | 3 | 🧠 |
+| `with open(pfad, "w", encoding="utf-8") as f:` und dasselbe mit `"r"` — `with` schließt die Datei von selbst; `"w"` überschreibt vollständig | 4 | 🔨 |
+| `json.dump(daten, f, ensure_ascii=False, indent=2)` und `json.load(f)` | 4 | 🔨 |
+| Die sechs Dinge, die JSON kennt; Tuple → Liste, Set → `TypeError`, Zahlenschlüssel → Text, `None` ↔ `null` | 5 | 🧠 |
+| `[3, 2] == (3, 2)` ist `False` — eine geladene Liste ist nie gleich einem Tuple | 5 | 🧠 |
+| `FileNotFoundError`, `FileExistsError`, `TypeError: Object of type … is not JSON serializable`, `JSONDecodeError` lesen | 3, 4, 5, Auftrag 7 | 🧠 |
+| `sorted(sammlung)` — gibt eine neue, sortierte Liste zurück; ohne `key=` (das ist **23a**) | 6 | 🔨 |
+
+### 19b — Objekte werden Daten
+
+| Werkzeug | Konzept | Stufe |
+|---|---|---|
+| `tuple(liste)` — der Rückweg zum Tuple, wie `set(liste)` aus **6** | 12 | 🔨 |
+| **Eine Methode, die ein Objekt als Dictionary beschreibt, und ihr Gegenstück, das ein erzeugtes Objekt daraus überschreibt** — in der Unterklasse mit `super()` zuerst (aus **11**) | 8 | 🔨 |
+| **Ein Verweis als Stelle in einer Liste** — `.index()` beim Speichern, `liste[stelle]` beim Laden, erst alle Objekte, dann die Verweise, Prüfung mit `is` (aus **6** und **10**) | 10 | 🔨 |
+| Das Erzeugen ist die eine Stelle, an der nach dem Typ gefragt werden muss — dort ist eine Kette über Klassennamen erlaubt | 9 | 🧠 |
+
+### 19c — Das Spiel überlebt das Beenden
+
+| Werkzeug | Konzept | Stufe |
+|---|---|---|
+| `pfad.unlink()` — löscht eine Datei; vorher mit `.exists()` fragen | Auftrag 23 | 🔨 |
+| Was ein Seed nach dem Laden kann und was nicht — neu säen beim Speichern | Design-Entscheidung | 🧠 |
+| Ein Wert, der für einen Übergang gemerkt wird, ist Zustand — auch wenn er sich herleiten lässt | 13 | 🧠 |
+| Ein halb geschriebener Spielstand — `"w"` leert beim Öffnen | 15 | 🧠 |
+| Atomares Schreiben: in eine andere Datei schreiben, dann umbenennen | 15 | 👀 |
+
+*(Kein neuer Eintrag, weil nur Registriertes kombiniert wird: das Standardargument für den Pfad (**7**), `.copy()` am Dictionary (dieselbe Methode wie an der Liste, **4**, **10**), `set(liste)` (**6**), `type(self).__name__` und die Klasse als Wert (**11**), `random.randint` und `random.seed` (**17**), der Beweislauf mit `<`, `>` und `diff` (**7**, **17b**), `input()`-Zweige und `is None` (**2**, **10**). `pickle` und `random.getstate()` werden nur genannt, nicht gezeigt — keine Zeile Code. `Path.replace()` steht allein unter „Wenn du mehr willst" und wird dort erklärt. `try`/`except` bleibt **20**.)*
+
+---
+
+## Etappe 20 — Wenn der Spieler Unsinn eingibt
+
+### 20a — Fangen
+
+| Werkzeug | Konzept | Stufe |
+|---|---|---|
+| `try:` / `except Fehlerklasse:` — bei einem Fehler springt Python in den `except`, der Rest des `try` läuft nicht | 2 | 🔨 |
+| `except Fehlerklasse as e:` — die Nachricht steckt in `e`; bei `KeyError` ist sie der Schlüssel mit Anführungszeichen | 4 | 🔨 |
+| Mehrere `except` untereinander — der erste passende gewinnt | 6 | 🔨 |
+| `except json.JSONDecodeError:` — eine Fehlerklasse aus einem Werkzeugkasten | 6 | 🔨 |
+| Eng fangen: nur die erwartete Fehlerklasse, nur um die eine Zeile, die scheitern darf | 3 | 🧠 |
+| `except Exception` und nacktes `except:` machen aus Typ 1 einen Typ 3; nacktes `except:` fängt sogar `Strg + C` | 3 | 🧠 |
+| Prüfen oder fangen? — prüfen, wenn die Frage einfach ist; fangen, wenn man es nur durch Versuchen erfährt; danach oft noch ein `if` | 5 | 🧠 |
+| Fehlerklassen haben Oberklassen — `JSONDecodeError` ist ein `ValueError`, `Exception` ist die Oberklasse fast aller | 6 | 👀 |
+
+### 20b — Werfen
+
+| Werkzeug | Konzept | Stufe |
+|---|---|---|
+| `class SpielFehler(Exception):` mit einem Docstring als Körper — eine eigene Fehlerklasse (aus **11** und **12**) | 7 | 🔨 |
+| `raise SpielFehler("…")` — die Funktion endet sofort, der Fehler fliegt | 7 | 🔨 |
+| `else:` beim `try` — läuft nur, wenn kein Fehler aufgetreten ist | 10 | 🔨 |
+| Ein Fehler wandert die Aufrufkette hinauf bis zum ersten passenden `except`; die Stufen dazwischen enden sofort (aus **7a**, **8**) | 8 | 🧠 |
+| `return Fehler(...)` statt `raise` — gibt ein Objekt zurück, nichts fliegt; stiller Typ 3 | 7 | 🧠 |
+| Grund-oder-`None` gegen Exception — fragen gegen verlangen | 9 | 🧠 |
+| Wem gehört ein Fehler — Spieler, Welt, Entwickler | 11 | 🧠 |
+
+### 20c — Prüfen und trennen
+
+| Werkzeug | Konzept | Stufe |
+|---|---|---|
+| `assert bedingung, "Text"` *(Eintrag aus Etappe 7 hochgestuft)* | 12 | 🔨 |
+| Ein `AssertionError` wird nie gefangen; `python -O` schaltet Behauptungen ab — deshalb prüft `assert` nie Eingaben | 12 | 🧠 |
+| `finally` — und wann es nicht läuft | 15 | 👀 |
+| `raise` ohne Fehler dahinter, in einem `except` — weiterwerfen | 15 | 👀 |
+| `logging` und seine Stufen `debug`, `info`, `warning`, `error` | 14 | 👀 |
+
+*(Kein neuer Eintrag, weil nur Registriertes kombiniert wird: der Schalter `DEBUG` ist ein fester Wert mit `if` (Form aus **17b**, `SEED`), `welt.debug()` eine Methode wie `melde()` (**13**), die Tabellen- und Zustandsprüfungen sind Schleifen mit `in` (**4**, **6**), die Munitions-Invariante ist *merken, neu berechnen, vergleichen* (**13**). `len()` vor dem Zugriff auf das zweite Wort stammt aus **4**. `continue` bleibt 👀 aus **3a** — die kleine Schleife aus Konzept 2 kommt ohne aus. Keine Familie eigener Fehlerklassen; `logging` bleibt bis **24** unbenutzt.)*
+
+---
+
 ## Offene Lücken
 
 Werkzeuge, die eine Aufgabe braucht und die kein Guide erklärt. **Jede solche Zeile blockiert einen Lernenden, der keine zweite Quelle hat.**
 
-> **Für die Etappen 1 bis 17: keine.** Alle Werkzeuge, die ein Auftragsschritt dort verlangt, sind vorher erklärt.
+> **Für die Etappen 1 bis 20: keine.** Alle Werkzeuge, die ein Auftragsschritt dort verlangt, sind vorher erklärt.
 
 **Diese Tabelle bleibt trotzdem stehen**, weil sie beim Schreiben jeder weiteren Etappe wieder gebraucht wird. Findest du eine Lücke, trag sie hier ein — mit der Etappe, die sie braucht, und der Etappe, in die die Erklärung gehört.
 

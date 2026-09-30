@@ -1,6 +1,6 @@
 # Etappe 3 — Die Wellenschleife ⭐
 
-*v1.4.3 · 2026-09-29*
+*v1.4.5 · 2026-09-30*
 
 > **Block 1: Fundament** · Etappe 3 von 30 · [← Etappe 2](etappe-02-der-erste-kontakt.md) · [Lehrplan](../Vorposten_Lehrplan.md) · [Etappe 4 →](etappe-04-ausruestung-und-beute.md)
 
@@ -10,7 +10,7 @@
 
 **Voraussetzung:** Etappe 2 abgeschlossen, Selbsttest grün
 
-**Diese Etappe hat drei Portionen** — eine von vieren im ganzen Plan, die so weit aufgeteilt sind, und die erste davon. Hier wird aus einem Skript ein Spiel, und dabei kommt mehr zusammen, als an einem Abend ankommt. Nach jeder Portion steht ein Commit.
+**Diese Etappe hat drei Portionen** — eine von sieben im ganzen Plan, die so weit aufgeteilt sind, und die erste davon. Hier wird aus einem Skript ein Spiel, und dabei kommt mehr zusammen, als an einem Abend ankommt. Nach jeder Portion steht ein Commit.
 
 | | Thema | 🔨 Bauen | 👀 Nur erkennen |
 |---|---|---|---|

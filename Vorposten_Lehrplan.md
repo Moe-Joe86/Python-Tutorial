@@ -1,8 +1,8 @@
 # Projekt-Lehrplan: Vorposten
 
-*v4.9.1 · 2026-09-30*
+*v4.12.0 · 2026-09-30*
 
-**Python lernen, indem die Verteidigung wächst — 30 Etappen in 45 Portionen**
+**Python lernen, indem die Verteidigung wächst — 30 Etappen in 51 Portionen**
 
 Dieses Tutorial ist selbsttragend. Es setzt keinen Kurs, kein Buch und kein Vorwissen über Python voraus: Jedes Zeichen und jeder Aufruf, den eine Aufgabe braucht, wird vorher in einem Etappen-Guide erklärt. Welches Werkzeug ab wann zur Verfügung steht, führt [`SYNTAX.md`](SYNTAX.md) Buch.
 
@@ -282,7 +282,7 @@ Ab Etappe 18 wird der Spieler auf zwei Wegen stärker: durch **Erfahrung** und d
 | Wirkt | **qualitativ** — neue Optionen | **quantitativ** — größere Zahlen |
 | Gibt | Fähigkeiten, Freischaltungen, Stufenzugang | Munition, Verbrauchsgüter, Basisausbau, Ausrüstungsteile |
 | Ist | verdient, unverlierbar, nicht kaufbar | ausgegeben, verbraucht, nachwachsend |
-| Beispiel | *Der Engineer kann ab Stufe 3 Minen legen* | *Eine Mine kostet 15 schwere Munition* |
+| Beispiel | *Der Engineer kann ab Stufe 3 Minen legen* | *Jede Mine kostet schwere Munition* |
 
 **Drei Verbote, die aus dieser Regel folgen:**
 
@@ -534,9 +534,9 @@ Drei Dateien im Repo: `README.md` (dein Schaufenster), `GELERNT.md` (zwei Sätze
 
 **Kein Vibe Coding in diesem Projekt.** Du schreibst jede Zeile selbst. Wenn du feststeckst: „Ich will X, habe Y probiert, es passiert Z — woran könnte es liegen?"
 
-**Etappen dürfen halbiert werden — und elf sind es bereits.** Der Plan ist ein Vorschlag, kein Vertrag.
+**Etappen dürfen halbiert werden — und vierzehn sind es bereits.** Der Plan ist ein Vorschlag, kein Vertrag.
 
-Elf Etappen tragen so viel Stoff, dass sie an einem Stück nur halb ankommen. Die sind ausdrücklich geteilt, mit einem eigenen Commit nach jeder Portion:
+Vierzehn Etappen tragen so viel Stoff, dass sie an einem Stück nur halb ankommen. Die sind ausdrücklich geteilt, mit einem eigenen Commit nach jeder Portion:
 
 | Geteilt | Portionen |
 |---|---|
@@ -549,12 +549,15 @@ Elf Etappen tragen so viel Stoff, dass sie an einem Stück nur halb ankommen. Di
 | **14a / 14b / 14c** ⭐ | Das Raster · Reichweite und Bewegung · die Barrikade *(Kür)* |
 | **15a / 15b** | Fundstücke und Erkenntnisse · Erkenntnisse wirken |
 | **17a / 17b / 17c** | Zufall und das Wellenbudget · der Seed · Bericht und Ereignisse zwischen den Wellen |
+| **18a / 18b / 18c** | Statuseffekte · Skillpunkte und Voraussetzungen · die Fähigkeiten wirken |
+| **19a / 19b / 19c** | Dateien und JSON · Objekte werden Daten · das Spiel überlebt das Beenden |
+| **20a / 20b / 20c** | Fangen · Werfen · Prüfen und trennen |
 | **21a / 21b** | Trefferrechnung und Rückgabewerte · Schadenstypen, `Enum`, Balancing |
 | **23a / 23b** | Python lesen · Python modellieren |
 
-**Vier Etappen haben drei Portionen:** 3, 11, 14 und 17. Bei Etappe 3 wird aus einem Skript ein Spiel — der dichteste Punkt des Fundaments. Bei 11 werden drei Schulden auf einmal zurückgezahlt. Bei 14 ist die dritte Portion Kür und darf entfallen. Bei 17 zieht der Zufall zwei Portionen nach sich: den Seed, der Fehler wieder vorführbar macht, und die Pause zwischen den Wellen.
+**Sieben Etappen haben drei Portionen:** 3, 11, 14, 17, 18, 19 und 20. Bei Etappe 3 wird aus einem Skript ein Spiel — der dichteste Punkt des Fundaments. Bei 11 werden drei Schulden auf einmal zurückgezahlt. Bei 14 ist die dritte Portion Kür und darf entfallen. Bei 17 zieht der Zufall zwei Portionen nach sich: den Seed, der Fehler wieder vorführbar macht, und die Pause zwischen den Wellen. Bei 18 kommen drei Versprechen aus fünfzehn Etappen gleichzeitig an — Zustand mit Ablaufdatum, Erfahrung, die etwas kauft, und Fähigkeiten, die wirken. Bei 19 ist der Handgriff klein und die Frage groß: was in einen Spielstand gehört, wie Objekte, die aufeinander zeigen, in eine Datei passen, und wie man beweist, dass nach dem Laden alles weitergeht wie vorher. Bei 20 folgt die Teilung der Frage, wer einen Fehler verursacht hat: die Welt, der Spieler oder dein Programm.
 
-**Die Nummer bleibt, weil das Thema eines ist.** Es bleiben 30 Etappen — gerechnet in Portionen sind es 45, dazu Etappe 0. Und wenn dir eine ungeteilte Etappe zu groß vorkommt, teil sie selbst. Das ist keine Kapitulation, sondern die Anwendung derselben Regel.
+**Die Nummer bleibt, weil das Thema eines ist.** Es bleiben 30 Etappen — gerechnet in Portionen sind es 51, dazu Etappe 0. Und wenn dir eine ungeteilte Etappe zu groß vorkommt, teil sie selbst. Das ist keine Kapitulation, sondern die Anwendung derselben Regel.
 
 **Umwege haben Vorrang.** Wenn dein eigenes Programm eine Frage erzeugt, ist diese Frage die nächste Lektion — auch wenn sie hier nicht steht.
 
@@ -569,7 +572,7 @@ Bei 20–30 Minuten am Tag, Übungen eingerechnet — und mit den geteilten Etap
 | Werkzeug | 0 | 1 | 1 Abend |
 | Fundament | 1–8 | 11 | 9–12 Wochen |
 | Einheiten und Zeit | 9–16 | 16 | 16–21 Wochen |
-| Der Vorposten reagiert | 17–27 | 15 | 15–19 Wochen |
+| Der Vorposten reagiert | 17–27 | 21 | 21–26 Wochen |
 | Grafik (optional) | 28–30 | 3 | offen |
 
 Eine Portion sind zwei bis vier Sitzungen. Wenn du bei sechs bist, ist das kein Rückstand — die Zahlen hier sind Erfahrungswerte, keine Vorgaben.
@@ -599,7 +602,7 @@ Das kommt. Bei sechs Monaten ist es keine Frage, ob, sondern wann. Drei Auswege,
 
 1. **`GELERNT.md` öffnen und die letzten drei Einträge lesen.** Das zählt als Sitzung. Du wirst überrascht sein, was du vor vier Wochen noch nicht konntest.
 2. **`git log --oneline` laufen lassen.** Vierzig Commits sind vierzig Abende, an denen du es doch gemacht hast.
-3. **Eine Etappe halbieren.** Elf sind es schon; bei den übrigen darfst du es selbst tun. Der Plan ist ein Vorschlag.
+3. **Eine Etappe halbieren.** Vierzehn sind es schon; bei den übrigen darfst du es selbst tun. Der Plan ist ein Vorschlag.
 
 **Was du nicht tun solltest: eine Etappe überspringen, weil sie langweilig aussieht.** Etappe 6 (Datenstrukturen) und Etappe 7 (Aufräumen) sehen beide nach nichts aus und sind beide der Grund, warum die nächsten fünf Etappen funktionieren.
 
@@ -692,7 +695,7 @@ Erstens: Die Klassenwahl aus Etappe 1 bekommt Folgen. Je nach Klasse andere Star
 | Klasse | `klassengeraet` | Wird in Etappe 18 zu |
 |---|---|---|
 | Soldat | `"Sturmgewehr"` | Unterlauf-Granatwerfer — Flächenschaden |
-| Heavy | `"Schweres MG"` | Durchschlag — ein Schuss trifft mehrere Gegner in einer Reihe |
+| Heavy | `"Schweres MG"` | Durchschlag — ein Schuss trifft alle Gegner in einer Zeile oder Spalte des Vorfelds |
 | Engineer | `"Multiwerkzeug"` | Minen, Fallen, mobiler Geschützturm |
 | Medic | `"Bio-Injektor"` | Heilung, später eine Unterstützungsaura |
 
@@ -735,7 +738,7 @@ Dazu ein Boolean, der sich etwas merkt: Beim ersten Kontakt siehst du etwas — 
 
 **Neue Syntax:** `while` · `+=` und `-=` · `for` mit `range()` · `break` · `while True:` · die Zustandsvariable als Schleifenbedingung (`while laeuft:`) · `.lower()` · `/` `//` `%` · `round()` · Text mal Zahl · 👀 `continue` · 👀 Formatangaben im f-String
 
-**Die erste von vier Etappen mit drei Portionen** (3, 11, 14, 17). Hier wird aus einem Skript ein Spiel — und dabei kommt mehr zusammen, als an einem Abend ankommt. Nach jeder Portion ein Commit.
+**Die erste von sieben Etappen mit drei Portionen** (3, 11, 14, 17, 18, 19, 20). Hier wird aus einem Skript ein Spiel — und dabei kommt mehr zusammen, als an einem Abend ankommt. Nach jeder Portion ein Commit.
 
 | | 🔨 Bauen | 🧠 Verstehen | 👀 Nur erkennen |
 |---|---|---|---|
@@ -2107,266 +2110,283 @@ Die Variable, die du am ersten Tag angelegt und nie benutzt hast, bekommt heute 
 
 ## Etappe 18 — Fähigkeiten, Skillpunkte, Statuseffekte
 
-**Neue Syntax:** Zustandsverwaltung, Sets, komplexere Boolean-Logik
+**Neue Syntax:** 18a: ein Dictionary *Name → Restdauer* herunterzählen und Abgelaufenes danach löschen · ein abgeleiteter Wert als Methode · eine Tabelle, die beschreibt, *was* ein Effekt tut · 🧠 `return` in der Fassung der Oberklasse beendet nur diese — 18b: `a - b` (hochgestuft aus 6) · das leere Set ist falsy · ein Set als Wert im Dictionary · eine Prüfkette, die einen Grund oder `None` liefert · 🧠 die `or`-Falle bei `0` — 18c: die Oberklasse ruft `self.methode()`, die Unterklasse liefert · 🧠 ein fehlendes `return` sieht aus wie `False`
 
-| 🔨 Bauen | 🧠 Verstehen | 👀 Nur erkennen |
-|---|---|---|
-| Statuseffekte mit Dauer · Skillpunkte · Voraussetzungen für Fähigkeiten | Zustand, der weder dauerhaft noch einmalig ist | `and`/`or` als Rückgabewerte |
+**Dreigeteilt — die größte Etappe von Block 3, und sie löst Versprechen aus fünfzehn Etappen ein:** die Erfahrung aus 3c, das Klassengerät aus 2, die Freischaltungen aus 6, die Abklingzeit aus 13. **18c hat in der Mitte einen markierten Schnitt**, nach den drei Ereignis-Fähigkeiten.
 
-**Die Reihenfolge ist nicht beliebig:** Erst die Statuseffekte — das ist der eigentliche Stoff und die schwerste Sorte Zustand. Dann die Skillpunkte und Voraussetzungen. Die dritte Spalte ist Lesestoff und darf ausfallen.
-
-**Hier zahlt sich die Erfahrung aus, die seit Etappe 3c mitgezählt hat.** Jede Stufe gibt einen Skillpunkt, und der Spieler entscheidet, wohin er ihn setzt. Damit hat die Zahl, die fünfzehn Etappen lang nur dastand, endlich eine Wirkung.
-
-⚠️ **Ein Skillpunkt kauft eine Fähigkeit oder eine Stufe davon — nie eine größere Grundzahl.** Kein „+10 Trefferpunkte", kein „+2 Schaden". Größere Zahlen kommen aus dem Depot, Können kommt aus Erfahrung. Das ist die Regel aus *Die zwei Machtquellen*, und sie wird genau hier verletzt, wenn man nicht aufpasst — weil ein Bonus auf eine Zahl der bequemste Skillpunkt ist, den man vergeben kann.
-
-Ein zentraler `flags`-Speicher (ein Set — jetzt weißt du, warum). Fähigkeiten haben Voraussetzungen: eine Mindeststufe, eine bestimmte Freischaltung, genug Vaporium, die richtige Klasse. Das ist eine verknüpfte Bedingung, und sie ist erwachsen geworden seit Etappe 2.
-
-**Eine aktive Fähigkeit besteht aus drei Teilen, und alle drei hast du schon:** einer Voraussetzung (das Set aus Etappe 6 plus `level`), einer Abklingzeit (der Zähler aus Etappe 13) und einer Wirkung (ein Statuseffekt oder Schaden). Nichts davon ist heute neu — neu ist, dass sie zusammenkommen.
-
-**Passive gehören dazu und sind der einfachere Fall:** Sie haben keinen Auslöser. Statt dass der Spieler etwas drückt, fragt die Rechnung nach — *hat dieser Marine das Kopfschuss-Passiv?*. Das ist eine Zeile mehr in Etappe 21a und sonst nichts.
-
-**Und jede Klasse hat ihre eigene — und zwar genau die, die ihr Klassengerät aus Etappe 2 verspricht.** Sechzehn Etappen lang war `klassengeraet` ein String, der angezeigt und nie abgefragt wurde. Heute wird er zur Wurzel eines kleinen Fähigkeitenbaums:
-
-| Klasse | Klassengerät (Etappe 2) | Fähigkeit | Was daran neu ist |
+| | 🔨 Bauen | 🧠 Verstehen | 👀 Nur erkennen |
 |---|---|---|---|
-| **Soldat** | Sturmgewehr | **Unterlauf-Granatwerfer** — Flächenschaden auf ein Feld und seine Nachbarn | Erste Fähigkeit, die *mehrere* Ziele trifft. Braucht das Raster aus 14a. |
-| **Heavy** | Schweres MG | **Durchschlag** — ein Schuss trifft alle Gegner in einer Reihe hintereinander | Braucht keine neue Struktur: Die Anmarschbahn aus Etappe 4 **ist** die Reihe. |
-| **Engineer** | Multiwerkzeug | **Mine** (liegt, bis jemand darauftritt) und **mobiler Geschützturm** (tickt mit, höchstens einer) | Zwei Sorten Zustand: einer wartet auf ein Ereignis, einer handelt selbst. |
-| **Medic** | Bio-Injektor | **Heilung** auf ein Ziel; ab höherer Stufe eine **Unterstützungsaura**, die im Umkreis wirkt, solange sie läuft | Der Übergang von Einmalwirkung zu Statuseffekt mit Dauer — der eigentliche Stoff dieser Etappe. |
+| **18a** | Statuseffekte mit Restdauer · die Effekttabelle · abgeleitete Werte statt gespeicherter | Zustand, der weder dauerhaft noch einmalig ist · warum man einen Grundwert nie „vorübergehend" verändert | — |
+| **18b** | `welt.flags` · Skillpunkte · die Fähigkeitentabelle · `kann_lernen()` · zwei Passive | Haben gegen ausgeben · warum eine Voraussetzung nie gekauft sein darf · die `or`-Falle | `and`/`or` geben einen der Werte zurück |
+| **18c** | `setze_ein()` und `wirke()` · sechs aktive Fähigkeiten · schwere Munition · die Trupp-KI, zum letzten Mal | Die Oberklasse ruft, die Unterklasse liefert · warum erst nach der Wirkung bezahlt wird · dürfen gegen wollen | — |
 
-⚠️ **Bau sie in dieser Reihenfolge, und nicht alle an einem Abend.** Heilung zuerst (ein Ziel, sofortige Wirkung), dann Durchschlag (mehrere Ziele, vorhandene Struktur), dann Granatwerfer (mehrere Ziele, Raster), dann Mine und Turm (Zustand über Zeit). **Wer mit dem Geschützturm anfängt, baut sich die schwerste Sorte zuerst.**
+**Die Reihenfolge ist nicht beliebig:** Erst die Statuseffekte — das ist die schwerste Sorte Zustand, und die Aura in 18c braucht sie. Dann Skillpunkte und Voraussetzungen, weil man erst lernen muss, was man einsetzen will. Dann die Wirkungen.
 
-**Die Aura ist die einzige, die etwas wirklich Neues verlangt** — sie ist weder ein Ereignis noch ein dauerhafter Wert, sondern ein Effekt mit Ablaufdatum an mehreren Einheiten gleichzeitig. Genau dafür sind die Statuseffekte da, und deshalb steht sie am Ende.
+---
 
-### Schwere und leichte Munition — Kosten, die man spürt
+### 18a — Statuseffekte
 
-Bis heute hat dein Vorrat **eine** Sorte Munition. Ab heute zwei, und der Unterschied ist keine Zierde:
+Zwei Gegnertypen bekommen einen Effekt, den sie bei einem Treffer übertragen: Der Speier **verätzt** (Schaden pro Takt), die Panzerbrut **erschüttert** (der Getroffene teilt halb so viel aus). Dazu **abgeschirmt** (halbiert eingehenden Schaden) als Vorbereitung für die Aura in 18c. Was ein Effekt tut, steht in einer Tabelle `EFFEKTE` — Dauer, Schaden pro Takt, was halbiert wird —, und der Code fragt die Spalten, nie die Namen.
 
-| | Leichte Munition | Schwere Munition |
+**⭐⭐ Die Design-Entscheidung: Wo wohnt ein Statuseffekt?** An der Einheit (Dictionary *Name → Restdauer*), an der Welt (eine Terminliste — der Scheduler aus 13) oder als eigenes Objekt. Der Plan baut die Einheit: *Wem gehört die Säure? Dem, der verätzt ist.* Ein Gegner, der entfernt wird, nimmt seine Effekte mit; ein Eintrag an der Welt bliebe liegen und zeigte ins Leere. Ein eigenes `Effekt`-Objekt ist nicht falsch, sondern verfrüht — heute trägt ein Effekt genau eine Zahl.
+
+**Das Herunterzählen ist das Zähler-Muster aus 13, an einem Dictionary:** Werte ändern beim Durchlaufen, Abgelaufenes sammeln, danach mit `del` löschen. Es wohnt in `Einheit.zaehler_runter()`, und jede Überschreibung ruft als erste Zeile `super()` — **sonst läuft ein Effekt bei Marines nie ab**, ohne Fehlermeldung. Die Fahndung nach allen Überschreibungen ist Teil des Auftrags.
+
+⭐⭐ **Berechnen statt speichern:** Ein erschütterter Marine teilt weniger aus — aber `schaden` wird **nicht** halbiert und später wieder verdoppelt. Wer austeilt, fragt `aktueller_schaden()`. Der Grundwert bleibt, wie er ist, und kann nicht vergessen werden zurückzusetzen. **Derselbe Gedanke räumt `nachladen_noetig` weg**, die Schuld aus Etappe 2 und 3c: zwei Werte für dieselbe Aussage sind ab hier einer.
+
+⭐ **Die Zeitsemantik, schriftlich, wie in Etappe 13:** Was heißt „Dauer 3"? Weil die Zählerphase vor den Einheiten läuft, wirkt derselbe Effekt beim Helden und beim Kameraden verschieden lang. Die Tabelle dazu kommt in `GELERNT.md` und ist die Vorlage für Etappe 26.
+
+---
+
+### 18b — Skillpunkte und Voraussetzungen
+
+**Hier zahlt sich die Erfahrung aus, die seit Etappe 3c mitgezählt hat.** Jede Stufe gibt einen Skillpunkt; die Zahl ist die Differenz aus erreichter Stufe und bereits Gelerntem, kein eigener Zähler.
+
+**Zuerst ein reiner Umbau:** `freigeschaltet` (6), `erkenntnisse` (15) und `meldung_abgesetzt` (2/17c) ziehen in **ein** Set `welt.flags` — bewiesen mit `diff`, festem Seed und `befehle17.txt` aus 17b. Die Invariante dazu, aufgeschrieben, nicht geprüft: **Kein Wort steht in zwei Quellen.** Ein Ausbau, der wie eine Erkenntnis heißt, wäre eine gekaufte Erkenntnis.
+
+⚠️ **Was eine Voraussetzung sein darf** — und das ist die Regel aus *Die zwei Machtquellen* in ihrer schärfsten Form:
+
+| Darf Voraussetzung einer Fähigkeit sein | Darf es nicht |
+|---|---|
+| die Stufe · das Klassengerät · eine Erkenntnis · ein freier Skillpunkt | **Vaporium** · eine gekaufte Freischaltung |
+
+**Vaporium bezahlt den Einsatz, nie das Vorhandensein.** Die schwere Munition in 18c ist genau das.
+
+**Die Fähigkeitentabelle** hat eine Spalte `"geraet"`, die mit dem `klassengeraet` aus Etappe 2 verglichen wird — Zeichen für Zeichen. Sechzehn Etappen lang angezeigt, heute zum ersten Mal abgefragt. Dazu `"ab_level"`, `"flags"` (ein Set, fast immer leer) und `"passiv"`. Fähigkeiten haben Stufen bis `MAX_FAEHIGKEITSSTUFE = 3`; eine höhere Stufe ist dieselbe Fähigkeit mit größerer Wirkung, **nie** ein Bonus auf eine Grundzahl.
+
+⭐⭐ **`kann_lernen()` liefert einen Grund oder `None`** — keine `and`-Zeile. Das löst die Erkenntnis aus Etappe 2 ein, dass eine verknüpfte Bedingung nicht sagt, welcher Teil scheiterte. Die fehlenden Erkenntnisse findet die Differenzmenge `braucht - welt.flags`; ob etwas fehlt, sagt die Wahrheit des Ergebnisses. Der Held lernt per Befehl, die Kameraden über `lerne_selbst()`.
+
+**Die Zielhilfe aus Etappe 6 bekommt ihre Wirkung** — als **gekauftes Passiv**, nicht als Fähigkeit: ein Feld mehr Reichweite für den Helden. Und das Schnellfeuer braucht ab jetzt die Zielhilfe, als Eintrag in einer kleinen Umkehrtabelle `AUSBAU_VORAUSSETZUNG`, nicht als `if`. Das **gelernte** Passiv ist Standfest: Der Heavy wird nicht mehr erschüttert.
+
+| | Gekauft | Gelernt |
 |---|---|---|
-| Wofür | Normales Feuern | Granaten, Minen, Durchschlagssalven |
-| Preis im Depot | günstig | deutlich teurer |
-| Nachschub | regelmäßig (Etappe 13) | selten |
+| Passiv | Zielhilfe — eine größere Zahl | Standfest — eine neue Eigenschaft |
 
-**Das kostet dich technisch nichts** — es ist ein zweiter Schlüssel in dem `vorrat`-Dictionary, das seit Etappe 5 steht. **Didaktisch leistet es zweierlei.** Erstens bekommen Fähigkeiten einen Preis, der nicht aus dem Nichts kommt: Eine Fähigkeit, die nur eine Abklingzeit hat, ist umsonst und wird stumpf gedrückt. Zweitens wird die Regel aus *Die zwei Machtquellen* am Objekt sichtbar: **Die Stufe entscheidet, ob du Minen legen *kannst*. Die schwere Munition entscheidet, wie oft.**
+👀 **Nur erkennen: `and` und `or` geben einen der Werte zurück.** Und die Frage dazu, 🧠: Kann die linke Seite legitim `0` sein? Dann macht `plaetze or 10` aus null Plätzen zehn. Die Null-Falle in ihrer gemeinsten Form. **Schreib das heute nicht.**
 
-⚠️ **Das ist ausdrücklich keine Traglast.** Es gibt keine Gewichtsgrenze und keine Rucksackverwaltung — das wäre ein eigenes System und lehrt nichts, was hier nicht schon steht.
+---
 
-Dazu **Statuseffekte** mit Dauer: brennend, geschockt, überladen, abgeschirmt. Sie hängen an Einheiten, sie zählen im Tick herunter, sie verändern Werte, solange sie laufen. Damit hast du zum ersten Mal Zustand, der weder dauerhaft noch einmalig ist — die Sorte, die am schwersten sauber zu modellieren ist.
+### 18c — Fähigkeiten wirken
 
-👀 **Nur erkennen: `and` und `or` geben nicht `True`/`False` zurück, sondern einen der beiden Werte.**
+**⭐⭐ Die Frage aus Etappe 13 wird umgedreht.** Dort rief die Unterklasse `super()`, die Oberklasse prüfte die Abklingzeit — und die Unterklasse musste irgendwie erfahren, dass abgebrochen wurde. Ab heute ruft **die Oberklasse**: `setze_ein()` prüft mit `kann_einsetzen()`, ruft `self.wirke()`, und **erst wenn die Wirkung `True` meldet**, bezahlt sie schwere Munition und startet die Abklingzeit. Die Unterklasse liefert nur, was bei ihr anders ist.
 
-```python
-ziel = gewaehltes_ziel or standardziel
-```
+> **Die Oberklasse regelt den Ablauf. Die Unterklasse liefert die Wirkung.**
 
-**Schreib das heute nicht.** In deinem eigenen Code ist `if ziel is not None:` klarer, und Klarheit schlägt Kürze. Aber du wirst diese Form in fremdem Code ständig sehen, und dann soll sie nicht mystisch wirken.
+⚠️ **Die Falle dazu:** Ein vergessenes `return True` liefert `None`, `None` ist falsy — und die Fähigkeit wirkt, kostet aber nichts und startet keine Abklingzeit. Ein stiller Typ 3.
 
-**Und wenn du sie siehst, stell genau eine Frage:** Kann die linke Seite legitim `0` sein? Denn `0` ist falsy — dann greift die rechte Seite, obwohl links ein gültiger Wert stand. In einem Spiel voller Zähler, Indizes und Munitionsstände ist das kein Sonderfall, sondern der Normalfall. Das ist die Null-Falle aus dem Rahmenteil, in ihrer gemeinsten Form.
+**Zwei kleine Umbauten vorweg:** Schaden läuft ab jetzt über `treffe(ziel, menge, welt)` (reiner Umbau mit `diff`), und die eine Abklingzeit aus 13 wird ein Dictionary `abklingzeiten` — dasselbe Muster wie die Effekte.
 
-**Und jetzt wird der Trupp klug — genau einmal und dann nicht mehr.**
+**Die sechs aktiven Fähigkeiten, in dieser Reihenfolge** (dazu Standfest aus 18b, ein Passiv):
 
-Bisher laufen deine drei Marines zum nächsten Gegner und schießen. Ab heute setzen sie auch ihre Fähigkeit ein, sobald deren Voraussetzungen erfüllt sind: Der Medic heilt, wenn jemand unter der Hälfte ist. Der Engineer repariert, wenn ein Sektor beschädigt ist. Der Heavy feuert seine Salve, wenn genug Ziele in Reichweite stehen.
+| Klasse | Gerät | Fähigkeit | Was daran neu ist |
+|---|---|---|---|
+| **Medic** | Bio-Injektor | **Heilung** — das beste Ziel in Reichweite | ein Ziel, sofortige Wirkung |
+| **Heavy** | Schweres MG | **Durchschlag** — alle Gegner in einer Zeile oder Spalte | mehrere Ziele, Randprüfung und Klammern |
+| **Soldat** | Sturmgewehr | **Unterlauf-Granatwerfer** — ein Feld und seine Nachbarn | mehrere Ziele, `felder_in_reichweite()` aus 14 |
+| *⏸ Schnitt* | | | |
+| **Engineer** | Multiwerkzeug | **Mine** — liegt, bis jemand darauftritt | ein Ding, das **wartet**; eigene Klasse, **keine** `Einheit`, in `welt.minen` |
+| **Engineer** | Multiwerkzeug | **mobiler Geschützturm** — höchstens einer, Aufstellzeit, Lebensdauer | ein Ding, das **handelt**; eine `Einheit` im Trupp |
+| **Medic** | Bio-Injektor | **Unterstützungsaura** — *abgeschirmt* für alle im Umkreis | ein Effekt aus 18a an mehreren Einheiten |
 
-**Das ist dieselbe verknüpfte Bedingung wie beim Spieler — nur ohne Spieler.** Und genau daran zeigt sich, ob dein Fähigkeitensystem sauber gebaut ist: Wenn „darf diese Fähigkeit jetzt eingesetzt werden?" eine Funktion ist, die einen Wahrheitswert liefert, dann kann sie jeder aufrufen — dein Befehl genauso wie eine `update()`-Methode. Wenn die Prüfung dagegen in deiner Befehlsverarbeitung verstreut liegt, musst du sie für die KI ein zweites Mal schreiben.
+⚠️ **Der Durchschlag ist nicht das Schnellfeuer aus Etappe 6** — das Schnellfeuer ist ein gekaufter zweiter Schuss für den Helden, der Durchschlag eine gelernte Fähigkeit mit Abklingzeit, die eine Linie trifft. Die Abgrenzung steht im Guide als Tabelle.
 
-**Das ist eine Beobachtung, keine Anweisung.** Wenn du merkst, dass du dieselbe Bedingung zweimal geschrieben hast, ist das die Erkenntnis dieser Etappe — und der Grund, warum in Etappe 23 Funktionen zu Werten werden.
+**Schwere Munition** ist ein zweiter Schlüssel im `vorrat` und eine Depotware wie jede andere — der Architekturtest aus Etappe 5 zum vierten Mal. **Die Stufe entscheidet, ob du Minen legen *kannst*. Die schwere Munition entscheidet, wie oft.** Nur der Held bezahlt; die Kameraden sind durch ihre Abklingzeit begrenzt.
 
-**Und damit ist die Trupp-KI fertig.** Weiter geht sie in diesem Plan nicht. Rückzug, Fokusfeuer, Formationen, Absprachen — alles reizvoll, alles ein Abend, nichts davon lehrt dich Python, das nicht schon woanders steht. Nach Etappe 27 gehört das Spiel dir; dann kannst du daran bauen, so lange du willst.
+⚠️ **Keine Traglast, keine Rucksackverwaltung.**
 
-**Lernziele:**
-- Was gibt `a or b` zurück, wenn `a` truthy ist?
-- Warum wird der rechte Teil manchmal gar nicht ausgewertet?
-- Wo ist das gefährlich (wenn `0` ein gültiger Wert ist)?
-- Wo speicherst du einen Statuseffekt — bei der Einheit oder bei der Welt? Was spricht wofür?
-- Warum ist „Effekt läuft ab" schwerer zu testen als „Effekt ist aktiv"?
+**Und jetzt wird der Trupp klug — genau einmal und dann nicht mehr.** Dürfen und wollen sind zwei Fragen: `kann_einsetzen()` gilt für alle und steht einmal in `Marine`; `will_einsetzen()` steht in jeder Unterklasse und gilt nur für Kameraden — der Medic heilt, wenn jemand unter der Hälfte ist, der Heavy schießt durch, wenn er mindestens zwei träfe. **Weil die Prüfung aus 18b eine Funktion ist, muss sie für die KI nicht ein zweites Mal geschrieben werden.** Und die doppelte Zielsuche, die dabei entsteht, ist die Beobachtung, auf die Etappe 23 zeigt.
 
-**🧠 Entwicklerfrage:** *Wo gehört Zustand hin?* Ein brennender Gegner — ist das eine Eigenschaft des Gegners oder ein Eintrag in einer Effektliste der Welt? Beides funktioniert. Entscheide dich, schreib die Begründung auf, und schau in Etappe 22 nach, ob sie noch trägt.
+**Damit ist die Trupp-KI fertig.** Rückzug, Fokusfeuer, Formationen — nach Etappe 27.
 
-**Commit:** `Etappe 18: Fähigkeiten und Statuseffekte`
+---
+
+**Lernziele (Auswahl, der Guide hat siebzehn):**
+- Wo wohnt ein Statuseffekt — und was spricht für die anderen beiden Modelle?
+- Warum wird `schaden` beim Erschüttern nicht halbiert? ← die wichtigste
+- Was heißt „Dauer 3" in deinem Spiel, beim Helden und beim Kameraden?
+- Warum darf Vaporium keine Voraussetzung einer Fähigkeit sein, aber ihren Einsatz bezahlen?
+- Was gibt `a or b` zurück, wenn `a` truthy ist — und wo ist das gefährlich?
+- Warum bezahlt `setze_ein()` erst nach der Wirkung?
+- Was passiert, wenn in `wirke()` ein `return True` fehlt?
+- Was unterscheidet das Schnellfeuer vom Durchschlag?
+
+**Transferaufgabe (15 Min, zu 18a):** ein Gewächshaus mit Pflanzen, die Zustände mit Ablaufdatum tragen. **Leseübung, Stufe 3 (15 Min, zu 18b):** eine Kletterhalle, deren Kursbuchung Voraussetzungen als Mengen prüft — *warum ist sie so gebaut?*
+
+**🧠 Entwicklerfrage:** *Wo gehört Zustand hin — zur Einheit oder zur Welt?* Effekte, Abklingzeiten, Minen, der mobile Turm: sechs Antworten auf dieselbe Frage. Welche Regel steckt dahinter, und wo bricht sie? Zwei bis fünf Sätze in `GELERNT.md`; in Etappe 22 kommt sie zurück.
+
+**Commits:** `Etappe 18a: Statuseffekte` · `Etappe 18b: Skillpunkte und Voraussetzungen` · `Etappe 18c: Die Fähigkeiten wirken` *(am Schnitt darf `Etappe 18c: Heilung, Durchschlag, Granate` dazwischen)*
 
 ---
 
 ## Etappe 19 — Speichern und Laden
 
-**Neue Syntax:** Datei-I/O, `json`, `pathlib`
+**Neue Syntax:** 19a: `import json` · `from pathlib import Path` · `Path(...) / "..."` · `.exists()` · `.mkdir(exist_ok=True)` · `with open(..., encoding="utf-8") as f:` · `json.dump` / `json.load` · `sorted()` — 19b: `tuple()` · `als_daten()` und `aus_daten()` · ein Verweis als Stelle — 19c: `.unlink()` · 🧠 neu säen beim Speichern · 👀 atomares Schreiben
 
-| 🔨 Bauen | 🧠 Verstehen | 👀 Nur erkennen |
-|---|---|---|
-| Speichern und Laden mit `json`, `pathlib`, `with` · `save_version` | Warum Set und Tuple beim Laden nicht mehr da sind | Atomares Schreiben über eine temporäre Datei |
+**Dreigeteilt.** Der Handgriff — Datei auf, Werte rein, Datei zu — ist in 19a in drei Konzepten erledigt. Der Rest der Etappe steckt in zwei Fragen, die kein Werkzeug beantwortet: **Was gehört überhaupt in den Spielstand?** Und: **Kommt beim Laden heraus, was hineinging?**
 
-Kompletter Weltzustand in eine Datei und zurück — inklusive halb fertig gebauter Geschütze, laufender Nachschubzähler, Statuseffekte mit Restdauer, freigeschalteter Fähigkeiten, erkundeter Vorfeldfelder.
+| | 🔨 Bauen | 🧠 Verstehen | 👀 Nur erkennen |
+|---|---|---|---|
+| **19a** | `json`, `pathlib`, `with open` · die Welt-Werte speichern und laden · eine Versionsnummer | Serialisierung ist eine Abbildung — und sie verliert etwas · Zustand gegen Inhalt gegen Bild | `pickle` |
+| **19b** | `als_daten()`/`aus_daten()` an jeder Klasse · Verweise als Stelle · die Rundreise | Warum man ein Objekt nicht zweimal speichern darf · was der Konstruktor wiederherstellt, speichert man nicht | — |
+| **19c** | Laden beim Start, weitermachen mitten in der Welle · `beenden` speichert · der Beweislauf | Zustand wird gespeichert, Ereignisse nicht · reicht der Seed? · ein halb geschriebener Spielstand | atomares Schreiben |
 
-**Die wichtigste Einsicht dieser Etappe — und sie ist präziser, als sie klingt:**
+---
 
-JSON ist **nicht** „Python-Objekte in anderer Form". JSON kennt genau sechs Dinge: Text, Zahl, Wahrheitswert, `null`, Liste, Objekt (≈ Dictionary). Deine `Marine`-Instanz ist nichts davon. Ein Set auch nicht. Ein Tuple auch nicht — und deine Positionen sind Tuples.
+### 19a — Dateien und JSON
 
-Du musst also selbst **entscheiden, wie sich dein Objekt als solche Daten darstellen lässt** — und wie du es daraus wieder herstellst. Das ist eine Design-Entscheidung, keine Übersetzung.
+**Die Design-Entscheidung zuerst:** JSON von Hand übersetzt, `pickle` oder ein eigenes Textformat? Der Plan baut JSON — weil ein Spielstand das Programm überdauern soll, auch das umgebaute, und weil man ihn im Editor lesen kann. `pickle` wird nur erkannt: bequem, unlesbar, und beim Laden fremder Dateien gefährlich. **Automatisch zukunftssicher ist aber auch JSON nicht:** Weil der Klassenname als Kennung im Spielstand steht, bricht ein Umbenennen auch hier — nur sichtbar und mit einer Zeile reparierbar.
 
-**Der Begriff dafür ist Serialisierung, und er ist eine Abbildung mit vier Stationen:**
+**Warum `pathlib` und nicht einfach Strings?** Ein Pfad ist kein Text, der zufällig Schrägstriche enthält. Er kennt seine Trennzeichen, weiß, ob es ihn gibt, und legt Ordner an. Dieselbe Einsicht wie bei `"40"` gegen `40` in Etappe 1, eine Ebene höher. Und die Frage aus Etappe 7: Ein relativer Pfad meint den Ordner des Terminals.
 
-```
-Python-Objekt  →  einfache Daten  →  JSON-Text  →  einfache Daten  →  Python-Objekt
-     ↑                                                                      ↓
-     └──────────────── Kommt hier dasselbe an wie oben? ────────────────────┘
-```
-
-**Die Frage, an der alles hängt: Ist diese Abbildung verlustfrei?** Und die Antwort ist nein, wenn du nicht aufpasst:
+**Die wichtigste Einsicht — JSON kennt sechs Dinge**, und drei aus deinem Spiel kommen nicht zurück, wie sie hineingingen: **Ein Tuple wird eine Liste** — und `[3, 2] == (3, 2)` ist `False`, still. **Ein Set kommt gar nicht erst an** — `TypeError`. **Ein Zahlenschlüssel wird Text.** Dazu `None` ↔ `null`, die einzige verlustfreie Übersetzung.
 
 ```
-(4, 2)        →  [4, 2]      →  beim Laden eine Liste, kein Tuple
-{"a", "b"}    →  ["a", "b"]  →  beim Laden eine Liste, kein Set — Duplikate wieder möglich
+Python-Objekt  →  einfache Werte  →  JSON-Text  →  einfache Werte  →  Python-Objekt
+      └───────────────── Kommt unten an, was oben losging? ────────────────┘
 ```
 
-Python weiß beim Laden nicht mehr, dass da mal ein Tuple stand. Das ist keine Schwäche von JSON, sondern der Preis dafür, dass die Datei auch von etwas gelesen werden kann, das kein Python ist. **Du musst den Verlust also selbst rückgängig machen** — und dafür musst du wissen, welche deiner Werte betroffen sind. Deine Positionen sind Tuples. Deine Freischaltungen sind ein Set. Deine erkundeten Felder sind ein Set aus Tuples, also gleich doppelt.
+> **Beim Laden ist nichts automatisch das, was du gespeichert hast.**
 
-**Der Reflex, den du daraus mitnimmst:** Beim Laden ist nichts, was du bekommst, automatisch das, was du gespeichert hast. Genau diese Skepsis brauchst du in Etappe 25 noch einmal — dort gegenüber Dateien, die du gar nicht selbst geschrieben hast.
+**`sorted()`** macht aus einem Set eine Liste mit fester Reihenfolge — sonst redet `diff`, obwohl sich nichts geändert hat (17b, Konzept 11).
 
-**Der Fall, an dem du es merkst:** Ein Geschütz, das bei `bauzeit = 40` gerade bei `alter = 17` steht. Speicherst du „im Bau" oder „noch 23 Ticks"? Beides funktioniert. Nur eines überlebt es, wenn du in Etappe 22 die Bauzeit änderst.
+⭐⭐ **Das Herzstück ist kein Code, sondern eine Inventur:** jedes Attribut jeder Klasse, drei Fragen — *Zeigt es auf ein anderes Objekt? Ändert es sich im Spiel? Stellt der Konstruktor es wieder her?* **In den Spielstand gehört jeder Wert, der sich von dem unterscheiden kann, was der Konstruktor hinstellt** — und nichts, was Inhalt ist. Wer Sektorbeschreibungen mitspeichert, friert sie ein: Jede spätere Verbesserung im Code wirkt bei alten Spielständen nicht.
 
-**Und eine Zeile, die du heute schreibst und in zwei Monaten feierst:**
+**Und eine Zeile, die du heute schreibst und in Etappe 22 feierst:** `SPIELSTAND_VERSION = 1`, als erster Eintrag im Spielstand. Heute überflüssig. In drei Wochen der Unterschied zwischen einem `KeyError` mitten im Laden und dem Satz *„Dieser Spielstand ist Version 1, ich verstehe Version 2."*
 
-```python
-{"save_version": 1, ...}
-```
+---
 
-Eine Versionsnummer im Spielstand. Heute völlig überflüssig — du hast genau ein Format.
+### 19b — Objekte werden Daten
 
-In Etappe 22 änderst du deine Tabellen, in 25 kommt der Content aus JSON, und plötzlich passt ein Spielstand von letzter Woche nicht mehr zum Programm von heute. Ohne Versionsnummer bekommst du dann einen `KeyError` mitten im Laden und weißt nicht, ob dein Code kaputt ist oder die Datei alt. Mit Versionsnummer bekommst du: *„Dieser Spielstand ist Version 1, ich verstehe Version 2."*
+Jede Klasse beschreibt sich selbst: `als_daten()` gibt ein Dictionary zurück, `aus_daten(d)` überschreibt ein schon erzeugtes Objekt daraus — in Unterklassen mit `super()` zuerst. Der Klassenname steht als Wort im Spielstand (`type(self).__name__`), beim Laden macht das Dictionary *Kennung → Klasse* aus Etappe 11b wieder eine Klasse daraus. 🧠 **Das Erzeugen ist die eine Stelle, an der nach dem Typ gefragt werden muss** — es gibt noch kein Objekt, das man fragen könnte.
 
-Das ist kein Lehrbuchproblem. **Das ist das häufigste Problem, das Software mit gespeicherten Daten überhaupt hat**, und du löst es heute mit einer Zeile. Ob du später auch migrierst — alte Stände umrechnen statt abweisen — kannst du dann entscheiden. Erkennen musst du das Problem, bevor es dich trifft.
+⭐⭐ **Die eigentliche Arbeit steckt in den Verweisen.** Dein Held steht in `welt.trupp` **und** in `welt.held`, der mobile Turm auch, jede Mine zeigt auf ihren Engineer. Wer das zweimal speichert, lädt zwei Helden — und merkt es erst, wenn Schaden nicht angezeigt wird. **Gespeichert wird die Stelle in der Liste** (`.index()`), geladen wird in zwei Durchgängen — erst alle Objekte, dann die Verweise —, und geprüft wird mit `is` aus Etappe 10.
 
-**Warum `pathlib` und nicht einfach Strings?** Weil `"saves/" + name + ".json"` auf Windows mit Backslashes bricht, bei doppelten Schrägstrichen still das Falsche tut und dir kein `mkdir`, kein `.exists()` und kein `.stem` gibt. Ein Pfad ist kein Text, der zufällig Schrägstriche enthält — er ist ein eigener Datentyp mit eigenen Operationen. Dieselbe Einsicht wie bei `"40"` gegen `40` in Etappe 1, nur eine Ebene höher.
+**Was der Konstruktor weiß, speichert man nicht:** Von einem Item nur die Kennung; beim Laden entsteht es auf demselben Weg wie beim Kaufen. Dafür wird das Erzeugen von Items in **eine** Funktion gezogen.
 
-**Neu dabei: `pathlib`.** Pfade sind kein String-Basteln:
+**Die Rundreise:** speichern, in eine frische Welt laden, wieder speichern — `diff` zwischen beiden Dateien muss schweigen. ⚠️ **Und die Frage dazu, die zu 19c führt:** Ein Attribut, das in beiden Methoden fehlt, übersteht die Rundreise unbemerkt. **Sie beweist, dass Speichern und Laden zueinander passen — nicht, dass sie vollständig sind.**
 
-```python
-from pathlib import Path
-SAVE_DIR = Path("saves")
-SAVE_DIR.mkdir(exist_ok=True)
-```
+---
 
-**Neu dabei: `with`.** Ab hier öffnest du Dateien nie wieder anders:
+### 19c — Das Spiel überlebt das Beenden
 
-```python
-with open(pfad, "w", encoding="utf-8") as f:
-    json.dump(daten, f, ensure_ascii=False, indent=2)
-```
+**⭐⭐ Die Design-Entscheidung: Reicht der Seed?** Nein. Er legt fest, wo die Folge beginnt, nicht, wo das Spiel in ihr steht (17b, Konzept 11). Drei Wege: hinnehmen, den inneren Zustand von `random` speichern (👀 `getstate()`), oder **beim Speichern neu säen** und diesen Seed mitspeichern. Der Plan baut den dritten — und fasst die Regel aus 17b genauer: *Gesät wird am Anfang, beim Speichern und beim Laden, jedes Mal mit einem Seed aus dem Spielstand. Nie mitten im Lauf auf einen alten.*
 
-`with` sorgt dafür, dass die Datei **auch dann geschlossen wird, wenn mittendrin ein Fehler auftritt**. Und `encoding="utf-8"` schreibst du *immer* hin.
+**Zustand wird gespeichert, Ereignisse nicht.** Ein Spielstand ist ein Foto. Das schützt dich, wo die Meldung eines Zählers innerhalb des `> 0`-Blocks steht (Etappe 13). Und es erwischt dich, wo ein Übergang durch Vergleich erkannt wird: **Die Stufe muss gespeichert werden, obwohl sie aus der Erfahrung folgt** — sonst zahlt der nächste Abschuss alle Skillpunkte noch einmal aus. Gespeichert wird nur zwischen zwei Takten; die Tick-Reihenfolge steht im Code, nicht im Spielstand.
 
-👀 **Nur erkennen — Bonus, wenn der Rest steht:** Was passiert, wenn beim Speichern der Strom ausfällt? Dann steht eine halb geschriebene Datei da, und der Spielstand ist unrettbar — schlimmer als gar keiner. Die übliche Lösung ist zwei Zeilen lang: erst in eine temporäre Datei schreiben, dann umbenennen. **Umbenennen ist unteilbar, Schreiben nicht.**
+**Zwei Wege ins Spiel, ein Weg hindurch:** Die Startfrage *Spielstand laden?* kommt immer — auch ohne Datei —, damit jede Befehlsdatei gleich beginnt. Beide Anfänge treffen sich an der Wellenschleife, die nach dem Laden bei der gespeicherten Welle beginnt. **Und die gespeicherte Welle läuft schon:** Stehen beim Wellenstart Gegner auf dem Feld, wird nicht neu erzeugt. `beenden` speichert. Was nach einem verlorenen Spiel mit dem letzten Spielstand passiert — Rücksetzpunkt oder gelöscht —, entscheidet der Lernende.
 
-Das heißt *atomares Schreiben*, es steckt in jedem ernsthaften Programm, das Dateien anfasst, und du musst es heute nicht einbauen. Wissen, dass es das Problem gibt, reicht vollkommen — sonst lernst du an einem Abend JSON, Serialisierung, Dateizugriff und Absturzsicherheit gleichzeitig.
+⭐⭐ **Der Beweislauf:** Lauf A spielt, speichert mittendrin und spielt weiter. Lauf B lädt und spielt genau die Züge nach dem Speichern. Mit festem Seed muss `diff` **genau einen Unterschied ganz oben** melden — danach sind beide Läufe Zeile für Zeile gleich, über Wellenende, Bericht, Ereignis und die nächste zufällige Welle hinweg. Jeder fehlende Wert, der irgendetwas Sichtbares verändert, fällt hier auf. **`diff` beweist dabei nicht, dass zwei Welten gleich sind — nur, dass sie sich in diesem Versuch gleich verhalten.**
 
-**Erweitern ohne zu zerstören:** Erweitere das Speichern so, dass Statuseffekte mitgesichert werden — ohne die bestehende Speicherlogik umzuschreiben.
+🧠 **Ein halb geschriebener Spielstand ist schlimmer als keiner.** `"w"` leert die Datei beim Öffnen; scheitert das Schreiben, ist der alte Stand weg. Erst das ganze Dictionary bauen, dann die Datei öffnen — die Transaktion aus Etappe 5. Gegen Stromausfall hilft nur 👀 **atomares Schreiben**: in eine andere Datei schreiben, dann umbenennen. Gebaut wird es nur als Kür; `finally` aus Etappe 20 ersetzt es nicht.
 
-**Lernziele:**
-- Welche sechs Datentypen kennt JSON?
-- Wie stellst du ein Set in JSON dar — und wie machst du es beim Laden rückgängig?
-- Was wird aus deinen Positions-Tuples, wenn du sie speicherst und wieder lädst?
-- Was macht `with` genau, und was passiert ohne?
-- Warum ist ein halb geschriebener Spielstand schlimmer als gar keiner?
+---
 
-**🧠 Entwicklerfrage:** *Was muss ein Spielstand garantieren?* Dass er lädt? Dass er *denselben* Spielzustand ergibt? Dass er auch in drei Monaten noch lädt, wenn dein Code sich verändert hat? Die drei Antworten führen zu drei verschiedenen Dateiformaten.
+**Lernziele (Auswahl, der Guide hat achtzehn):**
+- Welche drei Sorten Werte kennt dein Programm, und welche gehört in einen Spielstand?
+- **Woran erkennst du, ob ein Attribut in den Spielstand gehört?** ← die wichtigste
+- Was wird aus einem Tuple, einem Set und einem Zahlenschlüssel?
+- Was passiert, wenn ein Objekt, das an zwei Stellen steht, zweimal gespeichert wird?
+- Was beweist die Rundreise, und was nicht?
+- Warum reicht es nicht, den Seed vom Spielbeginn zu speichern?
+- Warum ist ein halb geschriebener Spielstand schlimmer als keiner?
 
-**Commit:** `Etappe 19: Der Vorposten überlebt das Beenden`
+**Transferaufgabe (15 Min, zu 19a):** ein Gartenbeet mit Tuple, Set und Zahlenschlüsseln speichern und so laden, dass es `==` dem ursprünglichen ist. **Leseübung, Stufe 3 (15 Min, zu 19b):** eine Bibliothek, die Verweise über Ausweisnummern speichert — *warum ist sie so gebaut, und was fehlt ihr?*
+
+**Kaputtmachen, darunter:** ein vergessenes `sorted()`, das den alten Spielstand halb überschreibt · der Held zweimal gespeichert · die Stufe auf beiden Seiten weggelassen (die Rundreise schweigt, der Beweislauf nicht) · ein von Hand manipulierter Spielstand in vier Varianten — welche knallt beim Laden, welche später, welche nie?
+
+**🧠 Entwicklerfrage:** *Was muss ein Spielstand garantieren?* Dass er lädt? Dass er *denselben* Zustand ergibt? Dass er auch in drei Monaten noch lädt, wenn dein Code sich verändert hat? Die drei Antworten führen zu drei verschiedenen Dateiformaten.
+
+**Commits:** `Etappe 19a: Dateien und JSON` · `Etappe 19b: Objekte werden Daten` · `Etappe 19c: Das Spiel überlebt das Beenden`
 
 ---
 
 ## Etappe 20 — Wenn der Spieler Unsinn eingibt
 
-**Neue Syntax:** `try` / `except`, eigene Exceptions, Validierung
+**Neue Syntax:** 20a: `try` / `except Fehlerklasse` · `except … as e` · mehrere `except` · `except json.JSONDecodeError` · 👀 Fehlerklassen haben Oberklassen — 20b: eine eigene Fehlerklasse · `raise` · `else` beim `try` — 20c: `assert` (hochgestuft aus 7b) · 👀 `finally` · 👀 `raise` allein · 👀 `logging`
 
-| 🔨 Bauen | 🧠 Verstehen | 👀 Nur erkennen |
-|---|---|---|
-| `try`/`except` an den richtigen Stellen · **eine** eigene Exception-Klasse | Wann prüfen (`if`), wann fangen (`try`) | Exception-Hierarchien · `finally` · `logging` |
+**Dreigeteilt, und die Teilung folgt einer Frage: Wer hat den Fehler verursacht?** 20a fängt Fehler, die die **Welt** verursacht — eine Eingabe, eine Datei. 20b wirft Fehler, die der **Spieler** verursacht — ein Befehl, der gerade nicht geht. 20c prüft Fehler, die nur **dein Programm** verursachen kann — und fängt sie ausdrücklich nicht.
 
-Kein Absturz mehr. Unbekannte Befehle, zu wenig Vaporium, volles Inventar, ein Bauplatz, auf dem schon etwas steht, ein Sektor, der nicht mehr existiert — alles wird abgefangen und erklärt.
+| | 🔨 Bauen | 🧠 Verstehen | 👀 Nur erkennen |
+|---|---|---|---|
+| **20a** | `try`/`except` um genau die Zeilen, die in der Welt scheitern dürfen · die Chaos-Datei | Fehlerbehandlung ist nicht Debugging · eng fangen · prüfen oder fangen | Fehlerklassen haben Oberklassen |
+| **20b** | Eine eigene Fehlerklasse · `raise` · **eine** Stelle, die dem Spieler Fehler zeigt · `else` beim `try` | Ein Fehler wandert nach oben · wann ein Grund, wann eine Exception · wem ein Fehler gehört | — |
+| **20c** | Invarianten als `assert` · ein Debug-Weg mit Schalter | Behauptung gegen Behandlung | `finally` · `logging` |
 
-**Wichtige Abgrenzung:** Das hier ist Fehler*behandlung*. Debugging (Etappe 8, 16) ist etwas anderes. Fehlerbehandlung heißt: das Programm bleibt stehen statt abzustürzen. Debugging heißt: du findest heraus, warum es sich falsch verhält. Verwechsle die beiden nie.
+**Wichtige Abgrenzung:** Das hier ist Fehler*behandlung*. Debugging (Etappe 8, 16) heißt herausfinden, *warum* sich das Programm falsch verhält. Fehlerbehandlung ist für Fehler, die passieren **dürfen**.
 
-**Eine eigene Exception, und die ist erstaunlich billig:**
+---
 
-```python
-class SpielFehler(Exception):
-    pass
-```
+### 20a — Fangen
 
-Drei Wörter, und du hast einen Fehlertyp, der nur dir gehört. `raise SpielFehler("Dafür reicht dein Vaporium nicht")` an der Stelle, wo es auffällt — `except SpielFehler` an der Stelle, wo du damit umgehen willst. Dazwischen darf beliebig viel Code liegen, und du musst keinen Rückgabewert durchreichen.
+Neunzehn Etappen lang war ein Absturz beim Entwickeln ein Fund. **Ab heute trennst du zwei Sorten:** den Fehler in deinem Programm, den du **sehen** willst, und den Fehler in der Welt — `drei` statt `3`, eine beschädigte Datei —, den du nur **behandeln** kannst.
 
-👀 **Nur erkennen — Hierarchien.** Man kann davon Unterklassen bilden (`class NichtGenugVaporium(SpielFehler)`) und dann wahlweise einen einzelnen Fall oder die ganze Familie fangen. Jede ernsthafte Bibliothek macht das, und es ist der Grund, warum du in fremdem Code `except json.JSONDecodeError` liest. **Bauen musst du heute genau eine Klasse.** Wenn dein Spiel später mehr Unterscheidung braucht, merkst du das — und dann kostet es zwei Zeilen.
+**Die wichtigste Regel dieser Etappe:** *Fang nur den Fehler, den du erwartest — und nur um die Zeile, an der du ihn erwartest.*
 
-👀 **Nur erkennen: `finally`.** Du sollst es nicht einbauen — du sollst wissen, was es tut, wenn es dir begegnet:
+**🚨 KI-Code-Warnsignal — und zwar das häufigste von allen:** `except Exception as e: print("Fehler")`. Sieht verantwortungsvoll aus und verwandelt einen Typ 1 in einen Typ 3: Ein Tippfehler im Code meldet sich als *„Bitte eine Zahl"*. Die Frage daran ist nie *„ist das schlimm?"*, sondern: **Welchen Fehler wollte der Autor hier abfangen — und warum steht das nicht da?** Nacktes `except:` fängt sogar `Strg + C`.
 
-```python
-try:
-    spiele()
-finally:
-    speichere_automatisch()     # läuft IMMER — auch bei Absturz, auch bei return
-```
+**Prüfen oder fangen?** `in`, `.get()` und `.exists()` prüfen vorher; `try` fängt hinterher. **Faustregel:** Prüf, wenn die Frage einfach ist. Fang, wenn man es nur durch Versuchen erfährt — ob `"12"` eine Zahl ist, weiß am zuverlässigsten `int()`. Und danach kommt oft noch ein `if`: `int("-3")` klappt, und trotzdem kann niemand minus drei Medkits kaufen.
 
-Die vier Schlüsselwörter in einer Zeile: `try` = versuche · `except` = falls Fehler · `else` = falls kein Fehler · `finally` = danach in jedem Fall.
+**Die Chaos-Datei** — Befehle, die dein Spiel kaputt machen sollen, mit zwei Spalten: was abstürzt, und was **nicht** abstürzt, aber das Falsche tut. Die zweite findet kein Traceback.
 
-Ein naheliegender Einsatz wäre der automatische Spielstand beim Beenden — nach zwölf überstandenen Wellen soll ein Absturz nicht alles kosten.
+**Beim Laden:** Ein `JSONDecodeError` wird gefangen, ein `KeyError` aus `aus_daten()` nach Wahl — mit der Warnung, dass derselbe `KeyError` auch aus einem Tippfehler im eigenen Code kommen kann. Ein falscher **Wert** im Spielstand (`"viel"` statt einer Zahl) wird heute nicht erkannt; das ist die *strukturelle* Prüfung aus Etappe 25.
 
-**Und jetzt die Präzisierung, die den Unterschied zwischen „gelesen" und „verstanden" ausmacht.** Der Kommentar oben sagt „läuft IMMER", und das ist die übliche Kurzfassung. Sie stimmt nicht ganz:
+---
 
-| `finally` läuft | `finally` läuft nicht |
-|---|---|
-| bei einer Python-Ausnahme | bei `kill -9` oder Task-Manager |
-| bei `return`, `break`, `continue` | bei Stromausfall oder Systemabsturz |
-| bei `Strg+C` (`KeyboardInterrupt`) | bei `os._exit()` |
-| beim normalen Ende des Blocks | wenn der Python-Prozess selbst abstürzt |
+### 20b — Werfen
 
-**Die rechte Spalte ist der Grund, warum die temporäre Datei aus dem Abschnitt oben trotzdem nötig ist.** `finally` schützt dich vor Programmfehlern, nicht vor der Welt. Wer das verwechselt, baut sich eine Sicherheit, die er nicht hat — und das ist gefährlicher als gar keine, weil man aufhört, weiter nachzudenken.
+**Eine eigene Exception, und die ist erstaunlich billig:** eine Klasse `SpielFehler`, die von `Exception` erbt und nur einen Docstring enthält. `raise SpielFehler("Dafür reicht dein Vaporium nicht.")` an der Stelle, wo es auffällt — `except SpielFehler` an **genau einer** Stelle, der Befehlsverarbeitung. Dazwischen darf beliebig viel Code liegen, und niemand reicht etwas durch: **Ein Fehler wandert den Aufrufstapel hinauf bis zum ersten passenden `except`.**
 
-**Merk dir die Form dieser Erkenntnis, sie kommt noch oft:** Eine Zusage in der Dokumentation gilt unter Bedingungen. Die Frage ist nie „was verspricht es?", sondern „unter welchen Umständen bricht das Versprechen?"
+**Grund oder Exception?** Etappe 18b hat einen Weg gebaut, einen Grund zu tragen: *Grund oder `None`*. Beide bleiben: **Wer fragt, bekommt einen Grund** — ein Kamerad, für den *„nein"* normal ist. **Wer verlangt, bekommt einen Fehler** — der Spieler, dessen Befehl abgebrochen wird. Der Befehl fragt `kann_lernen()` und macht aus dem Grund einen Fehler.
 
-**🚨 KI-Code-Warnsignal — und zwar das häufigste von allen:**
+⭐ **Die Design-Entscheidung: Nur Wege des Spielers werfen.** Ein `SpielFehler`, den ein Kamerad, der Tick oder die Pause auslöst, hat keinen Spieler, dem man ihn zeigt — und niemanden, der ihn fängt.
 
-```python
-try:
-    irgendwas()
-except Exception as e:
-    print("Fehler")
-```
+**Die Unterscheidung, die dieses Spiel besonders braucht:** *„Das ist kein Befehl"* ist etwas anderes als *„Das geht hier gerade nicht"*. `kaufe medkit` ist ein gültiger Befehl — nur nicht außerhalb des Depots und nicht ohne Vaporium. Drei Fehler, drei Sätze.
 
-Sieht verantwortungsvoll aus. Ist es nicht. **Frag dich: Was ist hier gerade verloren gegangen?**
+**Und `else` beim `try`:** Der Tick läuft nur, wenn der Befehl gelungen ist. **Ein abgesagter Befehl kostet keine Runde** — die Antwort auf die Frage aus Etappe 12.
 
-Die Antwort: die Information, *welcher* Fehler aufgetreten ist und *wo*. Ein Tippfehler im Variablennamen, eine kaputte Datei und ein Programmierfehler in einer ganz anderen Funktion — alle drei landen in derselben Zeile und erzeugen dieselbe nichtssagende Meldung. Der Traceback, an dem du seit Etappe 1 alles ablesen konntest, ist weg.
+---
 
-Damit hast du einen Fehler vom Typ 1 in einen vom Typ 3 verwandelt: Das Programm stürzt nicht mehr ab und tut trotzdem das Falsche, nur eben leise.
+### 20c — Prüfen und trennen
 
-KI-generierter Code produziert dieses Muster besonders gern, weil es defensiv wirkt und jeden Test überlebt. Wenn du es siehst, ist die Frage nie „ist das schlimm?", sondern immer: **Welchen Fehler wollte der Autor hier eigentlich abfangen — und warum steht das nicht da?**
+**Die Invarianten seit Etappe 5 werden `assert`** — Tabellen-Invarianten einmal beim Start, Zustands-Invarianten nach jedem Tick. **Ein `AssertionError` wird nie gefangen:** Er ist kein Fehler des Spielers, sondern der Beweis, dass dein Programm etwas getan hat, was es nach deinen eigenen Regeln nie tun dürfte. Und weil `python -O` Behauptungen abschaltet, prüft ein `assert` nie eine Eingabe.
 
-Ein sauberes `except` nennt seinen Fehler. Wenn du wirklich alles fangen musst, dann gib wenigstens `e` mit aus, oder lös den Fehler mit `raise` wieder aus, nachdem du dein Aufräumen erledigt hast.
-
-**Die Unterscheidung, die dieses Spiel besonders braucht:** „Das ist kein Befehl" ist etwas anderes als „Das geht hier gerade nicht". `baue geschuetz` ist ein gültiger Befehl — nur nicht mitten in einer Welle und nicht ohne Vaporium und nicht auf einem besetzten Feld. Drei verschiedene Fehler, drei verschiedene Meldungen. Wer sie zusammenwirft, baut ein Spiel, das der Spieler nicht versteht.
-
-**Zehn Minuten Leseeinheit: `print()` gegen `logging`.** Du baust heute kein Logging-System — du sollst nur eines lesen können. In fremdem Code stehen Zeilen wie `logger.warning(...)`, und die Frage ist nicht, wie man das schreibt, sondern was es bedeutet:
+**Zwei Adressaten, zwei Wege:** Entwicklerausgaben — die Debug-Zeile mit dem Seed aus 17b — gehen über `welt.debug()` mit einem Schalter `DEBUG`. 👀 Das fertige Werkzeug dafür heißt `logging`:
 
 | Stufe | Heißt | Beispiel bei dir |
 |---|---|---|
 | `debug` | für Entwickler, im Normalbetrieb aus | „Gegner 3 rückt auf Feld (4,2)" |
 | `info` | normaler Ablauf | „Welle 7 beginnt" |
-| `warning` | ungewöhnlich, läuft aber weiter | „Bauauftrag ohne Platz" |
-| `error` | etwas ist fehlgeschlagen | „Speicherstand nicht lesbar" |
+| `warning` | ungewöhnlich, läuft aber weiter | „Spielstand beschädigt, neues Spiel" |
+| `error` | etwas ist fehlgeschlagen | „Spielstand nicht lesbar" |
 
-Der Unterschied zu `print()` ist der Schalter: Ein Log lässt sich **abstellen, filtern und in eine Datei umleiten**, ohne dass jemand Code ändert. Deshalb steht in ernsthaften Projekten kein `print()`. Wenn du eines Tages ein Programm bekommst, das nichts sagt — dann sagt es vermutlich etwas, nur auf einer Stufe, die gerade ausgeschaltet ist. Das zu wissen erspart dir eine unnötige Fehlersuche.
+👀 **`finally` — und die Präzisierung, die den Unterschied zwischen „gelesen" und „verstanden" ausmacht.** „Läuft immer" stimmt nicht ganz:
 
-**Lernziele:**
-- Unterschied `except Exception` ↔ `except:`?
-- Wann läuft `finally`, wann `else` beim `try`?
-- Warum eine eigene Exception-Klasse statt `raise Exception("...")`?
-- Wann prüfst du vorher (`if`), wann fängst du hinterher (`try`)?
-- Was kann ein Log, was `print()` nicht kann?
+| `finally` läuft | `finally` läuft nicht |
+|---|---|
+| bei einer Python-Ausnahme | bei `kill -9` oder Task-Manager |
+| bei `return`, `break` | bei Stromausfall oder Systemabsturz |
+| bei `Strg+C` | wenn der Python-Prozess selbst abstürzt |
 
-**Kaputtmachen:** Fang alles mit `except:` ab. Merke, warum das eine schlechte Idee ist — es verwandelt Fehler vom Typ 1 in Fehler vom Typ 3.
+**Die rechte Spalte ist der Grund, warum das atomare Schreiben aus Etappe 19 nötig bleibt.** Eine Zusage gilt unter Bedingungen. Die Frage ist nie „was verspricht es?", sondern „unter welchen Umständen bricht das Versprechen?"
+
+---
+
+**Lernziele (Auswahl, der Guide hat sechzehn):**
+- **Warum ist `except Exception` gefährlicher als gar kein `except`?** ← die wichtigste
+- Wann prüfst du vorher, wann fängst du hinterher?
+- Was passiert mit den Funktionen zwischen `raise` und dem passenden `except`?
+- Was ist der Unterschied zwischen `raise SpielFehler(...)` und `return SpielFehler(...)`?
+- Wann liefert eine Funktion einen Grund, wann wirft sie einen Fehler?
+- Was unterscheidet `assert` von `raise SpielFehler(...)`?
+- Wann läuft `finally` nicht?
+
+**Transferaufgabe (15 Min, zu 20a):** ein Pizza-Bestellautomat, der nie abstürzt — und neben jeder Stelle „geprüft" oder „gefangen". **Leseübung, Stufe 3 (15 Min, zu 20b):** ein Fahrkartenautomat mit eigener Fehlerklasse und einem `except Exception`, der einen Tippfehler dem Kunden zeigt.
+
+**Kaputtmachen, darunter:** alles fangen und einen Tippfehler einbauen · ein `SpielFehler` in `lerne_selbst()` · `return` statt `raise` · eine gefangene Behauptung · `assert` mit Klammern.
 
 **🧠 Entwicklerfrage:** *Welchen Fehler zeige ich dem Spieler, und welchen dem Entwickler?* „Dafür reicht dein Vaporium nicht" gehört ins Spiel. Ein `KeyError` in der Wellenlogik gehört nicht ins Spiel — aber verschwinden darf er auch nicht. Wohin damit?
 
-**Commit:** `Etappe 20: Kein Absturz mehr`
+**Commits:** `Etappe 20a: Fangen` · `Etappe 20b: Werfen` · `Etappe 20c: Prüfen und trennen`
 
 ---
 
@@ -2471,17 +2491,15 @@ Bis heute stehen deine Zahlen im Code verstreut: Schaden einer Fähigkeit im `if
 
 ```python
 FAEHIGKEITEN = {
-    "geschuetzturm": {"klasse": "engineer", "stufe": 3, "abklingzeit": 30,
-                      "kosten": {"schwere_munition": 20}},
-    "mine":          {"klasse": "engineer", "stufe": 1, "abklingzeit": 10,
-                      "kosten": {"schwere_munition": 15}},
-    "granate":       {"klasse": "soldat",   "stufe": 2, "abklingzeit": 12,
-                      "kosten": {"schwere_munition": 10}},
-    "durchschlag":   {"klasse": "heavy",    "stufe": 2, "abklingzeit": 15,
-                      "kosten": {"schwere_munition": 25}},
-    "heilung":       {"klasse": "medic",    "stufe": 1, "abklingzeit": 8,
-                      "kosten": {}},
-    "kopfschuss":    {"klasse": "soldat",   "stufe": 5, "passiv": True, "bonus": 15},
+    "heilung":      {"geraet": "Bio-Injektor",  "ab_level": 1, "flags": set(),
+                     "abklingzeit": 5,  "kosten": {}},
+    "mine":         {"geraet": "Multiwerkzeug", "ab_level": 1, "flags": set(),
+                     "abklingzeit": 4,  "kosten": {"schwere_munition": 1}},
+    "mobiler_turm": {"geraet": "Multiwerkzeug", "ab_level": 3, "flags": {"schwachpunkt_kriecher"},
+                     "abklingzeit": 12, "kosten": {"schwere_munition": 3}},
+    "standfest":    {"geraet": "Schweres MG",   "ab_level": 2, "flags": set(),
+                     "passiv": True, "schuetzt_vor": "erschuettert"},
+    # … und die übrigen Fähigkeiten aus Etappe 18
 }
 
 BASISTURM = {
@@ -2490,9 +2508,9 @@ BASISTURM = {
 }
 ```
 
-⚠️ **Sieh dir die erste Tabelle noch einmal an — sie ist der Beweis für *Die zwei Machtquellen*.** In jeder Zeile steht `stufe` **und** `kosten`, und sie tun verschiedene Dinge: `stufe` entscheidet, **ob** die Fähigkeit existiert, `kosten` entscheidet, **wie oft** sie einsetzbar ist. Erfahrung und Vaporium stehen nebeneinander, ohne sich zu überschneiden. **Wäre die Regel verletzt, sähe man es hier sofort** — etwa an einem Eintrag `{"stufe": 3, "bonus_schaden": 5}`, der eine Stufe in eine Zahl übersetzt.
+⚠️ **Sieh dir die erste Tabelle noch einmal an — sie ist der Beweis für *Die zwei Machtquellen*.** In jeder aktiven Zeile steht `ab_level` **und** `kosten`, und sie tun verschiedene Dinge: `ab_level` entscheidet, **ob** die Fähigkeit gelernt werden kann, `kosten` entscheidet, **wie oft** sie einsetzbar ist. Erfahrung und Vaporium stehen nebeneinander, ohne sich zu überschneiden. **Wäre die Regel verletzt, sähe man es hier sofort** — etwa an einem Eintrag `{"ab_level": 3, "bonus_schaden": 5}`, der eine Stufe in eine Zahl übersetzt. **Und das gelernte Passiv zeigt die erlaubte Form:** Standfest gibt keine größere Zahl, sondern eine neue Eigenschaft.
 
-**Und das Klassengerät steht in keiner dieser Tabellen.** Es hat keinen Preis und keine Stufe; es ist die Spalte `klasse`, nach der gefiltert wird. Aus dem String von Etappe 2 ist eine Zugangsbedingung geworden, ohne dass er je etwas anderes war als ein String.
+**Und das Klassengerät steht in keiner dieser Tabellen.** Es hat keinen Preis und keine Stufe; es ist der Wert in der Spalte `"geraet"`, gegen den verglichen wird. Aus dem String von Etappe 2 ist eine Zugangsbedingung geworden, ohne dass er je etwas anderes war als ein String.
 
 ⚠️ **Sieh dir die zweite Tabelle genau an: Das sind Stufen desselben Turms, keine verschiedenen Turmtypen.** Es gibt genau **einen** Turm in der Basis, und du baust ihn aus. Freies Bauen beliebig vieler Geschütze gehört ausdrücklich nicht in dieses Spiel — es ist ein Hero-Survival, kein Tower Defense. Der Turm ist eine Beigabe zu deiner eigenen Figur, keine Mechanik, die sie ersetzt.
 

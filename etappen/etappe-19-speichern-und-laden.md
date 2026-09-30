@@ -1,6 +1,6 @@
 # Etappe 19 — Speichern und Laden
 
-*v1.1.1 · 2026-09-30*
+*v1.1.2 · 2026-09-30*
 
 > **Block 3: Der Vorposten reagiert** · Etappe 19 von 30 · [← Etappe 18](etappe-18-faehigkeiten-und-statuseffekte.md) · [Lehrplan](../Vorposten_Lehrplan.md) · [Etappe 20 →](etappe-20-wenn-der-spieler-unsinn-eingibt.md)
 
@@ -49,7 +49,7 @@ Diese Etappe hat mehr offene Posten als jede andere vor ihr. **Das ist kein Zufa
 - **Etappe 1:** *Weltzustand wird gespeichert, nicht nur ausgegeben.* Heute im wörtlichen Sinn.
 - **Etappe 4 und 14a:** *Ist die Bahn der Zustand oder nur sein Bild?* Du hast dich damals für Positionen entschieden. Heute zahlt sich das aus: **Nur Zustand wird gespeichert, das Bild nicht.**
 - **Etappe 5:** *Ein Dictionary ist eine Zuordnung Schlüssel → Wert — und ein Dictionary im Dictionary ist genau die Form, in der JSON denkt.*
-- **Etappe 6:** *Sets und Tuples lassen sich nicht als JSON speichern.* Heute passiert es, und du löst es.
+- **Etappe 6:** *Sets und Tuples überleben JSON nicht.* Ein Set kommt gar nicht erst hinein, ein Tuple kommt als Liste zurück. Heute passiert es, und du löst es.
 - **Etappe 0:** In `.gitignore` gehört seit dem ersten Abend eine Zeile `saves/`. Heute entsteht der Ordner, den sie meint.
 
 **In 19b:**
@@ -214,7 +214,7 @@ Fast Python — aber nur fast. `True` heißt hier `true`, `None` heißt `null`, 
 print([3, 2] == (3, 2))       # False
 ```
 
-**Eine Liste ist nie gleich einem Tuple**, auch mit denselben Zahlen darin. Wer nach dem Laden eine geladene Position mit einem Tuple vergleicht, bekommt `False` — still, ohne Fehler, ein Typ 3. Und in einem Set als Eintrag wird eine Liste gar nicht erst angenommen: `TypeError: unhashable type: 'list'`, Etappe 14a.
+**Eine Liste ist nie gleich einem Tuple**, auch mit denselben Zahlen darin. Wer eine geladene Adresse mit einem Tuple vergleicht, bekommt `False` — still, ohne Fehler, ein Typ 3. Und in einem Set als Eintrag wird eine Liste gar nicht erst angenommen: `TypeError: unhashable type: 'list'`, Etappe 6, Konzept 5.
 
 **Ein Set kommt gar nicht erst an.** JSON kennt keine Sets, und `json.dump` weigert sich:
 

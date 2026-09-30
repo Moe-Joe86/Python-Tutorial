@@ -1,6 +1,6 @@
 # Das Syntaxregister — welches Werkzeug ab wann zur Verfügung steht
 
-*v1.28.0 · 2026-09-30*
+*v1.29.0 · 2026-09-30*
 
 > Verbindlicher Anhang zum [Lehrplan](Vorposten_Lehrplan.md). Diese Datei ist die einzige Quelle der Wahrheit darüber, was ein Lernender an einem bestimmten Punkt kennt.
 
@@ -213,7 +213,7 @@ Kein Python. Terminal, Git, virtuelle Umgebung, `pip`. Steht im Lehrplan, nicht 
 | Tuple-Unpacking `a, b = t` und `for a, b in ...` | 9 | 🔨 |
 | `&` `\|` — Mengenoperationen | 10 | 👀 |
 | `a - b` — Differenzmenge. **Hochgestuft in 18b** (Etappe 18, Konzept 10) | 10 | 👀 → 🔨 |
-| Sets und Tuples lassen sich nicht als JSON speichern — **in 19a auf 🧠 hochgestuft** (Etappe 19, Konzept 5) | 14 | 👀 → 🧠 |
+| Sets und Tuples überleben JSON nicht — ein Set gar nicht, ein Tuple kommt als Liste zurück — **in 19a auf 🧠 hochgestuft** (Etappe 19, Konzept 5) | 14 | 👀 → 🧠 |
 | `.index(wert)` — von einem Wert zu seiner Stelle | **0** | 🔨 |
 | `ValueError: x is not in list` | **0** | 🧠 |
 | `.pop(i)` — entfernt über die Stelle und gibt zurück | **0** | 🔨 |
@@ -626,11 +626,51 @@ Kein Python. Terminal, Git, virtuelle Umgebung, `pip`. Steht im Lehrplan, nicht 
 
 ---
 
+## Etappe 21 — Kampf, richtig gerechnet
+
+### 21a — Die Rechnung
+
+| Werkzeug | Konzept | Stufe |
+|---|---|---|
+| `max(a, b)` und `min(a, b)` mit zwei Zahlen — `max` setzt eine Untergrenze, `min` eine Obergrenze | 6 | 🔨 |
+| Schlüsselwortargumente beim Aufruf — `f(schaden=10, wurf=3)`, Reihenfolge egal · `TypeError: … unexpected keyword argument …` · `… got multiple values for argument …` | 7 | 🔨 |
+| Zwei Werte statt zweimal einen — was zusammen entschieden wird, kommt zusammen zurück (aus **7a**: `return a, b`) | 2 | 🧠 |
+| `return a, b` liefert **ein** Tuple; in einem Namen aufgefangen knallt es erst beim Rechnen oder Vergleichen (aus **6**, Konzept 8) | 3 | 🧠 |
+| Der Zufall als Parameter — eine Funktion, die nur rechnet, bekommt auch den Wurf von außen und ist ohne Seed prüfbar | 4 | 🧠 |
+| Abziehen gegen Anteil nehmen — ein fester Abzug trifft kleine Werte hart, ein Anteil alle gleich | 6 | 🧠 |
+
+*(Kein neuer Eintrag, weil nur Registriertes kombiniert wird: `randint(1, 100)` mit `<=` und das Zählen über viele Würfe stammen aus **17a**, die Behauptungen beim Start aus **20c**, `aktueller_schaden()`, `aktuelle_reichweite()` und `treffe()` aus **18**, der reine Umbau mit `diff` bei festem Seed aus **17b** und **18c**. `max()` und `min()` über Sammlungen und mit `key=` bleiben **23a**.)*
+
+### 21b — Was darauf aufbaut
+
+| Werkzeug | Konzept | Stufe |
+|---|---|---|
+| `from enum import Enum` — Gebrauchsanweisung wie `from pathlib import Path` aus **19a** | 9 | 🔨 |
+| `class Name(Enum):` — jede Zeile im Klassenkörper ist ein Mitglied, `NAME = wert` | 9 | 🔨 |
+| `Name.MITGLIED` — benutzen und vergleichen mit `==` | 9, 10 | 🔨 |
+| `.value` — der Wert eines Mitglieds, für Ausgaben und für JSON | 10, 11 | 🔨 |
+| `Name(wert)` — vom Wert zurück zum Mitglied | 11 | 🔨 |
+| `type(x) == Name` — prüfen, ob ein Wert ein Mitglied ist (`type()` aus **1**) | 10 | 🔨 |
+| `git branch` — Branches auflisten, der aktuelle mit `*`; der Hauptzweig heißt `main` oder `master` | 14 | 🔨 |
+| `git checkout -b name` — Branch anlegen und hineinwechseln; zurück mit `git checkout main` aus **16** | 14 | 🔨 |
+| Ein Mitglied ist nie gleich seinem Wert — `Zustand.TOT == "tot"` ist still `False` | 10 | 🧠 |
+| Tippfehler: `AttributeError` beim Mitglied, `ValueError: … is not a valid …` beim Rückweg, `TypeError: Object of type … is not JSON serializable` bei `json.dump` | 9, 11 | 🧠 |
+| Wann ein `Enum` lohnt — abgeschlossene Menge **und** ein Tippfehler soll knallen | 12 | 🧠 |
+| Was nicht committet ist, gehört keinem Branch — gleiche Dateien wandern beim Wechsel mit, verschiedene blockieren ihn · `git push` auf einem neuen Branch: *no upstream branch* | 14 | 🧠 |
+| `.name` — der Name eines Mitglieds als Text | 10 | 👀 |
+| `is` bei Mitgliedern — dasselbe wie `==` | 10 | 👀 |
+| `git switch` / `git switch -c` | 14 | 👀 |
+| Schadenstypen und Widerstände — ein Dictionary aus Faktoren | 13 | 👀 |
+
+*(Kein neuer Eintrag, weil nur Registriertes kombiniert wird: die Fahndung mit Zählen seit **5**, der Beweislauf mit festem Seed aus **17b**, `welt.debug()` aus **20c**, „merken, neu berechnen, vergleichen" für die Wellendauer aus **13**, `git status` und `git log --oneline` aus **0**. `auto()`, `StrEnum` und `git stash` kommen nicht vor; Merge und Konflikt sind **24**.)*
+
+---
+
 ## Offene Lücken
 
 Werkzeuge, die eine Aufgabe braucht und die kein Guide erklärt. **Jede solche Zeile blockiert einen Lernenden, der keine zweite Quelle hat.**
 
-> **Für die Etappen 1 bis 20: keine.** Alle Werkzeuge, die ein Auftragsschritt dort verlangt, sind vorher erklärt.
+> **Für die Etappen 1 bis 21: keine.** Alle Werkzeuge, die ein Auftragsschritt dort verlangt, sind vorher erklärt.
 
 **Diese Tabelle bleibt trotzdem stehen**, weil sie beim Schreiben jeder weiteren Etappe wieder gebraucht wird. Findest du eine Lücke, trag sie hier ein — mit der Etappe, die sie braucht, und der Etappe, in die die Erklärung gehört.
 

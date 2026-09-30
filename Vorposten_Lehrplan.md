@@ -1,6 +1,6 @@
 # Projekt-Lehrplan: Vorposten
 
-*v4.12.0 · 2026-09-30*
+*v4.13.0 · 2026-09-30*
 
 **Python lernen, indem die Verteidigung wächst — 30 Etappen in 51 Portionen**
 
@@ -2392,39 +2392,40 @@ Neunzehn Etappen lang war ein Absturz beim Entwickeln ein Fund. **Ab heute trenn
 
 ## Etappe 21 — Kampf, richtig gerechnet
 
-**Neue Syntax:** Mehrere Rückgabewerte, Zahlenlogik — plus `Enum`
+**Neue Syntax:** 21a: `max(a, b)` / `min(a, b)` · Schlüsselwortargumente beim Aufruf — 21b: `from enum import Enum` · `class Zustand(Enum)` · `.value` · `Zustand(wert)` · `git branch` · `git checkout -b` · 👀 `.name`, `git switch`, Schadenstypen
+
+*(`return a, b` ist seit Etappe 7a gebaut. Neu ist nicht die Schreibweise, sondern der Grund.)*
 
 **Geteilt, und zwar an einer klaren Naht.** 21a ist die Rechnung. 21b ist alles, was man auf eine funktionierende Rechnung obendrauf setzen kann — und obendrauf heißt: erst wenn sie funktioniert.
 
 | | 🔨 Bauen | 🧠 Verstehen | 👀 Nur erkennen |
 |---|---|---|---|
-| **21a** | Trefferchance, Schaden, Panzerung · zwei Rückgabewerte | Warum eine Funktion zwei Werte liefert statt zweimal einen | — |
-| **21b** | Ein `Enum` für deine Spielzustände · Balancing auf einem Branch | Wann `Enum` lohnt und wann nicht | Schadenstypen und Widerstände |
+| **21a** | Eine Trefferrechnung mit zwei Rückgabewerten · `schiesse()` für alle Schützen · eine Untergrenze mit `max()` · `pruefe_trefferrechnung()` | Warum zwei Werte statt zweimal einen · der Zufall kommt von außen · abziehen gegen Anteil nehmen | — |
+| **21b** | Ein `Enum` für die Zustände der Einheiten · der Spielstand übersetzt · ein Branch fürs Balancing | Wann ein `Enum` lohnt · Balancing ist ein Experiment | `.name` · `is` bei Mitgliedern · `git switch` · Schadenstypen und Widerstände |
 
 ---
 
 ### 21a — Die Rechnung
 
-Seit Etappe 3 kämpfst du mit einer Platzhalterformel. Heute wird sie eine richtige: **Trefferchance, Schaden, Panzerung.** Drei Dinge, nicht acht.
+Seit Etappe 3 trifft jeder Schuss mit festem Schaden. Heute wird daraus eine Rechnung aus **drei Dingen, nicht acht: Trefferchance, Schaden, Panzerung.** Ein Fehlschuss kostet Munition — damit wird Nachladen eine Entscheidung und der Munitionskauf ein Posten, der aufgeht oder nicht. Die Panzerbrut wird ein Gegner, gegen den Wucht zählt.
 
-**Mehrere Rückgabewerte, weil du sie hier wirklich brauchst:** `berechne_treffer()` liefert nicht nur den Schaden, sondern auch, *was passiert ist* — getroffen oder verfehlt. Ein Tuple aus zwei Werten:
+**Zwei Rückgabewerte, weil man sie hier wirklich braucht:** `berechne_treffer()` liefert den angekommenen Schaden **und** die Trefferart. Eine Zahl allein kann nicht sagen, ob `0` ein Fehlschuss war oder ein Treffer, der an der Panzerung abgeprallt ist. Zwei Funktionen würden zweimal würfeln. Und eine Funktion, die selbst meldet, wäre nicht prüfbar — die Linie aus Etappe 7b.
 
-```python
-schaden, ergebnis = berechne_treffer(...)
-```
+**Die Rechnung ist rein:** vier Zahlen rein, zwei Werte raus, kein `print`, kein `random`, keine Objekte. **Der Wurf kommt von außen**, gewürfelt in einer Methode `schiesse()`, die jeder Schütze benutzt. Dadurch lässt sich die Rechnung mit festen Würfen prüfen — `pruefe_trefferrechnung()` beim Start, mindestens drei Behauptungen, die Form aus Etappe 20c und der Vorläufer der Tests aus Etappe 26.
 
-Und jetzt weißt du auch, warum `(5)` und `(5,)` in Etappe 6 unterschiedliche Dinge waren.
+⭐ **Design-Entscheidung: Kann Panzerung einen Treffer ganz schlucken?** a) Jeder Treffer macht mindestens 1. b) Es gibt eine dritte Trefferart, `"abgeprallt"`. Beide vertretbar — und beide brauchen eine Untergrenze, denn Schaden minus Panzerung darf nie heilen.
 
-**Warum das mehr ist als eine Bequemlichkeit:** Eine Funktion, die nur den Schaden zurückgibt, zwingt den Aufrufer zum Raten — *war 0 ein Fehlschlag oder ein Treffer auf schwere Panzerung?* Zwei Rückgabewerte beantworten das, ohne dass irgendwo `print()` stehen muss. Das ist dieselbe Entscheidung wie in Etappe 7b: **Die Logik rechnet und gibt zurück, die Darstellung gibt aus.**
+**Abziehen oder Anteil nehmen?** Eine Panzerung, die abzieht, trifft schwache Schüsse hart und starke kaum; eine mit Anteil trifft alle gleich. Der Plan zieht ab, weil die Panzerbrut dadurch ihren Charakter bekommt — und genau deshalb ist eine Formel mit Subtraktion anders zu balancieren als eine mit Multiplikation.
 
-**Und hier zahlt Etappe 7b zum ersten Mal richtig:** Wenn deine Kampffunktion nichts ausgibt, kannst du sie in Etappe 26 testen. Wenn sie `print()` enthält, kannst du das nicht.
+**Der Umbau läuft in zwei Hälften**, das Muster aus 18c: erst alle Schüsse über `schiesse()` mit festem Wurf und neutralen Werten — `diff` schweigt —, dann der Würfel und die echten Zahlen. Fähigkeiten würfeln nicht und ignorieren Panzerung; Gegner würfeln nicht.
 
-**Lernziele:**
-- Warum gibt eine Funktion zwei Werte zurück statt zweimal einen?
-- Warum ist eine Formel mit Multiplikation anders zu balancieren als eine mit Subtraktion?
-- Was muss bei deiner Schadensformel *immer* gelten? (Nie negativ? Bei Panzerung 0 der volle Schaden?) Schreib drei `assert`-Zeilen dazu — die Form kennst du aus Etappe 7b.
+**Lernziele (Auswahl):**
+- **Warum gibt eine Funktion zwei Werte zurück statt zweimal einen?** ← die wichtigste
+- Warum wird der Wurf außerhalb der Rechnung gewürfelt?
+- Warum ist eine Formel mit Subtraktion anders zu balancieren als eine mit Multiplikation?
+- Was muss bei deiner Schadensformel *immer* gelten?
 
-**Kaputtmachen:** Setz die Panzerung auf einen Wert größer als der Schaden und schau, ob dein Gegner geheilt wird. Das ist der Klassiker unter den Typ-3-Fehlern in Kampfsystemen, und er läuft völlig geräuschlos durch.
+**Kaputtmachen:** Nimm die Untergrenze weg und sieh nach, wer den Fehler verdeckt — und wer ihn findet. Der Klassiker unter den stillen Fehlern in Kampfsystemen. Und: zwei Zahlen beim Aufruf vertauschen, ohne Namen und mit.
 
 **Commit dazwischen:** `Etappe 21a: Der Kampf rechnet richtig`
 
@@ -2432,50 +2433,30 @@ Und jetzt weißt du auch, warum `(5)` und `(5,)` in Etappe 6 unterschiedliche Di
 
 ### 21b — Was darauf aufbaut
 
-**Neu: Zustände sauber modellieren.** Deine Zustandsstrings aus Etappe 12 bekommen ein Zuhause:
+**Die Zustände deiner Einheiten bekommen ein `Enum`:** `Zustand.AKTIV` und `Zustand.TOT` statt `"aktiv"` und `"tot"` aus Etappe 12. `Zustand.TTO` knallt sofort. `"tto"` schleicht sich durch — genau die Sorte Fehler vom Typ 3, vor der Etappe 12 gewarnt hat.
 
-```python
-from enum import Enum
+**Aber der Umbau hat eine eigene Falle:** `Zustand.TOT == "tot"` ist still `False`. Ein vergessener Vergleich macht einen toten Gegner unsterblich. Deshalb Fahndung mit Zählen — und danach eine Suche, die beweist, dass kein `"tot"` mehr übrig ist.
 
-class Spielzustand(Enum):
-    VORBEREITUNG = 1
-    WELLE = 2
-    DEPOT = 3
-```
+**Die Werte im `Enum` sind die alten Wörter.** Im Spielstand steht deshalb weiter `"tot"`; gespeichert wird `.value`, geladen mit `Zustand(...)`. Alte Spielstände laden weiter — und ein unbekanntes Wort knallt jetzt beim Laden statt drei Züge später.
 
-`Spielzustand.WEELE` knallt sofort. `"weele"` schleicht sich durch — genau die Sorte Fehler vom Typ 3, die dich in Etappe 16 gekostet hat.
+**Ein einziges `Enum` reicht für heute.** `Enum` ist nicht automatisch besser als ein String, und es lohnt sich unter zwei Bedingungen: **Die Menge ist abgeschlossen**, und **ein Tippfehler soll knallen**. Bei Gegnertypen, Effekt- und Flag-Wörtern gilt die erste nicht — sie sind Inhalt und kommen in Etappe 25 aus JSON. Den Schutz vor Verweisen ins Leere, den sich Etappe 16 und 18 von einem `Enum` erhofft haben, liefert seit 20c `pruefe_tabellen()`.
 
-**Ein einziges `Enum` reicht für heute.** Nimm deine Spielzustände, sonst nichts. Du musst nicht jeden String in deinem Programm ersetzen — und du sollst auch keine eigenen `Enum`-Hierarchien entwerfen.
+👀 **Nur erkennen — Schadenstypen und Widerstände.** Ein Dictionary aus Faktoren, die Umkehrtabelle aus Etappe 15 eine Ebene tiefer. **Reizvoll, aber Kür.** In Etappe 25 lässt es sich bequemer als Daten nachrüsten.
 
-**Denn `Enum` ist nicht automatisch besser als ein String**, und der Reflex „Strings sind schlecht" wäre die falsche Lehre. Es lohnt sich unter zwei Bedingungen:
+**⚠️ Und jetzt die Warnung, die diese Etappe wirklich braucht:** Kampfbalancing ist ein Loch, in das man wochenlang fällt. **Balancing ist deshalb ein Experiment:** eine Stellschraube, fester Seed, dieselbe Befehlsdatei, drei Seeds statt einem, eine Messzeile am Wellenende über `welt.debug()` — und fünfzehn Minuten.
 
-1. **Die Menge der gültigen Werte ist abgeschlossen** — es gibt genau diese Zustände und keine weiteren. Bei Spielzuständen stimmt das. Bei Einheitennamen, Gegenstandsbezeichnungen oder Sektorschlüsseln stimmt es nicht.
-2. **Ein Tippfehler soll knallen statt durchzurutschen.**
+**Und es findet auf einem Branch statt.** Vorhersage und Ausgangsmessung auf dem Hauptzweig, `git checkout -b balancing`, die eine Zahl ändern, messen, committen, zurückwechseln. Der erste Moment im Projekt, in dem ein Branch einen echten Zweck hat: Du probierst etwas aus, das du wegwerfen können willst. **Die Regel dazu:** Was nicht committet ist, gehört keinem Branch — deshalb vor jedem Wechsel `git status`.
 
-Wo das nicht gilt, kostet `Enum` dich nur Umwandlungsarbeit — spätestens in Etappe 25, wenn dieselben Werte aus einer JSON-Datei kommen und wieder Strings sind. Ein `Enum` ist eine Zusage darüber, dass sich die Liste nicht ändert. Mach sie nur da, wo du sie halten willst.
+*(Merges und Konflikte kommen in Etappe 24. Heute reicht: Branch anlegen, darauf committen, zurückwechseln.)*
 
-👀 **Nur erkennen — Schadenstypen und Widerstände.** Der Plasmawerfer ist gegen Chitin gut und gegen Panzerung schlecht; der Panzerbrecher umgekehrt. Damit wird deine Waffenwahl eine Entscheidung statt einer Zahl, und technisch ist es ein Dictionary aus Faktoren. **Reizvoll, aber Kür.** Wenn 21a und das `Enum` stehen, ist die Etappe erfüllt. Schadenstypen kannst du jederzeit nachrüsten — sie lassen sich in Etappe 25 sogar bequemer als Daten hinzufügen als heute als Code.
-
-**⚠️ Und jetzt die Warnung, die diese Etappe wirklich braucht:** Kampfbalancing ist ein Loch, in das man wochenlang fällt. Sobald die Formel läuft, willst du an ihr drehen, und es fühlt sich wie Arbeit an.
-
-**Setz dir fünfzehn Minuten — und mach es auf einem Branch.**
-
-```bash
-git checkout -b balancing
-```
-
-Das ist der erste Moment in diesem ganzen Projekt, in dem ein Branch einen echten Zweck hat: Du probierst etwas aus, das du wegwerfen können willst. Wenn die Zahlen nach zwei Sitzungen nicht besser sind, `git checkout main`, und du hast nichts verloren. Genau dafür gibt es das.
-
-*(Merges und Konflikte kommen in Etappe 24. Heute reicht: Branch anlegen, darauf arbeiten, zurückwechseln.)*
-
-**Lernziele:**
-- Was ist der Vorteil von `Enum` gegenüber Strings — und was gegenüber Zahlen?
+**Lernziele (Auswahl):**
+- Was ist der Vorteil von `Enum` gegenüber Strings — und warum sind die Werte trotzdem die alten Wörter?
 - Wann lohnt sich ein `Enum`, und wann ist ein String die ehrlichere Wahl?
-- Wozu ist ein Branch da, und was passiert mit deinen Änderungen, wenn du auf `main` zurückwechselst?
+- Wozu ist ein Branch da, und was passiert mit einer Änderung, die du nicht committet hast, wenn du wechselst?
 
 **🧠 Entwicklerfrage:** *Welche Werte gehören wirklich zum Kampfsystem?* Trefferchance — Eigenschaft der Waffe, des Schützen oder der Entfernung? Wo du sie hinschreibst, entscheidet darüber, was du später überhaupt noch verändern kannst.
 
-**Commit:** `Etappe 21b: Zustände und Balancing`
+**Commits:** `Etappe 21b: Zustände als Enum` auf dem Hauptzweig · `Balancing: …` auf dem Branch
 
 ---
 

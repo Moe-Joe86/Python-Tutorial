@@ -1,8 +1,8 @@
 # Etappe 20 — Wenn der Spieler Unsinn eingibt
 
-*v1.1.0 · 2026-09-30*
+*v1.1.1 · 2026-09-30*
 
-> **Block 3: Der Vorposten reagiert** · Etappe 20 von 30 · [← Etappe 19](etappe-19-speichern-und-laden.md) · [Lehrplan](../Vorposten_Lehrplan.md) · Etappe 21 →
+> **Block 3: Der Vorposten reagiert** · Etappe 20 von 30 · [← Etappe 19](etappe-19-speichern-und-laden.md) · [Lehrplan](../Vorposten_Lehrplan.md) · [Etappe 21 →](etappe-21-kampf-richtig-gerechnet.md)
 
 **Neue Syntax heute:** 20a: `try:` / `except Fehlerklasse:` · `except Fehlerklasse as e:` und die Nachricht in `e` · mehrere `except` untereinander · `except json.JSONDecodeError:` · 🧠 eng fangen: nur die erwartete Fehlerklasse, nur um die eine Zeile · 🧠 prüfen oder fangen? · 🧠 `except Exception` und nacktes `except:` machen aus Typ 1 einen Typ 3 · 👀 Fehlerklassen haben Oberklassen — `JSONDecodeError` ist ein `ValueError` — 20b: `class SpielFehler(Exception):` mit einem Docstring als Körper · `raise SpielFehler("…")` · `else:` beim `try` · 🧠 ein Fehler wandert die Aufrufkette hinauf bis zum ersten passenden `except` · 🧠 `return` statt `raise` wirft nichts · 🧠 Grund-oder-`None` gegen Exception · 🧠 wem gehört ein Fehler — Spieler oder Entwickler? — 20c: `assert bedingung, "Text"` (hochgestuft aus Etappe 7) · 🧠 eine Behauptung wird nie gefangen — und `python -O` schaltet sie ab · 👀 `finally` · 👀 `raise` ohne Fehler dahinter · 👀 `logging` und seine Stufen
 
@@ -1008,3 +1008,7 @@ Erst bei grünem Selbsttest.
 **Ein Spielstand vor dem Absturz — ehrlich gebaut.** Wer `finally` trotz Konzept 15 ausprobieren will: um die ganze Wellenschleife, und darin ein Speichern in eine **eigene** Datei, `saves/notfall.json` — nie über den echten Spielstand. Dann einen Programmfehler einbauen und nachsehen: **Was steht im Notfall-Spielstand, und würdest du ihn laden wollen?**
 
 **Zwei Fehlerklassen statt einer.** `SpielFehler` für Absagen und eine Unterklasse davon für *„unbekannter Befehl"*, bei der dein Spiel zusätzlich die Liste der Befehle zeigt. Die eine Stelle aus Schritt 7 bekommt dann zwei `except` — **in welcher Reihenfolge?** Konzept 6.
+
+---
+
+> **Nächste Etappe:** [Etappe 21 — Kampf, richtig gerechnet](etappe-21-kampf-richtig-gerechnet.md) · ein Schuss kann danebengehen, und ein Tippfehler in einem Zustand knallt

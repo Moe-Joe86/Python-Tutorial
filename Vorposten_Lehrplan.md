@@ -1,8 +1,8 @@
 # Projekt-Lehrplan: Vorposten
 
-*v4.7.2 · 2026-09-22*
+*v4.9.1 · 2026-09-30*
 
-**Python lernen, indem die Verteidigung wächst — 30 Etappen in 44 Portionen**
+**Python lernen, indem die Verteidigung wächst — 30 Etappen in 45 Portionen**
 
 Dieses Tutorial ist selbsttragend. Es setzt keinen Kurs, kein Buch und kein Vorwissen über Python voraus: Jedes Zeichen und jeder Aufruf, den eine Aufgabe braucht, wird vorher in einem Etappen-Guide erklärt. Welches Werkzeug ab wann zur Verfügung steht, führt [`SYNTAX.md`](SYNTAX.md) Buch.
 
@@ -548,13 +548,13 @@ Elf Etappen tragen so viel Stoff, dass sie an einem Stück nur halb ankommen. Di
 | **13a / 13b** ⭐ | Das Zähler-Muster · Ausfall, Nachschub, Basisturm |
 | **14a / 14b / 14c** ⭐ | Das Raster · Reichweite und Bewegung · die Barrikade *(Kür)* |
 | **15a / 15b** | Fundstücke und Erkenntnisse · Erkenntnisse wirken |
-| **17a / 17b** | Zufall und das Wellenbudget · Ereignisse und der Seed |
+| **17a / 17b / 17c** | Zufall und das Wellenbudget · der Seed · Bericht und Ereignisse zwischen den Wellen |
 | **21a / 21b** | Trefferrechnung und Rückgabewerte · Schadenstypen, `Enum`, Balancing |
 | **23a / 23b** | Python lesen · Python modellieren |
 
-**Drei Etappen haben drei Portionen:** 3, 11 und 14. Bei Etappe 3 wird aus einem Skript ein Spiel — der dichteste Punkt des Fundaments. Bei 11 werden drei Schulden auf einmal zurückgezahlt. Bei 14 ist die dritte Portion Kür und darf entfallen.
+**Vier Etappen haben drei Portionen:** 3, 11, 14 und 17. Bei Etappe 3 wird aus einem Skript ein Spiel — der dichteste Punkt des Fundaments. Bei 11 werden drei Schulden auf einmal zurückgezahlt. Bei 14 ist die dritte Portion Kür und darf entfallen. Bei 17 zieht der Zufall zwei Portionen nach sich: den Seed, der Fehler wieder vorführbar macht, und die Pause zwischen den Wellen.
 
-**Die Nummer bleibt, weil das Thema eines ist.** Es bleiben 30 Etappen — gerechnet in Portionen sind es 44, dazu Etappe 0. Und wenn dir eine ungeteilte Etappe zu groß vorkommt, teil sie selbst. Das ist keine Kapitulation, sondern die Anwendung derselben Regel.
+**Die Nummer bleibt, weil das Thema eines ist.** Es bleiben 30 Etappen — gerechnet in Portionen sind es 45, dazu Etappe 0. Und wenn dir eine ungeteilte Etappe zu groß vorkommt, teil sie selbst. Das ist keine Kapitulation, sondern die Anwendung derselben Regel.
 
 **Umwege haben Vorrang.** Wenn dein eigenes Programm eine Frage erzeugt, ist diese Frage die nächste Lektion — auch wenn sie hier nicht steht.
 
@@ -569,7 +569,7 @@ Bei 20–30 Minuten am Tag, Übungen eingerechnet — und mit den geteilten Etap
 | Werkzeug | 0 | 1 | 1 Abend |
 | Fundament | 1–8 | 11 | 9–12 Wochen |
 | Einheiten und Zeit | 9–16 | 16 | 16–21 Wochen |
-| Der Vorposten reagiert | 17–27 | 14 | 14–18 Wochen |
+| Der Vorposten reagiert | 17–27 | 15 | 15–19 Wochen |
 | Grafik (optional) | 28–30 | 3 | offen |
 
 Eine Portion sind zwei bis vier Sitzungen. Wenn du bei sechs bist, ist das kein Rückstand — die Zahlen hier sind Erfahrungswerte, keine Vorgaben.
@@ -735,7 +735,7 @@ Dazu ein Boolean, der sich etwas merkt: Beim ersten Kontakt siehst du etwas — 
 
 **Neue Syntax:** `while` · `+=` und `-=` · `for` mit `range()` · `break` · `while True:` · die Zustandsvariable als Schleifenbedingung (`while laeuft:`) · `.lower()` · `/` `//` `%` · `round()` · Text mal Zahl · 👀 `continue` · 👀 Formatangaben im f-String
 
-**Die erste von drei Etappen mit drei Portionen** (3, 11, 14). Hier wird aus einem Skript ein Spiel — und dabei kommt mehr zusammen, als an einem Abend ankommt. Nach jeder Portion ein Commit.
+**Die erste von vier Etappen mit drei Portionen** (3, 11, 14, 17). Hier wird aus einem Skript ein Spiel — und dabei kommt mehr zusammen, als an einem Abend ankommt. Nach jeder Portion ein Commit.
 
 | | 🔨 Bauen | 🧠 Verstehen | 👀 Nur erkennen |
 |---|---|---|---|
@@ -1993,14 +1993,15 @@ Das dritte Wort ist das schwerste: **nur diese.** Wer drei Dinge gleichzeitig ä
 
 ## Etappe 17 — Der Wellengenerator ⭐
 
-**Neue Syntax:** `random`, gewichtete Wahrscheinlichkeiten
+**Neue Syntax:** `random`, gewichtete Wahrscheinlichkeiten, `random.seed`
 
-**Geteilt.** 17a ist Zufall — ein handliches, sofort belohnendes Thema. 17b ist alles, was der Zufall nach sich zieht, und das ist mehr, als es aussieht.
+**Dreigeteilt.** 17a ist Zufall — ein handliches, sofort belohnendes Thema. 17b ist das, was der Zufall nach sich zieht: ein Programm, dessen Fehler sich nicht mehr vorführen lassen, bis ein Seed sie festnagelt. 17c nutzt den festgenagelten Zufall für die Pause zwischen den Wellen.
 
 | | 🔨 Bauen | 🧠 Verstehen | 👀 Nur erkennen |
 |---|---|---|---|
-| **17a** | `random`, ein Wellenbudget, erzeugte Wellen | Warum Budget besser steuert als Anzahl | Gewichtete Auswahl (`random.choices`) |
-| **17b** | Seed als sichtbares Werkzeug, Ereignisse zwischen den Wellen | Zufall macht ein Programm untestbar — außer man fixiert ihn | — |
+| **17a** | `random`, eine eigene gewichtete Auswahl, ein Wellenbudget, erzeugte Wellen, typgebundene Beute | Warum Budget besser steuert als Anzahl · Gewicht gegen Wahrscheinlichkeit | `random.choices` |
+| **17b** | Seed als sichtbares Werkzeug, ein Beweislauf mit festem Seed | Zufall macht ein Programm untestbar — außer man fixiert ihn · was ein Seed nicht festnagelt | — |
+| **17c** | Wellenbericht mit Stimmen, Ereignisse zwischen den Wellen, die Reihenfolge der Pause | Sofort oder gesammelt? · Topf mit einzelnen `if`, Ausführung mit `elif` | — |
 
 ---
 
@@ -2018,9 +2019,9 @@ random.random()           # eine Kommazahl zwischen 0 und 1
 
 Fünf Minuten, dreimal laufen lassen, dreimal etwas anderes sehen. Dann ins Spiel.
 
-**Die Gegnertypen gibt es seit Etappe 6 — hier bekommen sie Zahlen.** Zu den Beschreibungstexten kommen Kosten und optional ein Gewicht. Das ist ein Dateneintrag mehr pro Typ, keine neue Struktur.
+**Die Gegnertypen gibt es seit Etappe 6 — hier bekommen sie Zahlen.** Zu den Beschreibungstexten kommen Kosten, ein Gewicht und die Welle, ab der ein Typ kommen darf. Das ist ein Dateneintrag mehr pro Typ, keine neue Struktur.
 
-**Jede Welle bekommt ein Budget**, das mit der Wellennummer wächst. Jeder Gegnertyp hat Kosten. Der Generator kauft ein, bis das Budget leer ist. Damit ist Welle 14 jedes Mal anders und trotzdem ungefähr gleich schwer.
+**Jede Welle bekommt ein Budget**, das mit der Wellennummer wächst. Jeder Gegnertyp hat Kosten. Der Generator kauft zufällig ein, bis nichts mehr bezahlbar ist. Damit ist Welle 14 jedes Mal anders und trotzdem ungefähr gleich schwer.
 
 **Und die `if`/`elif`-Kette aus Etappe 6 stirbt hier** — die, die festlegte, welche Typen in welcher Welle vorkommen. Sie war dort genau richtig und ist es ab jetzt nicht mehr. Der Guide soll den Vergleich zeigen: vorher eine Kette mit drei Zweigen, nachher eine Rechnung, die mit dreißig Typen genauso funktioniert.
 
@@ -2034,19 +2035,21 @@ Deine Welle 14 soll jedes Mal anders sein — aber nicht mal spielbar und mal un
 
 Deshalb das Budget. Es trennt zwei Dinge, die Anfänger meist vermischen: **Wie schwer ist die Welle** (Budget, wächst planbar) und **woraus besteht sie** (Zufall, innerhalb des Budgets). Das erste kontrollierst du, das zweite überlässt du dem Würfel. Das ist der ganze Trick, und er ist derselbe, den echte Spiele verwenden.
 
-**Warum nicht einfach `anzahl = welle * 2`?** Weil dann jede Welle gleich aussieht, nur länger. Und warum nicht rein zufällig? Weil Welle 3 dann irgendwann drei Brecher enthält und du ohne Chance verlierst.
+**Warum nicht einfach `anzahl = welle * 2`?** Weil dann jede Welle gleich aussieht, nur länger. Und warum nicht rein zufällig? Weil Welle 3 dann irgendwann drei Panzerbruten enthält und du ohne Chance verlierst.
 
-**Die Beutetabelle aus Etappe 4 wird hier fällig.** Wer dort die Kür gebaut hat, hat eine Liste, aus der `random.choice` gleichverteilt zieht — ein Datenkern so oft wie ein Chitinpanzer. Das ist dieselbe Struktur wie bei den Gegnertypen und wird hier mit denselben Gewichten gelöst. **Zwei Anwendungsfelder, ein Werkzeug** — und der Lernende bringt die Frage seit dreizehn Etappen mit.
+**Die Beutetabelle aus Etappe 4 wird hier fällig.** Wer dort die Kür gebaut hat, hat eine Liste, aus der `random.choice` gleichverteilt zieht — ein Datenkern so oft wie ein Chitinpanzer. Das ist dieselbe Struktur wie bei den Gegnertypen und wird hier mit denselben Gewichten gelöst. **Zwei Anwendungsfelder, ein Werkzeug** — und der Lernende bringt die Frage seit dreizehn Etappen mit. Die Funde aus Etappe 15 kommen mit kleinen Gewichten in dieselbe Beutetabelle; damit ist sie die einzige Tabelle, die festlegt, was ein Gegnertyp hinterlassen kann und wie oft.
 
-👀 **Nur erkennen: Gewichte.** Mit `random.choices(typen, weights=gewichte)` kommen manche Gegner häufiger als andere. Eine Zeile, sofort einsetzbar — aber wenn dich die Frage „Gewicht gegen Wahrscheinlichkeit" gerade nicht interessiert, bau sie einfach ein und geh weiter. Sie funktioniert auch ohne Theorie.
+**Gewichte werden von Hand gebaut.** Eine kleine Funktion zählt die Gewichte zusammen, würfelt von 1 bis zur Summe und läuft die Strecke ab, bis der Wurf aufgebraucht ist. Genau in diesem Bild steckt die Antwort auf die Frage aus Etappe 4 — warum Verdoppeln nichts ändert, warum ein Gewicht von 0 nie kommt, wo eine Grenze falsch sitzt. Dieselbe Funktion wählt Gegner, Beute und in 17c die Ereignisse.
 
-**Kaputtmachen:** Setz alle Gewichte gleich und spiel fünf Wellen. Dann setz ein Gewicht auf das Hundertfache. Beobachte, ob dein Budget-System das abfängt oder ob Welle 3 unspielbar wird.
+👀 **Nur erkennen:** `random.choices(typen, weights=gewichte)[0]` kann dasselbe in einer Zeile — und liefert eine Liste, daher das `[0]`. Der Guide zeigt sie nach der eigenen Funktion, nicht statt ihrer.
+
+**Kaputtmachen:** Setz alle Gewichte gleich und spiel fünf Wellen. Dann setz ein Gewicht auf das Hundertfache. Beobachte, ob dein Budget-System das abfängt oder ob Welle 8 unspielbar wird.
 
 **Commit dazwischen:** `Etappe 17a: Wellen werden erzeugt`
 
 ---
 
-### 17b — Was der Zufall nach sich zieht
+### 17b — Der Seed
 
 **Der wichtigste Satz dieser Etappe:** Sobald Zufall im Spiel ist, ist dein Spiel nicht mehr reproduzierbar — und damit auch nicht mehr debuggbar. Zwei identische Durchläufe gibt es nicht mehr, also lässt sich ein Fehler nicht mehr vorführen.
 
@@ -2054,7 +2057,7 @@ Deshalb das Budget. Es trennt zwei Dinge, die Anfänger meist vermischen: **Wie 
 random.seed(42)
 ```
 
-Eine Zeile. **Derselbe Seed → derselbe Zufall → derselbe Fehler, jedes Mal.**
+Eine Zeile. **Derselbe Seed → dieselbe Zahlenfolge → mit denselben Eingaben derselbe Fehler, jedes Mal.**
 
 **Und dann bleibt der Seed nicht in dieser Zeile stehen, sondern wird sichtbar:**
 
@@ -2062,11 +2065,25 @@ Eine Zeile. **Derselbe Seed → derselbe Zufall → derselbe Fehler, jedes Mal.*
 [ Debug ]  Seed: 48173   Welle: 14
 ```
 
-Der Seed wird beim Start gezogen und *angezeigt*, landet in Etappe 19 im Spielstand und lässt sich beim Start wieder vorgeben. Damit wird aus *„manchmal stirbt ein Gegner zu früh"* der Satz **„bei Seed 48173 in Welle 14 stirbt der zweite Brecher ein Feld zu früh"** — und das ist der Unterschied zwischen einem Bug, den man jagt, und einem, den man vorführt.
+Der Seed wird beim Start gezogen und *angezeigt*, landet in Etappe 19 im Spielstand und lässt sich über einen festen Wert `SEED` oben in der Datei wieder vorgeben. Damit wird aus *„manchmal stirbt ein Gegner zu früh"* der Satz **„bei Seed 48173 in Welle 14 stirbt der zweite Speier einen Takt zu früh"** — und das ist der Unterschied zwischen einem Bug, den man jagt, und einem, den man vorführt.
 
 Diese eine Anzeige verbindet vier Etappen: Zufall (17) → Debugging (16) → Spielstand (19) → Tests (26).
 
-**Dazu Ereignisse zwischen den Wellen** — jetzt, wo der Generator steht: ein Versorgungsabwurf, ein Generatorausfall, der deine Geschütze für zwei Wellen halbiert, ein Riss in der Kuppel, Funkkontakt mit jemandem, der nicht antwortet. Technisch ist das dieselbe gewichtete Auswahl wie bei den Gegnern, nur mit anderen Folgen.
+**Und die Grenze des Seeds:** Er legt die Folge fest, nicht, wer wann eine Zahl daraus nimmt. Derselbe Seed **und dieselben Eingaben** ergeben denselben Lauf — bewiesen mit `befehle.txt` und `diff` aus Etappe 7. Und die Reihenfolge eines Sets hält er nicht fest. Zusammen mit dem bedingten Breakpoint aus Etappe 8 springt man gezielt in die Welle, in der etwas nicht stimmt — aber nie zusammen mit `<`, weil der Debugger aus derselben Eingabe liest.
+
+**Leseübung, Stufe 3 der Leseleiter:** eine Musikbox, die Lieder aus einem Losbeutel zieht statt nach Gewicht — *warum ist sie so gebaut, was ist daran fairer, und was macht ein Seed, der in ihrem `__init__` gesetzt wird, mit dem restlichen Zufall des Programms?*
+
+**Commit dazwischen:** `Etappe 17b: Reproduzierbarer Zufall`
+
+---
+
+### 17c — Zwischen den Wellen
+
+**Ereignisse zwischen den Wellen** — jetzt, wo der Generator steht und der Zufall sich festnageln lässt: ein Versorgungsabwurf, ein Generatorausfall, der den Schaden deines Turms für zwei Wellen halbiert, ein Riss in der Kuppel, Funkkontakt mit jemandem, der nicht antwortet. Technisch ist das dieselbe gewichtete Auswahl wie bei den Gegnern, nur mit anderen Folgen. **Welche Ereignisse möglich sind, prüfen einzelne `if`; was beim gezogenen passiert, eine `elif`-Kette** — die Unterscheidung aus Etappe 2, zweimal hintereinander. Wer beim ersten Kontakt gemeldet hat (`meldung_abgesetzt`), bekommt häufiger Nachschub.
+
+**Und ein Wellenbericht:** `welt.melde()` lernt, Meldungen zu sammeln, statt sie sofort auszugeben — über eine zweite Methode oder ein Standardargument, und diese Wahl trifft der Lernende. Am Ende jeder Welle sagt jede Einheit, wie viele Gegner sie in dieser Welle erledigt hat — **mit eigener Stimme:** Jede Marine-Klasse überschreibt dieselbe Methode, und der Bericht fragt nie, wer spricht.
+
+**Zwischen zwei Wellen passiert damit so viel, dass die Reihenfolge eine Entscheidung wird** — Einsammeln, Bericht, Zähler, Ereignis. Sie kommt in `GELERNT.md`, neben die Tick-Reihenfolge aus Etappe 16.
 
 **Hier zahlt Etappe 1 aus:**
 
@@ -2084,7 +2101,7 @@ Die Variable, die du am ersten Tag angelegt und nie benutzt hast, bekommt heute 
 
 **🧠 Entwicklerfrage:** *Wie viel Zufall ist noch fair?* Wo genau liegt für dich die Grenze zwischen „überraschend" und „verloren, ohne dass ich etwas falsch gemacht habe"? Zwei bis fünf Sätze in `GELERNT.md`.
 
-**Commit:** `Etappe 17b: Reproduzierbarer Zufall und Ereignisse`
+**Commit:** `Etappe 17c: Bericht und Ereignisse zwischen den Wellen`
 
 ---
 

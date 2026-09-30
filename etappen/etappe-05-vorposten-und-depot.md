@@ -1,6 +1,6 @@
 # Etappe 5 — Der Vorposten und das Depot
 
-*v1.20.1 · 2026-09-21*
+*v1.20.2 · 2026-09-29*
 
 > **Block 1: Fundament** · Etappe 5 von 30 · [← Etappe 4](etappe-04-ausruestung-und-beute.md) · [Lehrplan](../Vorposten_Lehrplan.md) · [Etappe 6 →](etappe-06-datenstrukturen.md)
 
@@ -1037,7 +1037,7 @@ git push
 - ❌ **Waren mit Voraussetzungen und Ausbaustufen** → Etappe 22
 - ❌ **Die Karte aus einer JSON-Datei laden** → Etappe 25
 - ❌ **Gegner, die in einzelnen Sektoren stehen** → Etappe 14a
-- ❌ **Sektoren, die einzeln fallen können** → Etappe 17b
+- ❌ **Sektoren, die einzeln fallen können** → Etappe 17c
 - ❌ **Den Grundriss aus den Daten erzeugen** → gar nicht, siehe Konzept 14
 - ✅ **Verkaufen gehört dazu** — es ist die einzige Quelle deines Vaporiums, siehe Schritt 14.
 - ❌ **Balancing** (Preise, Vaporium pro Gegner) → notieren, Etappe 21a
@@ -1321,7 +1321,7 @@ Du brauchst diese Liste vier Mal wieder: in **Etappe 7a**, wenn Funktionen Zusta
 
 Erst bei grünem Selbsttest. Alles hier ist freiwillig.
 
-**Sektoren nehmen Schaden.** Die Gegner greifen nicht die Anlage allgemein an, sondern den Sektor, in dem du gerade nicht bist. `sektoren[...]["integritaet"]` sinkt. Das ist eine Zeile und macht aus deiner Karte zum ersten Mal eine taktische Entscheidung: Wo stehst du, wenn du nicht überall sein kannst? *(In Etappe 17b kann ein Sektor dadurch endgültig fallen.)*
+**Sektoren nehmen Schaden.** Die Gegner greifen nicht die Anlage allgemein an, sondern den Sektor, in dem du gerade nicht bist. `sektoren[...]["integritaet"]` sinkt. Das ist eine Zeile und macht aus deiner Karte zum ersten Mal eine taktische Entscheidung: Wo stehst du, wenn du nicht überall sein kannst? *(In Etappe 17c kann ein Sektor dadurch endgültig fallen.)*
 
 **Reparieren.** `repariere` kostet Vaporium und hebt die Integrität des aktuellen Sektors. Nutzt alles, was du heute gebaut hast — und gibt dem Vaporium eine zweite Verwendung neben dem Depot.
 

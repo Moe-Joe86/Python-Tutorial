@@ -1,6 +1,6 @@
 # Etappe 7 — Aufräumen
 
-*v1.7.2 · 2026-09-22*
+*v1.6.0 · 2026-09-16*
 
 > **Block 1: Fundament** · Etappe 7 von 30 · [← Etappe 6](etappe-06-datenstrukturen.md) · [Lehrplan](../Vorposten_Lehrplan.md) · [Etappe 8 →](etappe-08-die-bug-jagd.md)
 
@@ -73,10 +73,6 @@ Deine Funktionen brauchen Werte, die außerhalb von ihnen liegen — Munition, V
 > **Eine lange Parameterliste ist unbequem und *sichtbar*. `global` ist bequem und *unsichtbar*.**
 
 Bei einer Funktion mit sechs Parametern siehst du in der ersten Zeile, was sie anfasst. Bei `global` musst du den ganzen Körper lesen — und in vier Wochen weißt du nicht mehr, welche Funktion welchen Wert heimlich verändert.
-
-**Eine Ausnahme gibt es, und sie folgt aus der Großschreibregel aus Etappe 1:** Feste Tabellen — alles, was du GROSS geschrieben hast, von `BAHNLAENGE` über `WAREN` bis `GEGNERTYPEN` — darf eine Funktion direkt lesen. Niemand verändert sie, also kann auch keine Funktion sie heimlich verändern. Hier bekommt die Großschreibung ihren Zweck: Sie zeigt dir auf einen Blick, was als Parameter kommen muss und was nicht.
-
-> **Was sich im Spiel ändert, kommt als Parameter. Was feststeht, darf gelesen werden.**
 
 👀 **Zu `global` selbst, ein Satz zum Wiedererkennen:** Es erlaubt einer Funktion, eine äußere Variable nicht nur zu lesen, sondern zu **verändern**. Es funktioniert, es ist kürzer, und es deckt genau das Problem zu, das Etappe 9 löst. Du wirst es in fremdem Code sehen. **Bau es heute nicht ein.**
 
@@ -273,8 +269,6 @@ Dein Befehlsblock verändert eine Menge. Geh die Werte einmal durch und **sortie
 | `inventar` — Liste | `geladen` — eine Zahl |
 | `freigeschaltet` — Set | die Variable, die das Spiel beendet — ein Boolean |
 | `sektoren` — Dictionary | |
-
-⚠️ **Die Tabelle ist ein Beispiel, keine Vorlage.** Deine Kette verändert deutlich mehr als diese Werte. Geh sie Zeile für Zeile durch, bevor du festlegst, was zurückkommt.
 
 **Die linke Spalte ist erledigt.** Konzept 5 hat gezeigt, warum: Du änderst den *Inhalt* eines Objekts, und alle, die auf dieses Objekt zeigen, sehen die Änderung. Eine Funktion, die nur Dictionaries und Listen anfasst, braucht überhaupt keinen Rückgabewert.
 
@@ -537,7 +531,7 @@ Fünfzehn bis zwanzig Zeilen insgesamt. Eine Eingabe pro Zeile, sonst nichts —
 python spiel.py < befehle.txt > vorher.txt
 ```
 
-**So prüfst du es:** Öffne `vorher.txt`. Steht dort alles, was du eingegeben hast, bis die Datei zu Ende war? Dann stimmt es.
+**So prüfst du es:** Öffne `vorher.txt`. Steht dort ein vollständiger Spieldurchlauf, bis zur Abschiedsmeldung? Dann stimmt es.
 
 **Wundere dich nicht über das, was du dort siehst:** Die Fragen stehen drin, deine Antworten nicht, und mehrere Fragen kleben in einer Zeile. Das ist richtig so — Konzept 11b erklärt, warum.
 
@@ -588,7 +582,7 @@ def zeige_status(kern, vaporium, munition, sektor, welle, gegner, freigeschaltet
 - [ ] `zeige_status()` ist herausgelöst, der `status`-Zweig ist ein einziger Aufruf.
 - [ ] Die Ausgabe ist zeichengenau unverändert.
 - [ ] Du kannst sagen, **warum jeder einzelne Parameter** in der Liste steht.
-- [ ] Du kannst sagen, warum die Funktion **keinen** veränderlichen Zustand von außen direkt liest.
+- [ ] Du kannst sagen, warum die Funktion **keine** äußeren Werte direkt liest.
 
 Das kostet zwei Minuten und erspart dir die Lage, in der du eine Stunde später nicht mehr weißt, wann es kaputtgegangen ist.
 
@@ -599,7 +593,7 @@ Das kostet zwei Minuten und erspart dir die Lage, in der du eine Stunde später 
 - **Sie nimmt den Schadenswert deiner Klasse als Parameter und gibt ihn zurück.** Mehr nicht — eine Zeile Rumpf. Was in Etappe 3c an der Feuern-Stelle stand, wird nicht mehr, sondern bekommt nur einen Ort.
 - **Sie gibt eine Zahl zurück. Sie gibt nichts aus.**
 
-**So prüfst du es:** Zieh den Vergleich aus Konzept 11 — er muss schweigen. Die Schadenszahl selbst zeigt dein Spiel nirgends an; prüf sie deshalb in einer **Wegwerf-Datei**: `def`-Zeile samt Rumpf hineinkopieren, mit dem Schadenswert deiner Klasse aufrufen und das Ergebnis mit `print()` ausgeben. Es muss genau der Wert herauskommen, den du hineingegeben hast.
+**So prüfst du es:** Feuern. Die Schadenszahl muss dieselbe sein wie vorher.
 
 *(Eine Funktion, die nur eine Zahl durchreicht, sieht nach Umstand aus. Sie ist es nicht: Der Schadenswert hat bis Etappe 11 keinen Verbraucher, weil ein Gegner heute mit einem Treffer fällt. Was jetzt zählt, ist der Aufrufort — er steht ab heute an einer einzigen Stelle.)*
 
@@ -636,7 +630,7 @@ Das kostet zwei Minuten und erspart dir die Lage, in der du eine Stunde später 
 
 **Und jetzt der Teil, der diesen Schritt von allen vorherigen unterscheidet.** Bevor du irgendetwas verschiebst:
 
-1. **Schreib auf, welche Werte die Kette verändert.** Alle — es sind deutlich mehr als in der Beispieltabelle aus Konzept 5b. Geh die Kette Zeile für Zeile durch.
+1. **Schreib auf, welche Werte die Kette verändert.** Alle.
 2. **Sortier sie in die zwei Spalten aus Konzept 5b.** Dictionaries, Listen und Sets links; Zahlen, Strings und Booleans rechts.
 3. **Die rechte Spalte ist deine Rückgabeliste.** Genau diese Werte gibt `verarbeite_befehl()` zurück, in einer festgelegten Reihenfolge.
 4. Die Hauptschleife nimmt sie mit Tuple-Unpacking entgegen:
@@ -753,7 +747,7 @@ Was seit Etappe 1 gewachsen ist — der ASCII-Kopf, die Balken aus 3c, die Anmar
 
 Das heißt konkret: `zeichne_balken(wert, maximum)` bekommt zwei Zahlen. Sie fragt nicht nach der Kernintegrität, sie kennt kein `vorrat`, sie weiß nicht, was sie zeichnet. Sie kann Balken.
 
-**Und genau deshalb kannst du sie dreimal benutzen** — für Kern, Trefferpunkte und Munition — statt drei fast gleiche Blöcke zu haben.
+**Und genau deshalb kannst du sie zweimal benutzen** — für Kern und für Munition — statt zwei fast gleiche Blöcke zu haben.
 
 **Hier zahlt eine Erkenntnis aus Etappe 3c aus:** Dort stand, dass die Balkenlänge beim *Anzeigen* berechnet wird und nicht beim Programmstart. Heute bekommt dieser Gedanke seinen Platz im Code — die Rechnung wohnt in der Zeichenfunktion, weil sie dorthin gehört.
 
@@ -794,7 +788,7 @@ Vier Funktionen, die **nur ausgeben**:
 | `zeichne_bahn(gegner, gegner_typen)` | zwei Listen | Etappe 4 und 6 |
 | `zeichne_grundriss(aktueller_sektor)` | einen Namen | Etappe 5 |
 
-**Die Balkenfunktion ersetzt alle drei Balken** — Kern, Trefferpunkte und Munition. Wenn du drei fast gleiche Blöcke hattest, bleibt davon einer übrig: der in der Funktion.
+**Die Balkenfunktion ersetzt beide Balken** — Kern und Munition. Wenn du zwei fast gleiche Blöcke hattest, verschwindet einer davon.
 
 **So prüfst du es:** `diff` erneut ziehen. Wieder muss er schweigen.
 
@@ -805,8 +799,8 @@ Vier Funktionen, die **nur ausgeben**:
 Geh jede der vier durch und beantworte:
 
 - Rechnet sie etwas aus, das nicht mit dem Zeichnen zu tun hat?
-- Entscheidet sie etwas — greift sie auf veränderlichen Zustand von außen zu, etwa `welle`, `kern_integritaet` oder `freigeschaltet`? *(Feste, großgeschriebene Tabellen darf sie lesen — siehe die Design-Entscheidung.)*
-- Braucht sie veränderlichen Zustand, den man ihr nicht übergibt?
+- Entscheidet sie etwas — greift sie auf `welle`, `kern_integritaet` oder `freigeschaltet` zu?
+- Braucht sie mehr, als man ihr übergibt?
 
 **Dreimal nein, oder du hast noch Arbeit.** Eine Zeichenfunktion, die die Welt kennt, lässt sich in Etappe 28 nicht austauschen.
 
@@ -894,8 +888,8 @@ Prüft den Zustand deines Programms, nicht dein Gefühl. Führ jeden Punkt tats�
 - [ ] `berechne_schaden()` enthält kein `print` — du kannst mit dem Rückgabewert rechnen
 - [ ] `zeige_status()` funktioniert mit **und** ohne das Standardargument
 - [ ] `help(berechne_schaden)` zeigt deinen Docstring
-- [ ] ⭐ **Keine deiner Zeichenfunktionen greift auf veränderlichen Zustand von außen zu** — was sich im Spiel ändert, bekommen sie übergeben; nur feste, großgeschriebene Tabellen lesen sie direkt
-- [ ] Alle drei Balken werden von **einer** Funktion gezeichnet, nicht von drei fast gleichen Blöcken
+- [ ] ⭐ **Keine deiner Zeichenfunktionen greift auf eine äußere Variable zu** — sie bekommen alles übergeben
+- [ ] Ein Balken wird von **einer** Funktion gezeichnet, nicht von zwei fast gleichen Blöcken
 - [ ] Es gibt kein `global` in deiner Datei
 - [ ] Drei volle Wellen verhalten sich wie nach Etappe 6 — inklusive aller Meldungen
 - [ ] In `GELERNT.md` steht, welche Funktion die längste Parameterliste hat
@@ -951,9 +945,9 @@ Das ist Testdenken, lange bevor du `pytest` anfasst. Und es ist der Grund, warum
 
 **Vor jedem Experiment aufschreiben, was passieren wird.** Die ersten vier gehören dazu, die letzten drei sind Kür.
 
-**1. Vergiss das `return`.** Nimm es aus `berechne_schaden()` heraus und feuer einmal. Was steht in der Schadensvariablen — knallt es überhaupt, und woran merkst du es?
+**1. Vergiss das `return`.** Nimm es aus `berechne_schaden()` heraus und feuer einmal. Was steht in der Schadensvariablen, und wo genau knallt es?
 
-**2. Weis einer äußeren Variablen in einer Funktion etwas zu.** Setz in `berechne_schaden()` die Zeile `geladen = 0` ein, ruf sie auf und prüf danach draußen `geladen`. Was ist passiert — und was nicht?
+**2. Weis einer äußeren Variablen in einer Funktion etwas zu.** Setz in `berechne_schaden()` die Zeile `munition = 0` ein, ruf sie auf und prüf danach draußen die Munition. Was ist passiert — und was nicht?
 
 **3. Und jetzt die Gegenprobe zu Experiment 2.** Häng in derselben Funktion `gegner.append(99)` an die Gegnerliste an. Prüf danach draußen.
 
@@ -969,7 +963,7 @@ Die folgenden drei sind Kür.
 
 **5. Setz einen Standardwert nach vorn:** `def f(a=1, b)`. Lies die Fehlermeldung und überleg, warum Python das nicht zulassen kann.
 
-**6. Bau `global` ein.** Nimm es in einer Funktion, um `geladen` direkt zu verändern, und lösch den entsprechenden Parameter. Es funktioniert — und ist kürzer.
+**6. Bau `global` ein.** Nimm es in einer Funktion, um `vaporium` direkt zu verändern, und lösch den entsprechenden Parameter. Es funktioniert — und ist kürzer.
 
 **Und jetzt die Frage, um die es geht:** Wie viele Zeilen musst du lesen, um herauszufinden, welche Funktionen dein Vaporium verändern? Vorher stand es in jeder Signatur. Danach zurückbauen.
 

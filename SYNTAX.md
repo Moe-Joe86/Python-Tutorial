@@ -1,6 +1,6 @@
 # Das Syntaxregister — welches Werkzeug ab wann zur Verfügung steht
 
-*v1.23.1 · 2026-09-21*
+*v1.25.0 · 2026-09-29*
 
 > Verbindlicher Anhang zum [Lehrplan](Vorposten_Lehrplan.md). Diese Datei ist die einzige Quelle der Wahrheit darüber, was ein Lernender an einem bestimmten Punkt kennt.
 
@@ -164,8 +164,8 @@ Kein Python. Terminal, Git, virtuelle Umgebung, `pip`. Steht im Lehrplan, nicht 
 | `AttributeError` bei vertauschter Reihenfolge | 14 | 🧠 |
 | `print(dir(x))` und `help(x.methode)` — Ausgabe lesen, Dunder überspringen | Vorspann | 🔨 |
 | `BAHNLAENGE` als fester Wert, GROSS geschrieben — der erste im eigenen Code | Auftrag 9 | 🔨 |
-| *(Kür)* `import random` — nur als Gebrauchsanweisung, erklärt wird er in **24** | Kür | 🔨 |
-| *(Kür)* `random.choice(liste)` — ein zufälliger Eintrag, **gleichverteilt** | Kür | 🔨 |
+| *(Kür)* `import random` — nur als Gebrauchsanweisung, erklärt wird er in **24**. **Ab 17a im Auftrag** (Etappe 17, Konzept 1) | Kür | 🔨 |
+| *(Kür)* `random.choice(liste)` — ein zufälliger Eintrag, **gleichverteilt**. **Ab 17a im Auftrag** (Etappe 17, Konzept 2) | Kür | 🔨 |
 | ⚠️ Gewichte (`random.choices` mit `weights=`) gehören **nicht** hierher — Zahltag ist **17a** | — | ⛔ |
 
 ---
@@ -470,11 +470,53 @@ Kein Python. Terminal, Git, virtuelle Umgebung, `pip`. Steht im Lehrplan, nicht 
 
 ---
 
+## Etappe 17 — Der Wellengenerator
+
+### 17a — Zufall
+
+| Werkzeug | Konzept | Stufe |
+|---|---|---|
+| `import random` als erste Zeile von `spiel.py` — Gebrauchsanweisung, erklärt in **24** *(Eintrag aus der Kür von 4, ab hier Auftrag)* | 1 | 🔨 |
+| Eine eigene Datei `random.py` verdeckt das Modul — `AttributeError: … module 'random' has no attribute …`, mit oder ohne *partially initialized* | 1 | 🧠 |
+| `random.randint(a, b)` — **beide Enden eingeschlossen**, anders als `range()` | 2 | 🔨 |
+| `random.choice(liste)` *(Eintrag aus der Kür von 4, ab hier Auftrag)* · `IndexError` bei leerer Liste | 2 | 🔨 |
+| `random.random()` — Kommazahl ab 0, immer unter 1; `< 0.3` als Prozentchance | 2 | 🧠 |
+| Gewicht gegen Wahrscheinlichkeit — Anteil = Gewicht durch Summe | 3 | 🧠 |
+| **Gewichtete Auswahl von Hand** — summieren, von 1 bis zur Summe würfeln, die Strecke ablaufen (`return` in der Schleife, `return None` am Ende) | 3 | 🔨 |
+| Wurfbereich und Vergleichsgrenze gehören zusammen — eine falsche Grenze verschiebt still die Anteile | 3 | 🧠 |
+| `ValueError: empty range …` bei `randint(1, 0)` — Summe vor dem Würfeln prüfen | 3 | 🧠 |
+| Zufall prüfen durch Zählen: `d[k] = d.get(k, 0) + 1` über viele Züge | 4 | 🔨 |
+| `if not d:` — ein leeres Dictionary ist falsy wie eine leere Liste | 5 | 🔨 |
+| **Das Budget-Muster** — das Bezahlbare in jeder Runde neu bauen, ziehen, bezahlen; Ende bei *nichts mehr bezahlbar* | 5 | 🔨 |
+| `random.choices(liste, weights=[...])[0]` — liefert eine **Liste** | 7 | 👀 |
+
+### 17b — Der Seed
+
+| Werkzeug | Konzept | Stufe |
+|---|---|---|
+| `random.seed(n)` — **einmal**, vor dem ersten Zufallsaufruf | 10 | 🔨 |
+| Ein fester Wert als Schalter: `SEED = None` heißt *selbst ziehen* | 10 | 🔨 |
+| Derselbe Seed und dieselben Eingaben ergeben denselben Lauf; jeder Zufallsaufruf verbraucht die nächste Zahl der Folge | 11 | 🧠 |
+| Die Reihenfolge eines Sets aus Strings kann sich zwischen zwei Programmstarts ändern — der Seed ändert daran nichts | 11 | 🧠 |
+| Der Debugger liest aus derselben Eingabe wie `input()` — bedingte Breakpoints nie zusammen mit `<` | 12 | 🧠 |
+
+### 17c — Zwischen den Wellen
+
+| Werkzeug | Konzept | Stufe |
+|---|---|---|
+| Ein Standardargument an einer **bestehenden** Methode nachrüsten — alte Aufrufe bleiben gültig (aus **7**, Konzept 6) · Weg B; Weg A ist eine zweite Methode `notiere()` | 13 | 🔨 |
+| **Einzelne `if` füllen einen Topf, eine `elif`-Kette führt das Gezogene aus** (aus **2**, Konzept 4) | 14 | 🔨 |
+| Das Zähler-Muster mit einer anderen Uhr — einmal pro Wellenende statt pro Takt (aus **13**) | 16 | 🔨 |
+
+*(Der Beweislauf mit `<`, `>` und `diff` stammt aus Etappe 7, der bedingte Breakpoint aus Etappe 8, „merken, neu berechnen, vergleichen" aus Etappe 13 — kein neuer Eintrag. Die Stimmen im Wellenbericht sind Methoden überschreiben aus Etappe 11, Konzept 8 — ebenfalls kein neuer Eintrag. Die Leseübung gehört zu 17b und benutzt `for _ in range(...)`; `_` steht seit 3a auf 👀 und wird nicht gebaut. `random.shuffle` und `random.sample` kommen im Plan nicht vor.)*
+
+---
+
 ## Offene Lücken
 
 Werkzeuge, die eine Aufgabe braucht und die kein Guide erklärt. **Jede solche Zeile blockiert einen Lernenden, der keine zweite Quelle hat.**
 
-> **Für die Etappen 1 bis 16: keine.** Alle Werkzeuge, die ein Auftragsschritt dort verlangt, sind vorher erklärt.
+> **Für die Etappen 1 bis 17: keine.** Alle Werkzeuge, die ein Auftragsschritt dort verlangt, sind vorher erklärt.
 
 **Diese Tabelle bleibt trotzdem stehen**, weil sie beim Schreiben jeder weiteren Etappe wieder gebraucht wird. Findest du eine Lücke, trag sie hier ein — mit der Etappe, die sie braucht, und der Etappe, in die die Erklärung gehört.
 

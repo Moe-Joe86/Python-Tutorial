@@ -1,6 +1,6 @@
 # Etappe 2 — Der erste Kontakt
 
-*v1.4.1 · 2026-09-21*
+*v1.4.3 · 2026-09-29*
 
 > **Block 1: Fundament** · Etappe 2 von 30 · [← Etappe 1](etappe-01-der-abwurf.md) · [Lehrplan](../Vorposten_Lehrplan.md) · [Etappe 3 →](etappe-03-die-wellenschleife.md)
 
@@ -449,7 +449,7 @@ Mehr nicht — kein Zielsystem, kein Schaden am Gegner, kein Nachladebefehl. Das
 
 **7. Bau die Funkentscheidung.** Beschreib beim ersten Kontakt etwas Ungewöhnliches und frag den Spieler, ob er es meldet. Speicher seine Antwort in einem Boolean namens `meldung_abgesetzt`.
 
-Er wird heute nicht weiter benutzt. In Etappe 17b entscheidet er mit, welcher Sektor fällt.
+Er wird heute nicht weiter benutzt. In Etappe 17c wirkt er mit: Wer gemeldet hat, bekommt häufiger Nachschub — und wer die Sektor-Kür baut, entscheidet damit mit, welcher Sektor fällt.
 
 **8. Mach den Ehrlichkeitstest.** Setz `munition = 0`, führ aus und feuere. Lies die Meldung: Sagt sie dir, dass die *Munition* leer ist — oder nur „Feuern nicht möglich"?
 

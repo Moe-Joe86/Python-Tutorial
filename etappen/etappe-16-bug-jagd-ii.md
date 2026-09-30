@@ -1,20 +1,20 @@
 # Etappe 16 — Bug-Jagd II
 
-*v1.2.1 · 2026-09-21*
+*v1.1.0 · 2026-09-16*
 
 > **Block 2: Einheiten und Zeit** · Etappe 16 von 30 · [← Etappe 15](etappe-15-was-die-brut-hinterlaesst.md) · [Lehrplan](../Vorposten_Lehrplan.md) · Etappe 17 →
 
-**Neue Syntax heute:** Keine Zeile Python. Dazu zwei Git-Befehle für die Bisektion: `git checkout <hash>` und der Weg zurück auf deinen Hauptzweig.
+**Neue Syntax heute:** Keine. Nicht eine Zeile.
 
 **Zeitaufwand:** 4–5 Sitzungen à 20–30 Minuten. Rund 32 Minuten Lesestoff, eine Portion. **Der Zeitaufwand liegt fast vollständig im Suchen, nicht im Lesen.**
 
 ⚠️ **Diese Etappe baut kein Feature.** Am Ende des Abends kann dein Spiel exakt so viel wie vorher — und es tut endlich, was du glaubst, dass es tut. **Das ist die letzte Etappe von Block 2, und sie ist der Grund, warum Block 3 tragfähig ist.** Wer mit vier stillen Fehlern in den Wellengenerator geht, sucht ab Etappe 17 in zwei Systemen gleichzeitig.
 
-**Voraussetzung:** Etappen 12 bis 15 abgeschlossen. Du brauchst den Tick, die Zähler, das Raster und die Erkenntnisse — **und vor allem die fünf Notizen, die du unterwegs in `GELERNT.md` geschrieben hast.** Sie sind heute dein wichtigstes Werkzeug.
+**Voraussetzung:** Etappen 12 bis 15 abgeschlossen. Du brauchst den Tick, die Zähler, das Raster und die Erkenntnisse — **und vor allem die vier Notizen, die du unterwegs in `GELERNT.md` geschrieben hast.** Sie sind heute dein wichtigstes Werkzeug.
 
 | 🔨 Bauen | 🧠 Verstehen | 👀 Nur erkennen |
 |---|---|---|
-| Die Tick-Tabelle von Hand · der Dreizeiler als Pflicht · die Fahndungsliste abarbeiten · eine Bisektion über vier Etappen · `git checkout <hash>` und zurück | Reihenfolgefehler als eigene Ursachenklasse · warum „nur eine Sache auf einmal" die schwerste Regel ist · Ursache und Symptom liegen jetzt weit auseinander | — |
+| Die Tick-Tabelle von Hand · der Dreizeiler als Pflicht · die Fahndungsliste abarbeiten · eine Bisektion über vier Etappen | Reihenfolgefehler als eigene Ursachenklasse · warum „nur eine Sache auf einmal" die schwerste Regel ist · Ursache und Symptom liegen jetzt weit auseinander | — |
 
 ---
 
@@ -46,14 +46,14 @@ Das klingt nach Fleißarbeit. Es ist Fleißarbeit. **Und für dein Spiel in sein
 
 Diese Etappe ist die am weitesten vorbereitete des ganzen Plans. **Neun Etappen haben Kandidaten für heute abgelegt:**
 
-- **Etappe 3c:** Zwei Werte für dieselbe Aussage — `geladen > 0` und `nachladen_noetig`.
+- **Etappe 3c:** Zwei Werte für dieselbe Aussage — `munition > 0` und `nachladen_noetig`.
 - **Etappe 4 und 10:** Zwei Namen, ein Objekt. In Etappe 14a ist daraus `[["."] * 5] * 5` geworden.
 - **Etappe 5:** Die Namensfalle — zwei Gesundheitswerte, die nie verwechselt werden dürfen.
 - **Etappe 6:** Der Schmerz paralleler Listen und die Komma-Falle `(5)` gegen `(5,)`.
 - **Etappe 10:** Der veränderbare Standardwert in `__init__`, der erst beim **zweiten** Objekt auffällt.
 - **Etappe 11:** Eine Methode ohne Klammern im `if` ist immer wahr.
 - **Etappe 12:** Sammeln und danach entfernen — und die Tick-Reihenfolge, die du dort aufgeschrieben hast.
-- **Etappe 13, 14a, 14b:** Drei schriftliche Entscheidungen — zwei davon Off-by-one, eine ein Tie-Break.
+- **Etappe 13, 14a, 14b:** Drei schriftliche Entscheidungen, die alle Off-by-one sind.
 - **Etappe 15:** Ein Flag-Wort, das ins Leere verweist.
 
 **Und die Einlösung aus Etappe 8:** Das Formular *Beobachtung → Hypothese → Experiment* war dort eine Denkform. Heute wird es Pflicht, mit einer Regel dazu, die schwerer ist, als sie klingt.
@@ -209,19 +209,6 @@ Etappe 15  ← hier ist er
 
 **Vier Stände aus deiner Historie, zwei Prüfungen**, und du weißt, welche Etappe ihn eingebaut hat — welche Commits das genau sind, hängt davon ab, wie fein du committet hast. **Das grenzt den Suchraum von „mein ganzes Programm" auf „ein Abend Arbeit" ein**, und mehr will man von einem Werkzeug nicht.
 
-**Wie du einen alten Stand aufrufst — zwei Befehle:**
-
-```bash
-git log --oneline          # die Liste deiner Commits, mit Kennung vorn (aus Etappe 8)
-git checkout a1b2c3d       # dein Ordner sieht jetzt aus wie bei diesem Commit
-```
-
-Jetzt kannst du `spiel.py` starten und prüfen, ob der Fehler dort schon da war. **Zurück zum aktuellen Stand** geht es mit `git checkout` und dem Namen deines Hauptzweigs — `master` oder `main`, je nachdem, wie dein Git eingerichtet ist. Welcher es bei dir ist, zeigt dir `git status` in der ersten Zeile, **bevor** du den alten Stand aufrufst.
-
-⚠️ **Auf einem alten Stand wird nichts geändert und nichts committet.** Du schaust nur. Git meldet dir beim Aufrufen einen *„detached HEAD"* (auf Deutsch: *losgelöster HEAD*) — das heißt genau das: Du stehst neben deiner Geschichte, nicht in ihr. Wer dort committet, legt Arbeit an einer Stelle ab, die er später nicht wiederfindet. *(Wie man auf einem eigenen Zweig gefahrlos weiterarbeitet, zeigt Etappe 21b.)*
-
-⚠️ **Und vorher alles committen.** Liegen ungesicherte Änderungen in `spiel.py`, weigert sich `git checkout` oder nimmt sie mit auf den alten Stand. Beides willst du nicht.
-
 *(Git hat dafür einen eigenen Befehl, `git bisect`, der **genau dieses Verfahren** automatisiert. Der Guide lässt ihn heute weg, weil du das Verfahren lernen sollst und nicht seine Bedienung. Wenn du einmal von Hand halbiert hast, ist der Befehl in fünf Minuten gelernt.)*
 
 ### 8. Fehler in den Daten, zweite Sorte 🧠
@@ -249,7 +236,7 @@ SCHWACHPUNKTE = {"kriecher": "schwachpunkt_kricher"}      # ⚠️ ein Buchstabe
 
 ---
 
-### 1. Hol deine fünf Notizen heraus
+### 1. Hol deine vier Notizen heraus
 
 Aus `GELERNT.md`:
 
@@ -258,8 +245,7 @@ Aus `GELERNT.md`:
 | Etappe 12 | Die Tick-Reihenfolge, nummeriert |
 | Etappe 13 | Was eine Zählerzahl exakt bedeutet · die Zählerphase |
 | Etappe 14a | Eine Achse pro Tick · welche bei Gleichstand |
-| Etappe 14b | `<` oder `<=` bei der Reichweite |
-| Etappe 15 | Die Einsammelphase — wo sie in deiner Reihenfolge steht |
+| Etappe 14b | `<` oder `<=` bei der Reichweite · die Einsammelphase aus 15 |
 
 **Fehlt eine, ist das dein erster Fund.** Nach Konzept 5: hinsehen, was der Code tut, aufschreiben, dann entscheiden, ob es so bleiben soll — in dieser Reihenfolge.
 
@@ -281,7 +267,7 @@ Aus `GELERNT.md`:
 
 ### 3. ⭐ Lass dein Programm dasselbe tun und vergleich Zeile für Zeile
 
-- Baue die Lage aus Schritt 2 in deiner Probedatei nach.
+- Baue die Lage aus Schritt 2 in einer Wegwerf-Datei nach.
 - Lass nach **jeder Phase** den Zustand aller Einheiten ausgeben — mit `### PHASE 3` davor, wie der Reflex aus Etappe 3.
 - Drei Ticks.
 - **Vergleich Zelle für Zelle, nicht Ergebnis gegen Ergebnis.**
@@ -315,11 +301,11 @@ Aus `GELERNT.md`:
 | 3 | **Gleichstand bei der Bewegung** | Gegner diagonal zum Ziel setzen, beide Abstände gleich. Welche Achse? Immer dieselbe? |
 | 4 | **Zähler läuft doppelt** | Einen Zähler auf 10 setzen, **einen** Tick. Steht er auf 9 — oder auf 8? |
 | 5 | **Sammeln und danach entfernen** | Vier Gegner auf `"tot"`, einmal aufräumen. Bleiben zwei übrig? |
-| 6 | **Geteiltes Objekt durch Zuweisung** (`b = a`) | `p welt.trupp[0].inventar is welt.trupp[1].inventar` — muss `False` sein. Haben deine Kameraden einen eigenen Vorrat, dasselbe dafür: `p welt.trupp[0].vorrat is welt.trupp[1].vorrat` — muss ebenfalls `False` sein |
+| 6 | **Geteiltes Objekt durch Zuweisung** (`b = a`) | `p welt.trupp[0].inventar is welt.trupp[1].inventar` — muss `False` sein |
 | 7 | **Geteiltes Objekt durch veränderbaren Standardwert** in `__init__` — *dieselbe Wirkung wie 6, andere Ursache* | Zwei Objekte erzeugen, dem einen etwas ins Inventar legen, beim **anderen** nachsehen |
-| 8 | **Klammern bei deiner „lebt noch?"-Methode** *(hast du keine, nimm eine andere, die `True`/`False` liefert)* | Normale **Methode**: `if e.am_leben():` — ohne Klammern ist die Bedingung immer wahr. **`@property`**: genau umgekehrt, dort sind die Klammern falsch. *(Etappe 11, Konzept 14 — die Tabelle mit allen vier Fällen)* |
+| 8 | **Klammern bei `am_leben`** | Normale **Methode**: `if e.am_leben():` — ohne Klammern ist die Bedingung immer wahr. **`@property`**: genau umgekehrt, dort sind die Klammern falsch. *(Etappe 11, Konzept 14 — die Tabelle mit allen vier Fällen)* |
 | 9 | **Verweis ins Leere** | Jedes Wort aus Schwachpunkt- und Depottabelle in der Fundtabelle nachschlagen |
-| 10 | **Zwei Werte für dieselbe Aussage** | Gibt es `nachladen_noetig` **und** `geladen > 0`? Können sie sich widersprechen? |
+| 10 | **Zwei Werte für dieselbe Aussage** | Gibt es `nachladen_noetig` **und** `munition > 0`? Können sie sich widersprechen? |
 | 11 | **Namensfalle** | Zwei Gesundheitswerte — Kern und Marine. Werden sie irgendwo verwechselt? |
 | 12 | **Komma-Falle** | Such Stellen, an denen ein Tuple mit **genau einem** Element entstehen soll — dort braucht es `(5,)`, nicht `(5)`. *(Klammern ohne Komma sind sonst normal; such nicht jede.)* |
 | 13 | **Raster geteilt** | `p welt.vorfeld[0] is welt.vorfeld[1]` — muss `False` sein |
@@ -347,12 +333,11 @@ Im Debugging-Protokoll aus Etappe 8, für **drei** deiner Funde:
 
 Nimm einen Fund, von dem du nicht weißt, seit wann er da ist.
 
-- Ältere Commits aufrufen, wie in Konzept 7, und die Lage aus Schritt 2 nachstellen.
-- Danach zurück auf deinen Hauptzweig.
+- Ältere Commits auschecken, die Lage aus Schritt 2 nachstellen.
 - **Halbieren**, nicht durchgehen.
 - Die Etappe notieren, in der er entstanden ist.
 
-*(Findest du keinen solchen Fehler, ist das ein gutes Zeichen. Dann nimm einen alten Fund aus deinem Fehlertagebuch, dessen Etappe du kennst, und prüf, ob die Halbierung genau dort landet — halbiert wird dann nur über die Commits vor seiner Reparatur. Die Übung ist der Zweck.)*
+*(Findest du keinen solchen Fehler, ist das ein gutes Zeichen. Dann bau einen: Ändere in einem Wegwerf-Zweig etwas Kleines, spiel zwei Etappen weiter, und such ihn. Die Übung ist der Zweck.)*
 
 ---
 
@@ -372,7 +357,7 @@ Nach Konzept 8:
 
 ### 9. Aufräumen und commit
 
-Keine `print`-Zeilen aus Schritt 3, kein `breakpoint()`, keine `probe.py` im Repo. Und `git status` zeigt dich auf deinem Hauptzweig, nicht auf einem alten Stand.
+Keine `print`-Zeilen aus Schritt 3, kein `breakpoint()`, keine Wegwerf-Dateien im Repo.
 
 ⚠️ **Und die Regel, die heute am leichtesten bricht:** Wenn du bei der Jagd etwas gefunden hast, das dir nicht gefällt, aber nicht kaputt ist — **lass es stehen.** Notier es. Heute wird repariert, was falsch ist, nicht was hässlich ist.
 
@@ -400,7 +385,7 @@ Commit: `Etappe 16: Bug-Jagd II — die Reihenfolge steht`
 
 ## Selbsttest
 
-- [ ] Alle fünf Notizen aus Etappe 12–15 existieren — oder wurden heute nachgeholt.
+- [ ] Alle vier Notizen aus Etappe 12–15 existieren — oder wurden heute nachgeholt.
 - [ ] Die Tick-Tabelle wurde **vor** dem Ausführen geschrieben, drei Ticks, jede Zelle gefüllt.
 - [ ] Programm und Tabelle wurden Zelle für Zelle verglichen, nicht Ergebnis gegen Ergebnis.
 - [ ] Die vertauschte Reihenfolge ergibt ein **anderes** Ergebnis, und nichts stürzt ab.
@@ -424,7 +409,7 @@ In `GELERNT.md`, ohne nachzuschlagen.
 4. Was bedeutet „nur eine Sache auf einmal ändern" — und was ist an *„ich habe etwas geändert und jetzt geht es"* falsch?
 5. Wie machst du die Probe darauf, dass du wirklich **die** Ursache gefunden hast?
 6. Warum ist eine falsche Hypothese ein brauchbares Ergebnis?
-7. Welche zwei Entscheidungen aus den Etappen 13 und 14 sind Off-by-one-Kandidaten — und was ist die dritte?
+7. Welche drei Entscheidungen aus den Etappen 13 und 14 sind Off-by-one-Kandidaten?
 8. Was ist ein Verweis ins Leere, und warum prüft ihn niemand?
 9. Wie grenzt du mit Git ein, seit wann ein Fehler existiert?
 10. **„Wann hätte ich es gemerkt, wenn es funktioniert hätte?" — nenn eine Stelle in deinem Spiel, bei der du darauf keine Antwort hast.**
@@ -490,7 +475,7 @@ C: Einzahlung (50 Euro)
 
 **2. ⭐ Lass zwei Marines dasselbe Inventar teilen.** Setz `b.inventar = a.inventar` und spiel eine Welle. **Wann fällt es auf?** Schreib auf, nach wie vielen Aktionen — und ob es dir ohne Vorwissen aufgefallen wäre.
 
-**3. Nimm die Klammern weg.** Änder ein `if einheit.am_leben():` zu `if einheit.am_leben:` — oder dieselbe Stelle bei deiner eigenen „lebt noch?"-Methode. Hast du keine, bau sie kurz in deiner Probedatei. **Was passiert mit toten Einheiten?** *(Antwort: Sie leben. Die Methode selbst ist ein Objekt, und ein Objekt ist wahr.)*
+**3. Nimm die Klammern weg.** Änder ein `if einheit.am_leben():` zu `if einheit.am_leben:`. **Was passiert mit toten Einheiten?** *(Antwort: Sie leben. Die Methode selbst ist ein Objekt, und ein Objekt ist wahr.)*
 
 ---
 
@@ -516,7 +501,7 @@ Alles ins Fehlertagebuch: **woran du es erkannt hättest.**
 | Alle Marines tragen dasselbe | Geteiltes Objekt oder veränderbarer Standardwert | Fahndung 6 und 7 — `is` prüfen |
 | Eine tote Einheit handelt weiter | Methode ohne Klammern, oder `status`-Prüfung fehlt | Fahndung 8 |
 | Die Beute des letzten Gegners fehlt | Einsammeln vor dem letzten Aufräumen | Fahndung 14 |
-| Zwei Läufe mit denselben Startwerten gehen verschieden aus | Irgendwo steckt Zufall — **und der gehört ab Etappe 17 unter Kontrolle**. Oder ein Set bestimmt eine Ausgabereihenfolge | `random` aus Etappe 4 · Etappe 6, Konzept 3 — etwa beim Ausgeben von `welt.erkenntnisse` |
+| Zwei Läufe mit denselben Startwerten gehen verschieden aus | Irgendwo steckt Zufall — **und der gehört ab Etappe 17 unter Kontrolle** | `random` aus Etappe 4 |
 | Die Bisektion führt zu keinem klaren Ergebnis | Die Lage wurde zwischen den Commits nicht identisch nachgestellt | Schritt 7 — dieselben Startwerte |
 
 **Der Debugging-Reflex dieser Etappe: „Schreib es auf, bevor du es ausführst."**

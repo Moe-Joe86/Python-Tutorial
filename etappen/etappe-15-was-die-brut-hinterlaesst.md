@@ -1,6 +1,6 @@
 # Etappe 15 — Was die Brut hinterlässt
 
-*v1.3.1 · 2026-09-21*
+*v1.3.3 · 2026-09-29*
 
 > **Block 2: Einheiten und Zeit** · Etappe 15 von 30 · [← Etappe 14](etappe-14-das-vorfeld.md) · [Lehrplan](../Vorposten_Lehrplan.md) · [Etappe 16 →](etappe-16-bug-jagd-ii.md)
 
@@ -765,7 +765,7 @@ print(welt.erkenntnisse)
 
 **Etappe 17a baut den Wellengenerator.** Dann sind die Wellen nicht mehr fest, und dein Vorwissen aus Konzept 8 wird von einer netten Zeile zu einem echten Vorteil. **Dort wird auch die Frage aus Etappe 4 beantwortet**, warum ein Datenkern genauso oft fällt wie ein Chitinpanzer.
 
-**Etappe 17b lässt einen Sektor fallen** — und welcher es ist, hängt unter anderem davon ab, was du weißt.
+**Etappe 17c bringt Ereignisse zwischen die Wellen** — und in ihrer Kür kann ein Sektor endgültig fallen. Ob du es kommen siehst, hängt dann davon ab, was du weißt.
 
 **Etappe 18 gibt Fähigkeiten Voraussetzungen**, und die werden gegen genau dieses Set geprüft. Dein `erkenntnisse` wird dort zum zentralen Gedächtnis des Spielstands.
 

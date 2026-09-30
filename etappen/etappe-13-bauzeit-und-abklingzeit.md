@@ -1,6 +1,6 @@
 # Etappe 13 — Bauzeit und Abklingzeit
 
-*v2.1.2 · 2026-09-22*
+*v2.0.1 · 2026-09-16*
 
 > **Block 2: Einheiten und Zeit** · Etappe 13 von 30 · [← Etappe 12](etappe-12-der-tick.md) · [Lehrplan](../Vorposten_Lehrplan.md) · [Etappe 14 →](etappe-14-das-vorfeld.md)
 
@@ -205,7 +205,7 @@ Nicht jedes Ereignis hat einen Zähler davor. Manchmal willst du wissen, ob sich
 
 *(Die Berechnung selbst fasst du dabei nicht an. Du legst nur zwei Zeilen darum.)*
 
-### 5. `welt.melde()` — ein Ort für alles, was gesagt wird
+### 6. `welt.melde()` — ein Ort für alles, was gesagt wird
 
 Deine Zähler melden sich aus dem Inneren von Objekten heraus. Ein Geschütz, das mitten im Tick `print()` aufruft, ist genau die Vermischung, gegen die du in Etappe 7b eine Linie gezogen hast.
 
@@ -221,7 +221,7 @@ Das sieht albern aus — eine Methode, die nichts tut außer weiterreichen. **Si
 
 *(In Etappe 17 wird genau daraus die Meldungsliste zwischen den Wellen. Heute ist es ein `print`, und mehr soll es nicht sein.)*
 
-### 6. Der Zähler, der nach oben läuft
+### 7. Der Zähler, der nach oben läuft
 
 Deine Erfahrung steigt seit Etappe 3c und tut nichts. Deine Stufenberechnung steht seit Etappe 9a im Marine. **Beides bleibt, wie es ist** — und trotzdem ist das derselbe Fall wie alles andere heute:
 
@@ -248,7 +248,7 @@ Nach **jedem** Schritt ausführen und einen Tick auslösen. Zähler-Fehler sieht
 - Eine Methode der `Welt` mit einem Parameter `text`.
 - Sie gibt ihn aus. Mehr nicht.
 
-**So prüfst du es:** In deiner Probedatei `welt.melde("Test")` aufrufen.
+**So prüfst du es:** In einer Wegwerf-Datei `welt.melde("Test")` aufrufen.
 
 ---
 
@@ -264,11 +264,9 @@ Oben in der Datei, GROSS geschrieben, nach der Verabredung aus Etappe 1:
 | `TURM_BAUZEIT` | `8` | der Basisturm wird fertig (13b) |
 | `TURM_KOSTEN` | `100` | Vaporium für den Bauauftrag (13b) |
 | `NACHLADEZEIT` | `2` | Kameraden (13b) |
-| `KAMERAD_MAGAZIN` | `3` | Schüsse pro Magazin eines Kameraden (13b) |
+| `MAGAZIN_GROESSE` | `3` | Schüsse pro Magazin (13b) |
 
-⚠️ **Leg alle sieben heute an, auch die für 13b.** Sie an einer Stelle zu sehen ist der halbe Lernstoff dieser Etappe — fünf davon bedeuten dasselbe: *so viele Ticks*.
-
-*(Warum `KAMERAD_MAGAZIN` und nicht einfach dein `magazin_groesse` aus Etappe 5? Weil die Kameraden anders nachladen: kostenlos über Zeit, während dein Held aus dem Vorrat zahlt und sein Magazin per Ausbau vergrößern kann. Zwei Nachladeregeln, zwei Startgrößen — ob es deshalb auch zwei Attribute braucht, fragt Schritt 15.)*
+⚠️ **Leg alle sieben heute an, auch die für 13b.** Sie an einer Stelle zu sehen ist der halbe Lernstoff dieser Etappe — sechs Zahlen, die alle dasselbe bedeuten: *so viele Ticks*.
 
 **Und widersteh der Versuchung, sie jetzt auszubalancieren.** Die Zahlen oben sind Startwerte, keine Empfehlung. Balancing ist Etappe 21b, und der Deckel aus Etappe 3c gilt weiter: **fünfzehn Minuten, dann Notizliste.**
 
@@ -309,7 +307,7 @@ Dein Tick aus Etappe 12 bekommt **eine** Phase dazu, an **zweiter** Stelle:
 - `Marine.zaehler_runter()` überschreibt die geerbte Fassung und zählt sie nach dem Muster aus Konzept 1 herunter.
 - Beim Erreichen von null: eine Meldung über `welt.melde()`.
 
-**So prüfst du es:** Setz `abklingzeit` in deiner Probedatei von Hand auf `3` und tick viermal. **Genau eine** Meldung.
+**So prüfst du es:** Setz `abklingzeit` in einer Wegwerf-Datei von Hand auf `3` und tick viermal. **Genau eine** Meldung.
 
 ---
 
@@ -321,14 +319,7 @@ Deine Methode aus Etappe 11 gibt bisher nur eine Meldung aus. Ab heute:
 - Sonst: die Meldung der Unterklasse ausgeben und `abklingzeit` auf `ABKLINGZEIT` setzen.
 - Die Methode bekommt `welt` als Parameter, damit sie melden kann.
 
-⚠️ **Die Prüfung gehört in die Fassung der Oberklasse `Marine`, nicht in jede der vier Unterklassen.** Sonst schreibst du sie viermal, und beim nächsten Umbau änderst du drei davon.
-
-⚠️ **Und daraus folgt eine Frage, die du beantworten musst: Wenn die Oberklasse abbricht, woher weiß das die Unterklasse?** Ruft die Unterklasse die Prüfung mit `super()` auf und gibt danach ihre Meldung aus, kommt die Fähigkeitsmeldung auch dann, wenn die Oberklasse gerade die Restzeit gemeldet hat. Zwei Wege sind gedeckt:
-
-- **Die Fassung der Oberklasse gibt zurück, ob es geklappt hat**, und die Unterklasse prüft diesen Rückgabewert — Etappe 7.
-- **Die Oberklasse prüft und ruft danach selbst eine Methode auf**, die jede Unterklasse überschreibt und die nur die Meldung enthält — Etappe 11, Konzept 8.
-
-Wähl einen und notier in `GELERNT.md`, warum.
+⚠️ **Die Prüfung gehört in die Fassung der Oberklasse `Marine`, nicht in jede der vier Unterklassen.** Sonst schreibst du sie viermal, und beim nächsten Umbau änderst du drei davon. *(Die Unterklassen rufen sie mit `super()` auf — Etappe 11, Konzept 8.)*
 
 ⚠️ **Die Methode ändert dabei ihre Signatur** — aus `faehigkeit_einsetzen()` wird `faehigkeit_einsetzen(welt)`. **Such vorher alle Aufrufstellen** und schreib ihre Zahl auf, wie bei jeder Fahndung seit Etappe 5. Es sind wenige; darum geht es nicht. Es geht darum, dass eine geänderte Signatur **immer** alle Aufrufer kostet — der Kostengedanke aus Etappe 5 an einem billigen Beispiel.
 
@@ -446,9 +437,9 @@ Wenn du wieder aufstehst, bekommst du deine Trefferpunkte zurück. **Deinen Vorr
 
 **Das ist eine bewusste Spielentscheidung, und sie ist wichtiger, als sie aussieht.** Wer mit vollem Vorrat zurückkommt, für den ist Fallen ein kostenloses Nachfüllen — und ab einem gewissen Punkt die *beste* verfügbare Handlung. Eine Mechanik, die Scheitern belohnt, zerlegt jedes Ressourcensystem leise von innen.
 
-> **Prüf jede Strafe daraufhin, ob sie versehentlich eine Belohnung ist.** In Etappe 12 hast du beim ungültigen Befehl entschieden, ob Unsinn ein Zeitstopp sein darf. Prüf deine Antwort von damals mit derselben Frage.
+> **Prüf jede Strafe daraufhin, ob sie versehentlich eine Belohnung ist.** Das ist dieselbe Frage wie beim ungültigen Befehl in Etappe 12 — Unsinn tippen darf kein Zeitstopp sein.
 
-⚠️ **Und der Wert, den du zum Aufstehen brauchst, muss irgendwo stehen.** Um die Trefferpunkte zurückzusetzen, brauchst du den Startwert — und der ist seit Etappe 11 überschrieben, sobald der erste Treffer sitzt. Also muss er in `__init__` als zweites Attribut stehen. *(Deine Obergrenze aus Etappe 3c ist genau dieser Wert — kein zweiter Name. Wo sie seit Etappe 9 wohnt, hast du damals selbst entschieden.)*
+⚠️ **Und der Wert, den du zum Aufstehen brauchst, muss irgendwo stehen.** Um die Trefferpunkte zurückzusetzen, brauchst du den Startwert — und der ist seit Etappe 11 überschrieben, sobald der erste Treffer sitzt. Also merk ihn dir in `__init__` als zweites Attribut. *(Deine Balkenanzeige aus Etappe 3c braucht dasselbe Maximum. Wenn es dort schon steht: eine Zahl, ein Name, kein zweiter.)*
 
 ### 9. Der Basisturm — ein Fremdkörper im Trupp ⭐
 
@@ -546,7 +537,7 @@ Freiräumen ist eine Handlung, die dauert — also ist es auch ein Zähler. Aber
 ### 12. Merk dir den Startwert der Trefferpunkte
 
 - In `Einheit.__init__` ein zweites Attribut, das die Anfangs-Trefferpunkte festhält.
-- Deine Obergrenze `trefferpunkte_max` aus Etappe 3c ist genau dieser Wert — kein zweiter Name für dieselbe Zahl. *(Die Regel aus Etappe 5, unverändert.)* Wo sie seit Etappe 9 wohnt, hast du damals entschieden; ab heute braucht jede Einheit sie.
+- Benutzt du in deiner Balkenanzeige aus Etappe 3c schon einen Maximalwert, dann ist das **derselbe** — kein zweiter Name für dieselbe Zahl. *(Die Regel aus Etappe 5, unverändert.)*
 
 **So prüfst du es:** Einen Marine Schaden nehmen lassen. Der Startwert steht noch da.
 
@@ -561,7 +552,7 @@ Freiräumen ist eine Handlung, die dauert — also ist es auch ein Zähler. Aber
 
 ⚠️ **Eine ausgefallene Einheit bleibt im `trupp` stehen.** Sie wird nicht entfernt — sonst hat der Zähler kein Zuhause mehr. Nur Gegner verschwinden aus ihrer Liste.
 
-**So prüfst du es:** Setz deine eigenen Trefferpunkte von Hand auf `1` und sorg nach deiner Regel aus Etappe 12 dafür, dass dich ein Gegner trifft. Fünf Takte später stehst du wieder, mit vollen Trefferpunkten und **derselben** Munition wie vorher.
+**So prüfst du es:** Setz deine eigenen Trefferpunkte von Hand auf `1` und lass dich treffen. Fünf Takte später stehst du wieder, mit vollen Trefferpunkten und **derselben** Munition wie vorher.
 
 ---
 
@@ -583,11 +574,10 @@ Deine Abbruchbedingung aus Etappe 3a prüft `trefferpunkte <= 0` und beendet den
 
 Der offene Posten aus Etappe 12, mit demselben Muster:
 
-- **Bevor du etwas anlegst:** Dein Held hat seit Etappe 5 schon ein Magazin. Brauchen die Kameraden wirklich neue Attribute — oder ist es dasselbe Ding mit einer anderen Nachladeregel? Was alle Marines gemeinsam haben, gehört einmal in die gemeinsame Klasse, wie in Etappe 11. Ein zweiter Name für dieselbe Sache wäre wieder zwei Wahrheiten. Entscheide und notier es in `GELERNT.md`.
-- Die Kameraden starten mit `KAMERAD_MAGAZIN` Schuss im Magazin. Dazu kommt `nachladezeit` mit `0`.
-- Beim Feuern in `update()`: einen Schuss aus dem Magazin nehmen. Ist es leer: `nachladezeit` auf `NACHLADEZEIT` setzen.
+- `Marine` bekommt `magazin` mit Startwert `MAGAZIN_GROESSE` und `nachladezeit` mit `0`.
+- Beim Feuern in `update()`: `magazin` um eins verringern. Bei `0`: `nachladezeit` auf `NACHLADEZEIT` setzen.
 - Wer nachlädt oder ein leeres Magazin hat, feuert nicht.
-- In `zaehler_runter()`: Zähler herunter, bei null das Magazin wieder voll.
+- In `zaehler_runter()`: Zähler herunter, bei null `magazin` wieder voll.
 
 ⚠️ **Nur die Kameraden.** Dein Held lädt weiterhin mit dem Befehl aus Etappe 3b nach und bezahlt aus dem `vorrat` — das ist seit Etappe 5 sein Wirtschaftskreislauf, und der wird heute nicht angetastet.
 
@@ -602,7 +592,7 @@ Der offene Posten aus Etappe 12, mit demselben Muster:
 - `zaehler_runter()`: Zähler herunter, bei null eine Meldung.
 - `update()`: Solange die Bauzeit läuft, sofort `return`. Danach feuern wie ein Kamerad.
 
-**So prüfst du es:** In deiner Probedatei erzeugen und `zaehler_runter()` so oft aufrufen, wie deine Antwort aus Schritt 7 es vorhersagt. **Genau eine Meldung, und zwar in genau dem Takt, den du aufgeschrieben hast.** Kommt sie einen Takt früher oder später, hast du entweder den Turm falsch gebaut oder Schritt 7 falsch beantwortet — beide Möglichkeiten sind wertvoll.
+**So prüfst du es:** In einer Wegwerf-Datei erzeugen und `zaehler_runter()` so oft aufrufen, wie deine Antwort aus Schritt 7 es vorhersagt. **Genau eine Meldung, und zwar in genau dem Takt, den du aufgeschrieben hast.** Kommt sie einen Takt früher oder später, hast du entweder den Turm falsch gebaut oder Schritt 7 falsch beantwortet — beide Möglichkeiten sind wertvoll.
 
 ---
 
@@ -623,9 +613,9 @@ Vaporium abbuchen
 Turm erzeugen, in welt.turm legen und an welt.trupp hängen
 ```
 
-- **Fällt der Turm, wird `welt.turm` wieder `None` — und ein neuer darf gebaut werden.** Wie das geschieht, entscheidest du: **Was passiert in deiner Aufräumphase, wenn der Turm fällt?** Er steht in `welt.trupp`, ist aber kein Marine — deine Ausfall-Regel aus Schritt 13 fragt nach `gesteuert`, und das hat er nicht. Unterscheide über ein **Attribut**, nicht über den Typ — so wie `gesteuert` in Etappe 12.
+- Fällt der Turm, wird `welt.turm` wieder `None` — und ein neuer darf gebaut werden.
 
-⚠️ **Erst alle Prüfungen, dann verändern.** Das ist die Regel aus Etappe 5, und sie ist hier kein Formalismus: Wer das Vaporium abbucht und danach merkt, dass schon ein Turm steht, hat dem Spieler hundert Vaporium für nichts genommen. **Eine Fehlmeldung darf nie etwas kosten** — derselbe Gedanke wie in der Prüfkette beim Kauf aus Etappe 5.
+⚠️ **Erst alle Prüfungen, dann verändern.** Das ist die Regel aus Etappe 5, und sie ist hier kein Formalismus: Wer das Vaporium abbucht und danach merkt, dass schon ein Turm steht, hat dem Spieler hundert Vaporium für nichts genommen. **Eine Fehlmeldung darf nie etwas kosten** — derselbe Gedanke wie beim ungültigen Befehl in Etappe 12.
 
 ⚠️ **Der Turm gehört keiner Klasse.** Jeder kann ihn bauen, egal welche Klasse du in Etappe 1 gewählt hast. Die Klassenwahl bestimmt, wen du steuerst — nicht, was im Vorposten verfügbar ist.
 
@@ -718,8 +708,7 @@ Commit: `Etappe 13b: Ausfall, Nachladen und der Basisturm`
 - [ ] `kern_integritaet` auf `0` beendet das Spiel weiterhin.
 - [ ] Ein gefallener Kamerad steht nach seinem Zähler wieder auf, und das Spiel hat nie gewartet.
 - [ ] Kameraden feuern in Schüben und laden nach.
-- [ ] **Ein Turm mit `TURM_BAUZEIT = 3` feuert in genau dem Takt, den deine Festlegung aus Schritt 7 vorhersagt.** Du hast mitgezählt, nicht geschätzt.
-- [ ] Lässt du den Turm Schaden nehmen, bis er fällt, verschwindet er aus `trupp`, `welt.turm` ist `None`, ein neuer ist baubar — und es gibt keinen `AttributeError`.
+- [ ] **Ein Turm mit `TURM_BAUZEIT = 3` feuert nach genau drei Ticks — nicht nach zwei, nicht nach vier.** Du hast mitgezählt, nicht geschätzt.
 - [ ] `baue turm` geht nur in der Werkstatt, und zwei Bauaufträge erzeugen **einen** Turm.
 - [ ] Ein abgewiesener Bauauftrag kostet **kein** Vaporium.
 - [ ] Der Turm lässt sich mit jeder der vier Klassen bauen.
@@ -765,7 +754,7 @@ In `GELERNT.md`, ohne nachzuschlagen.
 4. **Bau einen Knopf für Fußgänger.** `anfordern()` setzt die Restzeit von Grün auf höchstens 2 herunter — aber nur, wenn gerade Grün ist und nicht schon angefordert wurde.
 5. **Sag voraus**, was passiert, wenn du die Bedingung „nicht schon angefordert" weglässt und in jedem Takt drückst. Führ es dann aus.
 
-**Schritt 5 ist der Kern.** Es ist dieselbe Unterscheidung wie in Konzept 2, nur von der anderen Seite: Diesmal ist das *Drücken* das Ereignis, und wer es als Zustand behandelt, hält die Ampel für immer auf Grün mit Restzeit 2.
+**Schritt 6 ist der Kern.** Es ist dieselbe Unterscheidung wie in Konzept 2, nur von der anderen Seite: Diesmal ist das *Drücken* das Ereignis, und wer es als Zustand behandelt, hält die Ampel für immer auf Grün mit Restzeit 2.
 
 ---
 
@@ -807,8 +796,6 @@ Alles in `GELERNT.md` und ins Fehlertagebuch aus Etappe 8: **woran du es erkannt
 | Der Zähler des Helden läuft nie | Er steht in `update()`, und die steigt bei `gesteuert` sofort aus | Schritt 4 — Zähler gehören in die eigene Phase |
 | Nach dem Aufstehen ist der Vorrat voll | Der Respawn setzt mehr zurück als die Trefferpunkte | Schritt 13 — nur ein Attribut anfassen |
 | `AttributeError: 'Marine' object has no attribute 'ausfallzeit'` | Attribut fehlt in `__init__` oder `super().__init__()` steht nicht zuerst | Etappe 11, Konzept 7 |
-| Fähigkeitsmeldung trotz laufender Abklingzeit | Die Oberklasse bricht ab, die Unterklasse gibt ihre Meldung trotzdem aus | Schritt 6 — woher weiß die Unterklasse vom Abbruch? |
-| `AttributeError: 'Basisturm' object has no attribute 'gesteuert'` | Die Ausfall-Regel läuft auch über den Turm | Schritt 17 — was passiert, wenn der Turm fällt? |
 | Das Spiel bewegt sich nicht mehr, nachdem du gefallen bist | Befehl abgewiesen **und** Tick übersprungen | Schritt 14 — der Tick läuft immer |
 | Zwei Türme stehen da | `welt.turm` wird nicht geprüft oder nicht gesetzt | Schritt 17 — `is None` |
 | Der abgewiesene Bauauftrag kostet Vaporium | Abgebucht, bevor geprüft wurde | Schritt 17 — erst alle Prüfungen, dann verändern |
@@ -833,7 +820,7 @@ if self.abklingzeit == 1:
 
 ## Ein Blick nach vorne
 
-**Etappe 14 gibt dem Vorfeld ein Raster.** Aus `entfernung` werden zwei Attribute `x` und `y`, und dein Turm bekommt in 14b einen Standort und eine echte Reichweite. Die Kameraden fangen an zu laufen.
+**Etappe 14 gibt dem Vorfeld ein Raster.** Aus `entfernung` wird `(x, y)`, und dein Turm bekommt in 14b einen Standort und eine echte Reichweite. Die Kameraden fangen an zu laufen.
 
 **Etappe 15 zeichnet deine Kopplung auf.** Fünf Minuten Papier, nichts wird repariert — und die Frage aus Konzept 9 bekommt zum ersten Mal ein Bild.
 
